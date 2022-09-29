@@ -1,0 +1,129 @@
+# Statistics
+
+- Inference is the process of quantifying uncertainty about an unknown quantity estimated from finite sample of data
+
+**Maximum Likelihood Estimation**
+
+- Pick parameters that assign highest probability to training data
+    - $\theta_{MLE} = \arg \max p(D | \theta) = \prod p(y | x, \theta)$
+- MLE can be factorized because of IID assumption
+- Maximizing MLE is equivalent to minimizing NLL
+    - $\text{NLL}(\theta) = -\log p(D | \theta)$
+- For unsupervised learning MLE is unconditional.
+    - $\theta_{MLE} = \arg\max p( x | \theta)$
+- Justification for MLE
+    - Bayesian MAP estimate with uninformative uniform prior
+        - $\theta_{MAP} = \arg\max p(\theta | D) = \arg \max p(D | \theta) + p(\theta)$
+    - KL Divergence: MLE brings predicted distribution close to empirical ditribution
+        - $KL(p||q) = H(p) - H(p,q)$
+        - Cross-entropy term in KL-Divergence corresponds to KL-Divergence
+- Sufficient Statistics of the data summarize all the information needed.
+    - N0 (negative # samples) and N1 (positive # samples) in case of Bernoulli Distribution
+- MLE Examples
+    - Bernoulli Distribution
+        - $NLL(\theta) = N_1 \log(\theta) - N_0 \log(1-\theta)$
+        - $\Delta NLL \Rightarrow \theta = N_1 / (N_0 + N_1)$
+    - Categorical DIstribution
+        - Add unity contraint as Lagrangian
+        - $NLL(\theta) = \sum N_k \log(\theta) + \lambda (\sum \theta_k -1))$
+    - Gaussian Distribution
+        - $NLL(\theta) = {1 \over 2\sigma^2 }\sum \log(y - \mu)^2 + {N \over 2} log (2\pi \sigma^2)$
+        - Sample mean and sample variance become sufficient statistics
+    - Linear Regression
+        - $p(y | x; \theta) = \mathcal N (y | wx +b, \sigma^2)$
+        - $NLL \propto \sum (y - wx - b) ^ 2$
+        - Quadratic Loss is a good choice for linear regression
+
+**Empirical Risk Minimization**
+
+- Empirical Risk Minimization is the expected loss where the expectation is taken wrt to empirical distribution
+- ERM generalizes MLE  by replacing log-loss with any loss function
+    - $L(\theta) = {1 \over N} \sum l(y, x, \theta)$
+    - Loss could be miss-classification rate as an example
+- Surrogate losses devised to make optimization easier.
+    - Log-Loss, Hinge-Loss etc.
+
+- Method of Moments (MoM) compares theoretical moments of a distribution with to the empirical ones. 
+    - Moments are quantitative measures related to the shape of the function's graph
+
+- In batch learning, entire dataset is available before training.
+- In online learning, dataset arrives sequentially.
+    - $\theta_t = f(x_t, \theta_{t-1})$
+    - Recursive updates are required. For example MA, or EWMA
+        - $\mu_t = \mu_{t-1} + {1 \over t}(x_t - \mu_{t-1})$
+        - $\mu_t = \beta \mu_{t-1} + (1 - \beta) y_t$
+
+**Regularization**
+
+
+- MLE/ERM picks parameters that minimize loss on training set.
+- Empirical distribution may not be same as true distribution.
+- Model may not generalize well. Loss on unseen data points could be high. Overfitting.
+- Regularization helps reduce overfitting by adding a penalty on complexity. 
+    - In-built in MAP estimation
+    - $L(\theta) = NLL + \lambda \log p(\theta)$
+    - Add-one smoothing in Bernoulli to solve zero count problem is regularization.
+    - The extra one term comes from Beta priors.
+- In linear regression, assume parameters from standard gaussian.
+    - $L(\theta) = NLL + \lambda \log w^2$
+    - L2 Penalty in MAP estimation
+- Regularization strength is picked by looking at validation dataset
+    - Validation risk is estimate for population risk.
+    - Cross-Validation in case of small size of training dataset
+- One Standard Error Rule
+    - Select the model with loss within one SE of the baseline / simple model
+- Early Stopping prevents too many steps away from priors. Model doesn’t memorize too much.
+- Using more suitable informative data samples also prevents overfitting.
+    - Bayes’ Error is inherent error due to stochasticity.
+    - With more data, learning curve approaches Bayes’ Error.
+    - If we start with very few observations, adding more data may increase the error as model uncovers new data patterns.
+
+**Bayesian Statistics**
+
+
+- Start with prior distribution
+- Likelihood reflects the data for each setting of the prior
+- Marginal Likelihood shows the average probability of the data by marginalizing over model parameters
+- Posterior Predictive Distribution: is Bayes Model Averaging
+    - $p(y | x, D) = \int p(y | x, \theta) p(\theta | D) d\theta$ 
+    - Multiple parameter values considered, prevents overfitting
+    - Plug-in Approximation: Uses dirac delta to pul all the weight on MLE
+    - This simplifies the calculations
+- Conjugate Priors
+    - posterior = prior x likelihood
+    - Select prior in a form that posterior is closed form and has same family as prior
+    - Bernoulli-Beta
+    - Gaussian-Gaussian
+    
+
+**Frequentist Statistics**
+
+
+- Data is a random sample drawn from some underlying distribution
+- Induces a distribution over the test statistic calculated from the sample.
+- Estimate variation across repeated trials.
+- Uncertainty is calculated by quantifying how the estimate would change if the data was sampled again.
+- Sampling Distribution
+    - Distribution of results if the estimator is applied multiple times to different datasets sampled from same distribution
+- Bootstrap
+    - If the underlying distribution is complex, approximate it by a Monte-Carlo technique
+    - Sample N data points from original dataset of size N with replacement
+    - Bootstrap Sample is 0.633 x N on average
+        - Probability the point is selected atleast once
+        - $1 - (1 - {1 \over N})^N \approx 1 - {1 \over e}$
+- 100 (1 - a) % CI is the probability that the true value of the parameter lies in the range.
+
+**Bias-Variance Tradeoff**
+
+
+- Bias of an estimator
+    - $bias(\hat \theta) = E[\hat \theta] - \theta^*$
+        - Measures how much the estimate will differ from true value
+        - Sample variance is not an unbiased estimator for variance
+    - $\mathbf V[\hat \theta] = E[\hat \theta ^ 2] - E[\hat \theta]^2$
+        - Measures how much will the estimate vary is data is resampled
+    - Mean Squared Error
+        - $E[(\hat \theta - \theta^*)^2] = \text{bias}^2 + \text{variance}$
+        - It’s okay to use a biased estimator if the bias is offset by decrease in variance.
+
+

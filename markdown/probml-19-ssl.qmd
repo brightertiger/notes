@@ -1,0 +1,119 @@
+# SSL
+
+-   Data Augmentation
+    -   Artificially modified versions of input vectors that may appear in real world data
+    -   Improves accuracy, makes model robust
+    -   Empirical risk minimization to vicinical risk minimization
+    -   Minimizing risk in the vicinity of input data point
+
+-Transfer Learning - Some data poor tasks may have structural similarity to other data rich tasks - Transferring information from one dataset to another via shared parameters of a model - Pretrain the model on a large source dataset - Fine tune the model on a small target dataset - Chop-off the the head of the pretrained model and add a new one - The parameters may be frozen during fine-tuning - In case the parameters aren't frozen, use small learning rates. - Adapters - Modify the model structure to customize feature extraction - For example: Add MLPs after transformer blocks and initialize them for identity mappings - Much less parameters to be learned during fine-tuning
+
+-   Pre-training
+    -   Can be supervised or unsupervised.
+    -   Supervised
+        -   Imagenet is supervised pretraining.
+        -   For unrelated domains, less helpful.
+        -   More like speedup trick with a good initialization.
+    -   Unsupervised
+        -   Use unlabeled dataset
+        -   Minimize reconstruction error
+    -   Self-supervised
+        -   Labels are created from ulabeled dataset algorithmically
+        -   Cloze Task
+            -   Fill in the blanks
+        -   Proxy Tasks
+            -   Create representations
+            -   Siamese Neural Networks
+            -   Capture relationship between inputs
+        -   Contrastive Tasks
+            -   Use data augmentation
+            -   Ensure that similar inputs have closer representations
+    -   SimCLR
+        -   Simple Contrastive Learning for Visual Representations
+        -   Generate two augmented views (random crops)
+        -   Maximize the similarity of similar views and minimize the similarity of different views
+        -   Use large batch training to ensure diverse set of negatives
+        -   Forces the model to learn and focus on local features / views
+    -   Clip
+        -   Contrastive Language-Image Pretraining
+        -   Image with matching text
+        -   Maximize the similarity of the image embedding to that of the embedding of the matching text
+        -   Works well in case of zero-shot learning
+        -   Requires prompt engineering to convert image metadata to labels for text embeddings
+-   Domain Adaption
+    -   Different domains but same output labels
+    -   Example - Product reviews and movie reviews
+    -   Domain adversarial learning
+    -   Auxiliary task: Model has to learn the source of the input
+    -   Minimize the loss on desired classification task
+    -   Maximize the loss on auxiliary task
+    -   Gradient reversal trick
+-   Semi-Supervised Learning
+    -   Leverage large amount of unlabeled data
+    -   Learn high level structure of data distribution from unlabeled data
+    -   Learn fine-grained details of given task using labeled data
+    -   Avoid labeling all of the dataset
+    -   Works on clusterassumption.
+        -   A good decision boundary will not pass through data dense regions
+    -   Pseudo Labeling / Self-Training
+        -   Use the model itself to infer predictions on unlabeled data
+        -   Treat the predictions as labels for subsequent training
+        -   Inferred labels are pseudo-correct in comparison to ground truth
+        -   Suffers from Confirmation Bias
+        -   If the original predictions are wrong, model becomes progressievely worse
+        -   Use soft labels from model predicitons and scaled using softmax temperture
+    -   Co-training
+        -   Two complementary views (say two sets of features) for each data point
+        -   Train two models independently
+        -   Score the unlabled data point using each of the models
+        -   If model scores high from one model and low from another - add it to the training dataset for the low scoring model
+        -   Repeat until convergence
+    -   Label Propagation
+        -   Transductive learning
+        -   Manifold Assumption: Similar data points should share the same label
+        -   Construct a graph of the dataset
+            -   Nodes: Data points
+            -   Edges: Similarity between the data points
+            -   Model Labels: Labels of the data points
+        -   Propagate the labels in such a way that there is minimal label disagreement between node and it's neighbours
+        -   Label guesses for unlabeled data that can be used for superised learning
+        -   Details:
+            -   M labeled points, N unlabeled points
+            -   T: (M+N) x (M+N) transition matrix of normalized edge weights
+            -   Y: Label matrix for class distribution of (M+N) x C dimension
+            -   Use transition matrix to propagate labels Y = TY until convergence
+        -   Success depends on calculating similarity between data points
+    -   Consistency Regularization
+        -   Small perturbation to input data point should not change the model predicitons
+-   Generative Models
+    -   Natural way of using unlabeled data by learning a model of data generative process.
+    -   Variational Autoencoders
+        -   Models joint distribution of data (x) and latent variables (z)
+        -   First sample: $z \sim p(z)$ and then sample $x\sim p(x|z)$
+        -   Encoder: Approximate the posterior
+        -   Decoder: Approximate the likelihood
+        -   Maximize evidence lower bound of the data (ELBO) (derived from Jensen's ineuqlity)
+        -   Use VAEs to learn representations for downstream tasks
+    -   Generative Adversarial Netwworks
+        -   Generator: Maps latent distribution to data space
+        -   Discriminator: Distinguish between outputs of generator and true distribution
+        -   Modify discriminator to predict class labels and fake rather than just fake
+-   Active Learning
+    -   Identify true predictive mapping by quering as few data points as possible
+    -   Query Synthesis: Model asks output for any input
+    -   Pool Based: Model selects the data point from a pool of ulabeled data points
+    -   Maximum Entropy Sampling
+        -   Uncertainty in predicted label
+        -   Fails when examples are ambiguous of mislabeled
+    -   Bayesian Active Learning by Disagreement (BALD)
+        -   Select examples where model makes predictions tht are highly diverese
+-   Few-Shot Learning
+    -   Learn to predict from very few labeled example
+    -   One-Shot Learning: Learn to predict from single example
+    -   Zero-Shot Lerning: Learn to predict without labeled examples
+    -   Model has to generalize for unseen labels during traning time
+    -   Works by learning a distance metric
+-   Weak Supervision
+    -   Exact label not aviabale for data points
+    -   Distribution of labels for each case
+    -   Soft labels / label smoothing

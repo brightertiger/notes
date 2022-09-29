@@ -1,0 +1,139 @@
+# Feed Forward NN
+
+- Linear Models do an affine transformation of inputs $f(x, \theta) = Wx + b$
+- To increase model flexibility, perform feature transformation $f(x, \theta) = W \phi(x) + b$
+- Repeatedly nesting the transformation functions results in deep neural networks
+    - $f(x, \theta) = f_L(f_{L-1}(f_{L-2}.....(f_1(x)....))$
+    - Composed of differentiable functions in any kind of DAG (directed acyclic graphs)
+- Multilayer Perceptrons
+    - XOR (Exclusive OR) Problem: Inputs are note linearly separable
+    - Stacking multiple functions on top of each other can overcome this problem
+- Stacking linear activation functions results in linear model
+    - $f(x, \theta) = W_L(W_{L-1}(W_{L-2}.....(W_1(x)....)) = \tilde Wx$
+- Activation functions are differentiable non-linear functions
+    - Sigmoid: (0,1)
+    - TanH: (-1,+1) (e2x -1 / e2x + 1)
+    - ReLU: max(a, 0), non-saturating activation function
+- Universal Function Approximator
+    - MLP with one hidden layer is universal function approximator
+    - Can form a  suitable smooth function given enough hidden units
+
+\
+
+- Backpropagation Algorithm
+    - Compute gradient of a loss function wrt parameters in each layer
+    - Equivalent to repeated application of chain rule
+    - Autodiff: Automatic Differentiation on Computation Graph
+    - Suppose  $f = f_1 \circ f_2 \circ f_3 \circ f_4$
+        - Jacobain $\mathbf J_f$ needs to be calculated for backprop
+        - Row Form: $\triangledown f_i(\mathbf x)$ is the ith row of jacobian
+            - Calculated efficiently using forward mode
+        - Column Form: $\delta \mathbf f \over \delta x_i$ is the ith column of jacobian
+            - Calculated efficiently using the backward mode
+
+\
+
+- Derivatives
+    - Cross-Entropy Layer
+        - $z = \text{CrossEntropyWithLogitsLoss(y,x)}$
+        - $z = -\sum_c y_c \log(p_c)$
+        - $p_c = {\exp x_c \over \sum_c \exp x_c}$
+        - ${\delta z \over \delta x_c} = \sum_c {\delta z \over \delta p_i} \times {\delta p_i \over \delta x_c}$
+        - When i = c
+            - ${\delta z \over \delta x_c} = {-y_c \over p_c} \times p_c (1 - p_c) = - y_c ( 1 - p_c)$
+        - When i <> c
+            - ${\delta z \over \delta x_c} = {-y_c \over p_c} \times - p_i p_c = -y_c p_c$
+        - Adding up
+            - $-y_c(1-p_c) + \sum_{i \ne c} y_c p_i = p_c \sum_c y_c - y_c = p_c - y_c$
+    - ReLU
+        - $\phi(x) = \max(x,0)$
+        - $\phi'(x,a) =   I\{x > 0\}$
+    - Adjoint
+        - ${\delta o \over \delta x_j} = \sum_{children} {\delta o \over \delta x_i} \times {\delta x_i \over \delta x_j}$
+
+\
+
+- Training Neural Networks
+    - Maximize the likelihood: $\min  L(\theta) = -\log p(D|\theta)$
+    - Calculate gradients using backprop and use an optimizer to tune the parameters
+    - Objective function is not convex and there is no guarantee to find a global minimum
+    - Vanishing Gradients
+        - Gradients become very small
+        - Stacked layers diminish the error signals
+        - Difficult to solve
+        - Modify activation functions that don’t saturate
+        - Switch to architectures with additive operations 
+        - Layer Normalization
+    - Exploding Gradients
+        - Gradients become very large
+        - Stacked layers amplify the error signals
+        - Controlled via gradient clipping
+    - Exploding / Vanishing gradients are related to the eigenvalues of the Jacobian matrix
+        - Chain Rule
+        - ${\delta  L \over \delta z_l} = {\delta  L \over \delta z_{l+1}} \times {\delta z_{l+1}  \over \delta z_{l}}$
+        - ${\delta  L \over \delta z_l} = J_l \times g_{l+1}$
+
+\
+
+- Non-Saturating Activations
+    - Sigmoid
+        - $f(x) = 1 / (1 + \exp^{-x}) = z$
+        - $f'(x) = z (1 - z)$
+        - If z is close to 0 or 1, the derivative vanishes
+    - ReLU
+        - $f(x) = \max(0, x)$
+        - $f'(x) =  I \{x > 0\}$
+        - Derivative will exist as long as the input is positive
+        - Can still encounter dead ReLU problem when weights are large negative/positive
+    - Leaky ReLU
+        - $f(x,\alpha) = max(\alpha x, x); \,\,\, 0< \alpha < 1$
+        - Slope is 1 for for positive inputs
+        - Slope is alpha for negative inputs
+        - If alpha is learnable, then we get parametric ReLU
+    - ELU, SELU are smooth versions of ReLU
+    - Swish Activation
+        - $f(x) = x \sigma(x)$
+        - $f'(x) = f(x) + \sigma(x) (1 - f(x))$
+        - The slope has additive operations
+
+\
+
+- Residual Connections
+    - It’s easier to learn small perturbations to inputs than to learn new output
+    - $F_l(x) = x + \text{activation}_l(x)$ 
+    - Doesn’t add more parameters
+    - $z_L = z_l + \sum_{i=l}^L F_i(z_i)$
+    - ${\delta L \over \delta \theta_l} = {\delta L \over \delta z_l} \times {\delta z_l \over \delta \theta_l}$
+    - ${\delta L \over \delta \theta_l} = {\delta z_l \over \delta \theta_l} \times {\delta L \over \delta z_L} (1 + \sum f'(z_i))$
+    - The derivative of the layer l has a term that is independent of the network
+    
+- Initialization
+    - Sampling parameters from standard normal distribution with fixed variance can result in exploding gradients
+    - Suppose we have linear activations sampled from standard Normal Distribution
+        - $o = \sum w_j x_ij$
+        - $E(o) =  \sum E(w_j)E(x_{ij}) = 0$
+        - $V(o) \propto n_{in} \sigma^2$
+    - Similarly for gradients:
+        - $V(o') \propto n_{out} \sigma^2$
+    - To prevent the expected variance from blowing up
+        - $\sigma^2 = {1 \over (n_{in} + n_{out})}$
+        - Xavier Initialization, Glorot Initialization
+        - He/LeCun Initialization equivalent if n_in = n_out
+
+\
+
+- Regularization
+    - Early Stopping
+        - Stop training when error on validation set stops reducing
+        - Restricts optimization algorithm to transfer information from the training examples
+    - Weight Decay
+        - Impose prior on parameters and then use MAP estimation
+        - Encourages smaller weights
+    - Sparse DNNs
+        - Model compression via quantization
+    - Dropout
+        - Turnoff outgoing connections with probability p
+        - Prevents complex co-adaptation 
+        - Each unit should learn to perform well on its own
+        - At test time, turning on dropout is equivalent to ensemble of networks (Monte Calo Dropout)
+

@@ -1,0 +1,216 @@
+# Decision Theory
+
+- Optimal Policy specifies which action to take for each possible observation to minimize risk or maximize utility
+- Implicit assumption is that agents are risk neutral. 50 vs 0.5 * 100
+- Zero-One loss: miss-classification rate in binary classifier
+    - $l_{01}(y, \hat y) = I\{y \ne \hat y\}$
+    - Optimal policy is to choose most probable label to minimize risk
+        - $R(y | x) = p(y \ne \hat y | x) = 1 - p(y = \hat y | x)$
+        - $\pi(x) = \arg \max p(y | x)$
+    - In case the errors are cost-sensitive
+        - FP is not same as FN
+        - $l_{01} = c \times l_{10}$
+        - Choose the label 1 if expected loss is lower:
+            - $p0 \times l_{01} < p1 \times c \times l_{10}$
+        - c will trade-off the decision boundary 
+    - In case reject or abstain is also a possible action
+        - Assume the cost of error $\lambda_e$
+        - Assume the cost of rejection: $\lambda_r$
+        - No decision when model confidence is below $1 - {\lambda_e \over \lambda _r}$
+
+**ROC Curves**
+
+
+- Summarize performance across various thresholds
+
+
+- Confusion Matrix
+    - Give a threshold $\tau$
+    - Confusion Matrix
+        - Positive, Negative: Model Prediction
+        - True, False: Actual Labels
+        - TP, TN: Correct Predictions
+        - FP: Model predicts 1, Ground Truth is 0
+        - FN: Model predicts 0, Ground Truth is 1
+    - Ratios from Confusion Matrix
+        - TPR, Sensitivity, Recall
+            - TP / (TP + FN)
+            - Accuracy in positive predictions
+        - FPR, Type 1 Error rate
+            - FP / (FP + TN)
+            - Error in Negative Predictions
+            
+    - ROC Curve is a plot between FPR (x-axis) and TPR (y-axis) across various thresholds
+    - AUC is a numerical summary of ROC
+    - Equal Error Rate is where ROC crosses -45 degree line.
+    - ROC Curve is insensitive to class imbalance
+        - FPR consists of TN in denominator
+        - If TN >> TP, metric becomes insensitive to FPR
+        
+    - Precision-Recall Curves
+        - The negatives are not model specific but system specific
+        - For a search query, retrieve 50 vs 500 items.  (or tiles vs list)
+        - Precision
+            - TP / TP + FP
+        - Recall 
+            - TP / TP + FN
+        - There is no dependency on TN
+        - Precision curve has distortions. Smooth it out by interpolation.
+        - To summarize the performance by a scalar
+            - Precision @ K
+            - Average Precision: Area under interpolated precision curve
+            - mAP or Mean Average Precision is mean of AP across different PR curves (say different queries)
+        - F-Score
+            - Weighted harmonic mean between precision and recall
+            - ${1 \over F} = {1 \over 1 + \beta^2} {1 \over P} + {\beta^2 \over 1 + \beta^2} {1 \over R}$
+            - Harmonic mean imposes more penalty if either precision or recall fall to a very low level
+            
+    - Class Imbalance
+        - ROC curves are not sensitive to class imbalance. Does not matter which class is defined as 1 or 0.
+        - PR curves are sensitive to class imbalance. Switching classes impacts performance.
+            - $P = {TP \over TP + FP}$
+            - $P = {TPR \over TPR + r^{-1} FPR}$
+            - r = positive / negative
+        - F-Score is also affected by class imbalance.
+
+**Regression Metrics**
+
+
+- L2 Loss
+    - $l(h,a) = (h-a)^2$
+    - Risk Estimate
+    - $R(a|x) = E[(h-a)^2| x] = E[h^2|x] -2aE[h|x] + a^2$
+    - To minimize risk, set the derivative of risk to zero.
+    - $\pi(x) \Rightarrow E[h|X] = a$
+    - Optimal action is to set the prediction to posterior conditional mean.
+
+
+- L1 Loss
+    - L2 Loss is sensitive to outliers.
+    - L1 is more robust to alternatives
+    - $l(h,a) = |h-a|$
+
+
+- Huber Loss
+    - Middle ground between L1 and L2 loss
+    - Set a threshold $\delta$ 
+        - If error exceeds thresholds → L1 loss
+        - If error below threshold → L2 loss
+
+**Probabilistic Metrics**
+
+
+- Estimate probabilistic distribution over labels
+
+
+- KL Divergence
+    - $KL(p||q) = \sum p log(p|q)$
+    - $KL(p||q) = H(p,q) - H(p)$
+    - Always >= 0. Equality holds when p == q
+    - H(p) is the entropy.
+    - H(p,q) is the cross entropy.
+    - Cross entropy measures the bits required to encode data coming from p encoded via q.
+    - KL divergence measures the extra bits needed to compress information using wrong distribution q instead of p.
+    - H(p) is independent of q. Hence, minimizing KL divergence is equivalent to minimizing the cross-entropy.
+    - Extending cross-entropy to multiple labels leads to log-loss.
+    - KL divergence is sensitive to errors at low probability events.
+
+**A/B Testing**
+
+
+- Test and Roll approach to business decisions
+- Randomly assign different actions to different populations
+- Incurs opportunity cost.  Exploration-Exploitation tradeoff.
+
+
+- Bayesian Approach
+- Bandits
+- Marginal Log-Likelihood
+
+<INCOMPLETE>
+
+**Information Criteria**
+
+
+- Marginal Likelihood difficult to compute.
+- ICs incorporate model complexity penalty without the use of validation set.
+- ICs are of the form deviance + some form of complexity.
+    - $\text{deviance} = -2 \sum \log p + C$
+    
+- Bayesian Information Criterion
+    - $C = \log(N) \times \text{dof}$
+    - dof is degrees of freedom or number of free parameters
+    - log of marginal likelihood of the gaussian approximation to the posterior
+
+
+- Akaike Information Criterion
+    - Penalizes model less heavily compared to BIC
+    - $C = 2 \times \text{dof}$
+    
+
+**Frequentist Decision Theory**
+
+
+- Risk of an estimator is the expected loss when applying the estimator to data sampled from likelihood function $p( y,x | \theta)$
+- Bayes Risk
+    - True generating function unknown
+    - Assume a prior and then average it out
+- Maximum Risk
+    - Minimize the maximum risk
+- Consistent Estimator
+    - Recovers true parameter in the limit of infinite data
+- Empirical Risk Minimization
+    - Population Risk
+        - Expectation of the loss function w.r.t. true distribution
+        - True distribution is unknown
+        - $R(f, \theta^*) = \mathbf{E}[l(\theta^*, \pi(D))]$
+    - Empirical Risk
+        - Approximate the expectation of loss by using training data samples
+        - $R(f, D) = \mathbf{E}[l(y, \pi(x))]$
+    - Empirical Risk Minimizaiton
+        - Optimize empirical risk over hypothesis space of functions
+        - $f_{ERM} = \arg \min_H R(f,D)$
+    - Approximation Error
+        - Risk that the chosen true parameters don’t lie in the hypothesis space
+    - Estimation Error
+        - Error due to having finite training set
+        - Difference between training error and test error
+        - Generalization Gap
+    - Regularized Risk
+        - Add complexity penalty
+        - $R_\lambda(f,D) = R(f,D) + \lambda C(f)$
+        - Complexity term resembles the prior term in MAP estimation
+    - Structural Risk
+        - Empirical underestimates population risk
+        - Structural risk minimization is to pick the right level of model complexity by minimizing regularized risk and cross-validation
+
+**Statistical Learning Theory**
+
+
+- Upper bound on generalization error with certain probability
+- PAC (probably approximately correct) learnable
+- Hoeffding’s Inequality
+    - Upper bound on generalization error
+- VC Dimension
+    - Measures the degrees of freedom of a hypothesis class
+
+**Frequentist Hypothesis Testing**
+
+
+- Null vs Alternate Hypothesis
+- Likelihood Ratio Test
+    - $p(D| H_0) / p(D| H_1)$
+- Null Hypothesis Significance Testing
+    - Type-1 Error
+        - P(Reject H0 | H0 is True)
+        - Significance of the test
+        - $\alpha$
+    - Type-2 Error
+        - P(Accept H0 | H1 is True)
+        - $\beta$
+        - Power of the test is $1 - \beta$
+    - Most powerful test is the one with highest power given a level of significance
+    - Neyman-Pearson lemma: Likelihood ratio test is the most powerful test
+    - p-value
+        - Probability, under the null hypothesis, of observing a test statistic larger that that actually observed
+

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DS Notes - 30&nbsp; SSL</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./probml-21-recsys.html" rel="next">
+<link href="./probml-18-trees.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SSL</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">DS Notes</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./jfsky-00.html" class="sidebar-item-text sidebar-link">SLP Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-01-regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Regex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-02-tokenization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tokenization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-03-vectors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-04-sequence.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sequence Architectures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-05-encoder.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Encoder-Decoder Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-06-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transfer Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./eslr-00.html" class="sidebar-item-text sidebar-link">ESLR Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-01-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-02-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-03-kernel-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kernel Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-04-model-assessment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-08-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-09-additive-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Additive Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-10-boosting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-15-random-forest.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./probml-00.html" class="sidebar-item-text sidebar-link">Notes on ProbML</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-01-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-02-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-03-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-04-statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-05-decision_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Decision Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-06-information_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Information Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-08-optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Optimization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-09-discriminant_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Discriminant Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-10-logistic_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-11-linear_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-13-ffnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Feed Forward NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-14-cnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Convolution NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-15-rnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Recurrent NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-16-exemplar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Exemplar Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-18-trees.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Trees</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-19-ssl.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SSL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-21-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Rec Sys</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SSL</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li>Data Augmentation
+<ul>
+<li>Artificially modified versions of input vectors that may appear in real world data</li>
+<li>Improves accuracy, makes model robust</li>
+<li>Empirical risk minimization to vicinical risk minimization</li>
+<li>Minimizing risk in the vicinity of input data point</li>
+</ul></li>
+</ul>
+<p>-Transfer Learning - Some data poor tasks may have structural similarity to other data rich tasks - Transferring information from one dataset to another via shared parameters of a model - Pretrain the model on a large source dataset - Fine tune the model on a small target dataset - Chop-off the the head of the pretrained model and add a new one - The parameters may be frozen during fine-tuning - In case the parameters aren’t frozen, use small learning rates. - Adapters - Modify the model structure to customize feature extraction - For example: Add MLPs after transformer blocks and initialize them for identity mappings - Much less parameters to be learned during fine-tuning</p>
+<ul>
+<li>Pre-training
+<ul>
+<li>Can be supervised or unsupervised.</li>
+<li>Supervised
+<ul>
+<li>Imagenet is supervised pretraining.</li>
+<li>For unrelated domains, less helpful.</li>
+<li>More like speedup trick with a good initialization.</li>
+</ul></li>
+<li>Unsupervised
+<ul>
+<li>Use unlabeled dataset</li>
+<li>Minimize reconstruction error</li>
+</ul></li>
+<li>Self-supervised
+<ul>
+<li>Labels are created from ulabeled dataset algorithmically</li>
+<li>Cloze Task
+<ul>
+<li>Fill in the blanks</li>
+</ul></li>
+<li>Proxy Tasks
+<ul>
+<li>Create representations</li>
+<li>Siamese Neural Networks</li>
+<li>Capture relationship between inputs</li>
+</ul></li>
+<li>Contrastive Tasks
+<ul>
+<li>Use data augmentation</li>
+<li>Ensure that similar inputs have closer representations</li>
+</ul></li>
+</ul></li>
+<li>SimCLR
+<ul>
+<li>Simple Contrastive Learning for Visual Representations</li>
+<li>Generate two augmented views (random crops)</li>
+<li>Maximize the similarity of similar views and minimize the similarity of different views</li>
+<li>Use large batch training to ensure diverse set of negatives</li>
+<li>Forces the model to learn and focus on local features / views</li>
+</ul></li>
+<li>Clip
+<ul>
+<li>Contrastive Language-Image Pretraining</li>
+<li>Image with matching text</li>
+<li>Maximize the similarity of the image embedding to that of the embedding of the matching text</li>
+<li>Works well in case of zero-shot learning</li>
+<li>Requires prompt engineering to convert image metadata to labels for text embeddings</li>
+</ul></li>
+</ul></li>
+<li>Domain Adaption
+<ul>
+<li>Different domains but same output labels</li>
+<li>Example - Product reviews and movie reviews</li>
+<li>Domain adversarial learning</li>
+<li>Auxiliary task: Model has to learn the source of the input</li>
+<li>Minimize the loss on desired classification task</li>
+<li>Maximize the loss on auxiliary task</li>
+<li>Gradient reversal trick</li>
+</ul></li>
+<li>Semi-Supervised Learning
+<ul>
+<li>Leverage large amount of unlabeled data</li>
+<li>Learn high level structure of data distribution from unlabeled data</li>
+<li>Learn fine-grained details of given task using labeled data</li>
+<li>Avoid labeling all of the dataset</li>
+<li>Works on clusterassumption.
+<ul>
+<li>A good decision boundary will not pass through data dense regions</li>
+</ul></li>
+<li>Pseudo Labeling / Self-Training
+<ul>
+<li>Use the model itself to infer predictions on unlabeled data</li>
+<li>Treat the predictions as labels for subsequent training</li>
+<li>Inferred labels are pseudo-correct in comparison to ground truth</li>
+<li>Suffers from Confirmation Bias</li>
+<li>If the original predictions are wrong, model becomes progressievely worse</li>
+<li>Use soft labels from model predicitons and scaled using softmax temperture</li>
+</ul></li>
+<li>Co-training
+<ul>
+<li>Two complementary views (say two sets of features) for each data point</li>
+<li>Train two models independently</li>
+<li>Score the unlabled data point using each of the models</li>
+<li>If model scores high from one model and low from another - add it to the training dataset for the low scoring model</li>
+<li>Repeat until convergence</li>
+</ul></li>
+<li>Label Propagation
+<ul>
+<li>Transductive learning</li>
+<li>Manifold Assumption: Similar data points should share the same label</li>
+<li>Construct a graph of the dataset
+<ul>
+<li>Nodes: Data points</li>
+<li>Edges: Similarity between the data points</li>
+<li>Model Labels: Labels of the data points</li>
+</ul></li>
+<li>Propagate the labels in such a way that there is minimal label disagreement between node and it’s neighbours</li>
+<li>Label guesses for unlabeled data that can be used for superised learning</li>
+<li>Details:
+<ul>
+<li>M labeled points, N unlabeled points</li>
+<li>T: (M+N) x (M+N) transition matrix of normalized edge weights</li>
+<li>Y: Label matrix for class distribution of (M+N) x C dimension</li>
+<li>Use transition matrix to propagate labels Y = TY until convergence</li>
+</ul></li>
+<li>Success depends on calculating similarity between data points</li>
+</ul></li>
+<li>Consistency Regularization
+<ul>
+<li>Small perturbation to input data point should not change the model predicitons</li>
+</ul></li>
+</ul></li>
+<li>Generative Models
+<ul>
+<li>Natural way of using unlabeled data by learning a model of data generative process.</li>
+<li>Variational Autoencoders
+<ul>
+<li>Models joint distribution of data (x) and latent variables (z)</li>
+<li>First sample: <span class="math inline">\(z \sim p(z)\)</span> and then sample <span class="math inline">\(x\sim p(x|z)\)</span></li>
+<li>Encoder: Approximate the posterior</li>
+<li>Decoder: Approximate the likelihood</li>
+<li>Maximize evidence lower bound of the data (ELBO) (derived from Jensen’s ineuqlity)</li>
+<li>Use VAEs to learn representations for downstream tasks</li>
+</ul></li>
+<li>Generative Adversarial Netwworks
+<ul>
+<li>Generator: Maps latent distribution to data space</li>
+<li>Discriminator: Distinguish between outputs of generator and true distribution</li>
+<li>Modify discriminator to predict class labels and fake rather than just fake</li>
+</ul></li>
+</ul></li>
+<li>Active Learning
+<ul>
+<li>Identify true predictive mapping by quering as few data points as possible</li>
+<li>Query Synthesis: Model asks output for any input</li>
+<li>Pool Based: Model selects the data point from a pool of ulabeled data points</li>
+<li>Maximum Entropy Sampling
+<ul>
+<li>Uncertainty in predicted label</li>
+<li>Fails when examples are ambiguous of mislabeled</li>
+</ul></li>
+<li>Bayesian Active Learning by Disagreement (BALD)
+<ul>
+<li>Select examples where model makes predictions tht are highly diverese</li>
+</ul></li>
+</ul></li>
+<li>Few-Shot Learning
+<ul>
+<li>Learn to predict from very few labeled example</li>
+<li>One-Shot Learning: Learn to predict from single example</li>
+<li>Zero-Shot Lerning: Learn to predict without labeled examples</li>
+<li>Model has to generalize for unseen labels during traning time</li>
+<li>Works by learning a distance metric</li>
+</ul></li>
+<li>Weak Supervision
+<ul>
+<li>Exact label not aviabale for data points</li>
+<li>Distribution of labels for each case</li>
+<li>Soft labels / label smoothing</li>
+</ul></li>
+</ul>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./probml-18-trees.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Trees</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./probml-21-recsys.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Rec Sys</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

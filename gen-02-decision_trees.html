@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DS Notes - 33&nbsp; Decision Trees</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./gen-03-boosting.html" rel="next">
+<link href="./gen-01-basic-statistics.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">DS Notes</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./jfsky-00.html" class="sidebar-item-text sidebar-link">SLP Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-01-regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Regex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-02-tokenization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tokenization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-03-vectors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-04-sequence.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sequence Architectures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-05-encoder.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Encoder-Decoder Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-06-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transfer Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./eslr-00.html" class="sidebar-item-text sidebar-link">ESLR Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-01-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-02-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-03-kernel-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kernel Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-04-model-assessment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-08-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-09-additive-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Additive Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-10-boosting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-15-random-forest.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./probml-00.html" class="sidebar-item-text sidebar-link">Notes on ProbML</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-01-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-02-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-03-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-04-statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-05-decision_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Decision Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-06-information_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Information Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-08-optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Optimization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-09-discriminant_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Discriminant Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-10-logistic_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-11-linear_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-13-ffnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Feed Forward NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-14-cnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Convolution NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-15-rnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Recurrent NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-16-exemplar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Exemplar Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-18-trees.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Trees</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-19-ssl.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SSL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-21-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Rec Sys</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./gen-00.html" class="sidebar-item-text sidebar-link">General ML Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-01-basic-statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Basic Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-02-decision_trees.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Decision Trees</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-03-boosting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-04-xgboost.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">XGBoost</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-05-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-06-support_vector_machines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Support Vector Machines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-07-dimensionality_reduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Dimensionality Reduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gen-08-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link active" data-scroll-target="#decision-trees"><span class="toc-section-number">33.1</span>  Decision Trees</a></li>
+  <li><a href="#splitting" id="toc-splitting" class="nav-link" data-scroll-target="#splitting"><span class="toc-section-number">33.2</span>  Splitting</a></li>
+  <li><a href="#bias-variance-trade-off" id="toc-bias-variance-trade-off" class="nav-link" data-scroll-target="#bias-variance-trade-off"><span class="toc-section-number">33.3</span>  Bias-Variance Trade-off</a></li>
+  <li><a href="#nature-of-decision-trees" id="toc-nature-of-decision-trees" class="nav-link" data-scroll-target="#nature-of-decision-trees"><span class="toc-section-number">33.4</span>  Nature of Decision Trees</a></li>
+  <li><a href="#bagging" id="toc-bagging" class="nav-link" data-scroll-target="#bagging"><span class="toc-section-number">33.5</span>  Bagging</a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest"><span class="toc-section-number">33.6</span>  Random Forest</a></li>
+  <li><a href="#extratrees" id="toc-extratrees" class="nav-link" data-scroll-target="#extratrees"><span class="toc-section-number">33.7</span>  ExtraTrees</a></li>
+  <li><a href="#variable-importance" id="toc-variable-importance" class="nav-link" data-scroll-target="#variable-importance"><span class="toc-section-number">33.8</span>  Variable Importance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="decision-trees" class="level2" data-number="33.1">
+<h2 data-number="33.1" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">33.1</span> Decision Trees</h2>
+<ul>
+<li>Recursively split the input / feature space using stubs i.e.&nbsp;decision rules
+<ul>
+<li>Splits are parallel to the axis</li>
+</ul></li>
+<li>Mathematical Represenation
+<ul>
+<li><span class="math inline">\(R_j = \{ x : d_1 &lt;= t_1, d_2 &gt;= t_2 ... \}\)</span><br>
+</li>
+<li><span class="math inline">\(\hat Y_i = \sum_j w_j I\{x_i \in R_j\}\)</span></li>
+<li><span class="math inline">\(w_j = \frac{\sum_i y_i I \{x_i \in R_j\}}{\sum_i I \{x_i \in R_j\}}\)</span></li>
+</ul></li>
+<li>Types of Decision Trees
+<ul>
+<li>Binary Splits
+<ul>
+<li>Classification and Regression Trees (CART)</li>
+<li>C4.5</li>
+</ul></li>
+<li>Multiple Splits:
+<ul>
+<li>CHAID (Chi-Square Automatic Interaction Detection)</li>
+<li>ID3</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="splitting" class="level2" data-number="33.2">
+<h2 data-number="33.2" class="anchored" data-anchor-id="splitting"><span class="header-section-number">33.2</span> Splitting</h2>
+<ul>
+<li>Split Criteria for Classification Trees
+<ul>
+<li>The nodes are split to decrease inpurity in classification</li>
+<li>Gini Criterion
+<ul>
+<li><span class="math inline">\(1 - \sum_C p_{i}^2\)</span></li>
+<li>Probability that observation belongs to class i: <span class="math inline">\(p_i\)</span></li>
+<li>Misclassification:</li>
+<li>For a given class (say i):
+<ul>
+<li><span class="math inline">\(p_i \times p_{k \ne i} = p_i \times (1 - p_i)\)</span></li>
+</ul></li>
+<li>Across all classes:</li>
+<li><span class="math inline">\(\sum_C p_i \times (1 - p_i)\)</span></li>
+<li><span class="math inline">\(\sum_C p_i - \sum_c p_{i}^2\)</span></li>
+<li><span class="math inline">\(1 - \sum_c p_{i}^2\)</span></li>
+<li>Ranges from (0, 0.5)</li>
+</ul></li>
+<li>Entropy Criterion
+<ul>
+<li>Measure of uncertainly of a random variable</li>
+<li>Given an event E
+<ul>
+<li>p(E) = 1 <span class="math inline">\(\implies\)</span> No Surprise</li>
+<li>p(E) = 0 <span class="math inline">\(\implies\)</span> Huge Surprise</li>
+<li>Informaion Content: <span class="math inline">\(I(E) = \log(1 / p(E))\)</span></li>
+</ul></li>
+<li>Entropy is the expectation of this information content
+<ul>
+<li><span class="math inline">\(H(E) = - \sum p(E) \log(p(E))\)</span></li>
+<li>Maximum when all outcomes have same probability of occurance</li>
+</ul></li>
+<li>Ranges from (0, 1)</li>
+</ul></li>
+</ul></li>
+<li>Split Criteria for Regression Trees
+<ul>
+<li>Sum-Squared Error</li>
+<li><span class="math inline">\(\sum_i (Y_i - \bar Y)^2\)</span></li>
+</ul></li>
+<li>Finding the Split
+<ul>
+<li>For any candidate value:
+<ul>
+<li>Calculate the weighted average reduction in impurity / error</li>
+<li>Weights being the number of observations flowing in the child nodes</li>
+</ul></li>
+<li>Starting Gini
+<ul>
+<li><span class="math inline">\(\text{Gini}_{\text{Root}}\)</span></li>
+<li><span class="math inline">\(N_{\text{Root}}\)</span></li>
+</ul></li>
+<li>After Split
+<ul>
+<li>Child Nodes
+<ul>
+<li><span class="math inline">\(\text{Gini}_{\text{Left}}, N_{\text{Left}}\)</span></li>
+<li><span class="math inline">\(\text{Gini}_{\text{Right}}, N_{\text{Right}}\)</span></li>
+</ul></li>
+<li>Updated Gini
+<ul>
+<li><span class="math inline">\(\frac{N_{\text{Left}}}{N_{\text{Root}}} \times \text{Gini}_{\text{Left}} + \frac{N_{\text{Right}}}{N_{\text{Root}}} \times \text{Gini}_{\text{Right}}\)</span></li>
+</ul></li>
+</ul></li>
+<li>Find the split, the results in minimum updated Gini</li>
+<li>Updated Gini &lt;= Starting Gini</li>
+<li>Greedy algorithms to find the best splits</li>
+</ul></li>
+</ul>
+</section>
+<section id="bias-variance-trade-off" class="level2" data-number="33.3">
+<h2 data-number="33.3" class="anchored" data-anchor-id="bias-variance-trade-off"><span class="header-section-number">33.3</span> Bias-Variance Trade-off</h2>
+<ul>
+<li>Bias
+<ul>
+<li>Measures ability of an ML algorithm to model true relationship between features and target</li>
+<li>Simplifying assumptions made by the model to learn the relationship
+<ul>
+<li>Example: Linear vs Parabolic relationship</li>
+</ul></li>
+<li>Low Bias: Less restrictive assupmtions</li>
+<li>High Bias: More restrictive assumptions</li>
+</ul></li>
+<li>Variance
+<ul>
+<li>The difference in model performance across different datasets drawn from the same distribution</li>
+<li>Low Variance: Small changes to model perforamance with changes in datasets</li>
+<li>High Variance: Large changes to model perforamance with changes in datasets</li>
+</ul></li>
+<li>Irreducible Error
+<ul>
+<li>Bayes error</li>
+<li>Cannot be reduced irrespective of the model form</li>
+</ul></li>
+<li>Best model minimizes: <span class="math inline">\(\text{MSE} = \text{bias}^2 + \text{variance}\)</span></li>
+<li>Decision trees have low bias and high variance</li>
+<li>Decision trees are prone to overfitting
+<ul>
+<li>Noisy Samples</li>
+<li>Small data samples in nodes down the tree</li>
+<li>Tree Pruning solves for overfitting
+<ul>
+<li>Adding a cost term to objetive which captures tree complexity</li>
+<li><span class="math inline">\(\text{Tree Score} = SSR + \alpha T\)</span></li>
+<li>As the tree grows in size, the reduction in SSR has to more than offset the complexity cost</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="nature-of-decision-trees" class="level2" data-number="33.4">
+<h2 data-number="33.4" class="anchored" data-anchor-id="nature-of-decision-trees"><span class="header-section-number">33.4</span> Nature of Decision Trees</h2>
+<ul>
+<li>Decision Trees can model non-linear relationships (complex deicison boundaries)</li>
+<li>Spline regressions cannot achieve the same results
+<ul>
+<li>Spline adds indicator variables to capture interactions and create kinks</li>
+<li>But the decision boundary has to be continuous</li>
+<li>The same restriction doesn’t apply to decision trees</li>
+</ul></li>
+<li>Decision Trees don’t require feature sscaling</li>
+<li>Decision Trees are less sensitive to outliers
+<ul>
+<li>Outliers are of various kinds:
+<ul>
+<li>Outliers: Points with extreme values
+<ul>
+<li>Input Features
+<ul>
+<li>Doesn’t impact Decision Trees</li>
+<li>Split finding will ignore the extreme values</li>
+</ul></li>
+<li>Output / Target</li>
+</ul></li>
+<li>Influential / High-Leverage Points: Undue influence on model</li>
+</ul></li>
+</ul></li>
+<li>Decision Trees cannot extrapolate well to ranges outside the training data</li>
+<li>Decision trees cannot capture linear time series based trends / seasonality</li>
+</ul>
+</section>
+<section id="bagging" class="level2" data-number="33.5">
+<h2 data-number="33.5" class="anchored" data-anchor-id="bagging"><span class="header-section-number">33.5</span> Bagging</h2>
+<ul>
+<li>Bootstrap Agrregation</li>
+<li>Sampling with repetition
+<ul>
+<li>Given Dataset of Size N</li>
+<li>Draw N samples with replacement</li>
+<li>Probability that a point (say i) never gets selected
+<ul>
+<li><span class="math inline">\((1 - \frac{1}{N})^N \approx \frac{1}{e}\)</span></li>
+</ul></li>
+<li>Probability that a point (say i) gets selected atleast once
+<ul>
+<li><span class="math inline">\(1 - \frac{1}{e} \approx 63\%\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="random-forest" class="level2" data-number="33.6">
+<h2 data-number="33.6" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">33.6</span> Random Forest</h2>
+<ul>
+<li>Use bootstrap aggregation (bagging) to create multiple datasets
+<ul>
+<li>“Random” subspace of dataset</li>
+</ul></li>
+<li>Use subset of variables for split at each node
+<ul>
+<li>sqrt for classification</li>
+<li>m//3 for regression</li>
+</ul></li>
+<li>Comparison to single decision tree
+<ul>
+<li>Bias remains the same</li>
+<li>Variance decreases</li>
+<li>Randomness in data and slpits reduces the correlation in prediction across trees</li>
+<li>Let <span class="math inline">\(\hat y_i\)</span> be the prediction from ith tree in the forest</li>
+<li>Let <span class="math inline">\(\sigma^2\)</span> be the variance of <span class="math inline">\(\hat y_i\)</span></li>
+<li>Let <span class="math inline">\(\rho\)</span> be the correlation between two trees in the forest</li>
+<li><span class="math inline">\(V(\sum_i \hat y_i) = \sum V(\hat y_i) + 2 \sum\sum COV(\hat y_i, \hat y_j)\)</span></li>
+<li><span class="math inline">\(V(\sum_i \hat y_i) = n \sigma^2 + n(n-1) \rho \sigma^2\)</span></li>
+<li><span class="math inline">\(V( \frac{1}{n} \sum_i \hat y_i) = \rho \sigma^2 + \frac{1-\rho}{n} \sigma^2\)</span></li>
+<li>Variance goes down as more trees are added, but bias stays put</li>
+</ul></li>
+<li>Output Combination
+<ul>
+<li>Majority Voting for Classification</li>
+<li>Averaging for Regression</li>
+</ul></li>
+<li>Out-of-bag (OOB) Error
+<ul>
+<li>Use the non-selected rows in bagging to estimate model performance</li>
+<li>Comparable to cross-validaiton results</li>
+</ul></li>
+<li>Proximity Matrix
+<ul>
+<li>Use OOB observations</li>
+<li>Count the number of times each pair goes to the same terminal node</li>
+<li>Identifies observations that are close/similar to each other</li>
+</ul></li>
+</ul>
+</section>
+<section id="extratrees" class="level2" data-number="33.7">
+<h2 data-number="33.7" class="anchored" data-anchor-id="extratrees"><span class="header-section-number">33.7</span> ExtraTrees</h2>
+<ul>
+<li>Extremely Randomized Trees</li>
+<li>Bagging:
+<ul>
+<li>ExtraTrees: No</li>
+<li>Extremely Randomized Trees: Yes</li>
+</ul></li>
+<li>Mutiple trees are built using:
+<ul>
+<li>Random variable subset for splitting</li>
+<li>Random threshold subsets for a variable for splitting</li>
+</ul></li>
+</ul>
+</section>
+<section id="variable-importance" class="level2" data-number="33.8">
+<h2 data-number="33.8" class="anchored" data-anchor-id="variable-importance"><span class="header-section-number">33.8</span> Variable Importance</h2>
+<ul>
+<li>Split-based importance
+<ul>
+<li>If variable j is used for split
+<ul>
+<li>Calculate the improvement in Gini at the split</li>
+</ul></li>
+<li>Sum this improvement across all trees and splits wherever jth variable is used</li>
+<li>Alternate is to calculate the number of times variable is used for splitting</li>
+<li>Biased in favour of continuous variables which can be split multiple times</li>
+</ul></li>
+<li>Permutation-based importance / Boruta
+<ul>
+<li>Use OOB samples to calculate variable importance</li>
+<li>Take bth tree:
+<ul>
+<li>Pass the OOB samples and calculate accuracy</li>
+<li>Permuate jth variable and calculate the decrease in accuracy</li>
+</ul></li>
+<li>Average this decrease in accuracy across all trees to calculate variable importance for j</li>
+<li>Effect is simialr to setting the coefficient to 0 in regression</li>
+<li>Takes into account if good surrogates are present in the dataset</li>
+</ul></li>
+<li>Partial Dependence Plots
+<ul>
+<li>Marginal effect of of a feature on target</li>
+<li>Understand the relationship between feature and target</li>
+<li>Assumes features are not correlated</li>
+<li><span class="math inline">\(\hat f(x_s) =\frac{1}{C} \sum f(x_s,x_i)\)</span></li>
+<li>Average predictions over all other variables</li>
+<li>Can be used to identify important interactions
+<ul>
+<li>Friedman’s H Statistic</li>
+<li>If features don’t interact Joint PDP can be decomposed into marginals</li>
+</ul></li>
+</ul></li>
+<li>Shapely Values
+<ul>
+<li>Model agnositc feature importance</li>
+</ul></li>
+<li>LIME</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./gen-01-basic-statistics.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Basic Statistics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./gen-03-boosting.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Boosting</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

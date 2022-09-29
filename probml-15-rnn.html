@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DS Notes - 27&nbsp; Recurrent NN</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./probml-16-exemplar.html" rel="next">
+<link href="./probml-14-cnn.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Recurrent NN</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">DS Notes</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./jfsky-00.html" class="sidebar-item-text sidebar-link">SLP Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-01-regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Regex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-02-tokenization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tokenization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-03-vectors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-04-sequence.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sequence Architectures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-05-encoder.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Encoder-Decoder Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-06-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transfer Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./eslr-00.html" class="sidebar-item-text sidebar-link">ESLR Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-01-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-02-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-03-kernel-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kernel Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-04-model-assessment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-08-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-09-additive-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Additive Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-10-boosting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-15-random-forest.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./probml-00.html" class="sidebar-item-text sidebar-link">Notes on ProbML</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-01-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-02-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-03-probability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-04-statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-05-decision_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Decision Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-06-information_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Information Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-08-optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Optimization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-09-discriminant_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Discriminant Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-10-logistic_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-11-linear_regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-13-ffnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Feed Forward NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-14-cnn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Convolution NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-15-rnn.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Recurrent NN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-16-exemplar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Exemplar Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-18-trees.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Trees</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-19-ssl.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SSL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./probml-21-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Rec Sys</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Recurrent NN</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li>RNN maps input sequences to output space in a stateful way</li>
+<li>Output y(t) not only depends on x(t) but also a hidden state h(t)</li>
+<li>Hidden state gets updated over time as the sequence is processed</li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Vec2Seq (Sequence Generation)
+<ul>
+<li>Input is a vector</li>
+<li>Output is a sequence of arbitrary length</li>
+<li>Output sequence is generated one token at a time
+<ul>
+<li><span class="math inline">\(p(y_{1:T} | x) = \sum p(y_{1:T}, h_{1:T} | x)\)</span></li>
+<li><span class="math inline">\(p(y_{1:T} | x) = \sum \prod p(y_t | h_t) \times p(h_t | h_{t-1} , y_{t-1}, x)\)</span></li>
+<li><span class="math inline">\(p(y_t | h_t)\)</span> can be:
+<ul>
+<li>Categorical</li>
+<li>Gaussian</li>
+</ul></li>
+<li><span class="math inline">\(h_t = \phi( W_{xh}[x;y_{t-1}] + W_{hh}h_{t-1} + b_h)\)</span>
+<ul>
+<li>W(x,h) are input to hidden weights</li>
+<li>W(h,h) are hidden to hidden weights</li>
+</ul></li>
+</ul></li>
+<li>RNNs can have unbounded memory unlike Markov models</li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Seq2Vec (Sequence Classification)
+<ul>
+<li>Input is a variable length sequence</li>
+<li>Output is a fixed dimension vector</li>
+<li>For example: Classification Task
+<ul>
+<li><span class="math inline">\(p(y|x_{1:T}) = \text{Cat}(y|S(WH_T))\)</span></li>
+</ul></li>
+<li>Results can be improved if model can depend on both past and future context
+<ul>
+<li>Apply bidirectional RNN</li>
+<li><span class="math inline">\(h^{\rightarrow} = \phi(W_{xh}^{\rightarrow}x_t + W_{hh}^{\rightarrow}h_t)\)</span></li>
+<li><span class="math inline">\(h^{\leftarrow} = \phi(W_{xh}^{\leftarrow}x_t + W_{hh}^{\leftarrow}h_t)\)</span></li>
+<li>Input to the linear layer is concatenation of the two hidden states</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Seq2Seq (Sequence Translation)
+<ul>
+<li>Input is a variable length sequence</li>
+<li>Output is a variable length sequence</li>
+<li>Aligned Case:
+<ul>
+<li>If input and output length are the same</li>
+<li>One label prediction per step</li>
+<li><span class="math inline">\(p(y_{1:T}|h_{1:T}) = \sum \prod p(y_t | h_t) I\{h_t = f(h_{t-1},x_t)\}\)</span></li>
+</ul></li>
+<li>Unaligned Case
+<ul>
+<li>If input and output length are not the same</li>
+<li>Encoder-Decoder architecture</li>
+<li>Encode the sequence to get the context vector</li>
+<li>Generate the output sequence using the decoder</li>
+<li>Teacher Forcing
+<ul>
+<li>While training the model, ground truth is fed to the model and not the labels generated by the model</li>
+<li>Teacher’s values are force fed to the model</li>
+<li>Sometimes results in poor test time performance</li>
+<li>Scheduled Sampling
+<ul>
+<li>Start with teacher forcing</li>
+<li>At regular intervals feed the samples generated from the model</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Backpropagation through Time (BPTT)
+<ul>
+<li>Unrolling the computation graph along time axis</li>
+<li><span class="math inline">\(h_t = W_{hx}x_t + W_{hh}h_{t-1} = f(x_t, h_{t-1}, w_h)\)</span></li>
+<li><span class="math inline">\(o_t = W_{ho}h_t = g(h_t, w_{oh})\)</span></li>
+<li><span class="math inline">\(L = {1 \over T}\sum l(y_t, o_t)\)</span></li>
+<li><span class="math inline">\({\delta L \over \delta w_h} = {1 \over T} \sum {\delta l \over \delta w_h}\)</span></li>
+<li><span class="math inline">\({\delta L \over \delta w_h} = {1 \over T} \sum {\delta l \over \delta o_t} {\delta o_t \over \delta h_t} {\delta h_t \over \delta w_h}\)</span></li>
+<li><span class="math inline">\({\delta h_t \over \delta w_h} = {\delta h_t \over \delta w_h} + {\delta h_t \over \delta h_{t-1}} {\delta h_{t-1} \over \delta w_h}\)</span></li>
+<li>Common to truncate the update to length of the longest subsequence in the batch</li>
+<li>As the sequence goes forward, the hidden state keeps getting multiplied by W(hh)</li>
+<li>Gradients can decay or explode as we go backwards in time</li>
+<li>Solution is to use additive rather than multiplicative updates</li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Gated Recurrent Units
+<ul>
+<li>Learn when to update the hidden state by using a gating unit</li>
+<li>Update Gate: Selectively remember important pieces of information
+<ul>
+<li><span class="math inline">\(Z_t = \sigma(W_{xz} X_t + W_{hz} H_{t-1})\)</span></li>
+</ul></li>
+<li>Reset Gate: Forget things and reset the hidden state when information is no longer useful
+<ul>
+<li><span class="math inline">\(R_t = \sigma(W_{rx} X_t + W_{rh} H_{t-1})\)</span></li>
+</ul></li>
+<li>Candidate State
+<ul>
+<li>Combine old memories that are not reset</li>
+<li><span class="math inline">\(\tilde H_t = \tanh ( W_{xh} X_t + W_{hh} R_t \times H_{t-1})\)</span></li>
+<li>If reset is close to 1, standard RNN</li>
+<li>If reset close to 0, standard MLP</li>
+<li>Captures new short term information</li>
+</ul></li>
+<li>New State
+<ul>
+<li><span class="math inline">\(H_t = Z_t H_{t-1} + (1 - Z_t) \tilde H_t\)</span></li>
+<li>Captures long term dependecies</li>
+<li>If Z is close to 1, the hidden state carries as is and new inputs are ignored</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Long Short Term Memory (LSTM)
+<ul>
+<li>More sophisticated version of GRU</li>
+<li>Augment the hidden state with memory cell</li>
+<li>Three gates control this cell
+<ul>
+<li>Input: <span class="math inline">\(I_t = \sigma( W_{ix} X_t + W_{ih} H_{t-1})\)</span>, what gets read in</li>
+<li>Output: <span class="math inline">\(O_t = \sigma(W_{ox} X_t + W_{oh} H_{t-1})\)</span>, what gets read out</li>
+<li>Forget: <span class="math inline">\(F_t = \sigma (W_{fx} X_t + W_{fh} H_{t-1})\)</span>, when the cell is reset</li>
+</ul></li>
+<li>Candidate Cell State
+<ul>
+<li><span class="math inline">\(\tilde C_t = \tanh ( W_{cx} X_t + W_{ch} H_{t-1})\)</span></li>
+</ul></li>
+<li>Actual Candidate:
+<ul>
+<li><span class="math inline">\(C_t = F_{t} \times C_{t-1} + I_t \times \tilde C_{t}\)</span></li>
+</ul></li>
+<li>Hidden State
+<ul>
+<li><span class="math inline">\(H_t = O_t \times \tanh(C_t)\)</span></li>
+<li>Both output and hidden state for next time step</li>
+<li>Hence, captures short term memory</li>
+</ul></li>
+<li>The memory cell state captures long term memory</li>
+<li>Peephole Connections
+<ul>
+<li>Pass cell state as additional input to the gates</li>
+</ul></li>
+<li><em>How does LSTM solve vanishing gradients problem?</em></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Decoding
+<ul>
+<li>Output is generated one token at a time</li>
+<li>Simple Solution: Greedy Decoding
+<ul>
+<li>Argmax over vocab at each step</li>
+<li>Keep sampling unless <eos> token output</eos></li>
+</ul></li>
+<li>May not be globally optimal path</li>
+<li>Alternative: Beam Search
+<ul>
+<li>Compute top-K candidate outputs at each step</li>
+<li>Expand each one in V possible ways</li>
+<li>Total VK candidates generated</li>
+</ul></li>
+<li>GPT used top-k and top-p sampling
+<ul>
+<li>Top-K sampling: Redistribute the probability mass</li>
+<li>Top-P sampling: Sample till the cumulative probability exceeds p</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Attention
+<ul>
+<li>In RNNs, hidden state linearly combines the inputs and then sends them to an activation function</li>
+<li>Attention mechanism allows for more flexibility.
+<ul>
+<li>Suppose there are m feature vectors or values</li>
+<li>Model decides which to use based on the input query vector q and its similarity to a set of m keys</li>
+<li>If query is most similar to key i, then we use value i.</li>
+</ul></li>
+<li>Attention acts as a soft dictionary lookup
+<ul>
+<li>Compare query q to each key k(i)</li>
+<li>Retrieve the corresponding value v(i)</li>
+<li>To make the operation differentiable:
+<ul>
+<li>Compute a convex combination</li>
+</ul></li>
+<li><span class="math inline">\(Attn(q,(k_1,v_1),(k_2, v_2)...,(k_m,v_m)) = \sum_{i=1}^m \alpha_i (q, \{k_i\}) v_i\)</span>
+<ul>
+<li><span class="math inline">\(\alpha_i (q, \{k_i\})\)</span> are the attention weights</li>
+</ul></li>
+<li>Attention weights are computed from an attention score function <span class="math inline">\(a(q,k_i)\)</span>
+<ul>
+<li>Computes the similarity between query and key</li>
+</ul></li>
+<li>Once the scores are computed, use soft max to impose distribution</li>
+<li>Masking helps in ignoring the index which are invalid while computing soft max</li>
+<li>For computational efficiency, set the dim of query and key to be same (say d)
+<ul>
+<li>The similarity is given by dot product</li>
+<li>The weights are randomly initialized</li>
+<li>The expected variance of dot product will be d.</li>
+<li>Scale the dot product by <span class="math inline">\(\sqrt d\)</span></li>
+<li>Scaled Dot-Product Attention
+<ul>
+<li>Attention Weight: <span class="math inline">\(a(q,k) = {q^Tk \over \sqrt d}\)</span></li>
+<li>Scaled Dot Product Attention: <span class="math inline">\(Attn(Q,K,V) = S({QK^T \over \sqrt d})V\)</span></li>
+</ul></li>
+</ul></li>
+<li>Example: Seq2Seq with Attention
+<ul>
+<li>Consider encoder-decoder architecture</li>
+<li>In the decoder:
+<ul>
+<li><span class="math inline">\(h_t = f(h_{t-1}, c)\)</span></li>
+<li>c is the context vector from encoder</li>
+<li>Usually the last hidden state of the encoder</li>
+</ul></li>
+<li>Attention allows the decoder to look at all the input words
+<ul>
+<li>Better alignment between source and target</li>
+</ul></li>
+<li>Make the context dynamic
+<ul>
+<li>Query: previous hidden state of the decoder</li>
+<li>Key: all the hidden states from the encoder</li>
+<li>Value: all the hidden states from the encoder</li>
+<li><span class="math inline">\(c_t = \sum_{i=1}^T \alpha_i(h_{t-1}^d, \{h_i^e\})h_i^e\)</span></li>
+</ul></li>
+<li>If RNN has multiple hidden layers, usually take the top most layer</li>
+<li>Can be extended to Seq2Vec models</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Transformers
+<ul>
+<li>Transformers are seq2seq models using attention in both encoder and decoder steps</li>
+<li>Eliminate the need for RNNs</li>
+<li>Self Attention:
+<ul>
+<li>Modify the encoder such that it attends to itself</li>
+<li>Given a sequence of input tokens <span class="math inline">\([x_1, x_2, x_3...,x_n]\)</span></li>
+<li>Sequence of output tokens: <span class="math inline">\(y_i = Attn(x_i, (x_1,x_1), (x_2, x_2)...,(x_n, x_n))\)</span>
+<ul>
+<li>Query is xi</li>
+<li>Keys and Values are are x1,x2…xn (all valid inputs)</li>
+</ul></li>
+<li>In the decoder step:
+<ul>
+<li><span class="math inline">\(y_i = Attn(y_{i-1}, (y_1,y_1), (y_2, y_2)...(y_{i-1}, y_{i-1}))\)</span></li>
+<li>Each new token generated has access to all the previous output</li>
+</ul></li>
+</ul></li>
+<li>Multi-Head Attention
+<ul>
+<li>Use multiple attention matrices to capture different nuances and similarities</li>
+<li><span class="math inline">\(h_i = Attn(W_i^q q_i, (W_i^k k_i, W_i^v v_i))\)</span></li>
+<li>Stack all the heads together and use a projection matrix to get he output</li>
+<li>Set <span class="math inline">\(p_q h = p_k h = p_v h = p_o\)</span> for parallel computation **How?</li>
+</ul></li>
+<li>Positional Encoding
+<ul>
+<li>Attention is permutation invariant</li>
+<li>Positional encodings help overcome this</li>
+<li>Sinusoidal Basis</li>
+<li>Positional Embeddings are combined with original input X → X + P</li>
+</ul></li>
+<li>Combining All the Blocks
+<ul>
+<li>Encoder
+<ul>
+<li>Input: $ Z = LN(MHA(X,X,X) + X$</li>
+<li>Encoder: <span class="math inline">\(E = LN(FF(Z) + Z)\)</span>
+<ul>
+<li>For the first layer:
+<ul>
+<li>$ Z = ((X))$</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>In general, model has N copies of the encoder</li>
+<li>Decoder
+<ul>
+<li>Has access to both: encoder and previous tokens</li>
+<li>Input: $ Z = LN(MHA(X,X,X) + X$</li>
+<li>Input $ Z = LN(MHA(Z,E,E) + Z$</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Representation Learning
+<ul>
+<li>Contextual Word Embeddings
+<ul>
+<li>Hidden state depends on all previous tokens</li>
+<li>Use the latent representation for classification / other downstream tasks</li>
+<li>Pre-train on a large corpus</li>
+<li>Fine-tune on small task specific dataset</li>
+<li>Transfer Learning</li>
+</ul></li>
+<li>ELMo
+<ul>
+<li>Embeddings from Language Model</li>
+<li>Fit two RNN models
+<ul>
+<li>Left to Right</li>
+<li>Right to Left</li>
+</ul></li>
+<li>Combine the hidden state representations to fetch embedding for each word</li>
+</ul></li>
+<li>BERT
+<ul>
+<li>Bi-Directional Encoder Representations from Transformers</li>
+<li>Pre-trained using Cloze task (MLM i.e.&nbsp;Masked Language Modeling)</li>
+<li>Additional Objective: Next sentence Prediction</li>
+</ul></li>
+<li>GPT
+<ul>
+<li>Generative Pre-training Transformer</li>
+<li>Causal model using Masked Decoder</li>
+<li>Train it as a language model on web text</li>
+</ul></li>
+<li>T5
+<ul>
+<li>Text-to-Text Transfer Transformer</li>
+<li>Single model to perform multiple tasks</li>
+<li>Tell the task to perform as part of input sequence</li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./probml-14-cnn.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Convolution NN</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./probml-16-exemplar.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Exemplar Methods</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

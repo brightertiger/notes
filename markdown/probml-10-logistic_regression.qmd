@@ -1,0 +1,93 @@
+# Logistic Regression
+
+- Discriminative classification model 
+    - Estimate $p(y | x, \theta)$
+    - $y \in \{1,2,...,C\}$
+
+\
+
+- Binary Logisitc Regression
+    - y is binary {0,1}
+    - $p(y | x, \theta) = Ber(y | \sigma(w^Tx + b))$
+    - $\sigma$ is the sigmoid function
+    - $p(y = 1 | x, \theta) = \sigma(w^Tx +b)$
+    - Alternative equivalent notation y is {-1, +1} 
+    - Compact notation:
+        - $p(\tilde y | x, \theta) = \sigma(\tilde y \times (w^tx + b))$
+    - If the misclassification cost is same across classes, optimal decision rule
+        - predict y = 1 if class 1 is more likely
+        - $p(y = 1 | x) > p (y = 0 | x)$
+        - $\log {p(y = 1 |x) \over p(y = 0 | x)} > 1$
+        - $w^Tx + b > 0$
+        - $w^Tx + b$ is the linear decision boundary of the classifier
+    - Maximum Likelihood Estimation
+        - Minimize the NLL
+        - $\text{NLL} = - \log \prod \text{Ber}(y| \sigma(w^Tx +b))$
+        - $\text{NLL} = -\sum y \log(\hat y) = H(y, \hat y)$ i.e. binary cross-entropy
+        - If compact notation is used 
+            - $\text{NLL} = \sum \log \sigma (\tilde y (w^Tx+b))$
+            - $\text{NLL} = \sum \log ( 1 + \exp (\tilde y (w^Tx +b))))$
+        - Optimization:
+            - $\Delta \text{NLL} =0$ is the first order condition
+            - $\Delta \sigma(x) = \sigma(x) \times (1 - \sigma(x))$
+            - $\Delta NLL = \sum (\hat y - y) x$
+            - Sum of residuals weighted by inputs
+            - Hessian is positive definite making the optimization convex
+            - Minimization of NLL can be achieved by first order methods like SGD
+            - Second order methods like Newton’s method can result in faster convergence
+                - IRLS (iteratively weighted least squares) is the equivalent
+    - MAP Estimation
+        - MLE estimation leads to overfitting
+        - Use zero mean Gaussian priors over w
+        - $p(w) = N(0, \lambda ^{-1} I)$
+        - $L(w) = NLL(w) + \lambda ||w||^2$
+        - $\lambda$ is the L2 regularization which penalizes the weights from growing large
+        - Given the gaussian priors assume zero mean in MAP, it’s important to standardize the input features to make sure they are on the same scale
+
+
+\
+
+- Multinomial Logistic Regression assumes categorical distribution instead of Bernoulli
+    - $p(y=c|x, \theta) = { \exp^{a_c} \over \sum \exp ^a}$
+    - If features are made class dependent, the model is called maximum entropy classifier
+        - Commonly used in NLP
+        - $p(y=c|w, x) \propto exp(w^T\phi(x,c))$
+
+\
+  
+- Hierarchical Classification
+    - Labels follow a taxonomy
+    - Label Smearing: Label is propagated to all the parent nodes
+    - Set up as multi-label classification problem
+
+\
+
+- Handling Many Classes
+    - Hierarchical Softmax
+        - Faster computation of normalization constant in softmax
+        - Place the output nodes in tree structure with frequent classes sitting on top
+        
+    - Class Imbalance
+        - Long-tail has little effect on loss and model may ignore these classes
+        - Use sampling startegies
+        - $p_c = N_c^q / \sum N_c^q$
+        - Instance based sampling: q = 1
+        - Class balanced sampling: q = 0
+        - Square root sampling: q = 0.5
+
+\
+
+- Robust Logistic Regression
+    - Robust to outliers
+    - Mixture Model
+        - Smoothen the likelihood with uniform Bernoulli prior
+        - $p(y | x) = \pi Ber(0.5) + (1 - \pi) Ber(y |x, \theta)$
+    - Bi-tempered Logistic Loss
+        - Tempered Cross-Entropy
+            - Handles mislabeled outliers away from the decision boundary
+        - Tempered Softmax
+            - Handles mislabeled points near the decision boundary
+    - Probit Approximtion
+        - Sigmoid function is similar in shape to Gaussian CDF
+        - Using it gives the probit approximation
+

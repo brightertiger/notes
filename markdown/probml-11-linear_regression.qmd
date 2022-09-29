@@ -1,0 +1,115 @@
+# Linear Regression
+
+- Predict real valued output
+- $p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)$
+- Simple Linear regression has i feature vector
+- Multiple Linear Regression has many feature vectors
+- Multivariate Linear Regression has multiple outputs
+- Feature extractor helps in improving the fit of the model
+
+\
+
+- Least Square Estimate
+    - Minimize the negative log likelihood (NLL)
+    - $\text{NLL}(w, \sigma^2) = {1 \over 2\sigma^2} \sum (y - \hat y)^2 + {N \over 2} \log(2\pi\sigma^2)$
+    - First term is referred as Residual Sum Squares (RSS) 
+    - Ordinary Least Squares
+        - $\Delta_w RSS = 0$
+        - $X^TXw = X^Ty$
+        - Normal Equation because $Xw - y$ is orthogonal to $X$
+        - $w = (X^TX)^{-1}X^Ty$
+        - Hessian is $X^TX$ i.e. positive definite if X is full rank
+    - Inverting $X^TX$ is not easy for numerical reasons as it may be ill-conditioned or singular
+    - A better approach is to compute pseudo-inverse using SVD
+    - If the variance is heteroskedastic, the model becomes weighted least squares.
+        - $p(y|x, \theta) = N(y| wx +b, \sigma^2(x))$ 
+    - In case of if simple linear regression:
+        - $w = C_{xy} / C_{xx}$, i.e. ratio of covariances
+        - $b = \bar y - w \bar x$
+    - In case of two inputs with no correlation:
+        - $W_{X1} = R_{YX2.X1}$
+        - $W_{X2} = R_{YX1.X2}$
+        - Partial Regression Coefficients Y on X1 keeping X2 constant
+    - The estimate of variance from NLL is MSE of residuals
+        - $\hat \sigma^2 = {1 \over N}\sum (y - \hat y)^2$
+        
+\
+
+- Goodness of Fit
+    - Residual Plots: Check if the residuals are normally distributed with zero mean
+    - Prediction Accuracy: RMSE $\sqrt{ {1\over N} RSS}$ measures prediction error
+    - Coefficient of Determination: $R^2 = 1 - {RSS \over TSS}$
+        - TSS: Prediction from baseline model: average of Y
+        - TSS - RSS: Reduction in variance / betterment in fit 
+
+\
+
+- Ridge Regression
+    - MLE / OLS estimates can result in overfitting
+    - MAP estimation with zero mean Gaussian Prior
+        - $p(w) = N(0, \lambda^{-1}\sigma^2)$
+        - $L(w) = RSS + \lambda ||w||^2$
+    - $\lambda$ is the L2 regularization or weight decay
+    - Ridge Regression is connected to PCA
+        - The eigenvectors, eigenvalues of $X^TX$ matrix
+        - Ridge regression shrinks the eigenvectors corresponding to smaller eigenvalues.
+        - $\lambda$ is sometimes referred as shrinkage parameter
+        - Alternate way is to run PCA on X and then run regression
+        - Ridge is a superior approach
+
+\
+
+- Robust Linear Regression
+    - MLE/MAP is sensitive to outliers
+    - Solutions
+        - Replace Gaussian with Student-t distribution which has heavy tails
+            - The model does not get obsessed with outliers
+            - Tails have more mass which gets factored in while maximizing MLE
+        - Compute MLE using EM
+            - Represent Student-t distribution as Gaussian scale mixture
+        - Using Laplace Distribution which is robust to outliers
+        - Using Huber Loss
+            - L2 loss for small errors
+            - L1 loss for large erros
+            - Loss function is differentiable
+        - RANSAC
+            - Random Sample Concensus
+            - Identify outliers from fitted models
+            
+\
+      
+- Lasso Regression
+    - Least absolute shrinkage and selection operator
+    - Case where we want the parameters to be zero i.e. sparse models
+    - Used for feature selection
+    - MAP formulation with Laplace priors
+    - L1 regularization
+    - Rationale for sparsity
+        - Consider Lagrange Formulation with constraint
+        - L1 formulation: $||w|| \le B$
+        - L2 formulation: $||w||^2 \le B$
+        - L1 constraint is a rhombus
+        - L2 constraint is a sphere
+        - The objective is more likely to intersect L1 constraint at an point corner
+        - At the corners the parameters for some dimensions are 0
+    - Regularization Path
+        - Start with very high value of regularization
+        - Gradually decrease the regularization strength
+        - The set of parameters that get swept out is known as regularization path
+        - Performs variable selection
+        
+\
+   
+- Elastic Net
+    - Combination of Ridge and Lasso
+    - Helpful in dealing with correlated variables
+    - Estimates of highly correlated variables tend be equal
+
+\
+
+- Coordinate Descent
+    - Basis for glmnet library
+    - Solve for jth coefficient while all others are fixed
+    - Cycle through the coordinates
+        
+

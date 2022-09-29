@@ -1,0 +1,107 @@
+# Model Selection
+
+## Maximum Likelihood
+
+-   Maximum Likelihood Inference
+    -   Parametric Model
+        -   Random variable \$ z_i \sim g\_\theta(z)\$
+        -   Unknown Parameters $\theta = (\mu, \sigma^2)$
+    -   Likelihood Function
+        -   $L(\theta, Z) = \prod g_\theta(z_i)$
+        -   Probability of observed data under the model $g_\theta$
+    -   Maximize the Likelihood function
+        -   Select the parameters $\theta$ such that the probability of observed data is maximized under the model
+    -   Score Function $\delta L \over \delta \theta$
+    -   Information Matrix $I(\theta) = \delta^2 L \over \delta \theta^2$
+    -   Fisher Information $i(\theta) = I(\theta)_{\hat \theta}$
+-   Sampling Distribution of MLE has limiting normal distribution
+    -   $\theta \rightarrow N(\hat \theta, I(\hat \theta)^{-1})$
+-   OLS estimates are equivalent to MLE estimates for Linear Regression
+    -   $\text{VAR}(\hat \beta) = \sigma^2 / S_{xx}$
+    -   $\text{VAR}(\hat y_i) = \sigma^2 X^* (X'X^-1) X^*$
+
+## Bootstrap
+
+-   Bootstrap assesses uncertainty by sampling from training data
+    -   Estimate different models using bootstrap datasets
+    -   Calculate the variance of estimates for ith observation from these models
+-   Non-Parametric Booststrap
+    -   Uses raw data for sampling, model free
+-   Parametric Bootstrap
+    -   Simulate new target variable by adding gaussian noise to predicted values from model
+    -   Predictions estimated from this sampling will follow Gaussian distribution
+-   Computational alternative to MLE
+    -   No formulae are available
+-   Boostrap mean is equivalent to posterior average in Bayesian inference
+-   Bagging averages predictions over collection of bootstrap samples
+    -   Reduces variance of estimates
+    -   Bagging often descreases mean-squared error
+
+## Bayesian Methods
+
+-   Assume a prior distribution over unknown parameters
+    -   $P(\theta)$
+-   Sampling Distribution of data given the parameters
+    -   $P(Z | \theta)$
+-   Posterior Distribution
+    -   Updated knowledge of parameters after seeing the data
+    -   $P(\theta | Z) \propto P(Z | \theta) \times P(\theta)$
+-   Predictive Distribution
+    -   Predicting values of new unseen observations
+    -   $P(z | Z) = \int P(z | \theta) P(\theta | Z) d\theta$
+-   MAP Estimate
+    -   Maximum a Posterior, point estimate of unknown parameters
+    -   Selec the parameters that maximze posterior density function
+    -   $\hat \theta = \arg \max P(\theta | Z)$
+-   MAP differs from frequentist approaches (like MLE) in its use of prior distrbution
+    -   Prior Distribution acts as regularization
+    -   MAP for linear regression for Gaussian priors yields Ridge Regression
+
+## EM Algorithm
+
+-   Simplify difficult MLE problems
+-   Bimodal Data Distribution
+    -   $Y_1 = \sim N(\mu_1, \sigma^2_1)$
+    -   $Y_2 = \sim N(\mu_2, \sigma^2_2)$
+    -   $Y = \Delta Y_1 + (1 - \Delta) Y_2$
+        -   $\Delta \in \{0,1\}$
+        -   $p(\Delta = 1) = \pi$
+    -   Density function of Y
+        -   $g_Y(y) = (1 - \pi) \phi_1(y) + \pi \phi_2(y)$
+-   Direct maximization of likelihood difficult
+    -   Sum operation inside log
+-   Responsibility
+    -   $\Delta_i$ is latent for a given observation
+    -   $\gamma_i(\Delta | Z, \theta) = P(\Delta = 1 | Z, \theta)$
+    -   Soft Assignments
+-   EM Algorithm
+    -   Take Initial Guesses for paramters
+        -   Sample Mean, Sample Variances, Proportion
+    -   Expentation Step: Compute the responsibility
+        -   $\hat \gamma_i = \hat \pi \phi_2(y_i) / (1 - \hat \pi \phi_1(y_i) + \hat \pi \phi_2(y_i)$
+    -   Maximization Step: Compute the weighted means and variances, and mixing probability
+        -   $\mu_1 = \sum (1 - \hat \gamma_i) y_i / \sum 1 - \hat \gamma_i$
+        -   $\mu_2 = \sum \hat \gamma_i y_i / \sum \hat \gamma_i$
+        -   $\hat \pi = \sum \gamma_i / N$
+
+## MCMC
+
+-   Given a set of random variables $U_1, U_2, U_3...$
+    -   Sampling from joint distribution is difficult
+    -   Sampling from conditional distribution is easy
+    -   For example bayesian inference
+        -   Joint distribution $P(Z, \theta)$
+        -   Conditional Distribution $P(Z | \theta)$
+-   Gibbs Sampling
+    -   Take Some initial values of RVs $U^0_k$
+    -   Draw from conditional Distribution
+        -   $P(U^0_1 | U^0_1, U^0_2...., U^0_K)$
+    -   Continue until the joint distribution doesn't change
+    -   Markov Chain whose stationary distribution is the true joint distribution
+    -   Markov Chain Monte Carlo
+-   Gibbs Sampling is related to EM algorithm
+    -   Generate $\Delta_i \in {0,1}$ using $p(\Delta_i = 1) = \gamma_i (\theta)$
+    -   Calculate the means and variances
+        -   $\mu_1 = \sum (1 - \Delta_i) y_i / \sum 1 - \Delta_i$
+        -   $\mu_2 = \sum \Delta_i y_i / \sum \Delta_i$
+    -   Keep repeating until the join distribution doesn't change

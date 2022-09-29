@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DS Notes - 3&nbsp; Vectors</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./jfsky-04-sequence.html" rel="next">
+<link href="./jfsky-02-tokenization.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">DS Notes</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./jfsky-00.html" class="sidebar-item-text sidebar-link">SLP Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-01-regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Regex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-02-tokenization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tokenization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-03-vectors.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-04-sequence.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sequence Architectures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-05-encoder.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Encoder-Decoder Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jfsky-06-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transfer Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./eslr-00.html" class="sidebar-item-text sidebar-link">ESLR Notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-01-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Methods for Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-02-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linear Methods for Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-03-kernel-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kernel Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-04-model-assessment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-07-model-assessment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-08-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-09-additive-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Additive Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eslr-15-random-forest.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lexical-semantics" id="toc-lexical-semantics" class="nav-link active" data-scroll-target="#lexical-semantics"><span class="toc-section-number">3.1</span>  Lexical Semantics</a></li>
+  <li><a href="#vector-semantics" id="toc-vector-semantics" class="nav-link" data-scroll-target="#vector-semantics"><span class="toc-section-number">3.2</span>  Vector Semantics</a></li>
+  <li><a href="#tf-idf" id="toc-tf-idf" class="nav-link" data-scroll-target="#tf-idf"><span class="toc-section-number">3.3</span>  TF-IDF</a></li>
+  <li><a href="#pmi" id="toc-pmi" class="nav-link" data-scroll-target="#pmi"><span class="toc-section-number">3.4</span>  PMI</a></li>
+  <li><a href="#vector-representation" id="toc-vector-representation" class="nav-link" data-scroll-target="#vector-representation"><span class="toc-section-number">3.5</span>  Vector Representation</a></li>
+  <li><a href="#word2vec" id="toc-word2vec" class="nav-link" data-scroll-target="#word2vec"><span class="toc-section-number">3.6</span>  Word2Vec</a></li>
+  <li><a href="#skipgram" id="toc-skipgram" class="nav-link" data-scroll-target="#skipgram"><span class="toc-section-number">3.7</span>  Skipgram</a></li>
+  <li><a href="#enhancements" id="toc-enhancements" class="nav-link" data-scroll-target="#enhancements"><span class="toc-section-number">3.8</span>  Enhancements</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="lexical-semantics" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="lexical-semantics"><span class="header-section-number">3.1</span> Lexical Semantics</h2>
+<ul>
+<li>Issues that make it harder for syntactic models to scale well</li>
+<li>Lemmas and word forms (sing vs sang vs sung are infinitive forms of sing)</li>
+<li>Word Sense Disambiguation (mouse animal vs mouse hardware)</li>
+<li>Synonyms with same propositional meaning (couch vs sofa)</li>
+<li>Word Relatedness (coffee vs cup)</li>
+<li>Semantic Frames (A buy from B vs B sell to A)</li>
+<li>Connotation (affective meaning)</li>
+</ul>
+</section>
+<section id="vector-semantics" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="vector-semantics"><span class="header-section-number">3.2</span> Vector Semantics</h2>
+<ul>
+<li>Represent words using vectors called “embeddings”</li>
+<li>Derived from co-occurance matrix</li>
+<li>Document Vectors
+<ul>
+<li>Term-Document Matrix</li>
+<li>|V| X |D| Dimension</li>
+<li>Count of times a word shows up in a document</li>
+<li>Vector of the document in |V| dimension space</li>
+<li>Used for informational retrieval</li>
+<li>Vector Space Model</li>
+</ul></li>
+<li>Word Vectors
+<ul>
+<li>Term-Term Matrix<br>
+</li>
+<li>|V| x |V| dimension</li>
+<li>Number of times a word and context word show up in the same document</li>
+<li>Word-Word co-occurance matrix</li>
+<li>Sparsity is a challenge</li>
+</ul></li>
+<li>Cosine Distance
+<ul>
+<li>Normalized Dot Product</li>
+<li>Normalized by the l2-norm, to control for vector size</li>
+<li><span class="math inline">\(\cos \theta = a.b / |a||b|\)</span></li>
+<li>1 if vectors are in the same direction</li>
+<li>-1 if vectors are in opposite direction</li>
+<li>0 if vectors are perpendicular</li>
+<li>For nomrlized vectors, it’s directly related to euclidean distance</li>
+<li><span class="math inline">\(|a - b|^2 = |a|^2 + |b|^2 - 2|a||b|\cos\theta = 2(1 - \cos \theta)\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="tf-idf" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="tf-idf"><span class="header-section-number">3.3</span> TF-IDF</h2>
+<ul>
+<li>Term Frequency
+<ul>
+<li>Frequency of word t in document d</li>
+<li><span class="math inline">\(tf_{t,d} = \text{count}(t,d)\)</span></li>
+<li>Smooth TF</li>
+<li><span class="math inline">\(tf_{t,d} = \log(1 + \text{count}(t,d))\)</span></li>
+</ul></li>
+<li>Document Frequency
+<ul>
+<li>Number of documents in which term t appears</li>
+<li><span class="math inline">\(df_t\)</span></li>
+</ul></li>
+<li>Inverse Document Frequency
+<ul>
+<li><span class="math inline">\(idf_t = \log(N / df_t)\)</span></li>
+</ul></li>
+<li>TF-IDF
+<ul>
+<li><span class="math inline">\(w_{t,d} = tf_{t,d} \times idf_t\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="pmi" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="pmi"><span class="header-section-number">3.4</span> PMI</h2>
+<ul>
+<li>Ratio
+<ul>
+<li>How often to x and y actually co-occur?</li>
+<li>How often will x and y co-occur if they were independent?</li>
+</ul></li>
+<li><span class="math inline">\(I(x,y) = \log ({P(x,y) \over P(x)P(y)})\)</span></li>
+<li>Ranges from negative to positive infinity</li>
+<li>Positive PMI max(0, PMI)</li>
+</ul>
+</section>
+<section id="vector-representation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="vector-representation"><span class="header-section-number">3.5</span> Vector Representation</h2>
+<ul>
+<li>For a given word T
+<ul>
+<li>Term-Document Matrix</li>
+<li>Each word vector has |D| dimensions</li>
+<li>Each cell is weighted using TF-IDF logic</li>
+</ul></li>
+<li>Document Vector
+<ul>
+<li>Average of all word vecotrs appearing in the document</li>
+<li>Similarity is calculated by cosine distance</li>
+</ul></li>
+</ul>
+</section>
+<section id="word2vec" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="word2vec"><span class="header-section-number">3.6</span> Word2Vec</h2>
+<ul>
+<li>Tf-IDF and PMI generate sparse vectors</li>
+<li>Need for dense and more efficient representation of words</li>
+<li>Static EMbeddings
+<ul>
+<li>Skipgram with Negative Sampling</li>
+</ul></li>
+<li>Contextual Embeddings
+<ul>
+<li>Dynamic embedding for each word</li>
+<li>Changes with context (ex - positional embedding)</li>
+</ul></li>
+<li>Self Supervised Learning</li>
+</ul>
+</section>
+<section id="skipgram" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="skipgram"><span class="header-section-number">3.7</span> Skipgram</h2>
+<ul>
+<li>Algorithm
+<ul>
+<li>Treat tatget workd and neighbouring context word as positive samples (Window)</li>
+<li>Randomly sample other words from vocab as negative samples</li>
+<li>Use FFNN / Logistic Regression train a classifier</li>
+<li>Use the learned weights as embeddings</li>
+</ul></li>
+<li>Positive Examples
+<ul>
+<li>Context Window of Size 2</li>
+<li>All words +-2 from the given word</li>
+</ul></li>
+<li>Negative Examples
+<ul>
+<li>Unigram frequency</li>
+<li>Downweighted to avoid sampling stop words frequently</li>
+<li><span class="math inline">\(P_{ij} \propto f_{ij}^{0.75}\)</span></li>
+</ul></li>
+<li>Classifier
+<ul>
+<li>Maximize the similarity to positive samples</li>
+<li>Minimize the similarity to negative samples</li>
+<li><span class="math inline">\(L_{CE} = \log P(+ | w,C_+) - \sum \log P(- | w,C_-)\)</span></li>
+<li><span class="math inline">\(L_{CE} = \log \sigma(w . C_+) - \sum \log \sigma(-w . C_-)\)</span></li>
+<li>Use SGD to update w</li>
+</ul></li>
+<li>Each word has two separate embeddings
+<ul>
+<li>target (when is shows up as w)</li>
+<li>context (when it shows up as c)</li>
+<li>Final embedding is the sum of the two</li>
+</ul></li>
+</ul>
+</section>
+<section id="enhancements" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="enhancements"><span class="header-section-number">3.8</span> Enhancements</h2>
+<ul>
+<li>Unknown / OOV words
+<ul>
+<li>Use subwords models like FastText</li>
+<li>n-grams on characters</li>
+</ul></li>
+<li>GloVe
+<ul>
+<li>Global vectors</li>
+<li>Ratios of probabilities form word-word co-occurance matrix</li>
+</ul></li>
+<li>Similarity
+<ul>
+<li><span class="math inline">\(a:b :: a':b'\)</span></li>
+<li><span class="math inline">\(b' = \arg \min \text{distance}(x, b - a + a')\)</span></li>
+</ul></li>
+<li>Bias
+<ul>
+<li>Allocation Harm
+<ul>
+<li>Unfair to different groups</li>
+<li>father-doctor, mother - housewife</li>
+</ul></li>
+<li>Representational Harm
+<ul>
+<li>Wrong association for marginal groups</li>
+<li>African-american names to negative sentiment words</li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./jfsky-02-tokenization.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tokenization</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./jfsky-04-sequence.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sequence Architectures</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

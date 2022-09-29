@@ -1,0 +1,127 @@
+# Vectors
+
+## Lexical Semantics
+
+-   Issues that make it harder for syntactic models to scale well
+-   Lemmas and word forms (sing vs sang vs sung are infinitive forms of sing)
+-   Word Sense Disambiguation (mouse animal vs mouse hardware)
+-   Synonyms with same propositional meaning (couch vs sofa)
+-   Word Relatedness (coffee vs cup)
+-   Semantic Frames (A buy from B vs B sell to A)
+-   Connotation (affective meaning)
+
+## Vector Semantics
+
+-   Represent words using vectors called "embeddings"
+-   Derived from co-occurance matrix
+-   Document Vectors
+    -   Term-Document Matrix
+    -   \|V\| X \|D\| Dimension
+    -   Count of times a word shows up in a document
+    -   Vector of the document in \|V\| dimension space
+    -   Used for informational retrieval
+    -   Vector Space Model
+-   Word Vectors
+    -   Term-Term Matrix\
+    -   \|V\| x \|V\| dimension
+    -   Number of times a word and context word show up in the same document
+    -   Word-Word co-occurance matrix
+    -   Sparsity is a challenge
+-   Cosine Distance
+    -   Normalized Dot Product
+    -   Normalized by the l2-norm, to control for vector size
+    -   $\cos \theta = a.b / |a||b|$
+    -   1 if vectors are in the same direction
+    -   -1 if vectors are in opposite direction
+    -   0 if vectors are perpendicular
+    -   For nomrlized vectors, it's directly related to euclidean distance
+    -   $|a - b|^2 = |a|^2 + |b|^2 - 2|a||b|\cos\theta = 2(1 - \cos \theta)$
+
+## TF-IDF
+
+-   Term Frequency
+    -   Frequency of word t in document d
+    -   $tf_{t,d} = \text{count}(t,d)$
+    -   Smooth TF
+    -   $tf_{t,d} = \log(1 + \text{count}(t,d))$
+-   Document Frequency
+    -   Number of documents in which term t appears
+    -   $df_t$
+-   Inverse Document Frequency
+    -   $idf_t = \log(N / df_t)$
+-   TF-IDF
+    -   $w_{t,d} = tf_{t,d} \times idf_t$
+
+## PMI
+
+-   Ratio
+    -   How often to x and y actually co-occur?
+    -   How often will x and y co-occur if they were independent?
+-   $I(x,y) = \log ({P(x,y) \over P(x)P(y)})$
+-   Ranges from negative to positive infinity
+-   Positive PMI max(0, PMI)
+
+## Vector Representation
+
+-   For a given word T
+    -   Term-Document Matrix
+    -   Each word vector has \|D\| dimensions
+    -   Each cell is weighted using TF-IDF logic
+-   Document Vector
+    -   Average of all word vecotrs appearing in the document
+    -   Similarity is calculated by cosine distance
+
+## Word2Vec
+
+-   Tf-IDF and PMI generate sparse vectors
+-   Need for dense and more efficient representation of words
+-   Static EMbeddings
+    -   Skipgram with Negative Sampling
+-   Contextual Embeddings
+    -   Dynamic embedding for each word
+    -   Changes with context (ex - positional embedding)
+-   Self Supervised Learning
+
+## Skipgram
+
+-   Algorithm
+    -   Treat tatget workd and neighbouring context word as positive samples (Window)
+    -   Randomly sample other words from vocab as negative samples
+    -   Use FFNN / Logistic Regression train a classifier
+    -   Use the learned weights as embeddings
+-   Positive Examples
+    -   Context Window of Size 2
+    -   All words +-2 from the given word
+-   Negative Examples
+    -   Unigram frequency
+    -   Downweighted to avoid sampling stop words frequently
+    -   $P_{ij} \propto f_{ij}^{0.75}$
+-   Classifier
+    -   Maximize the similarity to positive samples
+    -   Minimize the similarity to negative samples
+    -   $L_{CE} = \log P(+ | w,C_+) - \sum \log P(- | w,C_-)$
+    -   $L_{CE} = \log \sigma(w . C_+) - \sum \log \sigma(-w . C_-)$
+    -   Use SGD to update w
+-   Each word has two separate embeddings
+    -   target (when is shows up as w)
+    -   context (when it shows up as c)
+    -   Final embedding is the sum of the two
+
+## Enhancements
+
+-   Unknown / OOV words
+    -   Use subwords models like FastText
+    -   n-grams on characters
+-   GloVe
+    -   Global vectors
+    -   Ratios of probabilities form word-word co-occurance matrix
+-   Similarity
+    -   $a:b :: a':b'$
+    -   $b' = \arg \min \text{distance}(x, b - a + a')$
+-   Bias
+    -   Allocation Harm
+        -   Unfair to different groups
+        -   father-doctor, mother - housewife
+    -   Representational Harm
+        -   Wrong association for marginal groups
+        -   African-american names to negative sentiment words

@@ -1,0 +1,179 @@
+# Boosting
+
+## Overview
+
+-   Combine multiple rules of thumb to make an accurate and informed decision
+    -   Bagging: Models are buit in parallel on different data subsets
+    -   Boosting: Models are built in sequence with modified different samples weights
+        -   $F(x_i) = \sum_m \alpha_m f_m(x_i)$
+        -   $f_m$ and $\alpha_m$ are fit jointly
+-   PAC Learning Framework
+    -   Probably Approximately Correct
+    -   Is the problem learnable?
+    -   Model has error $< \epsilon$ with probability $> (1 -\delta)$
+-   An algorithm that satisfies the PAC thresholds is a strong learner
+-   Strong learners are complex models with many parameters and require a lot of training data
+-   Weak learners are algorithms that perform slightly better than random guessing
+-   Schapire: Strength of Weak Learnability
+    -   If a problem can be solved by strong learner, it can be solved by a collection of weak learners.
+    -   Hypothesis boosting mechanism
+    -   Construct three hypotheses, trained on different data subsets
+        -   H1: Complete Data
+        -   H2: Balanced Sampling of correct and incorrect predictions from H1
+        -   H3: Disagreements between H1 and H2 predictions
+        -   Scoring: Majority Voting of H1, H2 and H3
+    -   Improved performance but cannot be scaled easily
+-   Adaboost - Adaptive Boosting
+    -   Additive Model
+    -   Contruct many hypothesis (more than three)
+    -   The importance/weight of each new hypotheses added "adapts" or changes
+        -   $\alpha_m = \frac{1}{2}\log\lbrack \frac{1-\epsilon_m}{\epsilon_m} \rbrack$
+        -   $\epsilon_m$ si the weighted classification error
+    -   Every sample has a weight associated while constructing a weak hypothesis
+        -   Exponential Weighting scheme
+        -   Correctly Classifier: $w_i = w_i \times \exp^{\alpha}$
+        -   Incorrectly Classifier: $w_i = w_i \times \exp^{-\alpha}$
+    -   Underfitting: Not enough hypothesis added to ensemble
+    -   Overfitting: Not using weak learners as hypothesis
+-   Gradient Boosting
+    -   Uses gradients of the loss function to compute the weights
+    -   Gradients are a proxy of how poorly a data point is classified
+    -   Adaboost is a special case of gradient boosting
+
+## Gradient Boosting
+
+-   Boosting paradigm extended to general loss functions
+    -   Beyond squared and exponential loss
+    -   Any loss function that's differentiable and convex
+    -   Gradient Descent + Boosting
+-   Derivation
+    -   $F(x_i) = \sum_m \alpha_m f_m(x_i)$
+    -   $f_m(x_i) = \arg \min_{f \in H} L(F(x_i) + \alpha f_m(x_i))$
+    -   This optimization is analogous to gradient descent in functional space
+    -   Taylor Approximation
+        -   $\min L(F(x_i) + \alpha f_m(x_i))$
+        -   $\min L(F(x_i)) + <\alpha f_m(x_i), \frac{\delta L}{\delta F} >$
+            -   The first term is constant
+            -   The second term is inner product over two functions
+        -   $\min <\alpha f_m(x_i), \frac{\delta L}{\delta F} >$
+            -   Only interested in the behaviour of these function over training data
+            -   Evaluate this functions at different points in training data
+            -   Take the inner product
+        -   $\min \sum_i \frac{\delta L}{\delta F(x_i)} \times \alpha f(x_i)$
+        -   Pseudo-Residual
+            -   $-\frac{\delta L}{\delta F(x_i)}$
+        -   $\min - \sum_i r_i \times \alpha f(x_i)$
+        -   The ensemble makes improvement as long as $\sum_i r_i f(x_i) < 0$
+    -   Modifications for CART:
+        -   Using CART as weak learners
+        -   The minimization problem from Taylor approx can't be directly optimized by CART
+        -   Need to modify this to a functional form that can be easily handled (squared loss)
+            -   $r_i$ is independent of $f_m$, hence $\sum r_i ^2$ is a constant
+            -   $\sum \alpha f_m (x_i) ^2$ can also be treated as a constant
+                -   Scale factor to restrict the predictions to certain range
+            -   $\min \sum r_i ^2 -2 \sum_i r_i \times \alpha f(x_i) + \sum \alpha f_m (x_i) ^2$
+            -   $\min \sum (r_i - \alpha f(x_i))^2$
+            -   This squared-loss can be minimized by CART easily
+        -   Optimal value of $\alpha$ via Line Search
+            -   $L = \sum (r_i - \alpha f(x_i))^2$
+            -   $\alpha^* = \frac{\sum r_i f(x_i)}{\sum f(x_i)^2} \approx 1$
+-   Algorithm
+    -   Given
+        -   Data $\lbrace x_i, y_i \rbrace$
+        -   Loss Function $L(y_i, F(x_i))$
+    -   Initialize the model with a constant value
+        -   $\min L(y_i, \gamma)$
+    -   Compute the pseudo residual
+        -   $r_{im} = -\frac{\delta L(y_i, F(x_i))}{\delta F(x_i)}$\
+    -   Build the new weak learner on pseudo residuals
+        -   Say a decision tree
+        -   $\gamma_{jm} = \arg\min \sum_{x_\in R_{ij}} L(y_i, F_m(x_i) + \gamma)$
+        -   Optimal $\gamma_{jm}$ value is the average of residuals in the leaf node j
+            -   Only in case of squared loss L in regression setting
+    -   Update the ensemble
+        -   $F_{m+1}(x_i) = F_m(x_i) + \nu \sum_j \gamma_{jm} I(x_i \in R_{jm})$
+        -   $\nu$ is the step size or shrinkage
+        -   It prevents overfitting
+        -   1st order Taylor approximation works only for small changes
+-   Extension to Classification
+    -   Build a weak learner to predict log-odds
+    -   Log Odds to Probability: $p = \frac{e^{\log(odds)}}{1+ e^{\log(odds)}}$\
+    -   Objective is to minimize Negative Log-Likelihood
+        -   $NLL = - \sum y_i \log(p_i) + (1 - y_i) \log(1-p_i)$
+        -   $NLL = - \sum y_i \log(\frac{p_i}{1-p_i}) + log(1-p_i)$
+        -   $NLL = - \sum y_i \log(odds) - \log(1 + \exp^{\log(odds)})$
+    -   Compute Psuedo Residuals
+        -   $\frac{\delta NLL}{\delta \log(odds)}$
+        -   $r_{im} = p_i - y_i$
+    -   Algorithm
+        -   Given
+            -   Data $\lbrace x_i, y_i \rbrace$
+            -   Loss Function $L(y_i, F(x_i))$
+        -   Initialize the model with a constant value
+            -   Log-Odds that minimizes NLL
+            -   $\min L(y_i, \gamma)$
+        -   Calculate Psuedo Residuals
+            -   $r_{im} = p_i - y_i$
+        -   Build the new weak learner on pseudo residuals
+            -   $\gamma_{jm} = \arg \min \sum_{x_\in R_{ij}} L(y_i, F_m(x_i) + \gamma)$
+            -   Minimizing this function not easy
+            -   Use 2nd order Taylor Approximation -
+                -   $\min L(y_i, F(x_i) + \gamma) = C + \gamma \frac{dL}{dF} + {1 \over 2}\gamma^2 \frac{d^2L}{dF^2}$
+                -   $\gamma^* = - \frac{dL}{dF} / \frac{d^2L}{dF^2}$
+                -   $\frac{dL}{dF} = p_i - y_i$
+                -   $\frac{d^2L}{dF^2} = p_i (1 - p_i)$
+            -   $\gamma^* = \frac{p_i - y_i}{p_i (1 - p_i)}$
+        -   Update the ensemble
+            -   $F_{m+1}(x_i) = F_m(x_i) + \nu \sum_j \gamma_{jm} I(x_i \in R_{jm})$
+
+## Adaboost for Classification
+
+-   Additively combines many weak learners to make classifications
+-   Adaptively re-weights incorrectly classified points
+-   Some weak learners get more weights in the final ensemble than others
+-   Each subsequent learner accounts for the mistakes made by the previous one
+-   Uses exponential loss
+    -   $y \in \{-1,1\}$
+    -   $L(y_i, f(x_i)) = \exp^{-y_i f(x_i)}$
+    -   Upper bound on 0-1 loss, same as logistic loss
+    -   Rises more sharply than logistic loss in case of wrong predictions
+    -   LogitBoost minimizes logistic loss
+        -   $\log(1 + \exp^{-y_i f(x_i)})$\
+-   Objective Function
+    -   Additive Ensemble: $F(x) = \sum_m \alpha_j f_j(x)$
+    -   Loss: $L = \sum_i \exp^{-\frac{1}{2} y_i \times F(x)}$
+    -   At mth round:
+        -   $L = \sum_i \exp^{- \frac{1}{2} y_i \times \sum_m \alpha_m f_m(x)}$
+        -   $L = \sum_i \exp^{-\frac{1}{2} y_i \times \sum_{m-1} \alpha_j f_j(x)} \times \exp^{- \frac{1}{2} y_i \alpha_m f_m(x_i)}$
+        -   Assume all the values till m-1 as constant
+        -   $L = \sum_i w^m_i \times \exp^{- \frac{1}{2} y_i \alpha_m f_m(x_i)}$
+        -   Minimizie E wrt to $\alpha_m$ to find the optimal value
+        -   $L = \sum_{corr} w^m_i \exp^{- \frac{1}{2} \alpha_m} + \sum_{incorr} w^m_i \exp^{ \frac{1}{2} \alpha_m}$
+        -   Assuming $\epsilon_m$ as the weighted misclassification error
+        -   $L = \epsilon_m \exp^{\frac{1}{2} \alpha_m} + (1-\epsilon_m) \exp^{- \frac{1}{2} \alpha_m}$
+        -   Optimal value of $\alpha_m^* = \frac{1}{2}\log\lbrack \frac{1-\epsilon_m}{\epsilon_m} \rbrack$
+-   Algorithm
+    -   Initialization: Give equal weights to all observations
+    -   For next m rounds:
+        -   Fit a weak learner
+        -   Calculate weighted error $\epsilon_m$
+            -   $\epsilon_m = \frac{\sum_i w_i^m I(y_i \ne f_m(x_i))}{\sum_i w_i^m}$
+        -   Calculate the weight of the new weak learner
+            -   $\alpha_m = \frac{1}{2}\log\lbrack \frac{1-\epsilon_m}{\epsilon_m} \rbrack$
+        -   Update the sample weights
+            -   $w_i^{m+1} = w_i^{m} \times \exp^{\alpha^m \times I(y_i \ne f_m(x_i))}$
+        -   Normalize
+            -   Scale factor $2 \sqrt{\epsilon(1-\epsilon)}$
+-   Can be modified to work with regression problems
+
+## Notes
+
+-   Gradient boosting uses weak learners which have high bias and low variance and gradually reduces the bias over the ensemble by sequentially combining these weak learners
+-   Chronology:
+    -   Adaboost
+    -   Adaboost as gradient descent
+    -   Generalize adaboost to any gradient descent
+-   Difference between Gradient Descent and Gradient Boosting
+    -   In gradient descent, the gradients are used to update parameters of the model
+    -   In gradient boosting, the gradients are used to build new models
+    -   Gradient boosting is a meta model that combines weak learners

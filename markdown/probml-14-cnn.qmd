@@ -1,0 +1,131 @@
+# Convolution NN
+
+- MLPs not effective for images
+    - Different sized inputs
+    - Translational invariance difficult to achieve
+    - Weight matrix prohibitive in size
+    
+- Convolutional Neural Networks
+    - Replace matrix multiplication with convolution operator
+    - Divide image into overlapping 2d patches
+    - Perform template matching based on filters with learned parameters
+    - Number of parameters significantly reduced
+    - Translation invariance easy to achieve
+
+\
+
+- Convolution Operators
+    - Convolution between two functions
+        - $[f \star g](z) = \int f(u) g(z-u) du$
+    - Similar to cross-correlation operator
+        - $[w \star x](i) = \sum_u^{L-1} w_ux_{i+u}$
+    - Convolution in 2D
+        - $[W \star X](i,j) = \sum_{u=0}^{H-1}\sum_{v=0}^{W-1} w_{u,v}x_{i+u,j+v}$
+        - 2D convolution is template matching, feature detection
+        - The output is called feature map
+    - Convolution is matrix multiplication
+        - The corresponding weight matrix is Toeplitz like
+        - $y = Cx$
+        - $C = [[w_1, w_2,0|w_3, w_4, 0|0,0,0],[0, w_1, w_2 | 0, w_3, w_4 | 0,0,0],....]$
+        - Weight matrix is sparse in a typical MLP setting
+    - Valid Convolution
+        - Filter Size: $(f_h, f_w)$
+        - Image Size: $(x_h, x_w)$
+        - Output Size : $(x_h - f_w + 1, x_w - f_w + 1)$
+    - Padding
+        - Filter Size: $(f_h, f_w)$
+        - Image Size: $(x_h, x_w)$
+        - Padding Size: $(p_h, p_w)$
+        - Output Size : $(x_h + 2p_h - f_w + 1, x_w + 2p_w - f_w + 1)$
+        - If 2p = f - 1, then output size is equal to input size
+    -  Strided Convolution
+        - Skip every sth input to reduce redundancy
+        - Filter Size: $(f_h, f_w)$
+        - Image Size: $(x_h, x_w)$
+        - Padding Size: $(p_h, p_w)$
+        - Stride Size: $(s_h, s_w)$
+        - Output Size: $\lbrack {x_h + 2p_h -f_h +s_h \over s_h}, {x_w + 2p_w -f_w + s_w \over s_w} \rbrack$
+    - Mutiple channels
+        - Input images have 3 channels
+        - Define a kernel for each input channel
+        - Weight is a 3D matrix
+        - $z_{i,j} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c}$
+    - In order to detect multiple features, extend the dimension of weight matrix
+        - Weight is a 4D matrix
+        - $z_{i,j,d} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c,d}$
+        - Output is a hyper column formed by concatenation of feature maps
+    - Special Case: (1x1) point wise convolution
+        - Filter is of size 1x1.
+        - Only the number of channels change from input to output
+        - $z_{i,j,d} = \sum x_{i,j,c}w_{0,0,c,d}$
+    - Pooling Layers
+        - Convolution preserves information about location of input features i.e. equivariance
+        - To achieve translational invariance, use pooling operation
+        - Max Pooling
+            - Maximum over incoming values
+        - Average Pooling
+            - Average over incoming values
+        - Global Average Pooling
+            - Convert the (H,W,D) feature maps into (1,1,D) output layer
+            - Usually to compute features before passing to fully connected layer
+    - Dilated Convolution
+        - Convolution with holes
+        - Takes every rth input (r is the dilation rate)
+        - The filters have 0s
+        - Increases the receptive field
+    - Transposed Convolution
+        - Produce larger output form smaller input
+        - Pad the input with zeros and then run the filter
+    - Depthwise
+
+\
+
+- Normalization
+    - Vanishing / Exploding gradient issues in deeper models
+    - Add extra layers to standardize the statistics of hidden units
+    - Batch Normalization
+        - Zero mean and unit variance across the samples in a minibatch
+        - $\hat z_n = {z_n - \mu_b \over \sqrt{\sigma^2_b +\epsilon}}$
+        - $\tilde z_n = \gamma \hat z_n + \beta$
+        - $\gamma, \beta$ are learnable parameters
+        - When applied to input layer, BN is close to unsual standardization process
+        - For other layers, as model trains, the mean and variance change
+            - Internal Covariate Shift
+        - At test time, the inference may run on streaming i.e. one example at a time
+            - Solution: After training, re-compute the mean and variance across entire training batch and then freeze the parameters
+            - Sometimes, after recomputing, the BN parameters are fused to the hidden layer. This results in fused BN layer
+        - BN struggles when batch size is small
+    - Layer Normalization
+        - Pool over channel, height and width
+        - Match on batch index
+    - Instance Normalization
+        - Pool over height and width
+        - Match over batch index
+    - Normalization Free Networks
+        - Adaptive gradient clipping
+\
+
+- Common Architectures
+    - ResNet
+        - Uses residula blocks to learn small perturbation in inputs
+        - Residual Block: conv:BN:ReLU:conv:BN
+        - Use padding, 1x1 convolution to ensure that additive operation is valid
+    - DenseNet
+        - Concatenate (rather than add) the output with the input
+        - $x \rightarrow [x, f_1(x), f_2(x, f_1(x)), f_3(x, f_1(x), f_2(x))]$
+        - Computationally expensive
+    - Neural Architecture Search
+        - EfficeintNetV2
+\
+
+- Adversarial Exmaples
+    - White-Box Attacks
+        - Gradient Free
+        - Add small perturbation to input that changes the prediction from classifier
+        - Targeted attack
+    - Black-Box Attack
+        - Gradient Free
+        - Design fooling images as apposed to adversarial images
+        
+    
+

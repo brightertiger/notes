@@ -1,0 +1,193 @@
+# Optimization
+
+- Optimization Problem: Try to find values for a set of variables that minimize/maximize a scalar valued objective function
+    - $\arg \min_{\theta}L(\theta)$
+-  The point that satisfies the optimization problem is called global optimum
+- Local optimum is a point that has optimal objective value compared to nearby points.
+- Optimality Conditions
+    - gradient $g(\theta) = \Delta L(\theta)$ is zero
+    - hessain $H(\theta) = \Delta^2 L(\theta)$ is positive definite
+- Unconstrained Optimization: Finding any value in parameter space that minimizes the loss
+- Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}$
+    - I is the set of ineuqliaty constraints
+    - K is the set of equality constraints
+    - If there are too many constraints the feasible set may become empty.
+- Smooth Optimization: Objective and constraints are continuously differentiable 
+- Lipschitz Constant: $|f(x_1) - f(x_2)| \le L|x_1 - x_2|$
+    - Function cannot change by more than L units if input changes by 1 unit
+- Non-smooth Optimization: Some points where gradient of the objective or the constraints is not well defined
+- Composite Objective: Contains both smooth and non-smooth terms. 
+- Subgradient: Generalized notion of derivative to work with functions having local discontinuities.
+
+\
+
+- First-Order Optimization Methods
+    - Leverage first-order derivatives of the objective function
+    - Ignore the curvature information
+    - $\theta_t = \theta_{t-1} + \eta_t d_t$
+    - d is the descent direction, $\eta$ is the step size
+    - Steepest Descent: direction opposite to the gradient g
+    - Step Size: controls the amount to move in the descent direction
+        - Constant Step Size
+            - incorrect values can lead to oscillations, slow convergence
+        - Line Search
+            - set as a 1d minimization problem to select the optimal value
+        - Learning rate schedule must respect Robbins-Monro condition
+            - ${\sum \eta^2 \over \sum \eta} \rightarrow 0 \, \text{as} \, \eta \rightarrow 0$
+    - Momentum
+        - Gradient Descent slow across lat regions of the loss landscape
+        - Heavy Ball or Momentum helps move faster along the directions that were previously good.
+        - $m_t = \beta m_{t-1} + g_{t-1}$
+        - $\theta_t = \theta_{t-1} + \eta_t m_t$
+        - Momentum is essentially EWMA of gradients
+    - Nestrov Momentum
+        - Momentum may not slow down enough at the bottom causing oscillation
+        - Nestrov solves for that by adding a lookahead term
+        - $m_{t+1} = \beta m_t - \eta_t \Delta L(\theta_t + \beta m_t)$
+        - It updates the momentum using gradient at the predicted new location
+
+
+\
+
+- Second-Order Optimization Methods
+    - Gradients are cheap to compute and store but lack curvature information
+    - Second-order methods use Hessian to achieve faster convergence
+    - Newton’s Method:
+        - Second-order Taylor series expansion of objective
+        - $L(\theta) = L(\theta_t) + g(\theta - \theta_t) + {1 \over 2} H (\theta - \theta_t)^2$
+        - Descent Direction:  $\theta = \theta_t - H^{-1} g$
+    - BFGS:
+        - Quasi-Newton method
+        - Hessian expensive to compute
+        - Approximate Hessian by using the gradient vectors
+        - Memory issues
+        - L-BFGS is limited memory BFGS
+        - Uses only recent gradients for calculating Hessian
+
+
+\
+
+- Stochastic Gradient Descent
+    - Goal is to minimize average value of a function with random inputs
+    - $L(\theta) = \mathbf E_z[L(\theta, z)]$
+    - Random variable Z is independent of parameters theta
+    - The gradient descent estimate is therefore unbiased
+    - Empirical Risk Minimization (ERM) involves minimizing a finite sum problem
+        - $L(\theta) = {1 \over N}\sum l(y, f(x(\theta))$
+    - Gradient calculation requires summing over N
+    - It can be approximated by summing over minibatch B << N in case of random sampling
+    - This will give unbiased approximation and results in faster convergence
+
+
+- Variance Reduction
+    - Reduce the variance in gradient estimates by SGD
+    - Stochastic Variance Reduced Gradient (SVRG)
+        - Adjust the stochastic estimates by those calculated on full batch
+    - Stochastic Averaged Gradient Accelerated (SAGA)
+        - Aggregate the gradients to calculate average values
+        - $g_t = \Delta L(\theta) - g_{local} + g_{avg}$
+
+
+\
+
+- Optimizers
+
+  - AdaGrad (Adaptive Gradient)
+      - Sparse gradients corresponding to features that are rarely present
+      - $\theta_{t+1} = \theta_t -\eta_t {1 \over \sqrt{s_t +\epsilon}} g_t$
+      - $s_t = \sum g^2$
+      - It results in adaptive learning rate
+      - As the denominator grows, the effective learning rate drops
+      
+  - RMSProp 
+      - Uses EWMA instead of sum in AdaGrad
+      - $s_t = \beta s_{t-1} + (1-\beta)g^2_t$
+      - Prevents from s to grow infinitely large
+      
+  - AdaDelta
+      - Like RMSProp, uses EWMA on previous gradients
+      - But also uses EWMA on updates
+      - $\delta_t = \beta \delta_{t-1} + (1 - \beta) (\Delta \theta^2)$
+      - $\theta_{t+1} = \theta_t -\eta_t {\sqrt{\delta_t +\epsilon} \over \sqrt{s_t +\epsilon}} g_t$
+
+
+  - Adam
+      - Adaptive Moment Estimation
+      - Combines RMSProp with momentum
+      - $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$
+      - $s_t = \beta_1 s_{t-1} + (1 - \beta_1) g_t^2$
+      - $\Delta \theta = \eta {1 \over \sqrt s_t + e} m_t$
+
+
+\
+
+- Constrained Optimization
+
+
+  - Lagrange Multipliers
+      - Convert constrained optimization problem (with equality constraints) to an unconstrained optimization problem
+      - Assume the constraint is $h(\theta) = 0$
+      - $\nabla h(\theta)$ is orthogonal to the plane $h(\theta) = 0$
+          - First order Taylor expansion
+      - Also, $\nabla L(\theta)$ is orthogonal to the plane $h(\theta) = 0$ at the optimum
+          - Otherwise, moving along the constraint can improve the objective value
+      - Hence, at the optimal solution: $\nabla L(\theta) = \lambda \nabla h(\theta)$
+          - $\lambda$ is the Lagrangian multiplier
+      - Convert the above identity to an objective
+          - $L(\theta, \lambda) = L(\theta) - \lambda h(\theta)$
+
+
+\
+
+  - KKT Conditions
+      - Generalize the concept of Lagrange multiplier to inequality constraints
+      - Assume the inequality constraint: $g(\theta) < 0$
+      - $L(\theta, \mu) = L(\theta) + \mu g(\theta)$
+      - $\min L(\theta) \rightarrow \min_{\theta} \max_{\mu \ge 0} L(\theta, \mu)$
+          - Competing objectives
+          - $\mu$ is the penalty for violating the constraint.
+          - If $g(\theta) > 0$, then the objective becomes $\infty$
+      -  Complementary Slackness
+          - If the constraint is active, $g(\theta) = 0, \mu > 0$
+          - If the constraint is inactive, $g(\theta) < 0, \mu = 0$
+          - $\mu * g = 0$
+
+
+\
+
+  - Linear Programming
+      - Feasible set is a convex polytope
+      - Simplex algorithm moves from vertex to vertex of the polytope seeking the edge that improves the objective the most.
+
+\
+
+  - Proximal Gradient Descent
+      - Composite objective with smooth and rough parts
+      - Proximal Gradient Descent calculates the gradients of the smooth part and projects the update into a space the respects the rough part
+      - L1 Regularization is sparsity inducing. Can be optimized using proximal gradient descent. (0,1) is preferred vs $1 \over \sqrt 2$, $1 \over \sqrt 2$. L2 is agnostic between the two.
+
+
+\
+
+- Expectation Maximization Algorithm
+
+
+  - Compute MLE / MAP in cases where there is missing data or hidden variables.
+  - E Step: Estimates hidden variables / missing values
+  - M Step: Uses observed data to calculate MLE / MAP
+  - $LL(\theta) = \sum \log p( y | \theta) = \sum \log \sum p(y, z | \theta)$
+  - z is the hidden / latent variable
+  - Using Jensen’s inequality for convex functions
+      - $LL(\theta) \ge \sum \sum q(z) \log p (y | \theta, z)$
+      - q(z) is the prior estimate over hidden variable
+      - log(p) is the conditional likelihood
+      - Evidence lower bound or ELBO method
+  - EMM for GMM
+      - E Step: Compute the responsibility of cluster k for generating the data point
+      - M Step: Maximize the computed log-likelihood
+
+\
+
+- Simulated Annealing
+    - Stochastic Local Search algorithm that optimizes black-box functions whose gradients are intractable.
+

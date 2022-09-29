@@ -1,0 +1,8 @@
+# Preface {.unnumbered}
+
+This is a collection of notes on data science topics.
+
+-   General DS topics from Statquest etc.
+-   Kevin Murphy's Probabilistic Machine Learning
+-   Hastie's Elements of Statistical Learning
+-   Jurafsky's Speech and Language Processing

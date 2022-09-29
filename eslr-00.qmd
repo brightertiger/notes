@@ -1,0 +1,7 @@
+---
+title: "ESLR Notes"
+---
+
+# Notes
+
+This is a collection of notes based mostly the book Elements of Statistical Learning.

@@ -1,0 +1,81 @@
+# Transfer Learning
+
+-   Contextual Embeddings: Representation of words in context. Same word can have different embeddings based on the context in which it appears.
+-   Pretraining: Learning contextual embeddings from vast text of data.
+-   Fine-tuning: Taking generic contextual representations and tweaking them to a specific downstream task by using a NN classifier head.
+-   Transfer Learning: Pretrain-Finetune paradigm is called as transfer learning.
+-   Language Models:
+    -   Causal: Left-to-Right transformers
+    -   Bidirectional: Model can see both left and right context
+
+# Bidirectional Transformer Models
+
+-   Causal transformers are well suited for autoregressive problems like text generation
+-   Sequence classification and labeling problems can relax this restriction
+-   Bidirectional encoders allow self attention mechanism to cover the entire input sequence
+-   Map the input sequence embeddings to output embeddings of the same length with expanded context
+-   Self Attention
+    -   $$\text{SA} = \text{softmax}(\frac{QK}{\sqrt D}) V$$
+-   BERT Base
+    -   Subword vocabulary of 30K using word piece
+    -   Hidden layer size of 768 (12 \* 64)
+    -   12 Layers, 12 attention aheads
+    -   100MM+ parameters
+    -   Max Seq length is 512 tokens
+-   Size of input layer dictates the complexity of the model
+-   Computational time and memory grow quadratically with input sequence
+
+## Pre-Training
+
+-   Fill-in-the-blank or Cloze task
+-   Predict the "masked" words (MLM)
+-   Use CE loss over the vocab to drive training
+-   Self-supervised Learning
+-   MLM
+    -   Requires unannotated large text corpus
+    -   Random sample (15%) of tokens is chosen to masked for learning
+    -   80% replaced with \[MASK\]
+    -   10% replaced with random word
+    -   10% replaced left unchanged
+    -   Predict original token for each of the masked input
+-   Span
+    -   Contiguous sequence of one or more words
+    -   Randomly selected spans from training sequence
+    -   Span length selected from geometric distribution
+    -   Starting location is slelected from uniforma distribution
+    -   Once the span is selected, all the words within the span are substituted
+    -   Learning objective: MLM + Span Boundary Objective (SBO)
+    -   Predict words in the span using the starting and ending token and positional embeddings
+-   NSP
+    -   Next Sentence prediction
+    -   Paraphrase, entailment and discourse coherence
+    -   Actual pair of adjacent sentences or not
+    -   Distinguish true paris from random pairs
+-   Training Data
+    -   Books corpus
+    -   English Wiki
+
+## Fine-Tuning
+
+-   Creation of applications on top of pretrained models leveraging the generalizations from SSL
+-   Limited mount of labeled data
+-   Freeze or minimal adjsutments to pretrained weights
+-   Sequence Classification
+    -   \[CLS\] token embedding
+    -   Classifier head
+-   NLI
+    -   Recognize contradiciton, entailment and neutral
+    -   CLS token for premise. \[CLS\] premise \[SEP\] text \[SEP\]
+-   Sequence Labeling
+    -   Prediction for each token
+    -   Softmax over label classes
+    -   BIO tags (beginning, inside, outside)
+    -   Word Peice Tokenization creates challenge
+        -   Traning expand the tags
+        -   Scoring use tag assigned to the first subword token
+-   Span based representations
+    -   Middle ground between token level and sequence level classifications
+    -   Generate possible spans
+    -   Average the embeddings within the spans
+    -   Span represenatations: concatenate \[start, end and average\] embeddings
+    -   Use regression to predict start and end tokens
