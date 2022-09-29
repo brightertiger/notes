@@ -62,15 +62,14 @@
     -   Greedy algorithms to find the best splits
 
 ## Bias-Variance Trade-off
-
 -   Bias
     -   Measures ability of an ML algorithm to model true relationship between features and target
     -   Simplifying assumptions made by the model to learn the relationship
-        -   Example: Linear vs Parabolic relationship
+        - Example: Linear vs Parabolic relationship
     -   Low Bias: Less restrictive assupmtions
     -   High Bias: More restrictive assumptions
--   Variance
-    -   The difference in model performance across different datasets drawn from the same distribution
+- Variance
+    - The difference in model performance across different datasets drawn from the same distribution
     -   Low Variance: Small changes to model perforamance with changes in datasets
     -   High Variance: Large changes to model perforamance with changes in datasets
 -   Irreducible Error
