@@ -346,37 +346,33 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>Optimization Problem: Try to find values for a set of variables that minimize/maximize a scalar valued objective function
+<li><p>Optimization Problem: Try to find values for a set of variables that minimize/maximize a scalar valued objective function</p>
 <ul>
 <li><span class="math inline">\(\arg \min_{\theta}L(\theta)\)</span></li>
 </ul></li>
-<li>The point that satisfies the optimization problem is called global optimum</li>
-<li>Local optimum is a point that has optimal objective value compared to nearby points.</li>
-<li>Optimality Conditions
+<li><p>The point that satisfies the optimization problem is called global optimum</p></li>
+<li><p>Local optimum is a point that has optimal objective value compared to nearby points.</p></li>
+<li><p>Optimality Conditions</p>
 <ul>
 <li>gradient <span class="math inline">\(g(\theta) = \Delta L(\theta)\)</span> is zero</li>
 <li>hessain <span class="math inline">\(H(\theta) = \Delta^2 L(\theta)\)</span> is positive definite</li>
 </ul></li>
-<li>Unconstrained Optimization: Finding any value in parameter space that minimizes the loss</li>
-<li>Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. <span class="math inline">\(\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}\)</span>
+<li><p>Unconstrained Optimization: Finding any value in parameter space that minimizes the loss</p></li>
+<li><p>Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. <span class="math inline">\(\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}\)</span></p>
 <ul>
 <li>I is the set of ineuqliaty constraints</li>
 <li>K is the set of equality constraints</li>
 <li>If there are too many constraints the feasible set may become empty.</li>
 </ul></li>
-<li>Smooth Optimization: Objective and constraints are continuously differentiable</li>
-<li>Lipschitz Constant: <span class="math inline">\(|f(x_1) - f(x_2)| \le L|x_1 - x_2|\)</span>
+<li><p>Smooth Optimization: Objective and constraints are continuously differentiable</p></li>
+<li><p>Lipschitz Constant: <span class="math inline">\(|f(x_1) - f(x_2)| \le L|x_1 - x_2|\)</span></p>
 <ul>
 <li>Function cannot change by more than L units if input changes by 1 unit</li>
 </ul></li>
-<li>Non-smooth Optimization: Some points where gradient of the objective or the constraints is not well defined</li>
-<li>Composite Objective: Contains both smooth and non-smooth terms.</li>
-<li>Subgradient: Generalized notion of derivative to work with functions having local discontinuities.</li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>First-Order Optimization Methods
+<li><p>Non-smooth Optimization: Some points where gradient of the objective or the constraints is not well defined</p></li>
+<li><p>Composite Objective: Contains both smooth and non-smooth terms.</p></li>
+<li><p>Subgradient: Generalized notion of derivative to work with functions having local discontinuities.</p></li>
+<li><p>First-Order Optimization Methods</p>
 <ul>
 <li>Leverage first-order derivatives of the objective function</li>
 <li>Ignore the curvature information</li>
@@ -414,11 +410,7 @@ ul.task-list li input[type="checkbox"] {
 <li>It updates the momentum using gradient at the predicted new location</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Second-Order Optimization Methods
+<li><p>Second-Order Optimization Methods</p>
 <ul>
 <li>Gradients are cheap to compute and store but lack curvature information</li>
 <li>Second-order methods use Hessian to achieve faster convergence</li>
@@ -438,11 +430,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Uses only recent gradients for calculating Hessian</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Stochastic Gradient Descent
+<li><p>Stochastic Gradient Descent</p>
 <ul>
 <li>Goal is to minimize average value of a function with random inputs</li>
 <li><span class="math inline">\(L(\theta) = \mathbf E_z[L(\theta, z)]\)</span></li>
@@ -456,7 +444,7 @@ ul.task-list li input[type="checkbox"] {
 <li>It can be approximated by summing over minibatch B &lt;&lt; N in case of random sampling</li>
 <li>This will give unbiased approximation and results in faster convergence</li>
 </ul></li>
-<li>Variance Reduction
+<li><p>Variance Reduction</p>
 <ul>
 <li>Reduce the variance in gradient estimates by SGD</li>
 <li>Stochastic Variance Reduced Gradient (SVRG)
@@ -469,10 +457,6 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(g_t = \Delta L(\theta) - g_{local} + g_{avg}\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li><p>Optimizers</p>
 <ul>
 <li>AdaGrad (Adaptive Gradient)
@@ -505,10 +489,6 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(\Delta \theta = \eta {1 \over \sqrt s_t + e} m_t\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li><p>Constrained Optimization</p>
 <ul>
 <li>Lagrange Multipliers
@@ -532,11 +512,6 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(L(\theta, \lambda) = L(\theta) - \lambda h(\theta)\)</span></li>
 </ul></li>
 </ul></li>
-</ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li>KKT Conditions
 <ul>
 <li>Generalize the concept of Lagrange multiplier to inequality constraints</li>
@@ -555,29 +530,18 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(\mu * g = 0\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li>Linear Programming
 <ul>
 <li>Feasible set is a convex polytope</li>
 <li>Simplex algorithm moves from vertex to vertex of the polytope seeking the edge that improves the objective the most.</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li>Proximal Gradient Descent
 <ul>
 <li>Composite objective with smooth and rough parts</li>
 <li>Proximal Gradient Descent calculates the gradients of the smooth part and projects the update into a space the respects the rough part</li>
 <li>L1 Regularization is sparsity inducing. Can be optimized using proximal gradient descent. (0,1) is preferred vs <span class="math inline">\(1 \over \sqrt 2\)</span>, <span class="math inline">\(1 \over \sqrt 2\)</span>. L2 is agnostic between the two.</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
+</ul></li>
 <li><p>Expectation Maximization Algorithm</p>
 <ul>
 <li>Compute MLE / MAP in cases where there is missing data or hidden variables.</li>
@@ -598,11 +562,7 @@ ul.task-list li input[type="checkbox"] {
 <li>M Step: Maximize the computed log-likelihood</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Simulated Annealing
+<li><p>Simulated Annealing</p>
 <ul>
 <li>Stochastic Local Search algorithm that optimizes black-box functions whose gradients are intractable.</li>
 </ul></li>

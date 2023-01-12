@@ -12,8 +12,6 @@
     - Number of parameters significantly reduced
     - Translation invariance easy to achieve
 
-\
-
 - Convolution Operators
     - Convolution between two functions
         - $[f \star g](z) = \int f(u) g(z-u) du$
@@ -78,8 +76,6 @@
         - Pad the input with zeros and then run the filter
     - Depthwise
 
-\
-
 - Normalization
     - Vanishing / Exploding gradient issues in deeper models
     - Add extra layers to standardize the statistics of hidden units
@@ -103,7 +99,6 @@
         - Match over batch index
     - Normalization Free Networks
         - Adaptive gradient clipping
-\
 
 - Common Architectures
     - ResNet
@@ -116,7 +111,6 @@
         - Computationally expensive
     - Neural Architecture Search
         - EfficeintNetV2
-\
 
 - Adversarial Exmaples
     - White-Box Attacks
@@ -126,6 +120,3 @@
     - Black-Box Attack
         - Gradient Free
         - Design fooling images as apposed to adversarial images
-        
-    
-

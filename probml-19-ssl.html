@@ -353,9 +353,22 @@ ul.task-list li input[type="checkbox"] {
 <li>Empirical risk minimization to vicinical risk minimization</li>
 <li>Minimizing risk in the vicinity of input data point</li>
 </ul></li>
-</ul>
-<p>-Transfer Learning - Some data poor tasks may have structural similarity to other data rich tasks - Transferring information from one dataset to another via shared parameters of a model - Pretrain the model on a large source dataset - Fine tune the model on a small target dataset - Chop-off the the head of the pretrained model and add a new one - The parameters may be frozen during fine-tuning - In case the parameters aren’t frozen, use small learning rates. - Adapters - Modify the model structure to customize feature extraction - For example: Add MLPs after transformer blocks and initialize them for identity mappings - Much less parameters to be learned during fine-tuning</p>
+<li>Transfer Learning
 <ul>
+<li>Some data poor tasks may have structural similarity to other data rich tasks</li>
+<li>Transferring information from one dataset to another via shared parameters of a model</li>
+<li>Pretrain the model on a large source dataset</li>
+<li>Fine tune the model on a small target dataset</li>
+<li>Chop-off the the head of the pretrained model and add a new one</li>
+<li>The parameters may be frozen during fine-tuning</li>
+<li>In case the parameters aren’t frozen, use small learning rates.</li>
+</ul></li>
+<li>Adapters
+<ul>
+<li>Modify the model structure to customize feature extraction</li>
+<li>For example: Add MLPs after transformer blocks and initialize them for identity mappings</li>
+<li>Much less parameters to be learned during fine-tuning</li>
+</ul></li>
 <li>Pre-training
 <ul>
 <li>Can be supervised or unsupervised.</li>

@@ -346,42 +346,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>Entropy is a measure of uncertainty or lack of predictability associated with a distribution</li>
-<li>If entropy is high, it’s difficult to predict the value of observation</li>
-<li><span class="math inline">\(H(X) = - \sum p \log p = - E(\log p)\)</span></li>
-<li>Uniform distribution has maximum entropy</li>
-<li>Dirac Delta distribution has minimum entropy</li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Cross Entropy
+<li><p>Entropy is a measure of uncertainty or lack of predictability associated with a distribution</p></li>
+<li><p>If entropy is high, it’s difficult to predict the value of observation</p></li>
+<li><p><span class="math inline">\(H(X) = - \sum p \log p = - E(\log p)\)</span></p></li>
+<li><p>Uniform distribution has maximum entropy</p></li>
+<li><p>Dirac Delta distribution has minimum entropy</p></li>
+<li><p>Cross Entropy</p>
 <ul>
 <li><span class="math inline">\(H(p,q) = -\sum p \log q\)</span></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Joint Entropy
+<li><p>Joint Entropy</p>
 <ul>
 <li><span class="math inline">\(H(X,Y) = -\sum p(x,y) \log p(x,y)\)</span></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Conditional Entrpoy
+<li><p>Conditional Entrpoy</p>
 <ul>
 <li><span class="math inline">\(H(Y | X) = \sum_x p(X) H(p(Y | X=x))\)</span></li>
 <li><span class="math inline">\(H(Y|X) = H(X,Y) - H(X)\)</span></li>
 <li>Reduction in joint uncertainty (X,Y) given we observed X</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Perplexity
+<li><p>Perplexity</p>
 <ul>
 <li>Exponentiated cross-entropy</li>
 <li>Geometric mean of inverse probabilities</li>
@@ -394,11 +378,7 @@ ul.task-list li input[type="checkbox"] {
 <li>If some words are more frequent, perplexity is lower than K</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>KL Divergence
+<li><p>KL Divergence</p>
 <ul>
 <li>Relative Entropy</li>
 <li>Distance between two distribution</li>
@@ -415,11 +395,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li>Data augmentation perturbs data samples to reflect natural variations. This spreads the probability mass over larger space. Prevents overfitting.</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Mutual Information
+<li><p>Mutual Information</p>
 <ul>
 <li><span class="math inline">\(I(X,Y) = KL(p(x,y) || p(x)p(y))\)</span></li>
 <li>KL Divergence between joint and factored marginal distribution</li>
@@ -429,11 +405,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Can be normalized to reduce scale effect</li>
 <li>Data Processing Inequality: Transformation cannot increase the amount of information</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Fano’s Inequality
+<li><p>Fano’s Inequality</p>
 <ul>
 <li>Feature selection via high mutual information</li>
 <li>Bounds probability of misclassification in terms of mutual information between features</li>

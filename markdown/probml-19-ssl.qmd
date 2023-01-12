@@ -6,8 +6,20 @@
     -   Empirical risk minimization to vicinical risk minimization
     -   Minimizing risk in the vicinity of input data point
 
--Transfer Learning - Some data poor tasks may have structural similarity to other data rich tasks - Transferring information from one dataset to another via shared parameters of a model - Pretrain the model on a large source dataset - Fine tune the model on a small target dataset - Chop-off the the head of the pretrained model and add a new one - The parameters may be frozen during fine-tuning - In case the parameters aren't frozen, use small learning rates. - Adapters - Modify the model structure to customize feature extraction - For example: Add MLPs after transformer blocks and initialize them for identity mappings - Much less parameters to be learned during fine-tuning
-
+-   Transfer Learning 
+    - Some data poor tasks may have structural similarity to other data rich tasks 
+    - Transferring information from one dataset to another via shared parameters of a model 
+    - Pretrain the model on a large source dataset 
+    - Fine tune the model on a small target dataset 
+    - Chop-off the the head of the pretrained model and add a new one 
+    - The parameters may be frozen during fine-tuning 
+    - In case the parameters aren't frozen, use small learning rates. 
+  
+-   Adapters 
+    - Modify the model structure to customize feature extraction 
+    - For example: Add MLPs after transformer blocks and initialize them for identity mappings 
+    - Much less parameters to be learned during fine-tuning
+  
 -   Pre-training
     -   Can be supervised or unsupervised.
     -   Supervised
@@ -40,6 +52,7 @@
         -   Maximize the similarity of the image embedding to that of the embedding of the matching text
         -   Works well in case of zero-shot learning
         -   Requires prompt engineering to convert image metadata to labels for text embeddings
+        
 -   Domain Adaption
     -   Different domains but same output labels
     -   Example - Product reviews and movie reviews

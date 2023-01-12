@@ -346,9 +346,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>Inference is the process of quantifying uncertainty about an unknown quantity estimated from finite sample of data</li>
-</ul>
-<p><strong>Maximum Likelihood Estimation</strong></p>
+<li><p>Inference is the process of quantifying uncertainty about an unknown quantity estimated from finite sample of data</p></li>
+<li><p>Maximum Likelihood Estimation</p>
 <ul>
 <li>Pick parameters that assign highest probability to training data
 <ul>
@@ -379,7 +378,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>N0 (negative # samples) and N1 (positive # samples) in case of Bernoulli Distribution</li>
 </ul></li>
-<li>MLE Examples
+</ul></li>
+<li><p>MLE Examples</p>
 <ul>
 <li>Bernoulli Distribution
 <ul>
@@ -403,8 +403,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Quadratic Loss is a good choice for linear regression</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>Empirical Risk Minimization</strong></p>
+<li><p>Empirical Risk Minimization</p>
 <ul>
 <li>Empirical Risk Minimization is the expected loss where the expectation is taken wrt to empirical distribution</li>
 <li>ERM generalizes MLE by replacing log-loss with any loss function
@@ -416,12 +415,13 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Log-Loss, Hinge-Loss etc.</li>
 </ul></li>
-<li>Method of Moments (MoM) compares theoretical moments of a distribution with to the empirical ones.
+</ul></li>
+<li><p>Method of Moments (MoM) compares theoretical moments of a distribution with to the empirical ones.</p>
 <ul>
 <li>Moments are quantitative measures related to the shape of the function’s graph</li>
 </ul></li>
-<li>In batch learning, entire dataset is available before training.</li>
-<li>In online learning, dataset arrives sequentially.
+<li><p>In batch learning, entire dataset is available before training.</p></li>
+<li><p>In online learning, dataset arrives sequentially.</p>
 <ul>
 <li><span class="math inline">\(\theta_t = f(x_t, \theta_{t-1})\)</span></li>
 <li>Recursive updates are required. For example MA, or EWMA
@@ -430,8 +430,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(\mu_t = \beta \mu_{t-1} + (1 - \beta) y_t\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>Regularization</strong></p>
+<li><p>Regularization</p>
 <ul>
 <li>MLE/ERM picks parameters that minimize loss on training set.</li>
 <li>Empirical distribution may not be same as true distribution.</li>
@@ -464,8 +463,8 @@ ul.task-list li input[type="checkbox"] {
 <li>With more data, learning curve approaches Bayes’ Error.</li>
 <li>If we start with very few observations, adding more data may increase the error as model uncovers new data patterns.</li>
 </ul></li>
-</ul>
-<p><strong>Bayesian Statistics</strong></p>
+</ul></li>
+<li><p>Bayesian Statistics</p>
 <ul>
 <li>Start with prior distribution</li>
 <li>Likelihood reflects the data for each setting of the prior</li>
@@ -484,8 +483,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Bernoulli-Beta</li>
 <li>Gaussian-Gaussian</li>
 </ul></li>
-</ul>
-<p><strong>Frequentist Statistics</strong></p>
+</ul></li>
+<li><p>Frequentist Statistics</p>
 <ul>
 <li>Data is a random sample drawn from some underlying distribution</li>
 <li>Induces a distribution over the test statistic calculated from the sample.</li>
@@ -506,8 +505,8 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 <li>100 (1 - a) % CI is the probability that the true value of the parameter lies in the range.</li>
-</ul>
-<p><strong>Bias-Variance Tradeoff</strong></p>
+</ul></li>
+<li><p>Bias-Variance Tradeoff</p>
 <ul>
 <li>Bias of an estimator
 <ul>
@@ -524,6 +523,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><span class="math inline">\(E[(\hat \theta - \theta^*)^2] = \text{bias}^2 + \text{variance}\)</span></li>
 <li>It’s okay to use a biased estimator if the bias is offset by decrease in variance.</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>

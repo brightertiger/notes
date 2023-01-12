@@ -351,17 +351,13 @@ ul.task-list li input[type="checkbox"] {
 <li>A computer program is said to learn from experience E with respect to some class of tasks T, and performance measure P,</li>
 <li>If its performance at tasks in T, as measured by P, improves with experience E.</li>
 </ul></li>
-</ul>
-<p><strong>Supervised Learning</strong></p>
+<li><p>Supervised Learning</p>
 <ul>
 <li>Task is to learn a mapping function from inputs to outputs</li>
 <li>Inputs are vectors called features, covariates, predictors</li>
 <li>Output is called as label, target, response</li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Classification
+</ul></li>
+<li><p>Classification</p>
 <ul>
 <li>Output is a set of unordered, mutually exclusive labels</li>
 <li>Goal is to design a model with minimum misclassification rate</li>
@@ -370,11 +366,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Model fitting minimizes empirical risk (ERM)</li>
 <li>Overall goal is generalization</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Uncertainty
+<li><p>Uncertainty</p>
 <ul>
 <li>Model cannot map inputs to outputs with 100% certainty</li>
 <li>Model Uncertainty due to lack of knowledge between input and output</li>
@@ -384,11 +376,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(NLL(\theta) = {1 \over N} \sum p(y | f(x, \theta))\)</span></li>
 <li>Optimal parameters give the MLE estimate</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Regression
+<li><p>Regression</p>
 <ul>
 <li>Output is a real valued quantity</li>
 <li>Model fitting often involves minimizing the quadratic loss or MSE</li>
@@ -400,11 +388,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Polynomial Regression improves the fit by considering higher order interactions</li>
 <li>FNNs do feature extraction by nesting the functions</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Overfitting and Generalization
+<li><p>Overfitting and Generalization</p>
 <ul>
 <li>A model that perfectly fits training data but is too complex suffers from overfitting</li>
 <li>Population risk the theoretical expected loss on the true data generating process</li>
@@ -413,13 +397,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Population risk is hard to estimate. Approximate using test risk. Expected error on unseen data points.</li>
 <li>Test error has U-shaped curve wrt model’s degree of freedom</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>No Free Lunch Theorem: No single best model that works optimally for all kinds of problems</li>
-</ul>
-<p><strong>Unsupervised Learning</strong></p>
+<li><p>No Free Lunch Theorem: No single best model that works optimally for all kinds of problems</p></li>
+<li><p>Unsupervised Learning</p>
 <ul>
 <li>Learn an unconditional model of the data <span class="math inline">\(p(x)\)</span> rather than <span class="math inline">\(p(y | x)\)</span></li>
 <li>In clustering, the goal is to partition the input space into regions with homogenous points.</li>
@@ -428,15 +407,15 @@ ul.task-list li input[type="checkbox"] {
 <li>Evaluation is done by measuring the probability assigned by the model to unseen data</li>
 <li>This treats the problem as one of density estimation</li>
 <li>Unsupervised learning also aims to increase sample efficiency in downstream supervised learning tasks</li>
-</ul>
-<p><strong>Reinforcement Learning</strong></p>
+</ul></li>
+<li><p>Reinforcement Learning</p>
 <ul>
 <li>A system or an agent learns how to interact with its environment</li>
 <li>Goal is learn a policy that specifies optimal action given a state</li>
 <li>Unlike, Supervised Learning, the reward signal is occasional and delayed.</li>
 <li>Learning with critic vs learning with teacher.</li>
-</ul>
-<p><strong>Data Preprocessing</strong></p>
+</ul></li>
+<li><p>Data Preprocessing</p>
 <ul>
 <li>Text Data
 <ul>
@@ -450,16 +429,13 @@ ul.task-list li input[type="checkbox"] {
 <li>UNK token can help capture OOV words</li>
 <li>Sub-word units or word pieces created using byte-pair encoding perform better than UNK token and help in reducing the vocabulary.</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
 <li>Missing Data
 <ul>
 <li>MCAR: missing completely at random</li>
 <li>MAR: missing at random</li>
 <li>NMAR: not missing at random</li>
 <li>Handling of the missing values depends to the type</li>
+</ul></li>
 </ul></li>
 </ul>
 

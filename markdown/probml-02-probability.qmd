@@ -1,7 +1,5 @@
 # Probability
 
-**Definitions**
-
 - Frequentist View: Long run frequencies of events that can happen multiple times
 - Bayesian View: Quantify the uncertainty
     - Model Uncertainty: Ignorance of underlying process
@@ -44,37 +42,26 @@
 - X and Y are conditionally independent of Z
     - $X \perp Y | Z \Rightarrow p(X,Y | Z) = p(X|Z) p(Y | Z)$
 
-**Moments of a Distribution**
-
 - Mean or Expected Value
     - First moment around origin
     - $\mathbf E(X) = \sum xp(x) \; \text{OR} \; \int_x xp(x) dx$
     - Linearity of Expectation: $\mathbf E(aX + b) = a \mathbf E(X) + b$
-
-\
 
 - Variance of a distribution
     - Second moment around mean
     - $\mathbf E(X-\mu)^2 = \sigma^2$ 
     - $\text{Var}(aX + b) = a^2 Var(X)$
 
-\
-
 - Mode of a distribution
     - Value with highest probability mass or probability density
-
-\
 
 - Law of Total / Iterated Expectation
     - $E(X) = E(E(X|Y))$
 
-\
-    
 - Law of Total Variance
     - $V(X) = E(V(X | Y)) + V(E(X | Y))$
 
-**Bayes’ Rule**
-
+- Bayes’ Rule
   - Compute probability distribution over some unknown quantity H given observed data Y
   - $P(H | Y) = {P(Y |H) P(H) \over P(Y)}$
   - Follows from product rule
@@ -83,16 +70,12 @@
   - p(Y=y | H=h) is the likelihood
   - Bayesian Inference: $\text{posterior} \propto \text{prior} \times \text{likelihood}$
     
-**Distributions**
-
 - Bernoulli and Binomial Distribution
     - Describes a binary outcome
     - $Y \sim Ber(\theta)$
     - $Y = \theta^y (1 - \theta)^{1-y}$
     - Binomial distribution is N repeatitions of Bernoulli trials
     - $Bin(p | N,\theta) = {N \choose p} \theta^p (1 - \theta)^{1-p}$
-
-\
 
 - Logistic Distribution
     - If we model a binary outcome using ML model, the range of f(X) is [0,1]
@@ -104,8 +87,6 @@
     - Binary Logistic Regression: $p(y|x, \theta) = \sigma(wX +b)$
     - Decision boundary: $p(y|x, \theta) = 0.5$
     - As we move away from decision boundary, model becomes more confident about the label
-
-\
 
 - Categorical Distribution
     - Generalizes Bernoulli to more than two classes
@@ -122,16 +103,12 @@
     - If we use categorical distribution for binary case, the model is over-parameterized.
         - $p(y = 0 | x) = {e^{a_0} \over e^{a_0} + e^{a_1}} = \sigma(a_0 - a_1)$
 
-\
-
 - Log-Sum-Exp Trick
     - If the raw logit values grow large, the denominator of softmax can enounter numerical overflow.
     - To avoid this:
         - $\log \sum \exp(a_c) = m + \log \sum \exp(a_c - m)$
         - if m is arg max over a, then we wont encounter overflow.
     - LSE trick is used in stable cross-entropy calculation by transforming the sigmoid function to LSE(0,-a).
-
-\
 
 - Gaussian Distribution
     - CDF of Gaussian is defined as
@@ -156,24 +133,18 @@
         - Variance is $\nu \sigma^2 \over \nu -2$
         - As degrees of freedom increase, the distribution approaches gaussian.
 
-
-\
-
 - Exponential distribution describes times between events in Poisson process.
 - Chi-Squared Distribution is sum-squares of Gaussian Random Variables.
 
-**Transformations**
+- Transformations
+  - Assume we have a deterministic mapping y = f(x)
+  - In discrete case, we can derive the PMF of y by summing over all x
+  - In continuous case:
+      - $P_y(y) = P(Y \le y) = P(f(X) \le y) = P(X \le f^{-1}(y)) = P_x(f^{-1}(y))$
+      - Taking derivatives of the equation above gives the result.
+      - $p_y(y) = p_x(x)|{dy \over dx}|$
+      - In multivariate case, the derivative is replaced by Jacobian.
 
-- Assume we have a deterministic mapping y = f(x)
-- In discrete case, we can derive the PMF of y by summing over all x
-- In continuous case:
-    - $P_y(y) = P(Y \le y) = P(f(X) \le y) = P(X \le f^{-1}(y)) = P_x(f^{-1}(y))$
-    - Taking derivatives of the equation above gives the result.
-    - $p_y(y) = p_x(x)|{dy \over dx}|$
-    - In multivariate case, the derivative is replaced by Jacobian.
-
-\
-    
 - Convolution Theorem
     - y = x1 + x2
     - $P(y \le y^*) = \int_{-\infty}^{\infty}p_{x_1}(x_1) dx_1 \int_{-\infty}^{y^* - x1}p_{x_2}(x_2)dx_2$
@@ -181,15 +152,11 @@
     - $p(y) = \int p_1(x_1) p_2(y - x_1) dx_1$
     - In case x1 and x2 are gaussian, the resulting pdf from convolution operator is also gaussian. → sum of gaussians results in gaussian (reproducibility) 
 
-\
-
 - Central Limit Theorem
     - Suppose there are N random variables that are independently identically distributed.
     - As N increases, the distribution of this sum approaches Gaussian with:
         - Mean as Sample Mean
         - Variance as Sample Variance
-
-\
 
 - Monte-Carlo Approximation
     - It’s often difficult ti compute the pdf of transformation y = f(x).

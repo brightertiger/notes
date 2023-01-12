@@ -7,8 +7,6 @@
 - Multivariate Linear Regression has multiple outputs
 - Feature extractor helps in improving the fit of the model
 
-\
-
 - Least Square Estimate
     - Minimize the negative log likelihood (NLL)
     - $\text{NLL}(w, \sigma^2) = {1 \over 2\sigma^2} \sum (y - \hat y)^2 + {N \over 2} \log(2\pi\sigma^2)$
@@ -32,8 +30,6 @@
         - Partial Regression Coefficients Y on X1 keeping X2 constant
     - The estimate of variance from NLL is MSE of residuals
         - $\hat \sigma^2 = {1 \over N}\sum (y - \hat y)^2$
-        
-\
 
 - Goodness of Fit
     - Residual Plots: Check if the residuals are normally distributed with zero mean
@@ -41,8 +37,6 @@
     - Coefficient of Determination: $R^2 = 1 - {RSS \over TSS}$
         - TSS: Prediction from baseline model: average of Y
         - TSS - RSS: Reduction in variance / betterment in fit 
-
-\
 
 - Ridge Regression
     - MLE / OLS estimates can result in overfitting
@@ -56,8 +50,6 @@
         - $\lambda$ is sometimes referred as shrinkage parameter
         - Alternate way is to run PCA on X and then run regression
         - Ridge is a superior approach
-
-\
 
 - Robust Linear Regression
     - MLE/MAP is sensitive to outliers
@@ -75,9 +67,7 @@
         - RANSAC
             - Random Sample Concensus
             - Identify outliers from fitted models
-            
-\
-      
+
 - Lasso Regression
     - Least absolute shrinkage and selection operator
     - Case where we want the parameters to be zero i.e. sparse models
@@ -97,15 +87,11 @@
         - Gradually decrease the regularization strength
         - The set of parameters that get swept out is known as regularization path
         - Performs variable selection
-        
-\
-   
+
 - Elastic Net
     - Combination of Ridge and Lasso
     - Helpful in dealing with correlated variables
     - Estimates of highly correlated variables tend be equal
-
-\
 
 - Coordinate Descent
     - Basis for glmnet library

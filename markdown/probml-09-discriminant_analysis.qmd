@@ -7,8 +7,6 @@
 -   Discriminative Models estimate the posterior class probability
     -   $p(y | x, \theta)$
 
-\
-
 -   Gaussian Discriminant Analysis
     -   Class Conditional Densities are multivariate Gaussians
     -   $p(x | y=c, \theta) = N(\mu_c, \Sigma_c)$
@@ -21,8 +19,6 @@
         -   MAP estimation can introduce some regularization
     -   Class assignment is based on nearest centroid based on the estimates of $\mu_c$
 
-\
-
 -   Naive Bayes Classifiers
     -   Work on Naive Bayes Assumption
     -   Features are conditionally independent given the class label
@@ -34,8 +30,6 @@
         -   Bernoulli for binary
         -   Categorical for categorical
         -   Gaussian for continuous
-
-\
 
 -   Generative Classifiers are better at handing missing data or unlabeled data
 -   Discriminative Models give more robust estimates for posterior probabilities

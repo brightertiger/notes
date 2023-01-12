@@ -4,14 +4,10 @@
     - Keep the training data around
     - Effective number of model parameters grow with |D|
 
-\
-    
 - Instance-based Learning
     - Models keep training examples around test time
     - Define similarity between training points and test input
     - Assign the label based on the similarity
-
-\
 
 - KNN
     - Classify the ew input based on K closest examples in the training set
@@ -21,15 +17,11 @@
     - M is positive definite matrix
     - If M = I, then distance reduces to Euclidean matrix
 
-\
-
 - Curse of Dimensionality
     - Space volume grows exponentially with increase in dimension
         - Suppose inputs are uniformly distributed
         - As we move from square to cube, 10% edge covers less region
 
-\
- 
 - Speed and Memory Requirements
     - Finding K nearest neighbors slow
     - KD Tree / LSH to speed up approximate neighbor calculation
@@ -38,14 +30,10 @@
         - LSH: Similar objects go to same hash bucket
             - Shingling, Minhash, LSH
 
-\
-
 - Open Set recognition
     - New classes appear at test time
         - Person Re-identification
         - Novelty Detection
-
-\
 
 - Learning Distance Matrix
     - Treat M is the distance matrix as a parameter
@@ -55,8 +43,6 @@
         - Similar points have minimum distance
         - Dissimilar points are at least m units away (margin) 
 
-\
-   
 - Deep Metric Learning
     - Reduce the curse of dimensionality
     - Project he input from high dimension space to lower dimension via embedding
@@ -87,8 +73,6 @@
             - Need to mine hard negative examples that are close to the positive pairs
             - Computationally slow
             - Use proxies to represent each class and speed up the training
-
-\
 
 - Kernel Density Estimation
     - Density Kernel

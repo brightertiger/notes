@@ -18,8 +18,6 @@
     - MLP with one hidden layer is universal function approximator
     - Can form a  suitable smooth function given enough hidden units
 
-\
-
 - Backpropagation Algorithm
     - Compute gradient of a loss function wrt parameters in each layer
     - Equivalent to repeated application of chain rule
@@ -30,8 +28,6 @@
             - Calculated efficiently using forward mode
         - Column Form: $\delta \mathbf f \over \delta x_i$ is the ith column of jacobian
             - Calculated efficiently using the backward mode
-
-\
 
 - Derivatives
     - Cross-Entropy Layer
@@ -50,8 +46,6 @@
         - $\phi'(x,a) =   I\{x > 0\}$
     - Adjoint
         - ${\delta o \over \delta x_j} = \sum_{children} {\delta o \over \delta x_i} \times {\delta x_i \over \delta x_j}$
-
-\
 
 - Training Neural Networks
     - Maximize the likelihood: $\min  L(\theta) = -\log p(D|\theta)$
@@ -72,8 +66,6 @@
         - Chain Rule
         - ${\delta  L \over \delta z_l} = {\delta  L \over \delta z_{l+1}} \times {\delta z_{l+1}  \over \delta z_{l}}$
         - ${\delta  L \over \delta z_l} = J_l \times g_{l+1}$
-
-\
 
 - Non-Saturating Activations
     - Sigmoid
@@ -96,8 +88,6 @@
         - $f'(x) = f(x) + \sigma(x) (1 - f(x))$
         - The slope has additive operations
 
-\
-
 - Residual Connections
     - It’s easier to learn small perturbations to inputs than to learn new output
     - $F_l(x) = x + \text{activation}_l(x)$ 
@@ -119,8 +109,6 @@
         - $\sigma^2 = {1 \over (n_{in} + n_{out})}$
         - Xavier Initialization, Glorot Initialization
         - He/LeCun Initialization equivalent if n_in = n_out
-
-\
 
 - Regularization
     - Early Stopping

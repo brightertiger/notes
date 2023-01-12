@@ -54,12 +54,12 @@
         -   Use pooling to enhance performance
             -   Element-wise Mean, Max of all intermediate hidden states
     -   Sequence Generation
-        -   Encoder-decoder architecture\
+        -   Encoder-decoder architecture
         -   Autoregressive generation
-        -   Use <s> as the first token (BOS) and hidden state from encoder
+        -   Use \<s\> as the first token (BOS) and hidden state from encoder
         -   Sample form RNN, using output softmax
         -   Use the embedding from the generated token as next input
-        -   Keep sampling till </s> (EOS) token is sampled
+        -   Keep sampling till \</s\> (EOS) token is sampled
 -   RNN Architectures
     -   Stacked RNNs
         -   Multiple RNNs "stacked together"

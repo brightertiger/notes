@@ -346,17 +346,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>Predict real valued output</li>
-<li><span class="math inline">\(p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)\)</span></li>
-<li>Simple Linear regression has i feature vector</li>
-<li>Multiple Linear Regression has many feature vectors</li>
-<li>Multivariate Linear Regression has multiple outputs</li>
-<li>Feature extractor helps in improving the fit of the model</li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Least Square Estimate
+<li><p>Predict real valued output</p></li>
+<li><p><span class="math inline">\(p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)\)</span></p></li>
+<li><p>Simple Linear regression has i feature vector</p></li>
+<li><p>Multiple Linear Regression has many feature vectors</p></li>
+<li><p>Multivariate Linear Regression has multiple outputs</p></li>
+<li><p>Feature extractor helps in improving the fit of the model</p></li>
+<li><p>Least Square Estimate</p>
 <ul>
 <li>Minimize the negative log likelihood (NLL)</li>
 <li><span class="math inline">\(\text{NLL}(w, \sigma^2) = {1 \over 2\sigma^2} \sum (y - \hat y)^2 + {N \over 2} \log(2\pi\sigma^2)\)</span></li>
@@ -391,11 +387,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(\hat \sigma^2 = {1 \over N}\sum (y - \hat y)^2\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Goodness of Fit
+<li><p>Goodness of Fit</p>
 <ul>
 <li>Residual Plots: Check if the residuals are normally distributed with zero mean</li>
 <li>Prediction Accuracy: RMSE <span class="math inline">\(\sqrt{ {1\over N} RSS}\)</span> measures prediction error</li>
@@ -405,11 +397,7 @@ ul.task-list li input[type="checkbox"] {
 <li>TSS - RSS: Reduction in variance / betterment in fit</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Ridge Regression
+<li><p>Ridge Regression</p>
 <ul>
 <li>MLE / OLS estimates can result in overfitting</li>
 <li>MAP estimation with zero mean Gaussian Prior
@@ -427,11 +415,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Ridge is a superior approach</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Robust Linear Regression
+<li><p>Robust Linear Regression</p>
 <ul>
 <li>MLE/MAP is sensitive to outliers</li>
 <li>Solutions
@@ -459,11 +443,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Lasso Regression
+<li><p>Lasso Regression</p>
 <ul>
 <li>Least absolute shrinkage and selection operator</li>
 <li>Case where we want the parameters to be zero i.e.&nbsp;sparse models</li>
@@ -488,21 +468,13 @@ ul.task-list li input[type="checkbox"] {
 <li>Performs variable selection</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Elastic Net
+<li><p>Elastic Net</p>
 <ul>
 <li>Combination of Ridge and Lasso</li>
 <li>Helpful in dealing with correlated variables</li>
 <li>Estimates of highly correlated variables tend be equal</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Coordinate Descent
+<li><p>Coordinate Descent</p>
 <ul>
 <li>Basis for glmnet library</li>
 <li>Solve for jth coefficient while all others are fixed</li>

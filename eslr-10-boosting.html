@@ -361,21 +361,21 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Errors from previous round are given more weight</li>
 </ul></li>
-<li><span class="math display">\[Y \in \{-1,+1\}\]</span></li>
-<li><span class="math display">\[G(x_i) = sign(\sum \alpha_m G_m(x_i))\]</span>
+<li><span class="math inline">\(Y \in \{-1,+1\}\)</span></li>
+<li><span class="math inline">\(G(x_i) = sign(\sum \alpha_m G_m(x_i))\)</span>
 <ul>
 <li>G(.) is weak classifier with an accuracy slightly better than random</li>
-<li><span class="math display">\[\alpha\]</span> is calcualted by the boosting algorithm</li>
+<li><span class="math inline">\(\alpha\)</span> is calcualted by the boosting algorithm</li>
 </ul></li>
 <li>Algorithm
 <ul>
-<li>Initial weights <span class="math display">\[w_i = 1/N\]</span></li>
+<li>Initial weights <span class="math inline">\(w_i = 1/N\)</span></li>
 <li>For m rounds
 <ul>
-<li>Fit classifier <span class="math display">\[G_i(x)\]</span> using <span class="math display">\[w_i\]</span></li>
-<li>Compute Error <span class="math display">\[\bar{err} = {1 \over \sum w_i}\sum I\{y_i \ne G(x_i)\}\]</span></li>
-<li>Compute <span class="math display">\[alpha_m = \log((1 - err_m) / err_m)\]</span></li>
-<li>Compute new weights <span class="math display">\[w_i = w_i \exp \alpha_m I\{y_i \ne G(x_i)\}\]</span></li>
+<li>Fit classifier <span class="math inline">\(G_i(x)\)</span> using <span class="math inline">\(w_i\)</span></li>
+<li>Compute Error <span class="math inline">\(\bar{err} = {1 \over \sum w_i}\sum I\{y_i \ne G(x_i)\}\)</span></li>
+<li>Compute <span class="math inline">\(alpha_m = \log((1 - err_m) / err_m)\)</span></li>
+<li>Compute new weights <span class="math inline">\(w_i = w_i \exp \alpha_m I\{y_i \ne G(x_i)\}\)</span></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -384,17 +384,17 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="32.2" class="anchored" data-anchor-id="additive-models"><span class="header-section-number">32.2</span> Additive Models</h2>
 <ul>
 <li>Boosting fits a forward stagewise additive model</li>
-<li><span class="math display">\[f(x) = \sum \beta_m b(x, \gamma_m)\]</span></li>
-<li><span class="math display">\[\min L(y_i, \beta_m b(x, \gamma_m))\]</span>
+<li><span class="math inline">\(f(x) = \sum \beta_m b(x, \gamma_m)\)</span></li>
+<li><span class="math inline">\(\min L(y_i, \beta_m b(x, \gamma_m))\)</span>
 <ul>
 <li>Optimal values of beta and gama can be found iteratively</li>
-<li><span class="math display">\[\min L(y_i, f_{m-1}(x) + \beta b(x, \gamma))\]</span></li>
+<li><span class="math inline">\(\min L(y_i, f_{m-1}(x) + \beta b(x, \gamma))\)</span></li>
 </ul></li>
 <li>L2 Loss Funciton
 <ul>
-<li><span class="math display">\[\min L(y_i, f_{m-1}(x) + \beta b(x, \gamma))\]</span></li>
-<li><span class="math display">\[\sum (y_i - f_{m-1}(x) - \beta b(x, \gamma))^2\]</span></li>
-<li><span class="math display">\[\sum (r_{im} - \beta b(x, \gamma))^2\]</span></li>
+<li><span class="math inline">\(\min L(y_i, f_{m-1}(x) + \beta b(x, \gamma))\)</span></li>
+<li><span class="math inline">\(\sum (y_i - f_{m-1}(x) - \beta b(x, \gamma))^2\)</span></li>
+<li><span class="math inline">\(\sum (r_{im} - \beta b(x, \gamma))^2\)</span></li>
 <li>Fit on residuals from previous rounds</li>
 <li>Robust Loss Functions for regression
 <ul>
@@ -405,14 +405,14 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li>Exponential Loss
 <ul>
-<li><span class="math display">\[L(y_i, f(x)) = \exp (-y f(x))\]</span></li>
+<li><span class="math inline">\(L(y_i, f(x)) = \exp (-y f(x))\)</span></li>
 <li>Equivalent to using deviance</li>
 <li>The optimal f that minimizes this loss is 1/2 log-odds</li>
 <li>Hence justified to use the sign of f(x) for prediction</li>
-<li><span class="math display">\[\min \sum \exp (-y f_{m-1}(x) + -y \beta G(x))\]</span></li>
-<li><span class="math display">\[\min \sum w_i^m \exp (-y \beta G(x))\]</span></li>
-<li><span class="math display">\[\min \exp -\beta \sum_{\text{correct}} w_i^m + \exp \beta \sum_{\text{incorrect}} w_i^m\]</span></li>
-<li><span class="math display">\[\beta = {1 \over 2}\log({1- err \over err})\]</span></li>
+<li><span class="math inline">\(\min \sum \exp (-y f_{m-1}(x) + -y \beta G(x))\)</span></li>
+<li><span class="math inline">\(\min \sum w_i^m \exp (-y \beta G(x))\)</span></li>
+<li><span class="math inline">\(\min \exp -\beta \sum_{\text{correct}} w_i^m + \exp \beta \sum_{\text{incorrect}} w_i^m\)</span></li>
+<li><span class="math inline">\(\beta = {1 \over 2}\log({1- err \over err})\)</span></li>
 </ul></li>
 </ul>
 </section>
@@ -420,16 +420,16 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="32.3" class="anchored" data-anchor-id="gradient-boosting"><span class="header-section-number">32.3</span> Gradient Boosting</h2>
 <ul>
 <li>Gradient Descent in function space</li>
-<li>Minimize <span class="math display">\[L(f) = \sum L(y_i, f(x_i))\]</span></li>
-<li><span class="math display">\[\arg \min L(\mathbf f); \; \mathbf f = \{f(x_1), f(x_2)....\}\]</span></li>
-<li>Additive Models <span class="math display">\[ \mathbf f = \sum_m h_m\]</span></li>
-<li>Steepest Descent <span class="math display">\[h_m = \rho_m g_m\]</span>
+<li>Minimize <span class="math inline">\(L(f) = \sum L(y_i, f(x_i))\)</span></li>
+<li><span class="math inline">\(\arg \min L(\mathbf f); \; \mathbf f = \{f(x_1), f(x_2)....\}\)</span></li>
+<li>Additive Models $ f = _m h_m$</li>
+<li>Steepest Descent <span class="math inline">\(h_m = \rho_m g_m\)</span>
 <ul>
-<li><span class="math display">\[g_{im} = \delta L(y_i, f(x_i)) / \delta f(x_i)\]</span></li>
+<li><span class="math inline">\(g_{im} = \delta L(y_i, f(x_i)) / \delta f(x_i)\)</span></li>
 </ul></li>
 <li>Line Search for optimal step size
 <ul>
-<li><span class="math display">\[\rho_m = \arg \min L(f_{m-1} - \rho g_m)\]</span></li>
+<li><span class="math inline">\(\rho_m = \arg \min L(f_{m-1} - \rho g_m)\)</span></li>
 </ul></li>
 <li>Gradients
 <ul>

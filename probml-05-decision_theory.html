@@ -346,9 +346,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>Optimal Policy specifies which action to take for each possible observation to minimize risk or maximize utility</li>
-<li>Implicit assumption is that agents are risk neutral. 50 vs 0.5 * 100</li>
-<li>Zero-One loss: miss-classification rate in binary classifier
+<li><p>Optimal Policy specifies which action to take for each possible observation to minimize risk or maximize utility</p></li>
+<li><p>Implicit assumption is that agents are risk neutral. 50 vs 0.5 * 100</p></li>
+<li><p>Zero-One loss: miss-classification rate in binary classifier</p>
 <ul>
 <li><span class="math inline">\(l_{01}(y, \hat y) = I\{y \ne \hat y\}\)</span></li>
 <li>Optimal policy is to choose most probable label to minimize risk
@@ -373,21 +373,14 @@ ul.task-list li input[type="checkbox"] {
 <li>No decision when model confidence is below <span class="math inline">\(1 - {\lambda_e \over \lambda _r}\)</span></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>ROC Curves</strong></p>
+<li><p>ROC Curves</p>
 <ul>
-<li><p>Summarize performance across various thresholds</p></li>
-<li><p>Confusion Matrix</p>
-<ul>
-<li>Give a threshold <span class="math inline">\(\tau\)</span></li>
+<li>Summarize performance across various thresholds</li>
 <li>Confusion Matrix
 <ul>
-<li>Positive, Negative: Model Prediction</li>
-<li>True, False: Actual Labels</li>
-<li>TP, TN: Correct Predictions</li>
-<li>FP: Model predicts 1, Ground Truth is 0</li>
-<li>FN: Model predicts 0, Ground Truth is 1</li>
-</ul></li>
+<li>Give a threshold <span class="math inline">\(\tau\)</span></li>
+<li>Confusion Matrix - Positive, Negative: Model Prediction - True, False: Actual Labels - TP, TN: Correct Predictions - FP: Model predicts 1, Ground Truth is 0 - FN: Model predicts 0, Ground Truth is 1
+<ul>
 <li>Ratios from Confusion Matrix
 <ul>
 <li>TPR, Sensitivity, Recall
@@ -399,6 +392,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>FP / (FP + TN)</li>
 <li>Error in Negative Predictions</li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul></li>
 <li>ROC Curve is a plot between FPR (x-axis) and TPR (y-axis) across various thresholds</li>
@@ -448,8 +443,7 @@ ul.task-list li input[type="checkbox"] {
 <li>F-Score is also affected by class imbalance.</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>Regression Metrics</strong></p>
+<li><p>Regression Metrics</p>
 <ul>
 <li>L2 Loss
 <ul>
@@ -475,11 +469,11 @@ ul.task-list li input[type="checkbox"] {
 <li>If error below threshold → L2 loss</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>Probabilistic Metrics</strong></p>
+</ul></li>
+<li><p>Probabilistic Metrics</p>
 <ul>
-<li><p>Estimate probabilistic distribution over labels</p></li>
-<li><p>KL Divergence</p>
+<li>Estimate probabilistic distribution over labels</li>
+<li>KL Divergence
 <ul>
 <li><span class="math inline">\(KL(p||q) = \sum p log(p|q)\)</span></li>
 <li><span class="math inline">\(KL(p||q) = H(p,q) - H(p)\)</span></li>
@@ -492,18 +486,17 @@ ul.task-list li input[type="checkbox"] {
 <li>Extending cross-entropy to multiple labels leads to log-loss.</li>
 <li>KL divergence is sensitive to errors at low probability events.</li>
 </ul></li>
-</ul>
-<p><strong>A/B Testing</strong></p>
+</ul></li>
+<li><p>A/B Testing</p>
 <ul>
-<li><p>Test and Roll approach to business decisions</p></li>
-<li><p>Randomly assign different actions to different populations</p></li>
-<li><p>Incurs opportunity cost. Exploration-Exploitation tradeoff.</p></li>
-<li><p>Bayesian Approach</p></li>
-<li><p>Bandits</p></li>
-<li><p>Marginal Log-Likelihood</p></li>
-</ul>
-<p><incomplete></incomplete></p>
-<p><strong>Information Criteria</strong></p>
+<li>Test and Roll approach to business decisions</li>
+<li>Randomly assign different actions to different populations</li>
+<li>Incurs opportunity cost. Exploration-Exploitation tradeoff.</li>
+<li>Bayesian Approach</li>
+<li>Bandits</li>
+<li>Marginal Log-Likelihood</li>
+</ul></li>
+<li><p>Information Criteria</p>
 <ul>
 <li>Marginal Likelihood difficult to compute.</li>
 <li>ICs incorporate model complexity penalty without the use of validation set.</li>
@@ -522,8 +515,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Penalizes model less heavily compared to BIC</li>
 <li><span class="math inline">\(C = 2 \times \text{dof}\)</span></li>
 </ul></li>
-</ul>
-<p><strong>Frequentist Decision Theory</strong></p>
+</ul></li>
+<li><p>Frequentist Decision Theory</p>
 <ul>
 <li>Risk of an estimator is the expected loss when applying the estimator to data sampled from likelihood function <span class="math inline">\(p( y,x | \theta)\)</span></li>
 <li>Bayes Risk
@@ -579,8 +572,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Structural risk minimization is to pick the right level of model complexity by minimizing regularized risk and cross-validation</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><strong>Statistical Learning Theory</strong></p>
+</ul></li>
+<li><p>Statistical Learning Theory</p>
 <ul>
 <li>Upper bound on generalization error with certain probability</li>
 <li>PAC (probably approximately correct) learnable</li>
@@ -592,8 +585,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Measures the degrees of freedom of a hypothesis class</li>
 </ul></li>
-</ul>
-<p><strong>Frequentist Hypothesis Testing</strong></p>
+</ul></li>
+<li><p>Frequentist Hypothesis Testing</p>
 <ul>
 <li>Null vs Alternate Hypothesis</li>
 <li>Likelihood Ratio Test
@@ -619,6 +612,7 @@ ul.task-list li input[type="checkbox"] {
 <li>p-value
 <ul>
 <li>Probability, under the null hypothesis, of observing a test statistic larger that that actually observed</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>

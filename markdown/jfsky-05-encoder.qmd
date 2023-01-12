@@ -18,8 +18,8 @@
 ## Sequence Models
 
 -   Models are autoregressive by nature
--   Add a BOS token <s> for conditional generation
--   Keep sampling till EOS token </s>
+-   Add a BOS token \<s\> for conditional generation
+-   Keep sampling till EOS token \</s\>
 -   RNN / LSTM
     -   Encoder
         -   Process the input sequence token by token

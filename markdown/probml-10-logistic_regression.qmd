@@ -4,8 +4,6 @@
     - Estimate $p(y | x, \theta)$
     - $y \in \{1,2,...,C\}$
 
-\
-
 - Binary Logisitc Regression
     - y is binary {0,1}
     - $p(y | x, \theta) = Ber(y | \sigma(w^Tx + b))$
@@ -44,23 +42,16 @@
         - $\lambda$ is the L2 regularization which penalizes the weights from growing large
         - Given the gaussian priors assume zero mean in MAP, it’s important to standardize the input features to make sure they are on the same scale
 
-
-\
-
 - Multinomial Logistic Regression assumes categorical distribution instead of Bernoulli
     - $p(y=c|x, \theta) = { \exp^{a_c} \over \sum \exp ^a}$
     - If features are made class dependent, the model is called maximum entropy classifier
         - Commonly used in NLP
         - $p(y=c|w, x) \propto exp(w^T\phi(x,c))$
 
-\
-  
 - Hierarchical Classification
     - Labels follow a taxonomy
     - Label Smearing: Label is propagated to all the parent nodes
     - Set up as multi-label classification problem
-
-\
 
 - Handling Many Classes
     - Hierarchical Softmax
@@ -74,8 +65,6 @@
         - Instance based sampling: q = 1
         - Class balanced sampling: q = 0
         - Square root sampling: q = 0.5
-
-\
 
 - Robust Logistic Regression
     - Robust to outliers

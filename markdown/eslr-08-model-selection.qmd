@@ -4,7 +4,7 @@
 
 -   Maximum Likelihood Inference
     -   Parametric Model
-        -   Random variable \$ z_i \sim g\_\theta(z)\$
+        -   Random variable $z_i \sim g\_\theta(z)$
         -   Unknown Parameters $\theta = (\mu, \sigma^2)$
     -   Likelihood Function
         -   $L(\theta, Z) = \prod g_\theta(z_i)$

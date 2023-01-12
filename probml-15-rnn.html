@@ -346,14 +346,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <ul>
-<li>RNN maps input sequences to output space in a stateful way</li>
-<li>Output y(t) not only depends on x(t) but also a hidden state h(t)</li>
-<li>Hidden state gets updated over time as the sequence is processed</li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Vec2Seq (Sequence Generation)
+<li><p>RNN maps input sequences to output space in a stateful way</p></li>
+<li><p>Output y(t) not only depends on x(t) but also a hidden state h(t)</p></li>
+<li><p>Hidden state gets updated over time as the sequence is processed</p></li>
+<li><p>Vec2Seq (Sequence Generation)</p>
 <ul>
 <li>Input is a vector</li>
 <li>Output is a sequence of arbitrary length</li>
@@ -374,11 +370,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li>RNNs can have unbounded memory unlike Markov models</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Seq2Vec (Sequence Classification)
+<li><p>Seq2Vec (Sequence Classification)</p>
 <ul>
 <li>Input is a variable length sequence</li>
 <li>Output is a fixed dimension vector</li>
@@ -394,11 +386,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Input to the linear layer is concatenation of the two hidden states</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Seq2Seq (Sequence Translation)
+<li><p>Seq2Seq (Sequence Translation)</p>
 <ul>
 <li>Input is a variable length sequence</li>
 <li>Output is a variable length sequence</li>
@@ -427,11 +415,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Backpropagation through Time (BPTT)
+<li><p>Backpropagation through Time (BPTT)</p>
 <ul>
 <li>Unrolling the computation graph along time axis</li>
 <li><span class="math inline">\(h_t = W_{hx}x_t + W_{hh}h_{t-1} = f(x_t, h_{t-1}, w_h)\)</span></li>
@@ -445,11 +429,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Gradients can decay or explode as we go backwards in time</li>
 <li>Solution is to use additive rather than multiplicative updates</li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Gated Recurrent Units
+<li><p>Gated Recurrent Units</p>
 <ul>
 <li>Learn when to update the hidden state by using a gating unit</li>
 <li>Update Gate: Selectively remember important pieces of information
@@ -475,11 +455,7 @@ ul.task-list li input[type="checkbox"] {
 <li>If Z is close to 1, the hidden state carries as is and new inputs are ignored</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Long Short Term Memory (LSTM)
+<li><p>Long Short Term Memory (LSTM)</p>
 <ul>
 <li>More sophisticated version of GRU</li>
 <li>Augment the hidden state with memory cell</li>
@@ -510,11 +486,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li><em>How does LSTM solve vanishing gradients problem?</em></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Decoding
+<li><p>Decoding</p>
 <ul>
 <li>Output is generated one token at a time</li>
 <li>Simple Solution: Greedy Decoding
@@ -535,11 +507,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Top-P sampling: Sample till the cumulative probability exceeds p</li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Attention
+<li><p>Attention</p>
 <ul>
 <li>In RNNs, hidden state linearly combines the inputs and then sends them to an activation function</li>
 <li>Attention mechanism allows for more flexibility.
@@ -603,11 +571,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Transformers
+<li><p>Transformers</p>
 <ul>
 <li>Transformers are seq2seq models using attention in both encoder and decoder steps</li>
 <li>Eliminate the need for RNNs</li>
@@ -662,11 +626,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 </ul></li>
-</ul>
-<p><br>
-</p>
-<ul>
-<li>Representation Learning
+<li><p>Representation Learning</p>
 <ul>
 <li>Contextual Word Embeddings
 <ul>
