@@ -3,12 +3,12 @@
 - Recursively partition the input space and define a local model in the resulting region of the input space
     - Node i
     - Feature dimension d_i is compared to threshold t_i
-        - $R_i = \{x : d_1 \le t1, d_2 \le t_2\}$
+        - $R_i = \{x : x_{d_1} \leq t_1, x_{d_2} \leq t_2, \ldots\}$
         - Axis parallel splits
     - At leaf node, model specifies the predicted output for any input that falls in the region
-        - $w_1 = {\sum_{N} y_n  I \{x \in R_1\} \over \sum_{N}  I \{x \in R_1\}}$
+        - $w_1 = \frac{\sum_{n} y_n I\{x_n \in R_1\}}{\sum_{n} I\{x_n \in R_1\}}$
     - Tree structure can be represented as
-        - $f(x, \theta) = \sum_J w_j  I\{x \in R_j\}$ 
+        - $f(x, \theta) = \sum_j w_j I\{x \in R_j\}$ 
         - where j denotes a leaf node
 
 - Model Fitting

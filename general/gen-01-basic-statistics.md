@@ -21,7 +21,10 @@
 -   Simple Random Sampling
     -   Each data point has equal probability of being selected
 -   Stratified Random Sampling
-    -   Divide population into strata and select select random samples from each
+    -   Divide population into strata and select random samples from each
+    -   Ensures representation from all important subgroups
+    -   Particularly useful when subgroups vary significantly in characteristics
+    -   Often produces lower variance in estimates compared to simple random sampling
 -   Cluster Sampling
     -   Divide population into clusters and select select random samples from each
 -   Multi-Stage Sampling
@@ -31,17 +34,21 @@
 
 -   Mean, Median, Mode
 -   Shape of Distribution
-    -   Symmetric around the cetral value
-        -   Mean coincides with median\
+    -   Symmetric around the central value
+        -   Mean coincides with median
     -   Left Skewed: Left tail is longer
-        -   Mean \> Median
+        -   Mean < Median
     -   Right Skewed: Right tail is longer
-        -   Mean \< Median
+        -   Mean > Median
     -   For skewed distributions, mean lies closer to the long tail
 -   Standard Deviation:
-    -   Deviaiton is difference of observation from mean
-    -   $s = \sqrt{\frac{\sum deviations ^ 2}{N-1}}$
+    -   Deviation is difference of observation from mean
+    -   $s = \sqrt{\frac{\sum (x_i - \bar{x})^2}{N-1}}$
     -   Measures variability around mean
+    -   For normally distributed data:
+        -   Approximately 68% of data falls within 1 standard deviation of the mean
+        -   Approximately 95% of data falls within 2 standard deviations of the mean
+        -   Approximately 99.7% of data falls within 3 standard deviations of the mean (3-sigma rule)
 -   IQR: Inter Quartile Range
     -   Difference between 75th and 25th percentile
     -   Outlier falls beyond 1.5 x IQR
@@ -163,6 +170,8 @@
 -   One-tail Test measure deviation in a particular direction
     -   Risky in case of skewed distributions
     -   t-test is robust to skewed distributions but one-tailed tests can compound error
+    -   Use only when you have a strong directional hypothesis
+    -   Provides more power but at the cost of detecting effects in the opposite direction
 -   Errors
     -   Type 1: Reject H0, given H0 is true: (1 - Confidence Level)
     -   Type 2: Fail to reject H0, given H0 is false
@@ -270,4 +279,11 @@
     -   Discordant ( D )
         -   Otherwise
     -   Calculate Gamma
-        -   $\gamma = (C-D) / (C+D)$ 
+        -   $\gamma = (C-D) / (C+D)$
+
+## P-value interpretation and common misconceptions:
+
+-   P-value is NOT the probability that the null hypothesis is true
+-   P-value is NOT the probability that the results occurred by chance
+-   P-value is the probability of obtaining a test statistic at least as extreme as the one observed, given that the null hypothesis is true
+-   Small p-values indicate evidence against the null hypothesis, not evidence for the alternative hypothesis 

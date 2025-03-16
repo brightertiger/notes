@@ -1,30 +1,31 @@
 # Probability
 
-- Frequentist View: Long run frequencies of events that can happen multiple times
-- Bayesian View: Quantify the uncertainty
-    - Model Uncertainty: Ignorance of underlying process
-    - Data Uncertainty: Stochasticity
-    - Data uncertainty can't be reduced with more data
+- Frequentist View: Probability as the long-run relative frequency of an event in repeated experiments.
+- Bayesian View: Probability as a quantification of subjective uncertainty or degree of belief.
+    - Model Uncertainty: Epistemic uncertainty arising from incomplete knowledge of the underlying process
+    - Data Uncertainty: Aleatoric uncertainty arising from inherent randomness in the system
+    - Data uncertainty is irreducible and persists even with more data
 - Event: Some state of the world (A) that either holds or doesn't hold.
-    - $0 \le P(A) \le 1$
-    - $P(A) + P(\bar A) = 1$
-- Joint Probability: If two events happen simultaneously
-    - $P(A,B)$
+    - $0 \le P(A) \le 1$ (probability is non-negative and bounded)
+    - $P(A) + P(\bar A) = 1$ (law of total probability)
+- Joint Probability: Probability that two events occur simultaneously
+    - $P(A,B)$ is the probability that both A and B occur
     - If A and B are independent: $P(A,B) = P(A)P(B)$
-    - $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
-- Conditional Probability: Event B happens given A has already happened
-    - $P(A | B) = P(A \cap B) | P(A)$ 
-- A random variable represents unknown quantity of interest whose value cannot be determined.
-- Sample space denotes the set of possible values of a random variable.
-- Event is a set of outcomes from a given sample space.
-    - If the sample is finite or countably finite, it's discrete random variable
-    - If the sample space is real valued, it's continuous random variable
-- Probability Mass Function computes the probability of events of a given random variable
-    - $0 \le p(x) \le 1$
-    - $\sum_x p(x) = 1$
-- Cumulative Distribution Function are monotonically non-decreasing functions.
-    - $\text{CDF}(x) = P(X \le x)$
-    - $P(A \le X \le B) = \text{CDF}(B) - \text{CDF}(A)$
+    - $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ (inclusion-exclusion principle)
+- Conditional Probability: Probability of event B occurring given that event A has already occurred
+    - $P(B | A) = \frac{P(A \cap B)}{P(A)}$ where $P(A) > 0$
+    - Allows updating beliefs based on new evidence
+- Random Variables: Functions that map outcomes from a sample space to real numbers, allowing mathematical manipulation
+    - Discrete random variables: Take values from a countable set (e.g., number of customers)
+    - Continuous random variables: Take values from an uncountable set (e.g., precise weight)
+- Probability Mass Function (PMF): Gives probability for each possible value of a discrete random variable
+    - $0 \le p(x) \le 1$ for all x
+    - $\sum_x p(x) = 1$ (probabilities sum to 1)
+- Cumulative Distribution Function (CDF): Gives probability that a random variable is less than or equal to a value
+    - $F_X(x) = P(X \le x)$
+    - $P(a \le X \le b) = F_X(b) - F_X(a)$
+    - Monotonically non-decreasing: $F_X(a) \le F_X(b)$ whenever $a \le b$
+    - $\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to \infty} F_X(x) = 1$
 - Probability Density Function is the derivative of CDF
 - Inverse CDF or Quantile Function
     - $P^{-1}(0.5)$ is the median

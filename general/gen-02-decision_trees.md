@@ -19,7 +19,7 @@
 ## Splitting
 
 -   Split Criteria for Classification Trees
-    -   The nodes are split to decrease inpurity in classification
+    -   The nodes are split to decrease impurity in classification
     -   Gini Criterion
         -   $1 - \sum_C p_{i}^2$
         -   Probability that observation belongs to class i: $p_i$
@@ -28,8 +28,8 @@
             -   $p_i \times p_{k \ne i} = p_i \times (1 - p_i)$
         -   Across all classes:
         -   $\sum_C p_i \times (1 - p_i)$
-        -   $\sum_C p_i - \sum_c p_{i}^2$
-        -   $1 - \sum_c p_{i}^2$
+        -   $\sum_C p_i - \sum_C p_{i}^2$
+        -   $1 - \sum_C p_{i}^2$
         -   Ranges from (0, 0.5)
     -   Entropy Criterion
         -   Measure of uncertainly of a random variable
@@ -182,3 +182,33 @@
 -   Shapely Values
     -   Model agnositc feature importance
 -   LIME 
+
+## Handling Categorical Variables
+
+-   Binary categorical variables are easily incorporated into decision trees
+-   For multi-category variables:
+    -   One-hot encoding (creates a binary feature for each category)
+    -   Label encoding (assigns an ordinal value to each category)
+-   Trees can directly handle categorical variables by considering all possible subsets for splitting
+    -   CART typically uses binary splits (creates a binary question from categorical features)
+    -   C4.5 and CHAID can create multi-way splits
+
+## Tree Pruning
+
+-   Decision trees are prone to overfitting
+    -   Noisy Samples
+    -   Small data samples in nodes down the tree
+    -   Tree Pruning solves for overfitting
+        -   Adding a cost term to objetive which captures tree complexity
+        -   $\text{Tree Score} = SSR + \alpha T$
+        -   As the tree grows in size, the reduction in SSR has to more than offset the complexity cost
+-   Pre-pruning vs. Post-pruning:
+    -   Pre-pruning: Stops tree growth early using criteria like:
+        -   Minimum samples per leaf
+        -   Maximum depth
+        -   Minimum impurity decrease
+    -   Post-pruning: Grows a full tree and then removes branches that don't improve generalization
+        -   Cost-complexity pruning (used in CART)
+        -   Reduced Error Pruning (REP)
+        -   Pessimistic Error Pruning (PEP)
+-   Cross-validation can be used to determine optimal pruning level 

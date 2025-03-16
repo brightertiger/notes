@@ -1,49 +1,79 @@
-# Rec Sys
+# Recommendation Systems
 
--   Feedback
+-   Feedback Types
     -   Explicit
-        -   Rating, Like or Dislike from users
-        -   Sparse, Values missing at at random
+        -   Ratings, likes, or dislikes provided directly by users
+        -   Sparse, values often missing (not missing at random)
+        -   Higher quality but harder to collect
     -   Implicit
-        -   Monitor user actions - click vs no-click, watch vs skip etc.
-        -   Sparse positive-only ratings matrix
+        -   Inferred from user behavior - clicks, watches, purchases, etc.
+        -   Sparse, positive-only feedback (absence doesn't mean dislike)
+        -   Easier to collect but noisier
+        
 -   Collaborative Filtering
-    -   Users collaborate on recmmending items
-    -   Impute values by looking at how other similar users have rated the item
-    -   $\hat Y_{ui} = \sum sim(u_i, u') Y_{u', i}$
-    -   Typical approach to calculate similarity is to compare the available ratings from both users
-    -   Data Sprsity makes it challenging
+    -   Users collaborate indirectly to help recommend items
+    -   User-based: Recommend items that similar users liked
+        -   $\hat{y}_{ui} = \frac{\sum_{u'} \text{sim}(u, u') y_{u', i}}{\sum_{u'} \text{sim}(u, u')}$
+    -   Item-based: Recommend items that are similar to what the user already likes
+    -   Similarity calculations typically use common ratings between users/items
+    -   Data sparsity makes similarity calculation challenging
+    
     -   Matrix Factorization
-        -   View the problem as that of matrix completion
-        -   Predict all the missing entries of the ratings matrix
-        -   Optimization: $L = ||Z - Y||^2$
-        -   Break up Z into low rank matrices: $Z = U^TV$
-        -   U is the matrix corresponding to users, V is the matrix corresponding to items
-        -   Since Y is incomplete, Z can't be found using SVD. (unless missing imputation)
-        -   Use ALS (Alternating Least Squares). Estimate U given V and V given U.
-        -   Add user-specific and item specific biases
-        -   $\hat y_{ui} = \mu + b_u + c_i + u_u^T v_i$
-        -   $L = \sum (y_{ui} - \hat y_{ui})^2$
+        -   View the problem as matrix completion
+        -   Predict all missing entries in the ratings matrix
+        -   Optimization: $L = ||Z - Y||^2$ (for observed entries only)
+        -   Break up Z into low-rank matrices: $Z = U^TV$
+        -   U represents user embeddings, V represents item embeddings
+        -   Can't use SVD directly due to missing values
+        -   Use ALS (Alternating Least Squares): Estimate U given V, then V given U
+        -   Add biases to account for user/item rating tendencies:
+            -   $\hat{y}_{ui} = \mu + b_u + c_i + u_u^T v_i$
+                -   $\mu$ is global average rating
+                -   $b_u$ is user bias (rating tendency)
+                -   $c_i$ is item bias (intrinsic quality)
+                -   $u_u^T v_i$ is user-item interaction
+            -   $L = \sum_{(u,i) \in \text{observed}} (y_{ui} - \hat{y}_{ui})^2 + \lambda(\sum ||u_u||^2 + \sum ||v_i||^2)$
+            
     -   Probabilistic Matrix Factorization
-        -   Convert the ratings to a probabilistic model
-        -   $p(Y=y) = N(\mu + b_u + c_i + u_u^T v_i, \sigma^2)$
--   Bayesian Personalized Ranking
-    -   Implicit Feedback
-    -   Ranking Loss: Model ranks item i (positive set) ahead of j (negative set) for user u
-        -   $p(y = (u,i,j) | \theta) = \sigma(f(u,i;\theta) - f(u,j;\theta))$
-    -   Use hinge-loss to estimate the parameters
--   Factorization Machines
-    -   Predict the rating for each user-item pair using one-hot encodings
-        -   $x = \text{concat}[user, item]$
-    -   $f(x) = \mu + \sum w_i x_i + \sum \sum (v_i v_j) x_i x_j$
-    -   The dot product captures the interactions between users, items and user-items.
-    -   Using a low-rank matrix it reduces the number of parameters to be estimated.
-    -   Adding contextual information to solve for cold-start is straight forward.
-    -   If explicit feedback, use MSE Loss.
-    -   If implicit feedback, use Ranking Loss.
+        -   Bayesian approach to matrix factorization
+        -   $p(Y=y_{ui}) = \mathcal{N}(\mu + b_u + c_i + u_u^T v_i, \sigma^2)$
+        -   Can add priors on user/item vectors
+
+-   Bayesian Personalized Ranking (BPR)
+    -   For implicit feedback data
+    -   Ranking approach: Model ranks items user interacted with (positive set) ahead of others (negative set)
+    -   $p(y = (u,i,j) | \theta) = \sigma(f(u,i;\theta) - f(u,j;\theta))$
+        -   $f(u,i;\theta)$ is predicted score for user u and item i
+    -   Use hinge or logistic loss to estimate parameters
+    -   Samples triplets (user, positive item, negative item) for training
+
+-   Factorization Machines (FM)
+    -   Generalization of matrix factorization that can incorporate side features
+    -   Represent user-item pairs as feature vectors:
+        -   $x = \text{concat}[\text{user\_features}, \text{item\_features}]$
+    -   Model:
+        -   $f(x) = \mu + \sum w_i x_i + \sum_{i<j} (v_i \cdot v_j) x_i x_j$
+    -   The dot product term captures pairwise interactions between features
+    -   Uses low-rank approximation to reduce parameter count
+    -   Can easily incorporate context (time, location, etc.) and user/item metadata
+    -   Loss functions:
+        -   Explicit feedback: MSE or MAE
+        -   Implicit feedback: Ranking loss (BPR)
+
 -   Cold-Start Problem
-    -   Difficult to generate predictions for new user or new item.
-    -   Leverage side information. Item and user metadata.
+    -   Difficult to generate predictions for new users or items with no history
+    -   Solutions:
+        -   Content-based approaches using item/user metadata
+        -   Hybrid models combining collaborative and content-based methods
+        -   Active learning to efficiently collect initial preferences
+        -   Transfer learning from related domains
+
 -   Exploration-Exploitation Tradeoff
-    -   Counterfactual - Is there an item the user would have liked but wasn't shown?
-    -   Recommend items for which response is uncertain. 
+    -   Counterfactual challenge: Users might like items they never see
+    -   Recommendation systems must balance:
+        -   Exploitation: Recommend items likely to be relevant based on history
+        -   Exploration: Recommend items with uncertain but potentially high value
+    -   Approaches:
+        -   Multi-armed bandits (Thompson Sampling, UCB)
+        -   Contextual bandits for personalized exploration
+        -   Diversity promotion in recommendations 

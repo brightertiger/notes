@@ -17,10 +17,10 @@
 -   Hierarchical Clustering is very slow
 -   Algorithm
     -   Assume there are K (hyperparameter) clusters
-    -   Assign each data point to it's nearest cluster center
-        -   $z_n^* = \arg \min ||x_n - \mu_k ||^2$
+    -   Assign each data point to its nearest cluster center
+        -   $z_n^* = \arg \min_k ||x_n - \mu_k ||^2$
     -   Update the cluster centers at the end of assignments
-        -   $\mu_k = {1 \over N_k}\sum_{n, z_n=k} x_n$
+        -   $\mu_k = {1 \over N_k}\sum_{n: z_n=k} x_n$
 -   Objective
     -   Minimize distortion
     -   $L = \sum_{n} ||x_n - \mu_{z_n}||^2$
@@ -60,6 +60,22 @@
     -   K-Means assumes that clusters are spherical
     -   Hard assignment in K-Means vs Soft Assignment in EM
 
+-   Limitations of K-Means:
+    -   Assumes clusters are spherical and equally sized
+    -   Sensitive to outliers (means are affected by extreme values)
+    -   Requires number of clusters (K) to be specified
+    -   May converge to local optima
+    -   Cannot handle non-convex clusters
+    -   Uses Euclidean distance, which may not be appropriate for all data types
+
+-   Interpreting Clustering Results:
+    -   Cluster centers: Represent "prototypical" members of each cluster
+    -   Cluster sizes: Distribution of data across clusters
+    -   Within-cluster variation: Measure of cluster homogeneity
+    -   Between-cluster variation: Measure of cluster separation
+    -   Silhouette score: Combines cohesion and separation metrics
+    -   Visualization: Use dimensionality reduction (PCA, t-SNE) to visualize clusters
+
 ## Spectral Clustering
 
 -   Clusters in a graph
@@ -96,4 +112,19 @@
     -   Chain is formed by considering many different core points
 -   Border Point
     -   Point is DDR but not core
--   Expand the clusters recursively by collapsing DR and DDR points 
+-   Expand the clusters recursively by collapsing DR and DDR points
+
+-   Advantages of DBSCAN:
+    -   Does not require specifying number of clusters
+    -   Can find arbitrarily shaped clusters
+    -   Robust to outliers (identifies them as noise)
+    -   Only needs two parameters: epsilon and minimum points
+-   Disadvantages of DBSCAN:
+    -   Struggles with varying density clusters
+    -   Selection of parameters can be challenging
+    -   Not efficient for high-dimensional data due to curse of dimensionality
+    -   May have difficulty with datasets where clusters are close to each other
+
+-   Extensions to DBSCAN:
+    -   OPTICS: Ordering points to identify clustering structure
+    -   HDBSCAN: Hierarchical DBSCAN that extracts clusters from varying densities 

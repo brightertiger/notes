@@ -4,18 +4,18 @@
 
 - Maximum Likelihood Estimation
   - Pick parameters that assign highest probability to training data
-      - $\theta_{MLE} = \arg \max p(D | \theta) = \prod p(y | x, \theta)$
+      - $\theta_{MLE} = \arg \max p(D | \theta) = \arg \max \prod p(y | x, \theta)$
   - MLE can be factorized because of IID assumption
   - Maximizing MLE is equivalent to minimizing NLL
       - $\text{NLL}(\theta) = -\log p(D | \theta)$
   - For unsupervised learning MLE is unconditional.
-      - $\theta_{MLE} = \arg\max p( x | \theta)$
+      - $\theta_{MLE} = \arg\max p(x | \theta)$
   - Justification for MLE
       - Bayesian MAP estimate with uninformative uniform prior
-          - $\theta_{MAP} = \arg\max p(\theta | D) = \arg \max p(D | \theta) + p(\theta)$
-      - KL Divergence: MLE brings predicted distribution close to empirical ditribution
+          - $\theta_{MAP} = \arg\max p(\theta | D) = \arg \max [p(D | \theta)p(\theta)]$
+      - KL Divergence: MLE brings predicted distribution close to empirical distribution
           - $KL(p||q) = H(p) - H(p,q)$
-          - Cross-entropy term in KL-Divergence corresponds to KL-Divergence
+          - Cross-entropy term in KL-Divergence corresponds to minimizing negative log-likelihood
   - Sufficient Statistics of the data summarize all the information needed.
       - N0 (negative # samples) and N1 (positive # samples) in case of Bernoulli Distribution
     

@@ -7,7 +7,7 @@
     -   Minimize SSE: $\sum (y - \hat y)^2$
     -   $E(y|x) = \hat y = a + bx$
     -   $a = \bar y - b \bar x$
-    -   $b = S_{xy} / S_{xx} = \sum (y-\bar y)(x - \bar x) / \sum (x - \bar x)^2$
+    -   $b = S_{xy} / S_{xx} = \sum (x-\bar x)(y - \bar y) / \sum (x - \bar x)^2$
 -   Outlier: If a point lies far off from the rest of the data
 -   Influential: If a point causes large change in slope of the fitted line
 -   Variance
@@ -27,7 +27,7 @@
     -   $R^2 = (TSS - SSE) / TSS$
     -   $SSE = \sum(y - \hat y)^2$
     -   $TSS = \sum(y - \bar y)^2$
-    -   Sqaured of correlation coefficient
+    -   Squared correlation coefficient
 -   Statistical Significance
     -   $t = b / se$
     -   $se = s / \sqrt{S_{xx}}$
@@ -103,3 +103,44 @@
 -   Nominal Response (unordered categories):
     -   One-vs-Rest setup: One model per class
     -   One-vs-One setup: One model per pair of classes 
+
+## Regression Diagnostics
+
+-   Residual Analysis:
+    -   Residual plots: Check for patterns in residuals vs. fitted values
+    -   Q-Q plots: Assess normality of residuals
+    -   Scale-location plots: Check homoscedasticity assumption
+    -   Residuals vs. leverage: Identify influential observations
+-   Multicollinearity:
+    -   Variance Inflation Factor (VIF): $VIF_j = \frac{1}{1-R_j^2}$
+    -   $R_j^2$ is the R-squared from regressing the jth predictor on all other predictors
+    -   VIF > 10 indicates problematic multicollinearity
+    -   Remedies: Remove variables, principal components regression, ridge regression
+-   Influential Observations:
+    -   Cook's distance: Measures effect of deleting observations
+    -   DFBETA: Change in coefficient estimates when observation is removed
+    -   Leverage (hat values): Potential to influence the fit
+    -   High leverage + high residual = influential point
+-   Model Selection:
+    -   Akaike Information Criterion (AIC): $AIC = 2k - 2\ln(L)$
+    -   Bayesian Information Criterion (BIC): $BIC = k\ln(n) - 2\ln(L)$
+    -   Adjusted R-squared: $R_{adj}^2 = 1 - \frac{(1-R^2)(n-1)}{n-p-1}$
+    -   Where k is number of parameters, L is likelihood, n is sample size, p is number of predictors
+
+## Advanced Regression Techniques
+
+-   Ridge Regression:
+    -   Adds L2 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||^2$
+    -   Shrinks coefficients towards zero but doesn't eliminate variables
+    -   Particularly useful for multicollinearity
+-   Lasso Regression:
+    -   Adds L1 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||_1$
+    -   Can shrink coefficients exactly to zero (feature selection)
+    -   Works well for high-dimensional sparse data
+-   Elastic Net:
+    -   Combines L1 and L2 penalties: $\min_\beta ||y - X\beta||^2 + \lambda_1||\beta||_1 + \lambda_2||\beta||^2$
+    -   Balances feature selection and coefficient shrinkage
+-   Quantile Regression:
+    -   Models conditional quantiles instead of conditional mean
+    -   Robust to outliers and heteroscedasticity
+    -   Provides more complete picture of relationship between variables 

@@ -8,7 +8,7 @@
     -   Margin the distance of the hyperplane to closest data points from both classes
     -   Hyperplane: $H : wx +b = 0$
 -   Distance of a point (x) to a hyperplane (h):
-    -   $d = \frac{|Wx + b|}{||W||^2}$
+    -   $d = \frac{|Wx + b|}{||W||}$
 -   Margin is defined by the point closest to the hyperplane
     -   $\gamma(W,b) = \min_{x \in D} \frac{|Wx + b|}{||W||^2}$
     -   Margin is scale invariant
@@ -21,7 +21,7 @@
     -   Need to find a separating hyperplane such that
         -   $(Wx_i + b) > 0 \; \forall \; y_i = +1$
         -   $(Wx_i + b) < 0 \; \forall \; y_i = -1$
-        -   $y_i(Wx_i + b) \ge 0$
+        -   $y_i(Wx_i + b) > 0$
     -   SVM posits that the best hyperplane is the one that maximizes the margin
         -   Margin acts as buffer which can lead to better generalization
     -   Objective
@@ -95,3 +95,39 @@
         -   The regression model to estimate the target values
     -   The objective is to minimize the the distance of the points to the boundary
     -   Hard SVM is sensitive to outliers 
+
+## Kernel Selection
+
+-   Choosing the right kernel:
+    -   Linear kernel: $K(x_i, x_j) = x_i^T x_j$
+        -   Efficient for high-dimensional data
+        -   Works well when number of features exceeds number of samples
+        -   Simplest kernel with fewest hyperparameters
+    -   Polynomial kernel: $K(x_i, x_j) = (x_i^T x_j + c)^d$
+        -   Good for normalized training data
+        -   Degree d controls flexibility (higher d = more complex decision boundary)
+        -   Can capture feature interactions
+    -   RBF/Gaussian kernel: $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$
+        -   Most commonly used non-linear kernel
+        -   Works well for most datasets
+        -   Gamma parameter controls influence radius (higher gamma = more complex boundary)
+    -   Sigmoid kernel: $K(x_i, x_j) = \tanh(\alpha x_i^T x_j + c)$
+        -   Similar to neural networks (hyperbolic tangent activation)
+        -   Less commonly used in practice
+
+-   Cross-validation should be used to select the optimal kernel and hyperparameters
+
+## SVM Hyperparameter Tuning
+
+-   C parameter (regularization strength):
+    -   Controls trade-off between maximizing margin and minimizing training error
+    -   Smaller C: Wider margin, more regularization, potential underfitting
+    -   Larger C: Narrower margin, less regularization, potential overfitting
+-   Gamma parameter (for RBF kernel):
+    -   Controls influence radius of support vectors
+    -   Smaller gamma: Larger radius, smoother decision boundary
+    -   Larger gamma: Smaller radius, more complex decision boundary
+-   Practical suggestions:
+    -   Start with RBF kernel, grid search over C and gamma
+    -   Try logarithmic scale for both C and gamma (e.g., 0.001, 0.01, 0.1, 1, 10, 100)
+    -   Use cross-validation to evaluate performance 

@@ -52,16 +52,16 @@
     -   This optimization is analogous to gradient descent in functional space
     -   Taylor Approximation
         -   $\min L(F(x_i) + \alpha f_m(x_i))$
-        -   $\min L(F(x_i)) + <\alpha f_m(x_i), \frac{\delta L}{\delta F} >$
+        -   $\min L(F(x_i)) + <\alpha f_m(x_i), \frac{\partial L}{\partial F} >$
             -   The first term is constant
             -   The second term is inner product over two functions
-        -   $\min <\alpha f_m(x_i), \frac{\delta L}{\delta F} >$
-            -   Only interested in the behaviour of these function over training data
-            -   Evaluate this functions at different points in training data
+        -   $\min <\alpha f_m(x_i), \frac{\partial L}{\partial F} >$
+            -   Only interested in the behavior of these functions over training data
+            -   Evaluate these functions at different points in training data
             -   Take the inner product
-        -   $\min \sum_i \frac{\delta L}{\delta F(x_i)} \times \alpha f(x_i)$
+        -   $\min \sum_i \frac{\partial L}{\partial F(x_i)} \times \alpha f(x_i)$
         -   Pseudo-Residual
-            -   $-\frac{\delta L}{\delta F(x_i)}$
+            -   $-\frac{\partial L}{\partial F(x_i)}$
         -   $\min - \sum_i r_i \times \alpha f(x_i)$
         -   The ensemble makes improvement as long as $\sum_i r_i f(x_i) < 0$
     -   Modifications for CART:
@@ -125,6 +125,24 @@
             -   $\gamma^* = \frac{p_i - y_i}{p_i (1 - p_i)}$
         -   Update the ensemble
             -   $F_{m+1}(x_i) = F_m(x_i) + \nu \sum_j \gamma_{jm} I(x_i \in R_{jm})$
+-   Gradient Boosting vs AdaBoost:
+    -   AdaBoost focuses on reweighting misclassified samples
+    -   Gradient Boosting focuses on fitting the negative gradient of the loss function
+    -   AdaBoost uses an exponential loss function while Gradient Boosting can use any differentiable loss
+    -   Both build models sequentially but with different optimization approaches
+-   Common Loss Functions in Gradient Boosting:
+    -   Regression:
+        -   L2 loss (squared error): $L(y, F) = \frac{1}{2}(y - F)^2$
+        -   L1 loss (absolute error): $L(y, F) = |y - F|$
+        -   Huber loss: Combines L1 and L2, more robust to outliers
+    -   Classification:
+        -   Log loss: $L(y, F) = -y\log(p) - (1-y)\log(1-p)$
+        -   Exponential loss: $L(y, F) = e^{-yF}$
+-   Regularization in Gradient Boosting:
+    -   Learning rate/shrinkage: Scales the contribution of each tree
+    -   Subsampling: Uses only a fraction of data for each tree (stochastic gradient boosting)
+    -   Early stopping: Stops adding trees when validation performance stops improving
+    -   Tree constraints: Limiting depth, minimum samples per leaf, etc.
 
 ## Adaboost for Classification
 
@@ -138,7 +156,7 @@
     -   Upper bound on 0-1 loss, same as logistic loss
     -   Rises more sharply than logistic loss in case of wrong predictions
     -   LogitBoost minimizes logistic loss
-        -   $\log(1 + \exp^{-y_i f(x_i)})$\
+        -   $\log(1 + \exp^{-y_i f(x_i)})$
 -   Objective Function
     -   Additive Ensemble: $F(x) = \sum_m \alpha_j f_j(x)$
     -   Loss: $L = \sum_i \exp^{-\frac{1}{2} y_i \times F(x)}$

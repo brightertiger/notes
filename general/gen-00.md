@@ -11,4 +11,5 @@ title: "General ML Notes"
     -   Clustering
     -   SVMs
     -   Dimensionality Reduction
-    -   Regression 
+    -   Regression
+    -   Neural Networks 

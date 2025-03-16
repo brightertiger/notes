@@ -6,16 +6,16 @@
 
 - Binary Logisitc Regression
     - y is binary {0,1}
-    - $p(y | x, \theta) = Ber(y | \sigma(w^Tx + b))$
+    - $p(y | x, \theta) = \text{Ber}(y | \sigma(w^Tx + b))$
     - $\sigma$ is the sigmoid function
     - $p(y = 1 | x, \theta) = \sigma(w^Tx +b)$
     - Alternative equivalent notation y is {-1, +1} 
     - Compact notation:
-        - $p(\tilde y | x, \theta) = \sigma(\tilde y \times (w^tx + b))$
+        - $p(y | x, \theta) = \sigma(y \times (w^tx + b))$ where $y \in \{-1, +1\}$
     - If the misclassification cost is same across classes, optimal decision rule
         - predict y = 1 if class 1 is more likely
-        - $p(y = 1 | x) > p (y = 0 | x)$
-        - $\log {p(y = 1 |x) \over p(y = 0 | x)} > 1$
+        - $p(y = 1 | x) > p(y = 0 | x)$
+        - $\log \frac{p(y = 1 |x)}{p(y = 0 | x)} > 0$
         - $w^Tx + b > 0$
         - $w^Tx + b$ is the linear decision boundary of the classifier
     - Maximum Likelihood Estimation

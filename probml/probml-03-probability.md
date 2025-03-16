@@ -1,9 +1,9 @@
-# Probability
+# Probability (Advanced Topics)
 
 - Covariance measures the degree of linear association
-    - $\text{COV}[X,Y] = E[(X - E(X))(Y - E[Y])]$
+    - $\text{COV}[X,Y] = E[(X - E[X])(Y - E[Y])]$
 - Covariance is unscaled measure. Correlation scales covariance between -1, 1.
-    - $\rho = {\text{COV}[X,Y] \over \sqrt{V(X)} \sqrt{V(Y)}}$
+    - $\rho = \frac{\text{COV}[X,Y]}{\sqrt{V(X)} \sqrt{V(Y)}}$
 - Independent variables are uncorrelated. But, vice-versa is not true.
 - Correlation doesn't imply causation. Can be spurious.
 

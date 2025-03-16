@@ -11,7 +11,7 @@
     - Transferring information from one dataset to another via shared parameters of a model 
     - Pretrain the model on a large source dataset 
     - Fine tune the model on a small target dataset 
-    - Chop-off the the head of the pretrained model and add a new one 
+    - Chop-off the head of the pretrained model and add a new one 
     - The parameters may be frozen during fine-tuning 
     - In case the parameters aren't frozen, use small learning rates. 
   
@@ -124,3 +124,76 @@
     -   Exact label not aviabale for data points
     -   Distribution of labels for each case
     -   Soft labels / label smoothing 
+
+# Semi-Supervised and Self-Supervised Learning
+
+- Semi-Supervised Learning (SSL): Leveraging both labeled and unlabeled data
+  - Motivation: Labels are expensive, unlabeled data is abundant
+  - Assumption: Underlying data distribution contains useful structure
+  
+- Data Augmentation
+  - Creates artificial training examples through transformations
+  - Preserves semantic content while changing surface features
+  - Common augmentations:
+    - Image domain: rotations, flips, color jitter, cropping
+    - Text domain: synonym replacement, back-translation
+    - Audio domain: pitch shifting, time stretching
+  - Theoretical framework: Vicinical risk minimization
+    - Minimize risk in local neighborhoods around training examples
+    - Improves robustness and generalization
+  
+- Transfer Learning
+  - Leverages knowledge from data-rich domains to improve performance in data-poor domains
+  - Process:
+    1. Pretrain model on large source dataset (e.g., ImageNet, Common Crawl)
+    2. Adapt model to target task with smaller dataset
+    3. Options for adaptation:
+       - Feature extraction: Freeze pretrained layers, train only new head
+       - Fine-tuning: Update all or subset of pretrained parameters
+  - Parameter-efficient fine-tuning:
+    - Adapters: Small bottleneck layers added between frozen transformer blocks
+    - LoRA: Low-rank adaptation of weight matrices
+    - Prompt tuning: Learn soft prompts while keeping model parameters frozen
+
+- Self-Supervised Learning
+  - Creates supervisory signals from unlabeled data
+  - Pretext tasks:
+    - Reconstruction tasks: Autoencoders, masked language modeling
+    - Context prediction: Predict arrangement of shuffled patches
+    - Contrastive tasks: Learn similar representations for related inputs
+  
+  - Contrastive Learning
+    - Learn representations by comparing similar and dissimilar examples
+    - SimCLR framework:
+      1. Generate two views of each image via augmentation
+      2. Encode both views with shared encoder
+      3. Apply projection head to map encodings to space for contrastive loss
+      4. Contrastive loss: Maximize similarity between positive pairs (same image)
+         and minimize similarity between negative pairs (different images)
+      5. For downstream tasks, discard projection head and fine-tune encoder
+    
+    - Key challenges:
+      - Hard negative mining: Finding informative negative examples
+      - Batch size dependence: Performance scales with number of negatives
+      - Feature collapse: Trivial solutions that ignore semantic content
+
+  - Non-Contrastive Methods
+    - BYOL (Bootstrap Your Own Latent):
+      - Teacher-student architecture with no negative examples
+      - Student network predicts teacher network outputs
+      - Teacher parameters updated via exponential moving average of student
+      - Avoids collapse through asymmetric architecture and predictor networks
+    
+    - Masked Autoencoders:
+      - Inspired by BERT's success in NLP
+      - Mask significant portions of input (e.g., 75% of image patches)
+      - Train encoder-decoder to reconstruct original input
+      - For downstream tasks, use only encoder
+
+- Practical Considerations
+  - Pretraining often provides:
+    - Better initialization for optimization
+    - More generalizable features
+    - Sample efficiency: Fewer labeled examples needed
+  - Domain gap between pretraining and target task affects transfer effectiveness
+  - Large pretrained models may contain useful knowledge but require careful adaptation 

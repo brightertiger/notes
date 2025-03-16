@@ -2,17 +2,17 @@
 
 - Predict real valued output
 - $p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)$
-- Simple Linear regression has i feature vector
+- Simple Linear regression has one feature vector
 - Multiple Linear Regression has many feature vectors
 - Multivariate Linear Regression has multiple outputs
 - Feature extractor helps in improving the fit of the model
 
 - Least Square Estimate
     - Minimize the negative log likelihood (NLL)
-    - $\text{NLL}(w, \sigma^2) = {1 \over 2\sigma^2} \sum (y - \hat y)^2 + {N \over 2} \log(2\pi\sigma^2)$
+    - $\text{NLL}(w, \sigma^2) = \frac{1}{2\sigma^2} \sum (y - \hat y)^2 + \frac{N}{2} \log(2\pi\sigma^2)$
     - First term is referred as Residual Sum Squares (RSS) 
     - Ordinary Least Squares
-        - $\Delta_w RSS = 0$
+        - $\nabla_w RSS = 0$
         - $X^TXw = X^Ty$
         - Normal Equation because $Xw - y$ is orthogonal to $X$
         - $w = (X^TX)^{-1}X^Ty$

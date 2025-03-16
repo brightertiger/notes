@@ -16,8 +16,9 @@
     -   For m = 1 to M rounds:
         -   Fit classifier $G_m(x)$ using weights $w_i$
         -   Compute Error $err_m = \frac{\sum_{i=1}^N w_i I\{y_i \neq G_m(x_i)\}}{\sum_{i=1}^N w_i}$
-        -   Compute $\alpha_m = \log((1 - err_m) / err_m)$
+        -   Compute $\alpha_m = \log\left(\frac{1 - err_m}{err_m}\right)$
         -   Update weights $w_i \leftarrow w_i \exp(\alpha_m I\{y_i \neq G_m(x_i)\})$
+        -   Normalize weights so they sum to 1
 -   Properties
     -   Adaptive: focus shifts to harder examples
     -   Resistant to overfitting (in practice)
@@ -35,13 +36,14 @@
 -   L2 Loss Function
     -   $\min_{\beta,\gamma} \sum_{i=1}^N (y_i - f_{m-1}(x_i) - \beta b(x_i, \gamma))^2$
     -   $\min_{\beta,\gamma} \sum_{i=1}^N (r_{im} - \beta b(x_i, \gamma))^2$
+    -   Where $r_{im} = y_i - f_{m-1}(x_i)$ are residuals from previous rounds
     -   Fit on residuals from previous rounds
     -   Equivalent to gradient descent in function space with squared error
     -   Robust Loss Functions for regression
         -   Huber Loss
-        -   L2 penalty for large errors
-        -   L1 penalty for small errors
-        -   Less sensitive to outliers
+            -   L1 penalty for large errors
+            -   L2 penalty for small errors
+            -   Less sensitive to outliers
 -   Exponential Loss
     -   $L(y, f(x)) = \exp(-y f(x))$
     -   Equivalent to using deviance
@@ -59,7 +61,7 @@
 -   Minimize $L(f) = \sum L(y_i, f(x_i))$
 -   $\arg \min L(\mathbf f); \; \mathbf f = \{f(x_1), f(x_2)....\}$
 -   Additive Models $ \mathbf f = \sum_m h_m$
--   Steepest Descent $h_m = \rho_m g_m$
+-   Steepest Descent $h_m = -\rho_m g_m$
     -   $g_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}|_{f=f_{m-1}}$
     -   Negative gradient of loss function
 -   Algorithm:
@@ -70,7 +72,7 @@
        - Line search for optimal step size: $\rho_m = \arg\min_{\rho}\sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \rho h_m(x_i))$
        - Update: $f_m(x) = f_{m-1}(x) + \rho_m h_m(x)$
 -   Line Search for optimal step size
-    -   $\rho_m = \arg \min L(f_{m-1} - \rho g_m)$
+    -   $\rho_m = \arg \min_\rho L(f_{m-1} - \rho g_m)$
     -   Can be solved analytically for some loss functions
     -   Numerical optimization for others
 -   Gradients for common loss functions

@@ -10,12 +10,12 @@
     - Assign the label based on the similarity
 
 - KNN
-    - Classify the ew input based on K closest examples in the training set
-    - $p(y = c | x, D) = {1 \over K} \sum  I\{y=c\}$
+    - Classify the new input based on K closest examples in the training set
+    - $p(y = c | x, D) = \frac{1}{K} \sum_{i \in N_K(x)} I\{y_i=c\}$
     - The closest point can be computed using Mahalanobis Distance
     - $d_M(x,\mu) = \sqrt{(x-\mu)^TM(x-\mu)}$
     - M is positive definite matrix
-    - If M = I, then distance reduces to Euclidean matrix
+    - If M = I, then distance reduces to Euclidean distance
 
 - Curse of Dimensionality
     - Space volume grows exponentially with increase in dimension

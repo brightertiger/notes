@@ -1,22 +1,38 @@
 # Decision Theory
 
+- Decision theory provides a formal framework for making optimal decisions under uncertainty
 - Optimal Policy specifies which action to take for each possible observation to minimize risk or maximize utility
-- Implicit assumption is that agents are risk neutral. 50 vs 0.5 * 100
-- Zero-One loss: miss-classification rate in binary classifier
-    - $l_{01}(y, \hat y) = I\{y \ne \hat y\}$
-    - Optimal policy is to choose most probable label to minimize risk
-        - $R(y | x) = p(y \ne \hat y | x) = 1 - p(y = \hat y | x)$
-        - $\pi(x) = \arg \max p(y | x)$
-    - In case the errors are cost-sensitive
-        - FP is not same as FN
-        - $l_{01} = c \times l_{10}$
-        - Choose the label 1 if expected loss is lower:
-            - $p0 \times l_{01} < p1 \times c \times l_{10}$
-        - c will trade-off the decision boundary 
-    - In case reject or abstain is also a possible action
-        - Assume the cost of error $\lambda_e$
-        - Assume the cost of rejection: $\lambda_r$
-        - No decision when model confidence is below $1 - {\lambda_e \over \lambda _r}$
+
+- Risk Neutrality vs Risk Aversion
+  - Risk neutrality: Agent values expected outcomes (e.g., $50 = 0.5 \times $100)
+  - Risk aversion: Agent prefers certain outcomes to uncertain ones with same expected value
+  - Risk preference: Agent prefers uncertainty (gambling) over certainty
+
+- Decision Rules for Classification
+  - Zero-One loss: Penalizes misclassification with a unit cost
+      - $l_{01}(y, \hat y) = I\{y \ne \hat y\}$
+      - Optimal policy minimizes risk by choosing the most probable class:
+          - $R(y | x) = P(y \ne \hat y | x) = 1 - P(y = \hat y | x)$
+          - $\pi(x) = \arg \max P(y | x)$
+          
+  - Cost-Sensitive Classification
+      - Different error types have different consequences
+          - False Positive (Type I error): Predict positive when truth is negative
+          - False Negative (Type II error): Predict negative when truth is positive
+      - Different costs can be assigned: $l_{01} \neq c \times l_{10}$
+      - Choose label 1 if the expected cost is lower:
+          - $p(y=0|x) \times l_{01} < p(y=1|x) \times c \times l_{10}$
+      - The cost ratio c shifts the decision boundary
+      
+  - Rejection Option (Abstention)
+      - Sometimes it's better to abstain from making a decision
+      - Three possible actions: predict 0, predict 1, or reject
+      - Cost parameters:
+          - $\lambda_e$: Cost of making an error
+          - $\lambda_r$: Cost of rejection/abstention
+      - No decision is made when model confidence is below threshold:
+          - Abstain when $\max_y P(y|x) < 1 - \frac{\lambda_r}{\lambda_e}$
+      - This creates bands of uncertainty where expert input might be required
 
 - ROC Curves
   - Summarize performance across various thresholds

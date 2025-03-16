@@ -5,8 +5,8 @@
 -  The point that satisfies the optimization problem is called global optimum
 - Local optimum is a point that has optimal objective value compared to nearby points.
 - Optimality Conditions
-    - gradient $g(\theta) = \Delta L(\theta)$ is zero
-    - hessain $H(\theta) = \Delta^2 L(\theta)$ is positive definite
+    - gradient $g(\theta) = \nabla L(\theta)$ is zero
+    - Hessian $H(\theta) = \nabla^2 L(\theta)$ is positive definite
 - Unconstrained Optimization: Finding any value in parameter space that minimizes the loss
 - Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}$
     - I is the set of ineuqliaty constraints

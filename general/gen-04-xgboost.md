@@ -10,12 +10,14 @@
     -   MSE
         -   ${1 \over 2}\sum{(y_i - p_i)^2}$
     -   NLL Loss
-        -   $- \sum {y_i \log p_i + (1 - y_i) \log (1 -p_i)}$\
+        -   $- \sum {y_i \log p_i + (1 - y_i) \log (1 -p_i)}$
 -   In XGBoost, the objective has regularization terms
-    -   $\sum_i L(y_i, p_i) + \gamma T + {1 \over 2} \lambda O_{value}^2$
-    -   $O_{value}$ is the prediction from tree (terminal value in leaf nodes)
-    -   $p_i = p_i^0 + O_{value}$
-    -   $p_i^0$ is the initital prediction / prediction from previous round
+    -   $\sum_i L(y_i, p_i) + \gamma T + {1 \over 2} \lambda \sum_{j=1}^T w_j^2$
+    -   $\gamma$ is the complexity cost per leaf
+    -   $\lambda$ is the L2 regularization term on leaf weights
+    -   $T$ is the number of leaves in the tree
+    -   $p_i = p_i^0 + \sum_{j=1}^T w_j I(x_i \in R_j)$
+    -   $p_i^0$ is the initial prediction / prediction from previous round
 -   High values of $\lambda$ will push the optimal output values close to 0
 -   Second-order Taylor approximation to simplify the objective
     -   $L(y_i, p_i^0 + O_{value})$
@@ -134,3 +136,46 @@
     -   Superior encoding technniques for categorical variables
         -   Target encoding
     -   Symmetric tree growth 
+
+## XGBoost vs. Traditional Gradient Boosting
+
+-   Key Improvements in XGBoost:
+    -   System Optimizations:
+        -   Parallelized tree construction
+        -   Cache-aware access patterns
+        -   Out-of-core computation for large datasets
+    -   Algorithmic Enhancements:
+        -   Regularization to prevent overfitting
+        -   Built-in handling of missing values
+        -   Newton boosting (using second-order derivatives)
+        -   Weighted quantile sketch for approximate split finding
+    -   These improvements make XGBoost significantly faster and more memory-efficient than traditional gradient boosting implementations
+
+## Handling Missing Values
+
+-   XGBoost has a built-in method for handling missing values
+-   For each node in a tree:
+    -   It learns whether missing values should go to the left or right branch
+    -   Direction is determined by which path optimizes the objective function
+    -   This approach allows XGBoost to handle missing values without preprocessing
+-   Contrast with traditional approaches:
+    -   Imputation (mean, median, mode replacement)
+    -   Creating indicator variables
+    -   XGBoost's approach often performs better as it learns the optimal direction during training
+
+## Hyperparameter Tuning
+
+-   Key hyperparameters to tune:
+    -   `n_estimators`: Number of boosting rounds
+    -   `learning_rate`: Step size shrinkage to prevent overfitting
+    -   `max_depth`: Maximum depth of trees
+    -   `min_child_weight`: Minimum sum of instance weight needed in a child
+    -   `gamma`: Minimum loss reduction required for a split
+    -   `subsample`: Fraction of samples used for fitting trees
+    -   `colsample_bytree`: Fraction of features used for fitting trees
+    -   `lambda`: L2 regularization term on weights
+    -   `alpha`: L1 regularization term on weights
+-   Common tuning approaches:
+    -   Grid search with cross-validation
+    -   Random search
+    -   Bayesian optimization 

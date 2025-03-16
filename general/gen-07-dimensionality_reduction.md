@@ -75,13 +75,13 @@
 -   PCA is calculated using SVD (singular value decomposition)
     -   $X = U S V^T \in R^{N \times D}$
         -   $U \in R^{N \times N}$ is orthonormal
-        -   $S \in R^{N \times D}$ is diagonal
+        -   $S \in R^{N \times D}$ is diagonal (contains singular values)
         -   $V \in R^{D \times D}$ is orthonormal
-    -   $X^T X = (U S V^{T})^T(U S V^{T}) = V(S^TS)V^T$
+    -   $X^T X = (U S V^{T})^T(U S V^{T}) = V S^T U^T U S V^T = V S^T S V^T$
     -   Since S is a diagonal matrix, $S^TS$ is diagonal as well
-    -   $X^T X = VDV^T$
-    -   On mutiplying both Sides by V: $(X^T X)V = VD$
-    -   D matrix gives the eigen values and V matrix gives the corresponding eigenvectors
+    -   $X^T X = V D V^T$ where $D = S^T S$
+    -   On multiplying both sides by V: $(X^T X)V = V D$
+    -   D matrix gives the eigenvalues and V matrix gives the corresponding eigenvectors
 -   Notes
     -   PCA doesn't work well if the interrelationships are non-linear
         -   Kernel PCA, Factor Analysis
@@ -166,3 +166,38 @@
             -   Cross-Entropy between graphs
             -   $\log(1 - S_{\text{not neighbour}}) - log(S_{\text{neighbour}})$\
     -   UMAP can accomodate new data (predict function) without recomputation 
+
+## Applications of Dimensionality Reduction
+
+-   Data Visualization:
+    -   Reduce high-dimensional data to 2D or 3D for visualization
+    -   Helps identify patterns, clusters, and outliers visually
+-   Noise Reduction:
+    -   Lower-dimensional representations can filter out noise
+    -   PCA can help separate signal from noise when the variance of the noise is smaller than the variance of the signal
+-   Preprocessing for Machine Learning:
+    -   Mitigates curse of dimensionality
+    -   Can improve performance of models sensitive to high dimensionality
+    -   Reduces computational complexity and storage requirements
+-   Feature Extraction:
+    -   Creates new features that better capture the underlying structure of data
+    -   Often more informative than original features
+-   Multicollinearity Reduction:
+    -   Addresses correlation among predictor variables in regression
+    -   PCA specifically creates uncorrelated components
+
+## Comparing Dimensionality Reduction Techniques
+
+-   Linear vs. Non-linear:
+    -   Linear methods (PCA, LDA): Preserve global structure, computationally efficient
+    -   Non-linear methods (t-SNE, UMAP): Better at preserving local structure, capturing complex relationships
+-   Supervised vs. Unsupervised:
+    -   Unsupervised (PCA, t-SNE): No target variable required
+    -   Supervised (LDA): Incorporates class information
+-   Local vs. Global:
+    -   Global (PCA): Preserves large pairwise distances
+    -   Local (t-SNE, UMAP): Preserves small pairwise distances
+-   Selection considerations:
+    -   Data size: Some methods (t-SNE) don't scale well to large datasets
+    -   Interpretability: Some methods (PCA) produce more interpretable features
+    -   Goal: Visualization vs. preprocessing vs. feature extraction 

@@ -1,32 +1,56 @@
-# Feed Forward NN
+# Feed Forward Neural Networks
 
-- Linear Models do an affine transformation of inputs $f(x, \theta) = Wx + b$
-- To increase model flexibility, perform feature transformation $f(x, \theta) = W \phi(x) + b$
-- Repeatedly nesting the transformation functions results in deep neural networks
+- Neural networks are powerful function approximators that learn hierarchical representations of data
+
+- From Linear Models to Neural Networks
+  - Linear Models perform an affine transformation of inputs: $f(x, \theta) = Wx + b$
+  - To increase expressivity, we can transform inputs: $f(x, \theta) = W \phi(x) + b$
+  - Neural networks learn these transformations automatically by composing multiple functions:
     - $f(x, \theta) = f_L(f_{L-1}(f_{L-2}.....(f_1(x)....))$
-    - Composed of differentiable functions in any kind of DAG (directed acyclic graphs)
-- Multilayer Perceptrons
-    - XOR (Exclusive OR) Problem: Inputs are note linearly separable
-    - Stacking multiple functions on top of each other can overcome this problem
-- Stacking linear activation functions results in linear model
-    - $f(x, \theta) = W_L(W_{L-1}(W_{L-2}.....(W_1(x)....)) = \tilde Wx$
-- Activation functions are differentiable non-linear functions
-    - Sigmoid: (0,1)
-    - TanH: (-1,+1) (e2x -1 / e2x + 1)
-    - ReLU: max(a, 0), non-saturating activation function
-- Universal Function Approximator
-    - MLP with one hidden layer is universal function approximator
-    - Can form a  suitable smooth function given enough hidden units
+    - Each layer extracts progressively more abstract features
+
+- Architecture Components
+  - Layers: Groups of neurons that transform inputs to outputs
+  - Connections: Weighted links between neurons in adjacent layers
+  - Activation Functions: Non-linear functions applied to neuron outputs
+    - Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$, outputs in range (0,1)
+      - Suffers from vanishing gradient for large magnitude inputs
+    - TanH: $\tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}$, outputs in range (-1,+1)
+      - Centered at zero but still suffers from vanishing gradients
+    - ReLU: $\max(0, x)$, non-saturating activation function
+      - Solves vanishing gradient problem for positive inputs
+      - May cause "dying ReLU" problem (neurons that always output 0)
+    - Leaky ReLU: $\max(\alpha x, x)$ where $\alpha$ is small (e.g., 0.01)
+      - Addresses the dying ReLU problem
+    - GELU: Smooth approximation of ReLU that performs well in modern networks
+  
+- The XOR Problem
+  - Classic example showing limitation of linear models
+  - XOR function cannot be represented by a single linear boundary
+  - Requires at least one hidden layer to solve
+  - Demonstrates how composition of functions increases expressivity
+
+- Universal Approximation Theorem
+  - An MLP with a single hidden layer of sufficient width can approximate any continuous function
+  - In practice, deeper networks (more layers) are more parameter-efficient than wider ones
+  - Deep networks learn hierarchical representations with increasing abstraction
+
+- Backpropagation: Learning Algorithm for Neural Networks
+  - Efficiently computes gradients of loss with respect to all parameters
+  - Based on chain rule of calculus applied to computational graphs
+  - Forward pass: Compute network output and loss
+  - Backward pass: Propagate gradients from output to input
+  - Implementation via automatic differentiation frameworks (PyTorch, TensorFlow)
 
 - Backpropagation Algorithm
     - Compute gradient of a loss function wrt parameters in each layer
     - Equivalent to repeated application of chain rule
     - Autodiff: Automatic Differentiation on Computation Graph
     - Suppose  $f = f_1 \circ f_2 \circ f_3 \circ f_4$
-        - Jacobain $\mathbf J_f$ needs to be calculated for backprop
-        - Row Form: $\triangledown f_i(\mathbf x)$ is the ith row of jacobian
+        - Jacobian $\mathbf J_f$ needs to be calculated for backprop
+        - Row Form: $\nabla f_i(\mathbf x)$ is the ith row of jacobian
             - Calculated efficiently using forward mode
-        - Column Form: $\delta \mathbf f \over \delta x_i$ is the ith column of jacobian
+        - Column Form: $\frac{\partial \mathbf f}{\partial x_i}$ is the ith column of jacobian
             - Calculated efficiently using the backward mode
 
 - Derivatives

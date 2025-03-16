@@ -2,25 +2,25 @@
 
 - Entropy is a measure of uncertainty or lack of predictability associated with a distribution
 - If entropy is high, it's difficult to predict the value of observation
-- $H(X) = - \sum p \log p = - E(\log p)$
+- $H(X) = - \sum p(x) \log p(x) = - E[\log p(X)]$
 - Uniform distribution has maximum entropy
 - Dirac Delta distribution has minimum entropy
 
 - Cross Entropy
-    - $H(p,q) = -\sum p \log q$
+    - $H(p,q) = -\sum p(x) \log q(x)$
 
 - Joint Entropy
     - $H(X,Y) = -\sum p(x,y) \log p(x,y)$
 
-- Conditional Entrpoy
-    - $H(Y | X) = \sum_x p(X) H(p(Y | X=x))$
+- Conditional Entropy
+    - $H(Y | X) = \sum_x p(x) H(Y | X=x)$
     - $H(Y|X) = H(X,Y) - H(X)$
     - Reduction in joint uncertainty (X,Y) given we observed X
 
 - Perplexity
     - Exponentiated cross-entropy
     - Geometric mean of inverse probabilities
-    - $\text{perplexity}(p) = 2^{H(p)} = \sqrt{ \prod {1 \over p}}$
+    - $\text{perplexity}(p) = 2^{H(p)} = \sqrt[N]{\prod \frac{1}{p(x_i)}}$
     - Used to evaluate the quality of generative language models
     - Weighted average of branching factor
         - Number of possible words that can follow a given word
