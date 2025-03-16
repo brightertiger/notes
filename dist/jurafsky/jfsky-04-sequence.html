@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence Architectures</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="#" class="active">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Sequence Architectures</h1>
+<h2>Sequence Modeling</h2>
+<ul>
+<li>FFNNs can't be used because of limited context window<ul>
+<li>Languages can have longer dependencies over arbitrary context length</li>
+</ul>
+</li>
+<li>Language Models assign conditional probability to the next word<ul>
+<li>$P(W_{1:n}) = \prod_{i=1}^{n} P(W_i | W_{1:i-1})$</li>
+</ul>
+</li>
+<li>Quality of a language model is assessed by perplexity<ul>
+<li>$PP = P(W_{1:n})^{-1/n}$</li>
+<li>Inverse probability that the model assigns to the test sequence normalized by the length</li>
+</ul>
+</li>
+</ul>
+<h2>Recurrent Neural Networks</h2>
+<ul>
+<li>NN architecture that contains a cycle in its network connections</li>
+<li>The hidden layer output from previous step is linked to the current hidden layer output</li>
+<li>Predict using current input and previous hidden state</li>
+<li>Removes the fixed context dependency arising in FFNNs</li>
+<li>The temporal hidden output can be persisted for infinite steps</li>
+<li>Inference<ul>
+<li>$h_t = g(Uh_{t-1} + Wx_t)$</li>
+<li>$y_t = V(h_t)$</li>
+</ul>
+</li>
+<li>Training<ul>
+<li>Chain rule for backpropagation</li>
+<li>Output depends on hidden state and hidden state depends on previous time step</li>
+<li>BPTT: backpropagation through time</li>
+<li>In terms of computational graph, the network is "unrolled" for the entire sequence</li>
+<li>For very long sequences, use truncated BPTT</li>
+</ul>
+</li>
+<li>RNNs and Language Models<ul>
+<li>Predict next word using current word and previous hidden state</li>
+<li>Removes the limited context problem</li>
+<li>Use word embeddings to enhance the model's generalization ability</li>
+<li>$e_t = Ex_t$</li>
+<li>$h_t = g(Uh_{t-1} + We_t)$</li>
+<li>$y_t = V(h_t)$</li>
+<li>Output the probability distribution over the entire vocabulary</li>
+<li>Loss function: Cross entropy, difference between predicted probability and true distribution</li>
+<li>Minimize the error in predicting the next word</li>
+<li>Teacher forcing for training<ul>
+<li>In training phase, ignore the model output for predicting the next word</li>
+<li>Use the actual word instead</li>
+</ul>
+</li>
+<li>Weight tying<ul>
+<li>Input embedding lookup and output probability matrix have same dimensions |V|</li>
+<li>Avoid using two different matrices, use the same one instead</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RNN Tasks<ul>
+<li>Sequence Labeling<ul>
+<li>NER tasks, POS tagging</li>
+<li>At each step predict the current tag rather than the next word</li>
+<li>Use softmax over tagset with CE loss function</li>
+</ul>
+</li>
+<li>Sequence Classification<ul>
+<li>Classify entire sequences rather than the tokens</li>
+<li>Use hidden state from the last step and pass to FFNN</li>
+<li>Backprop will be used to update the RNN cycle links</li>
+<li>Use pooling to enhance performance<ul>
+<li>Element-wise Mean, Max of all intermediate hidden states</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sequence Generation<ul>
+<li>Encoder-decoder architecture</li>
+<li>Autoregressive generation</li>
+<li>Use &lt;s&gt; as the first token (BOS) and hidden state from encoder</li>
+<li>Sample form RNN, using output softmax</li>
+<li>Use the embedding from the generated token as next input</li>
+<li>Keep sampling till &lt;/s&gt; (EOS) token is sampled</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RNN Architectures<ul>
+<li>Stacked RNNs<ul>
+<li>Multiple RNNs "stacked together"</li>
+<li>Output from one layer serves as input to another layer</li>
+<li>Differening levels of abstraction across layers</li>
+</ul>
+</li>
+<li>Bidirectional RNNs<ul>
+<li>Many applications have full access to input sequence</li>
+<li>Process the sequence from left-to-right and right-to-left</li>
+<li>Concatenate the output from forward and reversed passes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>LSTM</h2>
+<ul>
+<li>RNNs are hard to train due to vanishing/exploding gradients</li>
+<li>Hidden state tends to be fairly local in practice, limiting long-term dependencies<ul>
+<li>Vanishing gradients: Signal from far-away timesteps gets lost</li>
+<li>Repeated multiplications in backpropagation step</li>
+<li>Sigmoid derivatives between (0-0.25) and tanh derivatives between (0-1)</li>
+<li>Gradients diminish exponentially over long sequence lengths</li>
+</ul>
+</li>
+<li>LSTMs introduce explicit memory management<ul>
+<li>Enable network to learn to forget information no longer needed</li>
+<li>Persist information likely needed for decisions yet to come</li>
+<li>Use gating mechanism (through additional parameters) to control the flow of information</li>
+</ul>
+</li>
+<li>Architecture<ul>
+<li>Memory cell (long-term memory) + hidden state (working memory)</li>
+<li>Three gates control information flow:<ul>
+<li>Forget gate: What to remove from cell state</li>
+<li>Input gate: What new information to store</li>
+<li>Output gate: What to output based on cell state</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Input Gate Logic<ul>
+<li>Candidate values: $g_t = \tanh(W_g x_t + U_g h_{t-1} + b_g)$</li>
+<li>Input gate: $i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$</li>
+<li>New information: $j_t = i_t \odot g_t$</li>
+</ul>
+</li>
+<li>Forget Gate Logic<ul>
+<li>Forget gate: $f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$</li>
+<li>Retained memory: $k_t = f_t \odot c_{t-1}$</li>
+</ul>
+</li>
+<li>Cell State Update<ul>
+<li>$c_t = j_t + k_t$ (add new information to retained memory)</li>
+</ul>
+</li>
+<li>Output Gate Logic<ul>
+<li>Output gate: $o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$</li>
+<li>Hidden state: $h_t = o_t \odot \tanh(c_t)$</li>
+</ul>
+</li>
+<li>LSTMs maintain two states: cell state (c) for long-term memory and hidden state (h) for output</li>
+</ul>
+<h2>Self Attention</h2>
+<ul>
+<li>LSTMs still have limitations:<ul>
+<li>Difficult to parallelize (sequential processing)</li>
+<li>Still not fully effective for very long dependencies</li>
+</ul>
+</li>
+<li>Transformers - Replace recurrent layers with self-attention layers</li>
+<li>Self-Attention Mechanism<ul>
+<li>Create three projections of each input vector:<ul>
+<li>Query (Q): What the token is looking for</li>
+<li>Key (K): What the token offers for matching</li>
+<li>Value (V): The actual information to be aggregated</li>
+</ul>
+</li>
+<li>Compute attention scores between each token and all other tokens</li>
+<li>Weight values according to attention scores</li>
+<li>Crucial innovation: allows direct connections between any tokens regardless of distance</li>
+</ul>
+</li>
+<li>Computation Steps<ul>
+<li>Project input sequence X into Q, K, V matrices using learned weight matrices<ul>
+<li>$Q = XW^Q$, $K = XW^K$, $V = XW^V$</li>
+</ul>
+</li>
+<li>Compute attention scores: $S = QK^T$</li>
+<li>Scale to stabilize gradients: $S' = S/\sqrt{d_k}$ where d_k is dimension of keys</li>
+<li>Apply softmax to get attention weights: $A = \text{softmax}(S')$</li>
+<li>Compute weighted values: $Z = AV$</li>
+</ul>
+</li>
+<li>Multi-Head Attention<ul>
+<li>Multiple parallel attention mechanisms</li>
+<li>Each head can capture different types of relationships</li>
+<li>Concatenate outputs and project back to original dimension</li>
+</ul>
+</li>
+<li>Positional Encodings<ul>
+<li>Unlike RNNs, self-attention operations are order-invariant</li>
+<li>Add position information to input embeddings</li>
+<li>Using sinusoidal functions: $PE_{(pos,2i)} = \sin(pos/10000^{2i/d})$, $PE_{(pos,2i+1)} = \cos(pos/10000^{2i/d})$</li>
+</ul>
+</li>
+<li>BERT Architecture<ul>
+<li>Base Model - 12 heads, 12 layers, 64 diemnsions, 768 size (12 * 64)</li>
+<li>Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 * 64)</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

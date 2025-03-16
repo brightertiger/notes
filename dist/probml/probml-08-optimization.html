@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimization</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Probml Notes</h3>
+        <ul>
+            <li><a href="probml-00.html">Introduction</a></li>
+<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
+<li><a href="probml-02-probability.html">02-probability</a></li>
+<li><a href="probml-03-probability.html">Probability (Advanced)</a></li>
+<li><a href="probml-04-statistics.html">04-statistics</a></li>
+<li><a href="probml-05-decision_theory.html">05-decision Theory</a></li>
+<li><a href="probml-06-information_theory.html">06-information Theory</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Optimization</h1>
+<ul>
+<li><p>Optimization Problem: Try to find values for a set of variables that minimize/maximize a scalar valued objective function</p>
+<ul>
+<li>$\arg \min_{\theta}L(\theta)$</li>
+</ul>
+</li>
+<li><p>The point that satisfies the optimization problem is called global optimum</p>
+</li>
+<li><p>Local optimum is a point that has optimal objective value compared to nearby points.</p>
+</li>
+<li><p>Optimality Conditions</p>
+<ul>
+<li>gradient $g(\theta) = \nabla L(\theta)$ is zero</li>
+<li>Hessian $H(\theta) = \nabla^2 L(\theta)$ is positive definite</li>
+</ul>
+</li>
+<li><p>Unconstrained Optimization: Finding any value in parameter space that minimizes the loss</p>
+</li>
+<li><p>Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}$</p>
+<ul>
+<li>I is the set of ineuqliaty constraints</li>
+<li>K is the set of equality constraints</li>
+<li>If there are too many constraints the feasible set may become empty.</li>
+</ul>
+</li>
+<li><p>Smooth Optimization: Objective and constraints are continuously differentiable </p>
+</li>
+<li><p>Lipschitz Constant: $|f(x_1) - f(x_2)| \le L|x_1 - x_2|$</p>
+<ul>
+<li>Function cannot change by more than L units if input changes by 1 unit</li>
+</ul>
+</li>
+<li><p>Non-smooth Optimization: Some points where gradient of the objective or the constraints is not well defined</p>
+</li>
+<li><p>Composite Objective: Contains both smooth and non-smooth terms. </p>
+</li>
+<li><p>Subgradient: Generalized notion of derivative to work with functions having local discontinuities.</p>
+</li>
+<li><p>First-Order Optimization Methods</p>
+<ul>
+<li>Leverage first-order derivatives of the objective function</li>
+<li>Ignore the curvature information</li>
+<li>$\theta_t = \theta_{t-1} + \eta_t d_t$</li>
+<li>d is the descent direction, $\eta$ is the step size</li>
+<li>Steepest Descent: direction opposite to the gradient g</li>
+<li>Step Size: controls the amount to move in the descent direction<ul>
+<li>Constant Step Size<ul>
+<li>incorrect values can lead to oscillations, slow convergence</li>
+</ul>
+</li>
+<li>Line Search<ul>
+<li>set as a 1d minimization problem to select the optimal value</li>
+</ul>
+</li>
+<li>Learning rate schedule must respect Robbins-Monro condition<ul>
+<li>${\sum \eta^2 \over \sum \eta} \rightarrow 0 \, \text{as} \, \eta \rightarrow 0$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Momentum<ul>
+<li>Gradient Descent slow across lat regions of the loss landscape</li>
+<li>Heavy Ball or Momentum helps move faster along the directions that were previously good.</li>
+<li>$m_t = \beta m_{t-1} + g_{t-1}$</li>
+<li>$\theta_t = \theta_{t-1} + \eta_t m_t$</li>
+<li>Momentum is essentially EWMA of gradients</li>
+</ul>
+</li>
+<li>Nestrov Momentum<ul>
+<li>Momentum may not slow down enough at the bottom causing oscillation</li>
+<li>Nestrov solves for that by adding a lookahead term</li>
+<li>$m_{t+1} = \beta m_t - \eta_t \Delta L(\theta_t + \beta m_t)$</li>
+<li>It updates the momentum using gradient at the predicted new location</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Second-Order Optimization Methods</p>
+<ul>
+<li>Gradients are cheap to compute and store but lack curvature information</li>
+<li>Second-order methods use Hessian to achieve faster convergence</li>
+<li>Newton's Method:<ul>
+<li>Second-order Taylor series expansion of objective</li>
+<li>$L(\theta) = L(\theta_t) + g(\theta - \theta_t) + {1 \over 2} H (\theta - \theta_t)^2$</li>
+<li>Descent Direction:  $\theta = \theta_t - H^{-1} g$</li>
+</ul>
+</li>
+<li>BFGS:<ul>
+<li>Quasi-Newton method</li>
+<li>Hessian expensive to compute</li>
+<li>Approximate Hessian by using the gradient vectors</li>
+<li>Memory issues</li>
+<li>L-BFGS is limited memory BFGS</li>
+<li>Uses only recent gradients for calculating Hessian</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Stochastic Gradient Descent</p>
+<ul>
+<li>Goal is to minimize average value of a function with random inputs</li>
+<li>$L(\theta) = \mathbf E_z[L(\theta, z)]$</li>
+<li>Random variable Z is independent of parameters theta</li>
+<li>The gradient descent estimate is therefore unbiased</li>
+<li>Empirical Risk Minimization (ERM) involves minimizing a finite sum problem<ul>
+<li>$L(\theta) = {1 \over N}\sum l(y, f(x(\theta))$</li>
+</ul>
+</li>
+<li>Gradient calculation requires summing over N</li>
+<li>It can be approximated by summing over minibatch B &lt;&lt; N in case of random sampling</li>
+<li>This will give unbiased approximation and results in faster convergence</li>
+</ul>
+</li>
+<li><p>Variance Reduction</p>
+<ul>
+<li>Reduce the variance in gradient estimates by SGD</li>
+<li>Stochastic Variance Reduced Gradient (SVRG)<ul>
+<li>Adjust the stochastic estimates by those calculated on full batch</li>
+</ul>
+</li>
+<li>Stochastic Averaged Gradient Accelerated (SAGA)<ul>
+<li>Aggregate the gradients to calculate average values</li>
+<li>$g_t = \Delta L(\theta) - g_{local} + g_{avg}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Optimizers</p>
+<ul>
+<li><p>AdaGrad (Adaptive Gradient)</p>
+<ul>
+<li>Sparse gradients corresponding to features that are rarely present</li>
+<li>$\theta_{t+1} = \theta_t -\eta_t {1 \over \sqrt{s_t +\epsilon}} g_t$</li>
+<li>$s_t = \sum g^2$</li>
+<li>It results in adaptive learning rate</li>
+<li>As the denominator grows, the effective learning rate drops</li>
+</ul>
+</li>
+<li><p>RMSProp </p>
+<ul>
+<li>Uses EWMA instead of sum in AdaGrad</li>
+<li>$s_t = \beta s_{t-1} + (1-\beta)g^2_t$</li>
+<li>Prevents from s to grow infinitely large</li>
+</ul>
+</li>
+<li><p>AdaDelta</p>
+<ul>
+<li>Like RMSProp, uses EWMA on previous gradients</li>
+<li>But also uses EWMA on updates</li>
+<li>$\delta_t = \beta \delta_{t-1} + (1 - \beta) (\Delta \theta^2)$</li>
+<li>$\theta_{t+1} = \theta_t -\eta_t {\sqrt{\delta_t +\epsilon} \over \sqrt{s_t +\epsilon}} g_t$</li>
+</ul>
+</li>
+<li><p>Adam</p>
+<ul>
+<li>Adaptive Moment Estimation</li>
+<li>Combines RMSProp with momentum</li>
+<li>$m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$</li>
+<li>$s_t = \beta_1 s_{t-1} + (1 - \beta_1) g_t^2$</li>
+<li>$\Delta \theta = \eta {1 \over \sqrt s_t + e} m_t$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Constrained Optimization</p>
+<ul>
+<li><p>Lagrange Multipliers</p>
+<ul>
+<li>Convert constrained optimization problem (with equality constraints) to an unconstrained optimization problem</li>
+<li>Assume the constraint is $h(\theta) = 0$</li>
+<li>$\nabla h(\theta)$ is orthogonal to the plane $h(\theta) = 0$<ul>
+<li>First order Taylor expansion</li>
+</ul>
+</li>
+<li>Also, $\nabla L(\theta)$ is orthogonal to the plane $h(\theta) = 0$ at the optimum<ul>
+<li>Otherwise, moving along the constraint can improve the objective value</li>
+</ul>
+</li>
+<li>Hence, at the optimal solution: $\nabla L(\theta) = \lambda \nabla h(\theta)$<ul>
+<li>$\lambda$ is the Lagrangian multiplier</li>
+</ul>
+</li>
+<li>Convert the above identity to an objective<ul>
+<li>$L(\theta, \lambda) = L(\theta) - \lambda h(\theta)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>KKT Conditions</p>
+<ul>
+<li>Generalize the concept of Lagrange multiplier to inequality constraints</li>
+<li>Assume the inequality constraint: $g(\theta) &lt; 0$</li>
+<li>$L(\theta, \mu) = L(\theta) + \mu g(\theta)$</li>
+<li>$\min L(\theta) \rightarrow \min_{\theta} \max_{\mu \ge 0} L(\theta, \mu)$<ul>
+<li>Competing objectives</li>
+<li>$\mu$ is the penalty for violating the constraint.</li>
+<li>If $g(\theta) &gt; 0$, then the objective becomes $\infty$</li>
+</ul>
+</li>
+<li>Complementary Slackness<ul>
+<li>If the constraint is active, $g(\theta) = 0, \mu &gt; 0$</li>
+<li>If the constraint is inactive, $g(\theta) &lt; 0, \mu = 0$</li>
+<li>$\mu * g = 0$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Linear Programming</p>
+<ul>
+<li>Feasible set is a convex polytope</li>
+<li>Simplex algorithm moves from vertex to vertex of the polytope seeking the edge that improves the objective the most.</li>
+</ul>
+</li>
+<li><p>Proximal Gradient Descent</p>
+<ul>
+<li>Composite objective with smooth and rough parts</li>
+<li>Proximal Gradient Descent calculates the gradients of the smooth part and projects the update into a space the respects the rough part</li>
+<li>L1 Regularization is sparsity inducing. Can be optimized using proximal gradient descent. (0,1) is preferred vs $1 \over \sqrt 2$, $1 \over \sqrt 2$. L2 is agnostic between the two.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Expectation Maximization Algorithm</p>
+<ul>
+<li>Compute MLE / MAP in cases where there is missing data or hidden variables.</li>
+<li>E Step: Estimates hidden variables / missing values</li>
+<li>M Step: Uses observed data to calculate MLE / MAP</li>
+<li>$LL(\theta) = \sum \log p( y | \theta) = \sum \log \sum p(y, z | \theta)$</li>
+<li>z is the hidden / latent variable</li>
+<li>Using Jensen's inequality for convex functions<ul>
+<li>$LL(\theta) \ge \sum \sum q(z) \log p (y | \theta, z)$</li>
+<li>q(z) is the prior estimate over hidden variable</li>
+<li>log(p) is the conditional likelihood</li>
+<li>Evidence lower bound or ELBO method</li>
+</ul>
+</li>
+<li>EMM for GMM<ul>
+<li>E Step: Compute the responsibility of cluster k for generating the data point</li>
+<li>M Step: Maximize the computed log-likelihood</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Simulated Annealing</p>
+<ul>
+<li>Stochastic Local Search algorithm that optimizes black-box functions whose gradients are intractable.</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="#" class="active">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Regression</h1>
+<h2>Derivation</h2>
+<ul>
+<li>$y = X\beta + \epsilon$<ul>
+<li>$\epsilon \sim N(0, \sigma^2I)$</li>
+</ul>
+</li>
+<li>Linear Function Approximation<ul>
+<li>$E(Y|X) = f(X) = \beta_0 + \sum_{j=1}^p \beta_j x_j$</li>
+<li>Model is linear in parameters</li>
+<li>Coefficient $\beta_j$ represents the expected change in response for a one-unit change in $x_j$, holding other predictors constant</li>
+</ul>
+</li>
+<li>Minimize Residual Sum of Squares<ul>
+<li>$RSS = \sum (y_i - f(x_i))^2 = (y - X\beta)^T(y - X\beta)$</li>
+</ul>
+</li>
+<li>Optimal value of beta:<ul>
+<li>$\frac{\partial RSS}{\partial \beta} = 0$</li>
+<li>$\hat \beta = (X^T X)^{-1}(X^Ty)$</li>
+<li>$\hat y = X \hat \beta = (X(X^T X)^{-1}X^T)y = H y$<ul>
+<li>H is the projection or Hat matrix</li>
+<li>$H_{ii}$ are leverage values indicating influence of each observation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Sampling Distribution of $\beta$</h2>
+<ul>
+<li>Deviations around the conditional mean are Gaussian</li>
+<li>$Var(\hat \beta) = (X^T X)^{-1} \sigma^2$</li>
+<li>Estimate of Sigma can be done by looking at sample variance</li>
+<li>$\hat \sigma^2 = \frac{1}{N-p-1} \sum (y_i - \hat y_i)^2$</li>
+<li>$\hat \beta \sim N(\beta, (X^T X)^{-1} \sigma^2)$</li>
+</ul>
+<h2>Statistical Significance</h2>
+<ul>
+<li>$Z_i = \frac{\hat\beta_i}{SE_i} = \frac{\hat\beta_i}{\hat \sigma \sqrt{v_i}}$<ul>
+<li>$v_i$ is the $i$-th diagonal element of $(X^T X)^{-1}$</li>
+<li>Under null hypothesis $H_0: \beta_i = 0$, $Z_i \sim t_{N-p-1}$</li>
+</ul>
+</li>
+<li>Testing significance for a group of parameters<ul>
+<li>Say categorical variables with all k variables</li>
+<li>$F = \frac{(RSS_0 - RSS_1)/(p_1-p_0)}{RSS_1 / (N - p_1-1)}$</li>
+<li>$RSS_0$ is from restricted model, $RSS_1$ from full model</li>
+<li>$p_0$ and $p_1$ are the number of parameters in each model</li>
+<li>Under $H_0$, $F \sim F_{p_1-p_0, N-p_1-1}$</li>
+</ul>
+</li>
+</ul>
+<h2>Gauss-Markov Theorem</h2>
+<ul>
+<li>Among all unbiased estimators, the least square estimates have lowest variance</li>
+<li>$E[(Y_0 - \hat Y_0)^2] = \sigma^2 + MSE(\hat f(X_0))$</li>
+<li>Assumptions required:<ul>
+<li>Linearity of the true relationship</li>
+<li>Independence of errors</li>
+<li>Homoscedasticity (constant error variance)</li>
+<li>No perfect multicollinearity</li>
+</ul>
+</li>
+</ul>
+<h2>Subset Selection</h2>
+<ul>
+<li>Select only a few variables for better interpretability</li>
+<li>Best subset selection of size K is the one that yields minimum RSS</li>
+<li>Forward Selection<ul>
+<li>Sequentially add one variable that most improves the fit</li>
+<li>QR decomposition / successive orthogonalization to look at correlation</li>
+<li>Computationally efficient but may miss optimal subset</li>
+</ul>
+</li>
+<li>Backward Selection<ul>
+<li>Sequentially delete the variable that has least impact on the fit</li>
+<li>Z Score</li>
+<li>Requires starting with all variables (can't be used when N &lt; p)</li>
+</ul>
+</li>
+<li>Hybrid Stepwise Selection<ul>
+<li>Consider both forward and backward moves at each step</li>
+<li>AIC for weighting the choices</li>
+<li>Better exploration of the model space</li>
+</ul>
+</li>
+<li>Forward Stagewise Selection<ul>
+<li>Add the variable most correlated with current residual</li>
+<li>Don't re-adjust the coefficients of the existing variables</li>
+<li>Similar to gradient descent in function space</li>
+</ul>
+</li>
+</ul>
+<h2>Shrinkage Methods</h2>
+<ul>
+<li>Shrinkage methods result in biased estimators but a large reduction in variance</li>
+<li>More continuous and don't suffer from high variability</li>
+<li>Ridge Regression<ul>
+<li>Impose a penalty on the size of the coefficients</li>
+<li>$\hat \beta^{\text{ridge}} = \arg \min (y - X \beta)^T(y - X \beta) + \lambda \sum \beta^2$</li>
+<li>$\hat \beta^{\text{ridge}} = \arg \min (y - X \beta)^T(y - X \beta) \; \text{subject to} \sum \beta^2 \le t$</li>
+<li>t is the budget</li>
+<li>In case of correlated variables, coefficients are poorly determined</li>
+<li>A large positive coefficient of a variable is canceled by a large negative coefficient of the correlated variable</li>
+<li>Solution not invariant to scaling. Standardize the inputs and don't impose penalty on intercept</li>
+<li>$\hat \beta^{\text{ridge}} = (X^T X + \lambda I)^{-1}(X^Ty)$</li>
+<li>In case of correlated predictors, the original $(X^T X)$ wasn't full rank. But by adding noise to diagonal elements, the matrix can now be inverted.</li>
+<li>Eigenvalue decomposition: $X^TX = U D U^T$</li>
+<li>Ridge coefficients: $\hat{\beta}^{ridge} = \sum_{j=1}^p \frac{d_j}{d_j + \lambda} u_j^T y \cdot u_j$</li>
+<li>As $\lambda$ increases, coefficients shrink toward zero but not exactly zero</li>
+<li>In case of orthonormal inputs (PCA), the ridge coefficients are scaled versions of the original least-square estimates.</li>
+<li>$\lambda$ controls the degrees of freedom. A large value results in effectively dropping the variables.</li>
+</ul>
+</li>
+<li>Lasso Regression<ul>
+<li>$\hat \beta^{\text{lasso}} = \arg \min (y - X \beta)^T(y - X \beta) + \lambda \sum |\beta|$</li>
+<li>Non-linear optimization</li>
+<li>A heavy restriction on budget makes some coefficients exactly zero</li>
+<li>Continuous subset selection</li>
+<li>Comparison between Ridge and Lasso<ul>
+<li>Ridge represents a disk $\beta_1^2 + \beta_2^2 &lt;= t$</li>
+<li>Lasso represents a rhombus $|\beta_1| + |\beta_2| &lt;= t$</li>
+<li>At optimal value, the estimated parameters can be exactly zero (corner solutions)</li>
+<li>Bayesian MAP estimates with different priors<ul>
+<li>Lasso has Laplace Prior ($p(\beta) \propto e^{-\alpha|\beta|}$)</li>
+<li>Ridge has Gaussian Prior ($p(\beta) \propto e^{-\alpha\beta^2/2}$)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Elastic Net<ul>
+<li>$\lambda \sum \alpha \beta^2 + (1 - \alpha) |\beta|$</li>
+<li>Variable selection like Lasso</li>
+<li>Shrinking coefficients like Ridge</li>
+<li>Better handles groups of correlated predictors</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Partial Least Squares</h2>
+<ul>
+<li>Alternative approach to PCA to deal with correlated features</li>
+<li>Supervised transformation</li>
+<li>Principal component regression seeks directions that have high variance</li>
+<li>Partial Least Square seeks direction with high variance and high correlation with response</li>
+<li>Derive new features by linear combination of raw variables re-weighted by the correlation</li>
+<li>Algorithm:<ol>
+<li>Standardize X and y</li>
+<li>For m = 1,2,...M:<ul>
+<li>Compute weight vector $w_m \propto X^T_{m-1}y$</li>
+<li>Create score vector $z_m = X_{m-1}w_m$</li>
+<li>Regress y on $z_m$ to get coefficient $\hat{\phi}_m$</li>
+<li>Regress each column of $X_{m-1}$ on $z_m$ to get loadings $\hat{p}_m$</li>
+<li>Orthogonalize: $X_m = X_{m-1} - z_m\hat{p}_m^T$</li>
+</ul>
+</li>
+<li>Final prediction: $\hat{y} = \bar{y} + \sum_{m=1}^M \hat{\phi}_m z_m$</li>
+</ol>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

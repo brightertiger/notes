@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="#" class="active">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Regression</h1>
+<h2>Bi-variate Regression</h2>
+<ul>
+<li>Fit a straight line to data<ul>
+<li>How the conditional mean of response variable changes with change in explanatory variables</li>
+<li>Minimize SSE: $\sum (y - \hat y)^2$</li>
+<li>$E(y|x) = \hat y = a + bx$</li>
+<li>$a = \bar y - b \bar x$</li>
+<li>$b = S_{xy} / S_{xx} = \sum (x-\bar x)(y - \bar y) / \sum (x - \bar x)^2$</li>
+</ul>
+</li>
+<li>Outlier: If a point lies far off from the rest of the data</li>
+<li>Influential: If a point causes large change in slope of the fitted line</li>
+<li>Variance<ul>
+<li>Assume constant variance (homoscedasticity)</li>
+<li>$s = \sqrt{SSE \over (n-p)}$</li>
+</ul>
+</li>
+<li>Correlation<ul>
+<li>Strength of linear association</li>
+<li>$r = \frac{\sum{(x - \bar x)(y - \bar y)}}{\sqrt{(x - \bar x)^2} \sqrt{(y - \bar y)^2}}$</li>
+<li>$r = (s_x / s_y) b$<ul>
+<li>In case of standardized variables, r = b</li>
+<li>Regression towards mean<ul>
+<li>$|r| &lt;= 1$</li>
+<li>Line passes thourgh $(\bar x, \bar y)$</li>
+<li>A unit increase in x leads to r increase in y</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>R-Square<ul>
+<li>Coefficient of determination</li>
+<li>$R^2 = (TSS - SSE) / TSS$</li>
+<li>$SSE = \sum(y - \hat y)^2$</li>
+<li>$TSS = \sum(y - \bar y)^2$</li>
+<li>Squared correlation coefficient</li>
+</ul>
+</li>
+<li>Statistical Significance<ul>
+<li>$t = b / se$</li>
+<li>$se = s / \sqrt{S_{xx}}$</li>
+<li>$s = \sqrt{SSE / (n-2)}$</li>
+<li>$t^2 = F = \frac{r^2 / (2-1)}{1-r^2 / n - 2}$</li>
+</ul>
+</li>
+</ul>
+<h2>Multivariate Regression</h2>
+<ul>
+<li>Types of relationships<ul>
+<li>Spurious: Both variables jointly affected by a third variable</li>
+<li>Mediator: An intervening third variable indirectly affects the two variables</li>
+<li>Suppressor: Association only exists after controlling for a third variable</li>
+</ul>
+</li>
+<li>Extending regression to multiple explanatory variables<ul>
+<li>$E(y|x) = \hat y = a + b_1 x_1 + b_2 x_2$</li>
+<li>b1 is the relationship between y and x1 after controlling for all other variables (x2)</li>
+<li>b1 is the partial regression coefficient</li>
+<li>It represents first order partial correlation</li>
+<li>$r_{yx_1.x_2}= (R^2 - r^2_{yx_2}) / (1 - r^2_{yx_2})$</li>
+</ul>
+</li>
+<li>Partial Regression Plots<ul>
+<li>True association between x1 and y after controlling for x2</li>
+<li>Regress y on x2: $\hat y = a' + b'x_2$</li>
+<li>Regress x1 on x2: $\hat x_1 = a'' + b'' x_2$</li>
+<li>Plot the residuals from first regression against the second.</li>
+</ul>
+</li>
+<li>Statistical Significance<ul>
+<li>Collective Influence<ul>
+<li>F Test</li>
+<li>$F = \frac{R^2 / p-1}{(1 - R^2) / (n-p)}$</li>
+</ul>
+</li>
+<li>Individual Influence<ul>
+<li>t test</li>
+<li>$t = \beta / se$</li>
+<li>$s = \sqrt{SSE / n-p}$</li>
+</ul>
+</li>
+<li>Comparing Two Models<ul>
+<li>Complete Model: With all the variables</li>
+<li>Reduced Model: Dropping some of the variables</li>
+<li>$F = \frac{(SSE_r - SSE_c)/(df_c - df_r)}{SSE_c / df_c}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ANOVA<ul>
+<li>Total $SST = \sum (y - \bar y)^2, \; df = n-1$</li>
+<li>Regression $SSR = \sum (\hat y - \bar y)^2, \; df = p-1$</li>
+<li>Error $SSE = \sum (y - \hat y)^2, \; df = n-p$</li>
+<li>$F = MSR / MSE = (SSR / df) / (SSE / df)$</li>
+</ul>
+</li>
+<li>Bonferroni Correction<ul>
+<li>Multiple comparisons</li>
+<li>Significance Level // # of comparisons</li>
+</ul>
+</li>
+</ul>
+<h2>Logistic Regression</h2>
+<ul>
+<li>S-shaped curve to model binary response variable</li>
+<li>Models underlying probability as CDF of logistic distribution<ul>
+<li>$P(y=1) = \frac{\exp(x \beta)}{1 + \exp(x \beta)}$</li>
+</ul>
+</li>
+<li>Log-odds ratio modeled as linear function of features<ul>
+<li>$\log{\frac{P(y=1)}{1- P(y=1)}} = \alpha + \beta x$</li>
+<li>Logit link function</li>
+</ul>
+</li>
+<li>Interpreting Logistic Regression Model<ul>
+<li>The coefficients denote odds ratio</li>
+<li>$\exp \beta$ is the odds ratio wrt of x</li>
+</ul>
+</li>
+<li>Propensity Scores<ul>
+<li>Adjust for selection bias in comparing two groups<ul>
+<li>Smokers and treatment impact on Death. Treatment is more prevalant in smokers\</li>
+</ul>
+</li>
+<li>Control for confounding variables when computing ATE (average treatment effect)</li>
+<li>Propensity is the probability of being in a particular group for a given setting of explanatory variable</li>
+<li>Can be computed using conditional probabilities but difficult to estimate in high-dimension</li>
+<li>Use logistic regression to estimate how propensity depends on explanatory variables</li>
+<li>Use propensity score to do pair matching (weighted random sampling using proensity scores)</li>
+</ul>
+</li>
+<li>Likelihood Ratio Test<ul>
+<li>Compare two models</li>
+<li>Probability of observed data as a function of parameters</li>
+<li>Likelihood Ratio: $-2 (\log l_0 - \log l_1)$ follows chi-squared distribution</li>
+</ul>
+</li>
+<li>Wald Statistic<ul>
+<li>Square of Z-stat: $\beta / se$</li>
+</ul>
+</li>
+<li>Ordinal Response (ordered categories):<ul>
+<li>Setup the problem as one of cumulative logits</li>
+<li>$P(y \le 2) = P(y=1) + P(y=2)$</li>
+</ul>
+</li>
+<li>Nominal Response (unordered categories):<ul>
+<li>One-vs-Rest setup: One model per class</li>
+<li>One-vs-One setup: One model per pair of classes</li>
+</ul>
+</li>
+</ul>
+<h2>Regression Diagnostics</h2>
+<ul>
+<li>Residual Analysis:<ul>
+<li>Residual plots: Check for patterns in residuals vs. fitted values</li>
+<li>Q-Q plots: Assess normality of residuals</li>
+<li>Scale-location plots: Check homoscedasticity assumption</li>
+<li>Residuals vs. leverage: Identify influential observations</li>
+</ul>
+</li>
+<li>Multicollinearity:<ul>
+<li>Variance Inflation Factor (VIF): $VIF_j = \frac{1}{1-R_j^2}$</li>
+<li>$R_j^2$ is the R-squared from regressing the jth predictor on all other predictors</li>
+<li>VIF &gt; 10 indicates problematic multicollinearity</li>
+<li>Remedies: Remove variables, principal components regression, ridge regression</li>
+</ul>
+</li>
+<li>Influential Observations:<ul>
+<li>Cook's distance: Measures effect of deleting observations</li>
+<li>DFBETA: Change in coefficient estimates when observation is removed</li>
+<li>Leverage (hat values): Potential to influence the fit</li>
+<li>High leverage + high residual = influential point</li>
+</ul>
+</li>
+<li>Model Selection:<ul>
+<li>Akaike Information Criterion (AIC): $AIC = 2k - 2\ln(L)$</li>
+<li>Bayesian Information Criterion (BIC): $BIC = k\ln(n) - 2\ln(L)$</li>
+<li>Adjusted R-squared: $R_{adj}^2 = 1 - \frac{(1-R^2)(n-1)}{n-p-1}$</li>
+<li>Where k is number of parameters, L is likelihood, n is sample size, p is number of predictors</li>
+</ul>
+</li>
+</ul>
+<h2>Advanced Regression Techniques</h2>
+<ul>
+<li>Ridge Regression:<ul>
+<li>Adds L2 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||^2$</li>
+<li>Shrinks coefficients towards zero but doesn't eliminate variables</li>
+<li>Particularly useful for multicollinearity</li>
+</ul>
+</li>
+<li>Lasso Regression:<ul>
+<li>Adds L1 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||_1$</li>
+<li>Can shrink coefficients exactly to zero (feature selection)</li>
+<li>Works well for high-dimensional sparse data</li>
+</ul>
+</li>
+<li>Elastic Net:<ul>
+<li>Combines L1 and L2 penalties: $\min_\beta ||y - X\beta||^2 + \lambda_1||\beta||_1 + \lambda_2||\beta||^2$</li>
+<li>Balances feature selection and coefficient shrinkage</li>
+</ul>
+</li>
+<li>Quantile Regression:<ul>
+<li>Models conditional quantiles instead of conditional mean</li>
+<li>Robust to outliers and heteroscedasticity</li>
+<li>Provides more complete picture of relationship between variables</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

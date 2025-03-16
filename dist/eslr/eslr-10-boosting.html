@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boosting</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="#" class="active">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Boosting</h1>
+<h2>AdaBoost</h2>
+<ul>
+<li>Sequentially apply weak classifiers on modified versions of the data</li>
+<li>Data modifications involve re-weighting the observations<ul>
+<li>Errors from previous round are given more weight</li>
+<li>Focus on hard-to-classify examples</li>
+</ul>
+</li>
+<li>$Y \in \{-1,+1\}$</li>
+<li>$G(x_i) = \text{sign}\left(\sum_{m=1}^M \alpha_m G_m(x_i)\right)$<ul>
+<li>$G_m(.)$ is weak classifier with an accuracy slightly better than random</li>
+<li>$\alpha_m$ is calculated by the boosting algorithm</li>
+<li>Final classifier is weighted vote of weak classifiers</li>
+</ul>
+</li>
+<li>Algorithm<ul>
+<li>Initial weights $w_i = 1/N$</li>
+<li>For m = 1 to M rounds:<ul>
+<li>Fit classifier $G_m(x)$ using weights $w_i$</li>
+<li>Compute Error $err_m = \frac{\sum_{i=1}^N w_i I\{y_i \neq G_m(x_i)\}}{\sum_{i=1}^N w_i}$</li>
+<li>Compute $\alpha_m = \log\left(\frac{1 - err_m}{err_m}\right)$</li>
+<li>Update weights $w_i \leftarrow w_i \exp(\alpha_m I\{y_i \neq G_m(x_i)\})$</li>
+<li>Normalize weights so they sum to 1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Properties<ul>
+<li>Adaptive: focus shifts to harder examples</li>
+<li>Resistant to overfitting (in practice)</li>
+<li>Theoretical error bound: $\prod_m \sqrt{4 \cdot err_m \cdot (1-err_m)}$</li>
+<li>Works well with decision trees as base learners</li>
+</ul>
+</li>
+</ul>
+<h2>Additive Models</h2>
+<ul>
+<li>Boosting fits a forward stagewise additive model</li>
+<li>$f(x) = \sum_{m=1}^M \beta_m b(x, \gamma_m)$</li>
+<li>$\min_{\beta_m,\gamma_m} \sum_{i=1}^N L(y_i, \beta_m b(x_i, \gamma_m))$<ul>
+<li>Optimal values of $\beta$ and $\gamma$ can be found iteratively</li>
+<li>$\min_{\beta,\gamma} \sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma))$</li>
+<li>Stagewise: optimize $\beta, \gamma$ given fixed $f_{m-1}$</li>
+</ul>
+</li>
+<li>L2 Loss Function<ul>
+<li>$\min_{\beta,\gamma} \sum_{i=1}^N (y_i - f_{m-1}(x_i) - \beta b(x_i, \gamma))^2$</li>
+<li>$\min_{\beta,\gamma} \sum_{i=1}^N (r_{im} - \beta b(x_i, \gamma))^2$</li>
+<li>Where $r_{im} = y_i - f_{m-1}(x_i)$ are residuals from previous rounds</li>
+<li>Fit on residuals from previous rounds</li>
+<li>Equivalent to gradient descent in function space with squared error</li>
+<li>Robust Loss Functions for regression<ul>
+<li>Huber Loss<ul>
+<li>L1 penalty for large errors</li>
+<li>L2 penalty for small errors</li>
+<li>Less sensitive to outliers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Exponential Loss<ul>
+<li>$L(y, f(x)) = \exp(-y f(x))$</li>
+<li>Equivalent to using deviance</li>
+<li>The optimal $f$ that minimizes this loss is $\frac{1}{2}\log\frac{P(Y=1|X=x)}{P(Y=-1|X=x)}$</li>
+<li>Hence justified to use the sign of $f(x)$ for prediction</li>
+<li>$\min_{\beta,G} \sum_{i=1}^N \exp(-y_i(f_{m-1}(x_i) + \beta G(x_i)))$</li>
+<li>$\min_{\beta,G} \sum_{i=1}^N w_i^{(m)} \exp(-y_i \beta G(x_i))$</li>
+<li>$\min_{\beta,G} \exp(-\beta) \sum_{y_i=G(x_i)} w_i^{(m)} + \exp(\beta) \sum_{y_i\neq G(x_i)} w_i^{(m)}$</li>
+<li>Optimal $\beta = \frac{1}{2}\log\frac{1-err_m}{err_m}$</li>
+<li>AdaBoost is equivalent to forward stagewise additive modeling with exponential loss</li>
+</ul>
+</li>
+</ul>
+<h2>Gradient Boosting</h2>
+<ul>
+<li>Gradient Descent in function space</li>
+<li>Minimize $L(f) = \sum L(y_i, f(x_i))$</li>
+<li>$\arg \min L(\mathbf f); \; \mathbf f = \{f(x_1), f(x_2)....\}$</li>
+<li>Additive Models $ \mathbf f = \sum_m h_m$</li>
+<li>Steepest Descent $h_m = -\rho_m g_m$<ul>
+<li>$g_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}|_{f=f_{m-1}}$</li>
+<li>Negative gradient of loss function</li>
+</ul>
+</li>
+<li>Algorithm:<ol>
+<li>Initialize $f_0(x) = \arg\min_{\gamma}\sum_{i=1}^N L(y_i, \gamma)$</li>
+<li>For m = 1 to M:<ul>
+<li>Compute negative gradient: $r_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}|_{f=f_{m-1}}$</li>
+<li>Fit a base learner (e.g., regression tree) to $r_{im}$</li>
+<li>Line search for optimal step size: $\rho_m = \arg\min_{\rho}\sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \rho h_m(x_i))$</li>
+<li>Update: $f_m(x) = f_{m-1}(x) + \rho_m h_m(x)$</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Line Search for optimal step size<ul>
+<li>$\rho_m = \arg \min_\rho L(f_{m-1} - \rho g_m)$</li>
+<li>Can be solved analytically for some loss functions</li>
+<li>Numerical optimization for others</li>
+</ul>
+</li>
+<li>Gradients for common loss functions<ul>
+<li>L2 Loss: Residual $y_i - f(x_i)$</li>
+<li>L1 Loss: Sign of Residual $\text{sign}(y_i - f(x_i))$</li>
+<li>Classification / Deviance: $y_i - p(x_i)$</li>
+<li>Huber: Combination of L1 and L2 depending on residual magnitude</li>
+</ul>
+</li>
+<li>Popular implementations<ul>
+<li>XGBoost: Optimized implementation with additional regularization</li>
+<li>LightGBM: Gradient-based One-Side Sampling (GOSS) for efficiency</li>
+<li>CatBoost: Better handling of categorical variables</li>
+</ul>
+</li>
+<li>Regularization techniques<ul>
+<li>Shrinkage: Multiply each update by learning rate η (0 &lt; η &lt; 1)</li>
+<li>Subsampling: Use random subset of training data for each iteration</li>
+<li>Early stopping: Stop when validation performance degrades</li>
+<li>Tree constraints: Limit depth, minimum samples per leaf, etc.</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

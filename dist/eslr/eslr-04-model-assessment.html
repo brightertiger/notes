@@ -1,0 +1,366 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Assessment and Selection</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="#" class="active">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Model Assessment and Selection</h1>
+<h2>Bias-Variance Tradeoff</h2>
+<ul>
+<li>Generalization<ul>
+<li>Prediction error over an independent test sample</li>
+</ul>
+</li>
+<li>$\text{ERR}_T = E[L(Y, \hat f(x)) | T]$<ul>
+<li>T refers to the training set used to build the model</li>
+<li>L is the loss function used to evaluate the model performance<ul>
+<li>Regression: Squared Loss, Absolute Loss</li>
+<li>Classification: 0-1 Loss, Deviance (-2 × log-likelihood)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>As the model becomes more complex, it adapts to complex underlying structure of the training data<ul>
+<li>Decrease in bias but increase in variance</li>
+<li>If the underlying training data changes, the complex fitted model will change to a large extent</li>
+</ul>
+</li>
+<li>Intermediate model complexity gives minimum expected test error<ul>
+<li>U-shaped test error curve: underfitting → optimal → overfitting</li>
+</ul>
+</li>
+<li>Training error is not a good estimate of test error<ul>
+<li>Consistently decreases with increasing model complexity</li>
+<li>Poor generalization</li>
+<li>Training error is an optimistic estimate of test error</li>
+</ul>
+</li>
+<li>Model Selection<ul>
+<li>Estimating performance of different models to choose the best one</li>
+<li>Select the model with best estimated generalization performance</li>
+</ul>
+</li>
+<li>Model Assessment<ul>
+<li>Having selected the model, estimating the generalization error on new, unseen data</li>
+<li>Provides unbiased estimate of model performance</li>
+</ul>
+</li>
+<li>Divide the dataset<ul>
+<li>Training: Fit the models</li>
+<li>Validation: Estimate model prediction error for model selection</li>
+<li>Test: Generalization error of the final chosen model</li>
+<li>Typically 50%/25%/25% or 60%/20%/20% split for train/validation/test</li>
+</ul>
+</li>
+</ul>
+<h2>Bias-Variance Decomposition</h2>
+<ul>
+<li>$Y = f(X) + \epsilon$<ul>
+<li>$E(\epsilon) = 0, Var(\epsilon) = \sigma^2_{\epsilon}$</li>
+</ul>
+</li>
+<li>$\text{ERR}(x_0) = E[(Y - \hat f(x_0))^2 | x_0]$<ul>
+<li>$\text{ERR}(x_0) = E[(f(x_0) + \epsilon - \hat f(x_0))^2]$</li>
+<li>$\text{ERR}(x_0) = \sigma^2_{\epsilon} + [E(\hat f(x_0)) - f(x_0)]^2 + E[(\hat f(x_0) - E(\hat f(x_0)))^2]$</li>
+<li>MSE = Irreducible Error + Bias Squared + Variance</li>
+</ul>
+</li>
+<li>Bias: Difference between average of estimate and true mean<ul>
+<li>Bias is high for simple models (underfitting)</li>
+<li>Simpler models make strong assumptions about underlying structure</li>
+</ul>
+</li>
+<li>Variance: Squared Deviation of model around its mean<ul>
+<li>Variance is high for complex models (overfitting)</li>
+<li>Complex models are sensitive to specific training samples</li>
+</ul>
+</li>
+<li>More Complex Model<ul>
+<li>Lower Bias</li>
+<li>Higher Variance</li>
+<li>Tradeoff depends on signal-to-noise ratio and training sample size</li>
+</ul>
+</li>
+<li>For linear Model<ul>
+<li>$\text{Variance} \propto p$<ul>
+<li>Complexity of the model is related to the number of parameters</li>
+</ul>
+</li>
+<li>$\text{Bias}^2 = \text{Model Bias}^2 + \text{Estimation Bias}^2$<ul>
+<li>Model Bias: Best fitting linear model and True function</li>
+<li>Estimation Bias: Estimated Model and Best fitting linear model</li>
+</ul>
+</li>
+<li>For OLS: Estimation Bias is 0, BLUE</li>
+<li>For Ridge: Estimation Bias is positive<ul>
+<li>Trade-off with reduction in variance</li>
+<li>Can lead to overall lower MSE despite increased bias</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Optimism of Training Error</h2>
+<ul>
+<li>$\text{ERR} = E(\text{ERR}_T)$</li>
+<li>Training error is less than test error<ul>
+<li>Same data is being used to train and evaluate the model</li>
+<li>Model is optimized to fit training data</li>
+</ul>
+</li>
+<li>Optimistic estimate of generalization error<ul>
+<li>$\text{ERR}_{in}$:<ul>
+<li>Error between sample and population regression function estimates on training data</li>
+</ul>
+</li>
+<li>$\bar{\text{err}}$<ul>
+<li>Average sample regression error over training data</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Optimism in training error estimate<ul>
+<li>$\text{op} = \text{ERR}_{in} - \bar{\text{err}}$</li>
+<li>Related to $\text{cov}(y, \hat y)$</li>
+<li>How strongly a label value affects its own prediction</li>
+<li>For linear smoothers: $\text{op} = \frac{2}{N}\sum_{i=1}^{N}\text{cov}(y_i, \hat{y}_i)$</li>
+</ul>
+</li>
+<li>Optimism increases with number of inputs (model complexity)</li>
+<li>Optimism decreases with number of training samples<ul>
+<li>Larger samples dilute the influence of individual points</li>
+</ul>
+</li>
+</ul>
+<h2>In-sample Prediction Error</h2>
+<ul>
+<li>$\text{ERR}_{in} = \bar{\text{err}} + \text{op}$</li>
+<li>Cp Statistic<ul>
+<li>$C_p = \bar{\text{err}} + 2{p \over N} \sigma^2_{\epsilon}$</li>
+<li>p is the effective number of parameters</li>
+<li>Mallow's Cp provides unbiased estimate of prediction error</li>
+</ul>
+</li>
+<li>AIC (Akaike Information Criterion)<ul>
+<li>$\text{AIC} = {-2 \over N} LL + 2{p \over N}$</li>
+<li>p is the effective number of parameters</li>
+<li>For model selection, choose the one with lowest AIC</li>
+<li>Information-theoretic interpretation: minimizing KL divergence</li>
+<li>Tends to select more complex models as N grows</li>
+</ul>
+</li>
+<li>Effective Number of Parameters<ul>
+<li>Linear Regression: $\hat y = ((X'X)^{-1}X')y$</li>
+<li>Ridge Regression: $\hat y = (((X'X)^{-1} + \lambda I)X')y$</li>
+<li>Generalized Form: $\hat y = S y$</li>
+<li>p is the trace of the S Matrix</li>
+<li>For Ridge: $\text{df}(\lambda) = \sum_{j=1}^p \frac{d_j^2}{d_j^2 + \lambda}$</li>
+</ul>
+</li>
+<li>BIC (Bayesian Information Criterion)<ul>
+<li>$\text{BIC} = {-2 \over N} LL + \log N \times p$</li>
+<li>Penalizes complex models more heavily compared to AIC</li>
+<li>Consistent: will select true model as N → ∞ (if true model is in the set)</li>
+<li>Tends to select simpler models than AIC</li>
+<li>Bayesian Approach<ul>
+<li>$P(M |D) \propto P(D |M) P(M)$</li>
+</ul>
+</li>
+<li>Laplace Approximation<ul>
+<li>$\log P(D |M) = \log P(D |M, \theta) - p \log N$</li>
+<li>$\log P(D |M, \theta)$ is the MLE objective function</li>
+</ul>
+</li>
+<li>Compare two models<ul>
+<li>$P(M1 |D) / P(M2 |D) = P(M1) / P(M2) + P(D | M1) / P(D | M2)$</li>
+<li>The first term is constant (non-informative priors)</li>
+<li>The second term is the Bayes Factor</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>VC Dimension</h2>
+<ul>
+<li>AIC, C-p statistic need the information on model complexity<ul>
+<li>Effective number of parameters</li>
+</ul>
+</li>
+<li>Difficult to estimate for non-linear models</li>
+<li>VC Dimension is Generalized Model Complexity of a class of functions<ul>
+<li>How "wiggly" can the member of this class be?</li>
+<li>Vapnik-Chervonenkis dimension: maximum number of points that can be shattered</li>
+</ul>
+</li>
+<li>Shattering<ul>
+<li>Points that can be perfectly separated by a class of functions, no matter how the binary labels are assigned</li>
+<li>2^n possible labelings must all be achievable</li>
+</ul>
+</li>
+<li>VC Dimension: Largest number of points that can be shattered by members of class of functions<ul>
+<li>VC(linear functions in d dimensions) = d+1</li>
+<li>VC(polynomials of degree d) = d+1</li>
+<li>VC(neural networks) depends on architecture</li>
+</ul>
+</li>
+<li>3 points in case of linear classifier in a plane<ul>
+<li>4 points can lead to XOR problem (not linearly separable)</li>
+</ul>
+</li>
+<li>Structural Risk Minimization<ul>
+<li>Upper bound on generalization error: $\text{error} \leq \text{training error} + \sqrt{\frac{h(\log(2N/h) + 1) - \log(\eta/4)}{N}}$</li>
+<li>Where h is VC dimension and η is confidence parameter</li>
+</ul>
+</li>
+</ul>
+<h2>Cross Validation</h2>
+<ul>
+<li>Estimation for $\text{ERR}_T$</li>
+<li>Data scarce situation</li>
+<li>Divide data into K equal parts<ul>
+<li>Indexing function: $\kappa : \{1,2,....N\} \rightarrow \{1, 2 ... K\}$</li>
+</ul>
+</li>
+<li>Fit model on K-1 parts and predict on Kth part</li>
+<li>Cross Validation Error<ul>
+<li>$CV(f) = {1 \over N}\sum L(y_i, \hat y_i^{f_{-\kappa}})$</li>
+<li>Average of test error across all folds</li>
+</ul>
+</li>
+<li>Types of CV:<ul>
+<li>K=N: Leave-one-out CV (LOOCV)</li>
+<li>Low bias but high variance</li>
+<li>Computationally expensive for large datasets</li>
+<li>K=5 or 10: k-fold CV</li>
+<li>Balance between bias and variance</li>
+<li>Computationally efficient</li>
+<li>K=2: Repeated random subsampling</li>
+<li>Can have high variance</li>
+</ul>
+</li>
+<li>5-fold, 10-fold cross validation is recommended<ul>
+<li>Empirical studies show best balance of bias and variance</li>
+<li>Higher values of K give more biased estimates</li>
+</ul>
+</li>
+</ul>
+<h2>Bootstrap Methods</h2>
+<ul>
+<li>Estimation for $\text{ERR}$</li>
+<li>Randomly draw datasets from training data by sampling with replacement<ul>
+<li>Each dataset has the same size as original training data</li>
+<li>Each bootstrap sample contains ~63.2% of unique original observations</li>
+</ul>
+</li>
+<li>Fit the model on each of the bootstrap datasets</li>
+<li>$\text{ERR}_{\text{boot}} = \frac{1}{B}\frac{1}{N} \sum_b \sum_i L(y_i, \hat f^b(x_i))$</li>
+<li>Bootstrap uses overlapping samples across model fits (unlike cross validation)<ul>
+<li>$P(i \in B) = 1 - (1 - \frac{1}{N})^N \approx 1 - e^{-1} \approx 0.632$</li>
+</ul>
+</li>
+<li>$\text{ERR}_{\text{boot}}$ isn't a good estimator because of leakage<ul>
+<li>Observations used in both training and testing</li>
+</ul>
+</li>
+<li>Use Out-of-bag error instead<ul>
+<li>Evaluate on samples not included in each bootstrap sample</li>
+<li>For each observation i, average predictions from models where i wasn't used</li>
+<li>Provides nearly unbiased estimate of test error</li>
+</ul>
+</li>
+<li>.632 Bootstrap estimator<ul>
+<li>$\text{ERR}_{.632} = 0.368 \cdot \text{err}_{\text{train}} + 0.632 \cdot \text{err}_{\text{oob}}$</li>
+<li>Correction for bias in both training error and OOB estimates</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

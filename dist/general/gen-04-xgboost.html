@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XGBoost</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="#" class="active">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>XGBoost</h1>
+<ul>
+<li>Extreme Gradient Boosting</li>
+<li>Introduces regularization to reduce overfitting</li>
+</ul>
+<h2>Mathematical Details</h2>
+<ul>
+<li>Loss Function<ul>
+<li>$L(y_i, p_i)$</li>
+<li>MSE<ul>
+<li>${1 \over 2}\sum{(y_i - p_i)^2}$</li>
+</ul>
+</li>
+<li>NLL Loss<ul>
+<li>$- \sum {y_i \log p_i + (1 - y_i) \log (1 -p_i)}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In XGBoost, the objective has regularization terms<ul>
+<li>$\sum_i L(y_i, p_i) + \gamma T + {1 \over 2} \lambda \sum_{j=1}^T w_j^2$</li>
+<li>$\gamma$ is the complexity cost per leaf</li>
+<li>$\lambda$ is the L2 regularization term on leaf weights</li>
+<li>$T$ is the number of leaves in the tree</li>
+<li>$p_i = p_i^0 + \sum_{j=1}^T w_j I(x_i \in R_j)$</li>
+<li>$p_i^0$ is the initial prediction / prediction from previous round</li>
+</ul>
+</li>
+<li>High values of $\lambda$ will push the optimal output values close to 0</li>
+<li>Second-order Taylor approximation to simplify the objective<ul>
+<li>$L(y_i, p_i^0 + O_{value})$</li>
+<li>$L(y_i, p_i^0) + \frac{dL}{dO_{value}} O_{value} + {1 \over 2} \frac{d^2L}{dO_{value}^2} O_{value}^2$</li>
+<li>$L(y_i, p_i^0) + g O_{value} + {1 \over 2} H O_{value}^2$</li>
+<li>$L(y_i, p_i^0)$ is constant</li>
+<li>$\sum_i L(y_i, p_i) = \sum_i g_i O_{value} + {1 \over 2} \sum H_i O_{value}^2$</li>
+</ul>
+</li>
+<li>Objective Function<ul>
+<li>$\sum_i L(y_i, p_i) + \gamma T + {1 \over 2} \lambda O_{value}^2$</li>
+<li>$\sum_i g_i O_{value} + \gamma T + {1 \over 2} (\sum H_i + \lambda) O_{value}^2$</li>
+</ul>
+</li>
+<li>Optimal output value<ul>
+<li>Differentiate objective function wrt $O_{value}$</li>
+<li>$O_{value}^* = - \frac{\sum g_i}{\sum H_i + \lambda}$</li>
+<li>For MSE:<ul>
+<li>$g_i = - (y_i - p_i^0)$</li>
+<li>$H_i = 1$</li>
+</ul>
+</li>
+<li>For NLL<ul>
+<li>Output value is log(odds)</li>
+<li>$g_i = - (y_i - p_i)$</li>
+<li>$H_i = p_i (1 - p_i)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Splitting Criteria<ul>
+<li>Objective value at optimal output</li>
+<li>$\sum_i g_i O_{value} + \gamma T + {1 \over 2} (\sum H_i + \lambda) O_{value}^2$</li>
+<li>${1 \over 2}{\sum_i g_i^2 \over \sum H_i + \lambda} + \gamma T$</li>
+</ul>
+</li>
+</ul>
+<h2>Regression</h2>
+<ul>
+<li>Calculate similarity score<ul>
+<li>$G^2 / (H + \lambda)$</li>
+<li>$\lambda$ is the regularization parameter</li>
+<li>Reduces sensitivity to a particular observation</li>
+<li>Large values will result in more pruning (shrinks similarity scores)</li>
+<li>In case of MSE loss function<ul>
+<li>$\sum_i r_i^2 / (N + \lambda)$</li>
+<li>$r$ is the residual</li>
+<li>$N$ is the number of observations in the node</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Calculate Gain for a split<ul>
+<li>$\mathrm{Gain} = \mathrm{Similarity_{left}} + \mathrm{Similarity_{right}} - \mathrm{Similarity_{root}}$\</li>
+</ul>
+</li>
+<li>Split criterion<ul>
+<li>$\mathrm{Gain} - \gamma &gt; 0$</li>
+<li>$\gamma$ controls tree complexity</li>
+<li>Helps prevent over fitting</li>
+<li>Setting $\gamma = 0$ doesn't turn-off pruning</li>
+</ul>
+</li>
+<li>Pruning<ul>
+<li>Max-depth</li>
+<li>Cover / Minimum weight of leaf node<ul>
+<li>N for regression</li>
+</ul>
+</li>
+<li>Trees are grown fully before pruning<ul>
+<li>If a child node satisfies minimum Gain but root doesn't, the child will still exist</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Output Value of Tree<ul>
+<li>$\sum_i r_i / (N + \lambda)$\</li>
+</ul>
+</li>
+<li>Output Value of Ensemble<ul>
+<li>Initial Prediction + $\eta$ Output Value of 1st Tree ....</li>
+<li>Initial prediction is the simple average of target</li>
+<li>$\eta$ is the learning rate</li>
+</ul>
+</li>
+</ul>
+<h2>Classification</h2>
+<ul>
+<li>Calculate similarity score<ul>
+<li>$G^2 / (H + \lambda)$</li>
+<li>In case of Log loss function<ul>
+<li>$\sum r_i^2 / (\sum{p_i (1-p_i)} + \lambda)$</li>
+<li>$r$ is the residual</li>
+<li>$p$ is the previous probability estimate</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Calculate Gain for a split<ul>
+<li>$\mathrm{Gain} = \mathrm{Similarity_{left}} + \mathrm{Similarity_{right}} - \mathrm{Similarity_{root}}$\</li>
+</ul>
+</li>
+<li>Split criterion<ul>
+<li>$\mathrm{Gain} - \gamma &gt; 0$</li>
+</ul>
+</li>
+<li>Pruning<ul>
+<li>Max Depth</li>
+<li>Cover / Minimum weight of leaf node<ul>
+<li>$\sum{p_i (1-p_i)}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Output Value of Tree<ul>
+<li>$\sum r_i / (\sum{p_i (1-p_i)} + \lambda)$</li>
+</ul>
+</li>
+<li>Output Value of Ensemble<ul>
+<li>Intial prediction<ul>
+<li>Simple average of target\</li>
+<li>Convert the value to log(odds)</li>
+</ul>
+</li>
+<li>Initial Prediction + $\eta$ Output Value of 1st Tree ....</li>
+<li>Output is log(odds)</li>
+<li>Transform the value to probability</li>
+</ul>
+</li>
+</ul>
+<h2>Optimizations</h2>
+<ul>
+<li>Approximate Greedy Algorithm<ul>
+<li>Finding splits faster</li>
+<li>Histogram based splits by bucketing the variables</li>
+</ul>
+</li>
+<li>Quantile Sketch Algorithm<ul>
+<li>Approximately calculate the quantiles parallely</li>
+<li>Quantiles are weighted by cover / hessian\</li>
+</ul>
+</li>
+<li>Sparsity Aware Split Finding<ul>
+<li>Calculate the split based on known data values of the variable</li>
+<li>For missing data:<ul>
+<li>Send the observations to left node and calcluate the Gain</li>
+<li>Send the observations to right node and calcluate the Gain</li>
+</ul>
+</li>
+<li>Evaluate which path gives maximum Gain</li>
+</ul>
+</li>
+<li>Cache Aware Access<ul>
+<li>Stores gradients and hessians in Cache</li>
+<li>Compress the data and store on hard-drive for faster access</li>
+</ul>
+</li>
+</ul>
+<h2>Comparisons</h2>
+<ul>
+<li>XGBoost<ul>
+<li>Stochastic Gradient Boosting</li>
+<li>No Treatment for categorical variables</li>
+<li>Depth-wise tree growth</li>
+</ul>
+</li>
+<li>LightGBM<ul>
+<li>Gradient One-Side Sampling (GOSS)<ul>
+<li>Maximum Gradient Observation are oversampled</li>
+</ul>
+</li>
+<li>Encoding for categorical variables</li>
+<li>Exclusive Feature Bundling to reduce number of features</li>
+<li>Histrogram based splitting</li>
+<li>Leaf-wise tree growth</li>
+</ul>
+</li>
+<li>CatBoost<ul>
+<li>Minimum Variance Sampling</li>
+<li>Superior encoding technniques for categorical variables<ul>
+<li>Target encoding</li>
+</ul>
+</li>
+<li>Symmetric tree growth</li>
+</ul>
+</li>
+</ul>
+<h2>XGBoost vs. Traditional Gradient Boosting</h2>
+<ul>
+<li>Key Improvements in XGBoost:<ul>
+<li>System Optimizations:<ul>
+<li>Parallelized tree construction</li>
+<li>Cache-aware access patterns</li>
+<li>Out-of-core computation for large datasets</li>
+</ul>
+</li>
+<li>Algorithmic Enhancements:<ul>
+<li>Regularization to prevent overfitting</li>
+<li>Built-in handling of missing values</li>
+<li>Newton boosting (using second-order derivatives)</li>
+<li>Weighted quantile sketch for approximate split finding</li>
+</ul>
+</li>
+<li>These improvements make XGBoost significantly faster and more memory-efficient than traditional gradient boosting implementations</li>
+</ul>
+</li>
+</ul>
+<h2>Handling Missing Values</h2>
+<ul>
+<li>XGBoost has a built-in method for handling missing values</li>
+<li>For each node in a tree:<ul>
+<li>It learns whether missing values should go to the left or right branch</li>
+<li>Direction is determined by which path optimizes the objective function</li>
+<li>This approach allows XGBoost to handle missing values without preprocessing</li>
+</ul>
+</li>
+<li>Contrast with traditional approaches:<ul>
+<li>Imputation (mean, median, mode replacement)</li>
+<li>Creating indicator variables</li>
+<li>XGBoost's approach often performs better as it learns the optimal direction during training</li>
+</ul>
+</li>
+</ul>
+<h2>Hyperparameter Tuning</h2>
+<ul>
+<li>Key hyperparameters to tune:<ul>
+<li><code>n_estimators</code>: Number of boosting rounds</li>
+<li><code>learning_rate</code>: Step size shrinkage to prevent overfitting</li>
+<li><code>max_depth</code>: Maximum depth of trees</li>
+<li><code>min_child_weight</code>: Minimum sum of instance weight needed in a child</li>
+<li><code>gamma</code>: Minimum loss reduction required for a split</li>
+<li><code>subsample</code>: Fraction of samples used for fitting trees</li>
+<li><code>colsample_bytree</code>: Fraction of features used for fitting trees</li>
+<li><code>lambda</code>: L2 regularization term on weights</li>
+<li><code>alpha</code>: L1 regularization term on weights</li>
+</ul>
+</li>
+<li>Common tuning approaches:<ul>
+<li>Grid search with cross-validation</li>
+<li>Random search</li>
+<li>Bayesian optimization</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

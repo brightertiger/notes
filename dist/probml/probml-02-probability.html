@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Probml Notes</h3>
+        <ul>
+            <li><a href="probml-00.html">Introduction</a></li>
+<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Probability</h1>
+<ul>
+<li><p>Frequentist View: Probability as the long-run relative frequency of an event in repeated experiments.</p>
+</li>
+<li><p>Bayesian View: Probability as a quantification of subjective uncertainty or degree of belief.</p>
+<ul>
+<li>Model Uncertainty: Epistemic uncertainty arising from incomplete knowledge of the underlying process</li>
+<li>Data Uncertainty: Aleatoric uncertainty arising from inherent randomness in the system</li>
+<li>Data uncertainty is irreducible and persists even with more data</li>
+</ul>
+</li>
+<li><p>Event: Some state of the world (A) that either holds or doesn't hold.</p>
+<ul>
+<li>$0 \le P(A) \le 1$ (probability is non-negative and bounded)</li>
+<li>$P(A) + P(\bar A) = 1$ (law of total probability)</li>
+</ul>
+</li>
+<li><p>Joint Probability: Probability that two events occur simultaneously</p>
+<ul>
+<li>$P(A,B)$ is the probability that both A and B occur</li>
+<li>If A and B are independent: $P(A,B) = P(A)P(B)$</li>
+<li>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$ (inclusion-exclusion principle)</li>
+</ul>
+</li>
+<li><p>Conditional Probability: Probability of event B occurring given that event A has already occurred</p>
+<ul>
+<li>$P(B | A) = \frac{P(A \cap B)}{P(A)}$ where $P(A) &gt; 0$</li>
+<li>Allows updating beliefs based on new evidence</li>
+</ul>
+</li>
+<li><p>Random Variables: Functions that map outcomes from a sample space to real numbers, allowing mathematical manipulation</p>
+<ul>
+<li>Discrete random variables: Take values from a countable set (e.g., number of customers)</li>
+<li>Continuous random variables: Take values from an uncountable set (e.g., precise weight)</li>
+</ul>
+</li>
+<li><p>Probability Mass Function (PMF): Gives probability for each possible value of a discrete random variable</p>
+<ul>
+<li>$0 \le p(x) \le 1$ for all x</li>
+<li>$\sum_x p(x) = 1$ (probabilities sum to 1)</li>
+</ul>
+</li>
+<li><p>Cumulative Distribution Function (CDF): Gives probability that a random variable is less than or equal to a value</p>
+<ul>
+<li>$F_X(x) = P(X \le x)$</li>
+<li>$P(a \le X \le b) = F_X(b) - F_X(a)$</li>
+<li>Monotonically non-decreasing: $F_X(a) \le F_X(b)$ whenever $a \le b$</li>
+<li>$\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to \infty} F_X(x) = 1$</li>
+</ul>
+</li>
+<li><p>Probability Density Function is the derivative of CDF</p>
+</li>
+<li><p>Inverse CDF or Quantile Function</p>
+<ul>
+<li>$P^{-1}(0.5)$ is the median</li>
+<li>$P^{-1}(0.25); P^{-1}(0.75)$ are lower and upper quartiles</li>
+</ul>
+</li>
+<li><p>Marginal Distribution of an random variable</p>
+<ul>
+<li>$p(X=x) = \sum_y p(X=x, Y=y)$</li>
+</ul>
+</li>
+<li><p>Conditional Distribution of a Random Variable</p>
+<ul>
+<li>$p(Y=y | X=x) = {p(Y=y, X=x) \over p(X=x)}$</li>
+</ul>
+</li>
+<li><p>Product Rule</p>
+<ul>
+<li>$p(x,y) = p(y|x)p(x) = p(x|y) p(y)$</li>
+</ul>
+</li>
+<li><p>Chain Rule</p>
+<ul>
+<li>$p(x1,x2,x3) = p(x1) p(x2 | x1) p(x3 | x1, x2)$</li>
+</ul>
+</li>
+<li><p>X and Y are independent</p>
+<ul>
+<li>$X \perp Y \Rightarrow p(X,Y) = p(X) p(Y)$</li>
+</ul>
+</li>
+<li><p>X and Y are conditionally independent of Z</p>
+<ul>
+<li>$X \perp Y | Z \Rightarrow p(X,Y | Z) = p(X|Z) p(Y | Z)$</li>
+</ul>
+</li>
+<li><p>Mean or Expected Value</p>
+<ul>
+<li>First moment around origin</li>
+<li>$\mathbf E(X) = \sum xp(x) \; \text{OR} \; \int_x xp(x) dx$</li>
+<li>Linearity of Expectation: $\mathbf E(aX + b) = a \mathbf E(X) + b$</li>
+</ul>
+</li>
+<li><p>Variance of a distribution</p>
+<ul>
+<li>Second moment around mean</li>
+<li>$\mathbf E(X-\mu)^2 = \sigma^2$ </li>
+<li>$\text{Var}(aX + b) = a^2 Var(X)$</li>
+</ul>
+</li>
+<li><p>Mode of a distribution</p>
+<ul>
+<li>Value with highest probability mass or probability density</li>
+</ul>
+</li>
+<li><p>Law of Total / Iterated Expectation</p>
+<ul>
+<li>$E(X) = E(E(X|Y))$</li>
+</ul>
+</li>
+<li><p>Law of Total Variance</p>
+<ul>
+<li>$V(X) = E(V(X | Y)) + V(E(X | Y))$</li>
+</ul>
+</li>
+<li><p>Bayes' Rule</p>
+<ul>
+<li>Compute probability distribution over some unknown quantity H given observed data Y</li>
+<li>$P(H | Y) = {P(Y |H) P(H) \over P(Y)}$</li>
+<li>Follows from product rule</li>
+<li>p(H) is the prior distribution</li>
+<li>p(Y | H) is the observation distribution</li>
+<li>p(Y=y | H=h) is the likelihood</li>
+<li>Bayesian Inference: $\text{posterior} \propto \text{prior} \times \text{likelihood}$</li>
+</ul>
+</li>
+<li><p>Bernoulli and Binomial Distribution</p>
+<ul>
+<li>Describes a binary outcome</li>
+<li>$Y \sim Ber(\theta)$</li>
+<li>$Y = \theta^y (1 - \theta)^{1-y}$</li>
+<li>Binomial distribution is N repeatitions of Bernoulli trials</li>
+<li>$Bin(p | N,\theta) = {N \choose p} \theta^p (1 - \theta)^{1-p}$</li>
+</ul>
+</li>
+<li><p>Logistic Distribution</p>
+<ul>
+<li>If we model a binary outcome using ML model, the range of f(X) is [0,1]</li>
+<li>To avoid this constraint, use logistic function: $\sigma(a) = {1 \over 1 + e^{-a}}$</li>
+<li>The quantity a is log-odds: log(p | 1-p)</li>
+<li>Logistic function maps log-odds to probability</li>
+<li>$p(y=1|x, \theta) = \sigma(f(x, \theta))$</li>
+<li>$p(y=0|x, \theta) = \sigma( - f(x, \theta))$</li>
+<li>Binary Logistic Regression: $p(y|x, \theta) = \sigma(wX +b)$</li>
+<li>Decision boundary: $p(y|x, \theta) = 0.5$</li>
+<li>As we move away from decision boundary, model becomes more confident about the label</li>
+</ul>
+</li>
+<li><p>Categorical Distribution</p>
+<ul>
+<li>Generalizes Bernoulli to more than two classes</li>
+<li>$\text{Cat}(y | \theta) = \prod \theta_c ^ {I(y=C)} \Rightarrow p(y = c | \theta) = \theta_c$</li>
+<li>Categorical distribution is a special case of multinomial distribution. It drops the multinomial coefficient. </li>
+<li>The categorical distribution needs to satisfy<ul>
+<li>$0 \le f(X, \theta) \le 1$</li>
+<li>$\sum f(X, \theta) = 1$</li>
+</ul>
+</li>
+<li>To avoid these constraints, its common to pass the raw logit values to a softmax function<ul>
+<li>${e^x_1 \over \sum e^x_i} , {e^x_2 \over \sum e^x_i}....$</li>
+</ul>
+</li>
+<li>Softmax function is "soft-argmax"<ul>
+<li>Divide the raw logits by a constant T (temperature)</li>
+<li>If T → 0 all the mass is concentrated at the most probable state, winner takes all</li>
+</ul>
+</li>
+<li>If we use categorical distribution for binary case, the model is over-parameterized.<ul>
+<li>$p(y = 0 | x) = {e^{a_0} \over e^{a_0} + e^{a_1}} = \sigma(a_0 - a_1)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Log-Sum-Exp Trick</p>
+<ul>
+<li>If the raw logit values grow large, the denominator of softmax can enounter numerical overflow.</li>
+<li>To avoid this:<ul>
+<li>$\log \sum \exp(a_c) = m + \log \sum \exp(a_c - m)$</li>
+<li>if m is arg max over a, then we wont encounter overflow.</li>
+</ul>
+</li>
+<li>LSE trick is used in stable cross-entropy calculation by transforming the sigmoid function to LSE(0,-a).</li>
+</ul>
+</li>
+<li><p>Gaussian Distribution</p>
+<ul>
+<li>CDF of Gaussian is defined as<ul>
+<li>$\Phi(y; \mu, \sigma^2) = {1 \over 2} [ 1 + \text{erf}({z \over \sqrt(2)})]$</li>
+<li>erf is the error function</li>
+</ul>
+</li>
+<li>The inverse of the CDF is called the probit function.</li>
+<li>The derivative of the CFD gives the pdf of normal distribution</li>
+<li>Mean, Median and Mode of gaussian is $\mu$</li>
+<li>Variance of Gaussian is $\sigma$</li>
+<li>Linear Regression uses conditional gaussian distribution<ul>
+<li>$p(y | x, \theta) = \mathcal N(y | f_\mu(x, \theta); f_\sigma(x, \theta))$</li>
+<li>if variance does not depend on x, the model is homoscedastic.</li>
+</ul>
+</li>
+<li>Gaussian Distribution is widely used because:<ul>
+<li>parameters are easy to interpret</li>
+<li>makes least number of assumption, has maximum entropy</li>
+<li>central limit theorem: sum of independent random variables are approximately gaussian</li>
+</ul>
+</li>
+<li>Dirac Delta function puts all the mass at the mean. As variance approaches 0, gaussian turns into dirac delta.</li>
+<li>Gaussian distribution is sensitive to outliers. A robust alternative is t-distribution.<ul>
+<li>PDF decays as polynomial function of distance from mean.</li>
+<li>It has heavy tails i.e. more mass</li>
+<li>Mean and mode is same as gaussian.</li>
+<li>Variance is $\nu \sigma^2 \over \nu -2$</li>
+<li>As degrees of freedom increase, the distribution approaches gaussian.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Exponential distribution describes times between events in Poisson process.</p>
+</li>
+<li><p>Chi-Squared Distribution is sum-squares of Gaussian Random Variables.</p>
+</li>
+<li><p>Transformations</p>
+<ul>
+<li>Assume we have a deterministic mapping y = f(x)</li>
+<li>In discrete case, we can derive the PMF of y by summing over all x</li>
+<li>In continuous case:<ul>
+<li>$P_y(y) = P(Y \le y) = P(f(X) \le y) = P(X \le f^{-1}(y)) = P_x(f^{-1}(y))$</li>
+<li>Taking derivatives of the equation above gives the result.</li>
+<li>$p_y(y) = p_x(x)|{dy \over dx}|$</li>
+<li>In multivariate case, the derivative is replaced by Jacobian.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Convolution Theorem</p>
+<ul>
+<li>y = x1 + x2</li>
+<li>$P(y \le y^*) = \int_{-\infty}^{\infty}p_{x_1}(x_1) dx_1 \int_{-\infty}^{y^* - x1}p_{x_2}(x_2)dx_2$</li>
+<li>Differentiating under integral sign gives the convolution operator</li>
+<li>$p(y) = \int p_1(x_1) p_2(y - x_1) dx_1$</li>
+<li>In case x1 and x2 are gaussian, the resulting pdf from convolution operator is also gaussian. → sum of gaussians results in gaussian (reproducibility)</li>
+</ul>
+</li>
+<li><p>Central Limit Theorem</p>
+<ul>
+<li>Suppose there are N random variables that are independently identically distributed.</li>
+<li>As N increases, the distribution of this sum approaches Gaussian with:<ul>
+<li>Mean as Sample Mean</li>
+<li>Variance as Sample Variance</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Monte-Carlo Approximation</p>
+<ul>
+<li>It's often difficult ti compute the pdf of transformation y = f(x).</li>
+<li>Alternative:<ul>
+<li>Draw a large number of samples from x</li>
+<li>Use the samples to approximate y</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

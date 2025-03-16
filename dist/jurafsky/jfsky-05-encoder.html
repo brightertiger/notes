@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encoder-Decoder Models</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="#" class="active">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Encoder-Decoder Models</h1>
+<h2>Overview</h2>
+<ul>
+<li>Encoder-Decoder or Seq2Seq architecture</li>
+<li>Can be implemented using Transformers or RNNs</li>
+<li>Output sequence is a complex transformation of the entire input sequence</li>
+<li>In Machine Translation, the sequence order may not always agree<ul>
+<li>Word order topology changes from language to language (subject-verb-object)</li>
+<li>Same vocabulary may not exist. Words map to phrases.</li>
+</ul>
+</li>
+<li>Encoder block takes an input sequence and creates a contextualized vector representation</li>
+<li>Decoder block uses this representation to generate the output sequence</li>
+<li>Architecture<ul>
+<li>Encoder: Input is sequence and output is contextualized hidden states</li>
+<li>Context Vector: A transformation of the contextualized hidden states</li>
+<li>Decoder: Uses context vector to generate arbitrary length sequences</li>
+</ul>
+</li>
+</ul>
+<h2>Sequence Models</h2>
+<ul>
+<li>Models are autoregressive by nature</li>
+<li>Add a BOS token &lt;s&gt; for conditional generation</li>
+<li>Keep sampling till EOS token &lt;/s&gt;</li>
+<li>RNN / LSTM<ul>
+<li>Encoder<ul>
+<li>Process the input sequence token by token</li>
+</ul>
+</li>
+<li>Context vector<ul>
+<li>Use the final hidden state of LSTM as the context vector</li>
+</ul>
+</li>
+<li>Decoder<ul>
+<li>Use the context vector for initialization</li>
+<li>Use BOS token for generation</li>
+</ul>
+</li>
+<li>Drawback: Influence of context vector wanes as longer sequences are generated<ul>
+<li>Solution is to make context vector available for each timestep of the decoder</li>
+</ul>
+</li>
+<li>Training happens via teacher forcing</li>
+</ul>
+</li>
+<li>Transformers<ul>
+<li>Uses Cross-Attention for decoding</li>
+<li>Keys and values come from encoder but query comes from decoder</li>
+<li>Allows decoder to attend to each token of the input sequence</li>
+</ul>
+</li>
+<li>Tokenization<ul>
+<li>BPE / Wordpiece tokenizer</li>
+</ul>
+</li>
+</ul>
+<h2>Evaluation</h2>
+<ul>
+<li>Human Evaluation<ul>
+<li>Adequacy: How accurately the meaning is preserved</li>
+<li>Fluency: Grammatical correctness and naturalness</li>
+<li>Time-consuming and expensive but still gold standard</li>
+</ul>
+</li>
+<li>Automatic Evaluation<ul>
+<li>chrF Score: Character F-Score<ul>
+<li>Compares character n-grams between reference and hypothesis</li>
+<li>Works well for morphologically rich languages</li>
+<li>Less affected by exact word match requirements</li>
+</ul>
+</li>
+<li>BLEU: Bilingual Evaluation Understudy<ul>
+<li>Modified n-gram precision: Compares n-grams in output with reference</li>
+<li>Clips each n-gram count to maximum count in any reference</li>
+<li>Combines precision for different n-gram sizes (usually 1-4)</li>
+<li>Adds brevity penalty (BP) for short translations: $BP = \min(1, e^{1-r/c})$</li>
+<li>$BLEU = BP \cdot \exp(\sum_{n=1}^{N} w_n \log p_n)$</li>
+<li>Where r is reference length, c is candidate length</li>
+</ul>
+</li>
+<li>BERTScore<ul>
+<li>Uses contextual embeddings from BERT</li>
+<li>Compute embeddings for each token in reference and hypothesis</li>
+<li>Compute cosine similarity between each pair of tokens</li>
+<li>Match tokens greedily based on similarity</li>
+<li>Compute precision, recall and F1 from these matches</li>
+<li>Better semantic matching than n-gram based metrics</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Attention</h2>
+<ul>
+<li>Final hidden state of encoder acts as a bottleneck in basic seq2seq</li>
+<li>Attention mechanism helps the decoder access all intermediate encoder states</li>
+<li>Generate dynamic context vector for each decoder step</li>
+<li>Process:<ol>
+<li>Compute alignment scores between decoder state and all encoder states<ul>
+<li>$e_{ij} = f(s_{i-1}, h_j)$ where s is decoder state, h is encoder state</li>
+<li>f can be dot product, MLP, or other similarity function</li>
+</ul>
+</li>
+<li>Normalize scores using softmax to get attention weights<ul>
+<li>$\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k=1}^{T_x} \exp(e_{ik})}$</li>
+</ul>
+</li>
+<li>Compute context vector as weighted sum of encoder states<ul>
+<li>$c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_j$</li>
+</ul>
+</li>
+<li>Use context vector along with previous decoder state to predict next word<ul>
+<li>$s_i = f(s_{i-1}, y_{i-1}, c_i)$</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Benefits: <ul>
+<li>Models long-range dependencies effectively</li>
+<li>Provides interpretability through attention weights</li>
+<li>Helps with word alignment in MT</li>
+</ul>
+</li>
+</ul>
+<h2>Decoding</h2>
+<ul>
+<li>Plain vanilla greedy decoding selects the highest probability token at each step<ul>
+<li>Simple but often suboptimal for overall sequence probability</li>
+</ul>
+</li>
+<li>The overall results may be suboptimal because a high-probability token now may lead to low-probability continuations</li>
+<li>Search trees represent all possible output sequences<ul>
+<li>The most probable sequence may not be composed of argmax tokens at each step</li>
+<li>Exhaustive search is intractable (vocab_size^sequence_length possibilities)</li>
+</ul>
+</li>
+<li>Beam Search<ul>
+<li>Select top-k possible tokens at each time step (beam width)</li>
+<li>Each of the "k" hypotheses is extended with each possible next token</li>
+<li>Keep only the k most probable extended sequences</li>
+<li>Continue until all beams produce EOS token or max length is reached</li>
+<li>Length penalty to avoid bias toward shorter sequences:<ul>
+<li>$score(Y) = \frac{\log P(Y|X)}{length(Y)^\alpha}$ where α is typically around 0.6-0.7</li>
+</ul>
+</li>
+<li>Usually k is between 5 and 10 (larger for harder problems)</li>
+</ul>
+</li>
+<li>Sampling Techniques (for text generation)<ul>
+<li>Top-K Sampling<ul>
+<li>Top-K tokens are selected and the probability mass is redistributed among them</li>
+<li>Reduces chance of selecting low-probability (nonsensical) tokens</li>
+</ul>
+</li>
+<li>Top-P (Nucleus) Sampling<ul>
+<li>Instead of selecting a fixed number of tokens, select the smallest set of tokens whose cumulative probability exceeds threshold p</li>
+<li>Adapts to the confidence of the model's predictions</li>
+<li>Typically p = 0.9 or 0.95</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Statistics</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="#" class="active">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Basic Statistics</h1>
+<h2>Sampling and Measurement</h2>
+<ul>
+<li>A characteristic that can be measured for each data point<ul>
+<li>Quantitative: Numerical</li>
+<li>Categorical: Categories</li>
+</ul>
+</li>
+<li>Measurement Scales:<ul>
+<li>Quantitative: Interval Scale</li>
+<li>Qualitative:<ul>
+<li>Nominal Scale (Unordered)</li>
+<li>Ordinal Scale (Ordered)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Statistic varies from sample to sample drawn from the same distribution<ul>
+<li>Sampling Bias + Sampling Error</li>
+</ul>
+</li>
+<li>Sampling Error<ul>
+<li>Error that occurs on account of using a sample to calculate the population statistic</li>
+</ul>
+</li>
+<li>Sampling Bias<ul>
+<li>Selection Bias</li>
+<li>Response Bias</li>
+<li>Non-Response Bias</li>
+</ul>
+</li>
+<li>Simple Random Sampling<ul>
+<li>Each data point has equal probability of being selected</li>
+</ul>
+</li>
+<li>Stratified Random Sampling<ul>
+<li>Divide population into strata and select random samples from each</li>
+<li>Ensures representation from all important subgroups</li>
+<li>Particularly useful when subgroups vary significantly in characteristics</li>
+<li>Often produces lower variance in estimates compared to simple random sampling</li>
+</ul>
+</li>
+<li>Cluster Sampling<ul>
+<li>Divide population into clusters and select select random samples from each</li>
+</ul>
+</li>
+<li>Multi-Stage Sampling<ul>
+<li>Combination of sampling methods</li>
+</ul>
+</li>
+</ul>
+<h2>Descriptive Statistics</h2>
+<ul>
+<li>Mean, Median, Mode</li>
+<li>Shape of Distribution<ul>
+<li>Symmetric around the central value<ul>
+<li>Mean coincides with median</li>
+</ul>
+</li>
+<li>Left Skewed: Left tail is longer<ul>
+<li>Mean &lt; Median</li>
+</ul>
+</li>
+<li>Right Skewed: Right tail is longer<ul>
+<li>Mean &gt; Median</li>
+</ul>
+</li>
+<li>For skewed distributions, mean lies closer to the long tail</li>
+</ul>
+</li>
+<li>Standard Deviation:<ul>
+<li>Deviation is difference of observation from mean</li>
+<li>$s = \sqrt{\frac{\sum (x_i - \bar{x})^2}{N-1}}$</li>
+<li>Measures variability around mean</li>
+<li>For normally distributed data:<ul>
+<li>Approximately 68% of data falls within 1 standard deviation of the mean</li>
+<li>Approximately 95% of data falls within 2 standard deviations of the mean</li>
+<li>Approximately 99.7% of data falls within 3 standard deviations of the mean (3-sigma rule)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IQR: Inter Quartile Range<ul>
+<li>Difference between 75th and 25th percentile</li>
+<li>Outlier falls beyond 1.5 x IQR</li>
+</ul>
+</li>
+<li>Empirical Rule:<ul>
+<li>For bell-shaped distributions - 68% volume is within 1 sdev and 95% volume within 2 sdev</li>
+</ul>
+</li>
+</ul>
+<h2>Probability</h2>
+<ul>
+<li>$E(X) = \sum_i x_i \times p(X=x_i)$<ul>
+<li>First moment about origin</li>
+</ul>
+</li>
+<li>$V(X) = E(X^2) - (E(X))^2$<ul>
+<li>Second moment about mean</li>
+</ul>
+</li>
+<li>$z = (y - \mu) / \sigma$</li>
+<li>Standard Normal Distribution $\sim N(0,1)$</li>
+<li>$Cov(X,Y) = E[(X - \mu_x)(Y - \mu_y)]$</li>
+<li>Correlation $\rho = Cov(X,y) / \sigma_x \sigma_y = E(z_x z_y)$</li>
+<li>Sampling Distribution: Probability distribution of the test statistic</li>
+<li>Sample Mean<ul>
+<li>Central Limit Theorem</li>
+<li>$\sim N(\mu, \sigma / \sqrt N)$</li>
+<li>Standard Error $\sigma / \sqrt N$</li>
+<li>Standard Deviation of Sampling Distriution</li>
+</ul>
+</li>
+<li>Case: Exit poll survey<ul>
+<li>$\sim B(0.5)$ with sample size 1800</li>
+<li>Variance $\sqrt{p (1-p)}$ = 0.25</li>
+<li>Standard Error $\sigma / \sqrt N$ = 0.01</li>
+<li>99% CI: $0.5 \pm 3 * 0.01 \approx (0.47, 0.53)$</li>
+</ul>
+</li>
+<li>Case: Income Survey<ul>
+<li>$\sim N(380, 80^2)$ with sample size 100</li>
+<li>$P(\bar y &gt;= 400)$</li>
+<li>Standard Error $\sigma / \sqrt N$ = 8</li>
+<li>$z = (400 - 380) / 8 = 2.5$</li>
+<li>$P(Z &gt;= z) &lt; 0.006$</li>
+</ul>
+</li>
+</ul>
+<h2>Confidence Interval</h2>
+<ul>
+<li>Point Estimate: Single number representing the best guess for the parameter</li>
+<li>Unbiased Estimator:<ul>
+<li>$E(\bar X) = \mu$</li>
+<li>In expectation the estimator converges to the true population value</li>
+</ul>
+</li>
+<li>Efficient Estimator:<ul>
+<li>$N \to \inf \implies V(\bar X) \to 0$</li>
+<li>The standard error approaches to zero as the sample size increases</li>
+</ul>
+</li>
+<li>Interval Estimate:<ul>
+<li>Confidence Interval: Range of values that can hold the true parameter value</li>
+<li>Confidence Value: Probability with which true parameter value lies in CI</li>
+<li>Point Estimate $\pm$ Margin of Error</li>
+</ul>
+</li>
+<li>CI for Proportion<ul>
+<li>Point Estimate $\hat \pi$</li>
+<li>Variance $\hat \sigma^2 = \hat \pi (1 - \hat \pi)$</li>
+<li>Standard Error: $\hat \sigma / \sqrt N = \sqrt{ \hat \pi (1 - \hat \pi) / N}$</li>
+<li>99% CI = $\hat \pi \pm (z_{0.01} \times se)$</li>
+<li>$(z_{0.01} \times se)$ is the margin of error</li>
+<li>Confidence Level increases the CI</li>
+<li>Sample Size decreases the CI</li>
+<li>Type 1 Error Propability: 1 - confidence level</li>
+</ul>
+</li>
+<li>CI for Mean<ul>
+<li>Point Estimate $\hat \mu = \bar X$</li>
+<li>Variance $\hat \sigma^2 = \sum (X_i - \bar X)^2 / (N-1)$\</li>
+<li>Standard Error: $\hat \sigma / \sqrt N$</li>
+<li>True population variance is unknown</li>
+<li>Using sample variance as proxy introduces additional error</li>
+<li>Conservative: replace z-distribution with t-distribution\</li>
+<li>$(t_{n-1,0.01} \times se)$ is the margin of error</li>
+<li>Assumptions:<ul>
+<li>Underlying distribution is Normal</li>
+<li>Random Sampling</li>
+</ul>
+</li>
+<li>CI generated from t-distribution are robust wrt normality assumptions violations</li>
+</ul>
+</li>
+<li>Sample Size Calculator for Proportions<ul>
+<li>Margin of error depends on standard error which in turn depends on sample size</li>
+<li>Reformulate the CI equation from above</li>
+<li>Sample Size : $N = \pi(1-\pi) \times (z^2 / M)$</li>
+<li>$\pi$ is the base conversation rate</li>
+<li>Z is the Confidence Level</li>
+<li>M is the margin of error</li>
+</ul>
+</li>
+<li>Sample Size Calculator for Mean<ul>
+<li>$N = \sigma^2 \times (z^2 / M)$</li>
+</ul>
+</li>
+<li>Maximum Likelihood Estimation<ul>
+<li>Point estimate the maximizes the probability of observed data</li>
+<li>Sampling distributions are approximately normal</li>
+<li>Use them to estimate variance</li>
+</ul>
+</li>
+<li>Bootstrap<ul>
+<li>Resampling method</li>
+<li>Yield standard errors and confidence intervals for measures</li>
+<li>No Assumption on underlying distribution</li>
+</ul>
+</li>
+</ul>
+<h2>Significance Test</h2>
+<ul>
+<li>Hypothesis is a statement about the population</li>
+<li>Significance test uses data to summerize evidence about the hypothesis</li>
+<li>Five Parts:<ol>
+<li>Assumptions<ul>
+<li>Type of data</li>
+<li>Randomization</li>
+<li>Population Distribution</li>
+<li>Sample Size</li>
+</ul>
+</li>
+<li>Hypothesis<ul>
+<li>Null</li>
+<li>Alternate</li>
+</ul>
+</li>
+<li>Test Statistic: How far does the parameter value fall from the hypothesis</li>
+<li>P Value: The probability of observing the given (or more extreme value) of the test statistic, assuming the null hypothesis is true<ul>
+<li>Smaller the p-value, stronger is the evidence for rejecting null hypothesis</li>
+</ul>
+</li>
+<li>Conclusion<ul>
+<li>If P-value is less than 5%, 95% CI doesn't contain the hypothesized value of the parameter</li>
+<li>"Reject" or "Fail to Reject" null hypothesis</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Hypothesis testing for Proportions<ul>
+<li>$H_0: \pi = \pi_0$</li>
+<li>$H_1: \pi \ne \pi_0$</li>
+<li>$z = (\hat \pi - \pi_0) / se$</li>
+<li>$se = \sqrt{\pi (1-\pi) / N}$</li>
+</ul>
+</li>
+<li>Hypothesis testing for Mean<ul>
+<li>$H_0: \mu = \mu_0$</li>
+<li>$H_1: \mu \ne \mu_0$</li>
+<li>$t = (\bar X - \mu_0) / se$</li>
+<li>$se = \sigma / \sqrt N$</li>
+<li>In case of small sample sizes, replace the z-test with binomial distribution<ul>
+<li>$P(X=x) = {N\choose x} p^x (1-p)^{N-x}$</li>
+<li>$\mu = np, \, \sigma=\sqrt{np(1-p)}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>One-tail Test measure deviation in a particular direction<ul>
+<li>Risky in case of skewed distributions</li>
+<li>t-test is robust to skewed distributions but one-tailed tests can compound error</li>
+<li>Use only when you have a strong directional hypothesis</li>
+<li>Provides more power but at the cost of detecting effects in the opposite direction</li>
+</ul>
+</li>
+<li>Errors<ul>
+<li>Type 1: Reject H0, given H0 is true: (1 - Confidence Level)</li>
+<li>Type 2: Fail to reject H0, given H0 is false</li>
+<li>The smaller P(Type 1 error) is, the larger P(Type 2 error) is.</li>
+<li>Probability of Type 2 error increases as statistic moves closer to H0</li>
+<li>Power of the test = 1 - P(Type 2 error)</li>
+</ul>
+</li>
+<li>Significance testing doesn't rely solely on effect size. Small and impractical differences can be statistically significant with large enough sample sizes</li>
+</ul>
+<h2>Comparison of Groups</h2>
+<ul>
+<li>Difference in means between two groups<ul>
+<li>$\mu_1, \mu_2$ are the average parameter values for the two groups</li>
+<li>Test for the difference in $\mu_1 - \mu_2$</li>
+<li>Estimate the difference in sample means: $\bar y_1 - \bar y_2$</li>
+<li>Assume $\bar y_1 - \bar y_2 \sim N(\mu_1 - \mu_2, se)$</li>
+<li>$E(\bar y_1 - \bar y_2) = \mu_1 - \mu_2$</li>
+<li>$se = \sqrt{se_1^2 + se_2^2} = \sqrt{s_1^2 / n_1 + s_2^2 / n_2}$</li>
+<li>s1 and s2 are standard errors for y1 and y2 respectively</li>
+<li>Confidence Intervals<ul>
+<li>$\bar y_1 - \bar y_2 \pm t (se)$</li>
+<li>Check if the confidence interval contains 0 or not</li>
+</ul>
+</li>
+<li>Significance Test<ul>
+<li>$t= \frac{(\bar y_1 - \bar y_2) - 0}{se}$</li>
+<li>degrees of freedom for t is (n1 + n2 -2)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Differences in means between two groups (assuming equal variance)<ul>
+<li>$s = \sqrt{\frac{(n_1 - 1)se_1^2 + (n_2 - 1)se_2^2}{n_1 + n_2 - 2}}$</li>
+<li>$se = s \sqrt{{1 \over n_1} + {1 \over n_2}}$</li>
+<li>Confidence Interval<ul>
+<li>$(\bar y_1 - \bar y_2) \pm t (se)$</li>
+</ul>
+</li>
+<li>Significance Test<ul>
+<li>$t = \frac{(\bar y_1 - \bar y_2)}{se}$\</li>
+<li>degrees of freedom for t is (n1 + n2 -2)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Difference in proportions between two groups<ul>
+<li>$\pi_1, \pi_2$ are the average proportion values for the two groups</li>
+<li>Test for the difference in $\pi_1 - \pi_2$</li>
+<li>$se = \sqrt{se_1^2 + se_2^2} = \sqrt{(\hat\pi_1(1-\hat\pi_1)) / n_1 + (\hat\pi_2(1-\hat\pi_2)) / n_2}$</li>
+<li>Confidence Intervals<ul>
+<li>$\hat \pi_1 - \hat \pi_2 \pm z (se)$</li>
+</ul>
+</li>
+<li>Significance Test<ul>
+<li>Calculate population average $\hat \pi_1 = \hat \pi_2 = \hat \pi$</li>
+<li>$se = \sqrt{\hat\pi(1-\hat\pi)({1 \over n_1} + {1 \over n_2})}$</li>
+<li>$z=(\hat \pi_1 - \hat \pi_2) / se$</li>
+</ul>
+</li>
+<li>Fisher's Exact test for smaller samples</li>
+</ul>
+</li>
+<li>Differneces in matched pairs<ul>
+<li>Same subject's response across different times</li>
+<li>Controls for other sources of variations</li>
+<li>Longitudnal and Crossover studies</li>
+<li>Difference of Means == Mean of Differences</li>
+<li>Confidence Interval<ul>
+<li>$\bar y_d \pm t {s_d \over \sqrt n}$</li>
+</ul>
+</li>
+<li>Significance Test<ul>
+<li>Paired-difference t-test\</li>
+<li>$t = {(y_d - 0) \over se}; \; se = s_d / \sqrt n$</li>
+</ul>
+</li>
+<li>Effect Size<ul>
+<li>$(\bar y_1 - \bar y_2) / s$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Yes</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Yes</td>
+<td>N11</td>
+<td>N12</td>
+</tr>
+<tr>
+<td>No</td>
+<td>N21</td>
+<td>N22</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Comparing Dependent Proportions (McNemar Test)<ul>
+<li>A 4x4 contingency table (above)</li>
+<li>One subject gets multiple treatments<ul>
+<li>Say disease and side effect (Cancer and Smoking)</li>
+</ul>
+</li>
+<li>$z = \frac{n_{12} - n_{21}}{\sqrt{n_{12} + n_{21}}}$</li>
+<li>Confidence Interval<ul>
+<li>$\hat \pi_1 = (n_{11} + n_{12})/ n$</li>
+<li>$\hat \pi_2 = (n_{11} + n_{21}) / n$</li>
+<li>$se = {1 \over n}\sqrt{(n_{21} + n_{12}) - (n_{21} + n_{12})^2 / n}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Non-parametric Tests<ul>
+<li>Wilcoxin Test<ul>
+<li>Combine Samples n1 + n2</li>
+<li>Rank each observation</li>
+<li>Compare the mean of the ranks for each group</li>
+</ul>
+</li>
+<li>Mann-Whitney Test<ul>
+<li>Form pairs of observations from two samples</li>
+<li>Count the number of samples in which sample 1 is higher than sample 2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Association between Categorical Variables</h2>
+<ul>
+<li>Variables are statisitcally independent if population conditional distributions match the category conditional distribution</li>
+<li>Chi-Square Test<ul>
+<li>Calculate Expected Frequencies</li>
+<li>(row total * column total) / total observations</li>
+<li>$f_e (xy) = (n_{.y} * n_{x.}) / N$</li>
+<li>Compare to observed frequency $f_o$</li>
+<li>$\chi^2 = \sum\frac{(f_e - f_o)^2}{f_e}$</li>
+<li>degrees of freedom: (r-1)x(c-1)</li>
+<li>Value of chi-sq doesn't tell the strength of association</li>
+</ul>
+</li>
+<li>Residual Analysis<ul>
+<li>The difference of a given cell significant or not</li>
+<li>$z = (f_e - f_o) / \sqrt{f_e (1 - row\%)(1 - col\%)}$</li>
+</ul>
+</li>
+<li>Odds Ratio<ul>
+<li>Probability of success / Probability of failure</li>
+<li>Cross product ratio</li>
+<li>From 2x2 Contingecy Tables:<ul>
+<li>$\theta = (n_{11} \times n_{22}) / (n_{12} \times n_{21})$</li>
+</ul>
+</li>
+<li>$\theta = 1 \implies$ equal probability</li>
+<li>$\theta &gt; 1 \implies$ row 1 has higher chance</li>
+<li>$\theta &lt; 1 \implies$ row 2 has higher chance</li>
+</ul>
+</li>
+<li>Ordinal Variables<ul>
+<li>Concordance ( C )<ul>
+<li>Observation higher on one variable is higher on another as well</li>
+</ul>
+</li>
+<li>Discordant ( D )<ul>
+<li>Otherwise</li>
+</ul>
+</li>
+<li>Calculate Gamma<ul>
+<li>$\gamma = (C-D) / (C+D)$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>P-value interpretation and common misconceptions:</h2>
+<ul>
+<li>P-value is NOT the probability that the null hypothesis is true</li>
+<li>P-value is NOT the probability that the results occurred by chance</li>
+<li>P-value is the probability of obtaining a test statistic at least as extreme as the one observed, given that the null hypothesis is true</li>
+<li>Small p-values indicate evidence against the null hypothesis, not evidence for the alternative hypothesis</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>

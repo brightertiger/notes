@@ -1,0 +1,23 @@
+const eslrFiles = [
+  'eslr-00',
+  'eslr-01-regression',
+  'eslr-02-overview',
+  'eslr-03-linear-methods-regression',
+  'eslr-04-linear-classification',
+  'eslr-05-basis-expansions-regularization',
+  'eslr-06-kernel-smoothing',
+  'eslr-07-model-assessment',
+  'eslr-08-model-inference-averaging',
+  'eslr-09-additive-trees',
+  'eslr-10-boosting',
+  'eslr-11-neural-networks',
+  'eslr-12-support-vector',
+  'eslr-13-prototype-methods',
+  'eslr-14-sparse-modeling',
+  'eslr-15-graph-methods',
+  'eslr-16-ensemble-learning',
+  'eslr-17-undirected-graphical',
+  'eslr-18-high-dimensional-problems',
+  'eslr-19-functional-data',
+  'eslr-20-random-forests'
+]; 

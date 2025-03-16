@@ -1,0 +1,67 @@
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build and distribution files
+node_modules/
+bower_components/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+.env
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data files
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.sqlite
+*.db
+
+# Model and large files
+*.h5
+*.pkl
+*.model
+*.joblib
+
+# Miscellaneous
+.coverage
+htmlcov/
+.pytest_cache/
+.coverage.* 

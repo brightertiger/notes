@@ -1,0 +1,24 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "main": "convert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brightertiger/notes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brightertiger/notes/issues"
+  },
+  "homepage": "https://github.com/brightertiger/notes#readme",
+  "description": "",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "marked": "^15.0.7"
+  }
+}

@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Forward Neural Networks</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- MathJax for equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    // MathJax configuration
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+    </script>
+    </head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+    <a href="../index.html" class="home-link">
+        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+    </a>
+    <h2>Navigation</h2>
+    <div class="nav-section">
+        <h3>Eslr Notes</h3>
+        <ul>
+            <li><a href="eslr-00.html">Introduction</a></li>
+<li><a href="eslr-01-regression.html">01-Regression</a></li>
+<li><a href="eslr-02-classification.html">02-Classification</a></li>
+<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
+<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
+<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
+<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
+<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
+<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>General Notes</h3>
+        <ul>
+            <li><a href="gen-00.html">00</a></li>
+<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
+<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
+<li><a href="gen-03-boosting.html">03-Boosting</a></li>
+<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
+<li><a href="gen-05-clustering.html">05-Clustering</a></li>
+<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
+<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
+<li><a href="gen-08-regression.html">08-Regression</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Jurafsky Notes</h3>
+        <ul>
+            <li><a href="jfsky-00.html">00</a></li>
+<li><a href="jfsky-01-regex.html">01-Regex</a></li>
+<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
+<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
+<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
+<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
+<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
+        </ul>
+    </div><div class="nav-section">
+        <h3>Probml Notes</h3>
+        <ul>
+            <li><a href="probml-00.html">Introduction</a></li>
+<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
+<li><a href="probml-02-probability.html">02-probability</a></li>
+<li><a href="probml-03-probability.html">Probability (Advanced)</a></li>
+<li><a href="probml-04-statistics.html">04-statistics</a></li>
+<li><a href="probml-05-decision_theory.html">05-decision Theory</a></li>
+<li><a href="probml-06-information_theory.html">06-information Theory</a></li>
+<li><a href="probml-08-optimization.html">08-optimization</a></li>
+<li><a href="probml-09-discriminant_analysis.html">09-discriminant Analysis</a></li>
+<li><a href="probml-10-logistic_regression.html">10-logistic Regression</a></li>
+<li><a href="probml-11-linear_regression.html">11-linear Regression</a></li>
+        </ul>
+    </div></aside>
+
+        <main class="content"><h1>Feed Forward Neural Networks</h1>
+<ul>
+<li><p>Neural networks are powerful function approximators that learn hierarchical representations of data</p>
+</li>
+<li><p>From Linear Models to Neural Networks</p>
+<ul>
+<li>Linear Models perform an affine transformation of inputs: $f(x, \theta) = Wx + b$</li>
+<li>To increase expressivity, we can transform inputs: $f(x, \theta) = W \phi(x) + b$</li>
+<li>Neural networks learn these transformations automatically by composing multiple functions:<ul>
+<li>$f(x, \theta) = f_L(f_{L-1}(f_{L-2}.....(f_1(x)....))$</li>
+<li>Each layer extracts progressively more abstract features</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Architecture Components</p>
+<ul>
+<li>Layers: Groups of neurons that transform inputs to outputs</li>
+<li>Connections: Weighted links between neurons in adjacent layers</li>
+<li>Activation Functions: Non-linear functions applied to neuron outputs<ul>
+<li>Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$, outputs in range (0,1)<ul>
+<li>Suffers from vanishing gradient for large magnitude inputs</li>
+</ul>
+</li>
+<li>TanH: $\tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}$, outputs in range (-1,+1)<ul>
+<li>Centered at zero but still suffers from vanishing gradients</li>
+</ul>
+</li>
+<li>ReLU: $\max(0, x)$, non-saturating activation function<ul>
+<li>Solves vanishing gradient problem for positive inputs</li>
+<li>May cause "dying ReLU" problem (neurons that always output 0)</li>
+</ul>
+</li>
+<li>Leaky ReLU: $\max(\alpha x, x)$ where $\alpha$ is small (e.g., 0.01)<ul>
+<li>Addresses the dying ReLU problem</li>
+</ul>
+</li>
+<li>GELU: Smooth approximation of ReLU that performs well in modern networks</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The XOR Problem</p>
+<ul>
+<li>Classic example showing limitation of linear models</li>
+<li>XOR function cannot be represented by a single linear boundary</li>
+<li>Requires at least one hidden layer to solve</li>
+<li>Demonstrates how composition of functions increases expressivity</li>
+</ul>
+</li>
+<li><p>Universal Approximation Theorem</p>
+<ul>
+<li>An MLP with a single hidden layer of sufficient width can approximate any continuous function</li>
+<li>In practice, deeper networks (more layers) are more parameter-efficient than wider ones</li>
+<li>Deep networks learn hierarchical representations with increasing abstraction</li>
+</ul>
+</li>
+<li><p>Backpropagation: Learning Algorithm for Neural Networks</p>
+<ul>
+<li>Efficiently computes gradients of loss with respect to all parameters</li>
+<li>Based on chain rule of calculus applied to computational graphs</li>
+<li>Forward pass: Compute network output and loss</li>
+<li>Backward pass: Propagate gradients from output to input</li>
+<li>Implementation via automatic differentiation frameworks (PyTorch, TensorFlow)</li>
+</ul>
+</li>
+<li><p>Backpropagation Algorithm</p>
+<ul>
+<li>Compute gradient of a loss function wrt parameters in each layer</li>
+<li>Equivalent to repeated application of chain rule</li>
+<li>Autodiff: Automatic Differentiation on Computation Graph</li>
+<li>Suppose  $f = f_1 \circ f_2 \circ f_3 \circ f_4$<ul>
+<li>Jacobian $\mathbf J_f$ needs to be calculated for backprop</li>
+<li>Row Form: $\nabla f_i(\mathbf x)$ is the ith row of jacobian<ul>
+<li>Calculated efficiently using forward mode</li>
+</ul>
+</li>
+<li>Column Form: $\frac{\partial \mathbf f}{\partial x_i}$ is the ith column of jacobian<ul>
+<li>Calculated efficiently using the backward mode</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Derivatives</p>
+<ul>
+<li>Cross-Entropy Layer<ul>
+<li>$z = \text{CrossEntropyWithLogitsLoss(y,x)}$</li>
+<li>$z = -\sum_c y_c \log(p_c)$</li>
+<li>$p_c = {\exp x_c \over \sum_c \exp x_c}$</li>
+<li>${\delta z \over \delta x_c} = \sum_c {\delta z \over \delta p_i} \times {\delta p_i \over \delta x_c}$</li>
+<li>When i = c<ul>
+<li>${\delta z \over \delta x_c} = {-y_c \over p_c} \times p_c (1 - p_c) = - y_c ( 1 - p_c)$</li>
+</ul>
+</li>
+<li>When i &lt;&gt; c<ul>
+<li>${\delta z \over \delta x_c} = {-y_c \over p_c} \times - p_i p_c = -y_c p_c$</li>
+</ul>
+</li>
+<li>Adding up<ul>
+<li>$-y_c(1-p_c) + \sum_{i \ne c} y_c p_i = p_c \sum_c y_c - y_c = p_c - y_c$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ReLU<ul>
+<li>$\phi(x) = \max(x,0)$</li>
+<li>$\phi'(x,a) =   I\{x &gt; 0\}$</li>
+</ul>
+</li>
+<li>Adjoint<ul>
+<li>${\delta o \over \delta x_j} = \sum_{children} {\delta o \over \delta x_i} \times {\delta x_i \over \delta x_j}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Training Neural Networks</p>
+<ul>
+<li>Maximize the likelihood: $\min  L(\theta) = -\log p(D|\theta)$</li>
+<li>Calculate gradients using backprop and use an optimizer to tune the parameters</li>
+<li>Objective function is not convex and there is no guarantee to find a global minimum</li>
+<li>Vanishing Gradients<ul>
+<li>Gradients become very small</li>
+<li>Stacked layers diminish the error signals</li>
+<li>Difficult to solve</li>
+<li>Modify activation functions that don't saturate</li>
+<li>Switch to architectures with additive operations </li>
+<li>Layer Normalization</li>
+</ul>
+</li>
+<li>Exploding Gradients<ul>
+<li>Gradients become very large</li>
+<li>Stacked layers amplify the error signals</li>
+<li>Controlled via gradient clipping</li>
+</ul>
+</li>
+<li>Exploding / Vanishing gradients are related to the eigenvalues of the Jacobian matrix<ul>
+<li>Chain Rule</li>
+<li>${\delta  L \over \delta z_l} = {\delta  L \over \delta z_{l+1}} \times {\delta z_{l+1}  \over \delta z_{l}}$</li>
+<li>${\delta  L \over \delta z_l} = J_l \times g_{l+1}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Non-Saturating Activations</p>
+<ul>
+<li>Sigmoid<ul>
+<li>$f(x) = 1 / (1 + \exp^{-x}) = z$</li>
+<li>$f'(x) = z (1 - z)$</li>
+<li>If z is close to 0 or 1, the derivative vanishes</li>
+</ul>
+</li>
+<li>ReLU<ul>
+<li>$f(x) = \max(0, x)$</li>
+<li>$f'(x) =  I \{x &gt; 0\}$</li>
+<li>Derivative will exist as long as the input is positive</li>
+<li>Can still encounter dead ReLU problem when weights are large negative/positive</li>
+</ul>
+</li>
+<li>Leaky ReLU<ul>
+<li>$f(x,\alpha) = max(\alpha x, x); \,\,\, 0&lt; \alpha &lt; 1$</li>
+<li>Slope is 1 for for positive inputs</li>
+<li>Slope is alpha for negative inputs</li>
+<li>If alpha is learnable, then we get parametric ReLU</li>
+</ul>
+</li>
+<li>ELU, SELU are smooth versions of ReLU</li>
+<li>Swish Activation<ul>
+<li>$f(x) = x \sigma(x)$</li>
+<li>$f'(x) = f(x) + \sigma(x) (1 - f(x))$</li>
+<li>The slope has additive operations</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Residual Connections</p>
+<ul>
+<li>It's easier to learn small perturbations to inputs than to learn new output</li>
+<li>$F_l(x) = x + \text{activation}_l(x)$ </li>
+<li>Doesn't add more parameters</li>
+<li>$z_L = z_l + \sum_{i=l}^L F_i(z_i)$</li>
+<li>${\delta L \over \delta \theta_l} = {\delta L \over \delta z_l} \times {\delta z_l \over \delta \theta_l}$</li>
+<li>${\delta L \over \delta \theta_l} = {\delta z_l \over \delta \theta_l} \times {\delta L \over \delta z_L} (1 + \sum f'(z_i))$</li>
+<li>The derivative of the layer l has a term that is independent of the network</li>
+</ul>
+</li>
+<li><p>Initialization</p>
+<ul>
+<li>Sampling parameters from standard normal distribution with fixed variance can result in exploding gradients</li>
+<li>Suppose we have linear activations sampled from standard Normal Distribution<ul>
+<li>$o = \sum w_j x_ij$</li>
+<li>$E(o) =  \sum E(w_j)E(x_{ij}) = 0$</li>
+<li>$V(o) \propto n_{in} \sigma^2$</li>
+</ul>
+</li>
+<li>Similarly for gradients:<ul>
+<li>$V(o') \propto n_{out} \sigma^2$</li>
+</ul>
+</li>
+<li>To prevent the expected variance from blowing up<ul>
+<li>$\sigma^2 = {1 \over (n_{in} + n_{out})}$</li>
+<li>Xavier Initialization, Glorot Initialization</li>
+<li>He/LeCun Initialization equivalent if n_in = n_out</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Regularization</p>
+<ul>
+<li>Early Stopping<ul>
+<li>Stop training when error on validation set stops reducing</li>
+<li>Restricts optimization algorithm to transfer information from the training examples</li>
+</ul>
+</li>
+<li>Weight Decay<ul>
+<li>Impose prior on parameters and then use MAP estimation</li>
+<li>Encourages smaller weights</li>
+</ul>
+</li>
+<li>Sparse DNNs<ul>
+<li>Model compression via quantization</li>
+</ul>
+</li>
+<li>Dropout<ul>
+<li>Turnoff outgoing connections with probability p</li>
+<li>Prevents complex co-adaptation </li>
+<li>Each unit should learn to perform well on its own</li>
+<li>At test time, turning on dropout is equivalent to ensemble of networks (Monte Calo Dropout)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="page-navigation"><span class="nav-arrow prev disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Previous
+            </span><span class="nav-arrow next disabled">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </span></div></main>
+    </div>
+
+    <script src="../script.js"></script>
+
+
+
+
+
+
+</body></html>
