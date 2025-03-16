@@ -1,91 +1,49 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vectors</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jfsky 03 Vectors | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="#" class="active">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Vectors</h1>
-<h2>Lexical Semantics</h2>
+  <div class="container">
+    <header>
+      <h1>Jfsky 03 Vectors</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="vectors">Vectors</h1>
+<h2 id="lexical-semantics">Lexical Semantics</h2>
 <ul>
 <li>Issues that make it harder for syntactic models to scale well</li>
-<li>Lemmas and word forms (sing vs sang vs sung are forms of the same lemma "sing")</li>
+<li>Lemmas and word forms (sing vs sang vs sung are forms of the same lemma &quot;sing&quot;)</li>
 <li>Word Sense Disambiguation (mouse animal vs mouse hardware)</li>
 <li>Synonyms with same propositional meaning (couch vs sofa)</li>
 <li>Word Relatedness (coffee vs cup)</li>
 <li>Semantic Frames (A buy from B vs B sell to A)</li>
 <li>Connotation (affective meaning)</li>
 </ul>
-<h2>Vector Semantics</h2>
+<h2 id="vector-semantics">Vector Semantics</h2>
 <ul>
-<li>Represent words using vectors called "embeddings"</li>
+<li>Represent words using vectors called &quot;embeddings&quot;</li>
 <li>Derived from co-occurrence matrix</li>
 <li>Document Vectors<ul>
 <li>Term-Document Matrix</li>
@@ -111,12 +69,12 @@
 <li>1 if vectors are in the same direction</li>
 <li>-1 if vectors are in opposite direction</li>
 <li>0 if vectors are perpendicular</li>
-<li>For normalized vectors, it's directly related to euclidean distance</li>
+<li>For normalized vectors, it&#39;s directly related to euclidean distance</li>
 <li>$|\vec{a} - \vec{b}|^2 = |\vec{a}|^2 + |\vec{b}|^2 - 2|\vec{a}||\vec{b}|\cos\theta = 2(1 - \cos \theta)$</li>
 </ul>
 </li>
 </ul>
-<h2>TF-IDF</h2>
+<h2 id="tf-idf">TF-IDF</h2>
 <ul>
 <li>Term Frequency<ul>
 <li>Frequency of word t in document d</li>
@@ -139,7 +97,7 @@
 </ul>
 </li>
 </ul>
-<h2>PMI</h2>
+<h2 id="pmi">PMI</h2>
 <ul>
 <li>Point-wise Mutual Information measures the association between words</li>
 <li>Ratio of:<ul>
@@ -161,7 +119,7 @@
 </ul>
 </li>
 </ul>
-<h2>Vector Representation</h2>
+<h2 id="vector-representation">Vector Representation</h2>
 <ul>
 <li>For a given word T<ul>
 <li>Term-Document Matrix</li>
@@ -175,7 +133,7 @@
 </ul>
 </li>
 </ul>
-<h2>Word2Vec</h2>
+<h2 id="word2vec">Word2Vec</h2>
 <ul>
 <li>TF-IDF and PMI generate sparse vectors (mostly zeros)</li>
 <li>Need for dense and more efficient representation of words</li>
@@ -197,7 +155,7 @@
 </ul>
 </li>
 </ul>
-<h2>Skipgram</h2>
+<h2 id="skipgram">Skipgram</h2>
 <ul>
 <li>Algorithm<ul>
 <li>For each word position t in text:<ul>
@@ -225,7 +183,7 @@
 <li>Objective Function<ul>
 <li>Maximize the similarity of positive pairs</li>
 <li>Minimize the similarity of negative pairs</li>
-<li>$L_{w,c} = \log \sigma(v_w \cdot v_c) + \sum_{i=1}^{k} \mathbb{E}_{c_i \sim P_n(w)}[\log \sigma(-v_w \cdot v_{c_i})]$</li>
+<li>$L_{w,c} = \log \sigma(v_w \cdot v_c) + \sum_{i=1}^{k} \mathbb{E}<em>{c_i \sim P_n(w)}[\log \sigma(-v_w \cdot v</em>{c_i})]$</li>
 <li>Where σ is the sigmoid function</li>
 <li>Use SGD to update word vectors</li>
 </ul>
@@ -237,7 +195,7 @@
 </ul>
 </li>
 </ul>
-<h2>Enhancements</h2>
+<h2 id="enhancements">Enhancements</h2>
 <ul>
 <li>Unknown / OOV words<ul>
 <li>Use subwords models like FastText</li>
@@ -250,8 +208,8 @@
 </ul>
 </li>
 <li>Similarity<ul>
-<li>$a:b :: a':b'$</li>
-<li>$b' = \arg \min \text{distance}(x, b - a + a')$</li>
+<li>$a:b :: a&#39;:b&#39;$</li>
+<li>$b&#39; = \arg \min \text{distance}(x, b - a + a&#39;)$</li>
 </ul>
 </li>
 <li>Bias<ul>
@@ -268,25 +226,12 @@
 </ul>
 </li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

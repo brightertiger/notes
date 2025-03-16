@@ -1,79 +1,37 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Additive Models</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eslr 09 Additive Models | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="#" class="active">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Additive Models</h1>
-<h2>Generalized Additive Models</h2>
+  <div class="container">
+    <header>
+      <h1>Eslr 09 Additive Models</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="additive-models">Additive Models</h1>
+<h2 id="generalized-additive-models">Generalized Additive Models</h2>
 <ul>
 <li>Linear models fail to capture non-linear trends</li>
 <li>Additive models an alternative<ul>
@@ -92,15 +50,15 @@
 </ul>
 </li>
 </ul>
-<h2>Tree-based Methods</h2>
+<h2 id="tree-based-methods">Tree-based Methods</h2>
 <ul>
 <li>Partition the feature space into rectangels and fit a simple model in each partition</li>
 <li>Regression Setting</li>
-<li>$f(X) = \sum c_i I\{X \in R_i\}$</li>
+<li>$f(X) = \sum c_i I{X \in R_i}$</li>
 <li>$c_m = ave(y_i | X_i \in R_m)$</li>
 <li>Greedy Algorithms to find best splits<ul>
-<li>$R_1 = \{X | X_j \le s\}; \; R_2 = \{X | X_j &gt; s\}$\</li>
-<li>$\min_{j,s} \min \sum (y_i - c_i)^2 I\{X \in R_i\}$</li>
+<li>$R_1 = {X | X_j \le s}; ; R_2 = {X | X_j &gt; s}$\</li>
+<li>$\min_{j,s} \min \sum (y_i - c_i)^2 I{X \in R_i}$</li>
 </ul>
 </li>
 <li>Tree size is a hyperparameter</li>
@@ -112,7 +70,7 @@
 </li>
 <li>Option 2<ul>
 <li>Grow the tree to full saize (say depth 5)</li>
-<li>$N_m$ # of observations in m'th node</li>
+<li>$N_m$ # of observations in m&#39;th node</li>
 <li>$C_m = \sum y_i / N_m$</li>
 <li>$Q_m = {1 \over N_m }\sum (y_i - C_m)^2$</li>
 <li>Cost-Complexity Pruning</li>
@@ -123,7 +81,7 @@
 </ul>
 </li>
 <li>Classification Setting</li>
-<li>$p_{mk} = {1 \over N_m}\sum_{R_m} I\{y_i = k\}$</li>
+<li>$p_{mk} = {1 \over N_m}\sum_{R_m} I{y_i = k}$</li>
 <li>Splitting Criteria<ul>
 <li>Miss-classification Error: $1 - \hat p_{mk}$</li>
 <li>Gini Index: $\sum_K p_{mk}(1 - \hat p_{mk})$<ul>
@@ -186,7 +144,7 @@
 </ul>
 </li>
 </ul>
-<h2>PRIM</h2>
+<h2 id="prim">PRIM</h2>
 <ul>
 <li>Patient Rule Induction Method</li>
 <li>Boxes with high response rates</li>
@@ -197,7 +155,7 @@
 </ul>
 </li>
 </ul>
-<h2>Mixture of Experts</h2>
+<h2 id="mixture-of-experts">Mixture of Experts</h2>
 <ul>
 <li>Tree splits are not hard decisions but soft probabilities</li>
 <li>Terminal nodes are called experts<ul>
@@ -208,25 +166,12 @@
 <li>The decision of experts is combined by gating networks</li>
 <li>Estimation via EM Algorithm</li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

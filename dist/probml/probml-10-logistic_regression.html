@@ -1,96 +1,41 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logistic Regression</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probml 10 Logistic Regression | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Probml Notes</h3>
-        <ul>
-            <li><a href="probml-00.html">Introduction</a></li>
-<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
-<li><a href="probml-02-probability.html">02-probability</a></li>
-<li><a href="probml-03-probability.html">Probability (Advanced)</a></li>
-<li><a href="probml-04-statistics.html">04-statistics</a></li>
-<li><a href="probml-05-decision_theory.html">05-decision Theory</a></li>
-<li><a href="probml-06-information_theory.html">06-information Theory</a></li>
-<li><a href="probml-08-optimization.html">08-optimization</a></li>
-<li><a href="probml-09-discriminant_analysis.html">09-discriminant Analysis</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Logistic Regression</h1>
+  <div class="container">
+    <header>
+      <h1>Probml 10 Logistic Regression</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="logistic-regression">Logistic Regression</h1>
 <ul>
 <li><p>Discriminative classification model </p>
 <ul>
 <li>Estimate $p(y | x, \theta)$</li>
-<li>$y \in \{1,2,...,C\}$</li>
+<li>$y \in {1,2,...,C}$</li>
 </ul>
 </li>
 <li><p>Binary Logisitc Regression</p>
@@ -101,7 +46,7 @@
 <li>$p(y = 1 | x, \theta) = \sigma(w^Tx +b)$</li>
 <li>Alternative equivalent notation y is {-1, +1} </li>
 <li>Compact notation:<ul>
-<li>$p(y | x, \theta) = \sigma(y \times (w^tx + b))$ where $y \in \{-1, +1\}$</li>
+<li>$p(y | x, \theta) = \sigma(y \times (w^tx + b))$ where $y \in {-1, +1}$</li>
 </ul>
 </li>
 <li>If the misclassification cost is same across classes, optimal decision rule<ul>
@@ -128,7 +73,7 @@
 <li>Sum of residuals weighted by inputs</li>
 <li>Hessian is positive definite making the optimization convex</li>
 <li>Minimization of NLL can be achieved by first order methods like SGD</li>
-<li>Second order methods like Newton's method can result in faster convergence<ul>
+<li>Second order methods like Newton&#39;s method can result in faster convergence<ul>
 <li>IRLS (iteratively weighted least squares) is the equivalent</li>
 </ul>
 </li>
@@ -142,7 +87,7 @@
 <li>$p(w) = N(0, \lambda ^{-1} I)$</li>
 <li>$L(w) = NLL(w) + \lambda ||w||^2$</li>
 <li>$\lambda$ is the L2 regularization which penalizes the weights from growing large</li>
-<li>Given the gaussian priors assume zero mean in MAP, it's important to standardize the input features to make sure they are on the same scale</li>
+<li>Given the gaussian priors assume zero mean in MAP, it&#39;s important to standardize the input features to make sure they are on the same scale</li>
 </ul>
 </li>
 </ul>
@@ -211,25 +156,12 @@
 </ul>
 </li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

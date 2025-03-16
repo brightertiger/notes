@@ -1,79 +1,37 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Statistics</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen 01 Basic Statistics | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="#" class="active">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Basic Statistics</h1>
-<h2>Sampling and Measurement</h2>
+  <div class="container">
+    <header>
+      <h1>Gen 01 Basic Statistics</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="basic-statistics">Basic Statistics</h1>
+<h2 id="sampling-and-measurement">Sampling and Measurement</h2>
 <ul>
 <li>A characteristic that can be measured for each data point<ul>
 <li>Quantitative: Numerical</li>
@@ -123,7 +81,7 @@
 </ul>
 </li>
 </ul>
-<h2>Descriptive Statistics</h2>
+<h2 id="descriptive-statistics">Descriptive Statistics</h2>
 <ul>
 <li>Mean, Median, Mode</li>
 <li>Shape of Distribution<ul>
@@ -164,7 +122,7 @@
 </ul>
 </li>
 </ul>
-<h2>Probability</h2>
+<h2 id="probability">Probability</h2>
 <ul>
 <li>$E(X) = \sum_i x_i \times p(X=x_i)$<ul>
 <li>First moment about origin</li>
@@ -202,7 +160,7 @@
 </ul>
 </li>
 </ul>
-<h2>Confidence Interval</h2>
+<h2 id="confidence-interval">Confidence Interval</h2>
 <ul>
 <li>Point Estimate: Single number representing the best guess for the parameter</li>
 <li>Unbiased Estimator:<ul>
@@ -274,7 +232,7 @@
 </ul>
 </li>
 </ul>
-<h2>Significance Test</h2>
+<h2 id="significance-test">Significance Test</h2>
 <ul>
 <li>Hypothesis is a statement about the population</li>
 <li>Significance test uses data to summerize evidence about the hypothesis</li>
@@ -297,8 +255,8 @@
 </ul>
 </li>
 <li>Conclusion<ul>
-<li>If P-value is less than 5%, 95% CI doesn't contain the hypothesized value of the parameter</li>
-<li>"Reject" or "Fail to Reject" null hypothesis</li>
+<li>If P-value is less than 5%, 95% CI doesn&#39;t contain the hypothesized value of the parameter</li>
+<li>&quot;Reject&quot; or &quot;Fail to Reject&quot; null hypothesis</li>
 </ul>
 </li>
 </ol>
@@ -317,7 +275,7 @@
 <li>$se = \sigma / \sqrt N$</li>
 <li>In case of small sample sizes, replace the z-test with binomial distribution<ul>
 <li>$P(X=x) = {N\choose x} p^x (1-p)^{N-x}$</li>
-<li>$\mu = np, \, \sigma=\sqrt{np(1-p)}$</li>
+<li>$\mu = np, , \sigma=\sqrt{np(1-p)}$</li>
 </ul>
 </li>
 </ul>
@@ -337,9 +295,9 @@
 <li>Power of the test = 1 - P(Type 2 error)</li>
 </ul>
 </li>
-<li>Significance testing doesn't rely solely on effect size. Small and impractical differences can be statistically significant with large enough sample sizes</li>
+<li>Significance testing doesn&#39;t rely solely on effect size. Small and impractical differences can be statistically significant with large enough sample sizes</li>
 </ul>
-<h2>Comparison of Groups</h2>
+<h2 id="comparison-of-groups">Comparison of Groups</h2>
 <ul>
 <li>Difference in means between two groups<ul>
 <li>$\mu_1, \mu_2$ are the average parameter values for the two groups</li>
@@ -389,11 +347,11 @@
 <li>$z=(\hat \pi_1 - \hat \pi_2) / se$</li>
 </ul>
 </li>
-<li>Fisher's Exact test for smaller samples</li>
+<li>Fisher&#39;s Exact test for smaller samples</li>
 </ul>
 </li>
 <li>Differneces in matched pairs<ul>
-<li>Same subject's response across different times</li>
+<li>Same subject&#39;s response across different times</li>
 <li>Controls for other sources of variations</li>
 <li>Longitudnal and Crossover studies</li>
 <li>Difference of Means == Mean of Differences</li>
@@ -403,7 +361,7 @@
 </li>
 <li>Significance Test<ul>
 <li>Paired-difference t-test\</li>
-<li>$t = {(y_d - 0) \over se}; \; se = s_d / \sqrt n$</li>
+<li>$t = {(y_d - 0) \over se}; ; se = s_d / \sqrt n$</li>
 </ul>
 </li>
 <li>Effect Size<ul>
@@ -463,7 +421,7 @@
 </ul>
 </li>
 </ul>
-<h2>Association between Categorical Variables</h2>
+<h2 id="association-between-categorical-variables">Association between Categorical Variables</h2>
 <ul>
 <li>Variables are statisitcally independent if population conditional distributions match the category conditional distribution</li>
 <li>Chi-Square Test<ul>
@@ -473,12 +431,12 @@
 <li>Compare to observed frequency $f_o$</li>
 <li>$\chi^2 = \sum\frac{(f_e - f_o)^2}{f_e}$</li>
 <li>degrees of freedom: (r-1)x(c-1)</li>
-<li>Value of chi-sq doesn't tell the strength of association</li>
+<li>Value of chi-sq doesn&#39;t tell the strength of association</li>
 </ul>
 </li>
 <li>Residual Analysis<ul>
 <li>The difference of a given cell significant or not</li>
-<li>$z = (f_e - f_o) / \sqrt{f_e (1 - row\%)(1 - col\%)}$</li>
+<li>$z = (f_e - f_o) / \sqrt{f_e (1 - row%)(1 - col%)}$</li>
 </ul>
 </li>
 <li>Odds Ratio<ul>
@@ -509,32 +467,19 @@
 </ul>
 </li>
 </ul>
-<h2>P-value interpretation and common misconceptions:</h2>
+<h2 id="p-value-interpretation-and-common-misconceptions">P-value interpretation and common misconceptions:</h2>
 <ul>
 <li>P-value is NOT the probability that the null hypothesis is true</li>
 <li>P-value is NOT the probability that the results occurred by chance</li>
 <li>P-value is the probability of obtaining a test statistic at least as extreme as the one observed, given that the null hypothesis is true</li>
 <li>Small p-values indicate evidence against the null hypothesis, not evidence for the alternative hypothesis</li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

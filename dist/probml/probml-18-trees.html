@@ -1,112 +1,51 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trees</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probml 18 Trees | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Probml Notes</h3>
-        <ul>
-            <li><a href="probml-00.html">Introduction</a></li>
-<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
-<li><a href="probml-02-probability.html">02-probability</a></li>
-<li><a href="probml-03-probability.html">Probability (Advanced)</a></li>
-<li><a href="probml-04-statistics.html">04-statistics</a></li>
-<li><a href="probml-05-decision_theory.html">05-decision Theory</a></li>
-<li><a href="probml-06-information_theory.html">06-information Theory</a></li>
-<li><a href="probml-08-optimization.html">08-optimization</a></li>
-<li><a href="probml-09-discriminant_analysis.html">09-discriminant Analysis</a></li>
-<li><a href="probml-10-logistic_regression.html">10-logistic Regression</a></li>
-<li><a href="probml-11-linear_regression.html">11-linear Regression</a></li>
-<li><a href="probml-13-ffnn.html">13-ffnn</a></li>
-<li><a href="probml-14-cnn.html">14-cnn</a></li>
-<li><a href="probml-15-rnn.html">15-rnn</a></li>
-<li><a href="probml-16-exemplar.html">16-exemplar</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Trees</h1>
+  <div class="container">
+    <header>
+      <h1>Probml 18 Trees</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="trees">Trees</h1>
 <ul>
 <li><p>Recursively partition the input space and define a local model in the resulting region of the input space</p>
 <ul>
 <li>Node i</li>
 <li>Feature dimension d_i is compared to threshold t_i<ul>
-<li>$R_i = \{x : x_{d_1} \leq t_1, x_{d_2} \leq t_2, \ldots\}$</li>
+<li>$R_i = {x : x_{d_1} \leq t_1, x_{d_2} \leq t_2, \ldots}$</li>
 <li>Axis parallel splits</li>
 </ul>
 </li>
 <li>At leaf node, model specifies the predicted output for any input that falls in the region<ul>
-<li>$w_1 = \frac{\sum_{n} y_n I\{x_n \in R_1\}}{\sum_{n} I\{x_n \in R_1\}}$</li>
+<li>$w_1 = \frac{\sum_{n} y_n I{x_n \in R_1}}{\sum_{n} I{x_n \in R_1}}$</li>
 </ul>
 </li>
 <li>Tree structure can be represented as<ul>
-<li>$f(x, \theta) = \sum_j w_j I\{x \in R_j\}$ </li>
+<li>$f(x, \theta) = \sum_j w_j I{x \in R_j}$ </li>
 <li>where j denotes a leaf node</li>
 </ul>
 </li>
@@ -203,7 +142,7 @@
 </ul>
 </li>
 <li>Build different estimators of these sampled datasets</li>
-<li>Model doesn't overly rely on any single data point</li>
+<li>Model doesn&#39;t overly rely on any single data point</li>
 <li>Evaluate the performance on the 37% excluded data points<ul>
 <li>OOB (out of bag error)</li>
 </ul>
@@ -241,10 +180,10 @@
 <li>Add new models that address the residual error $r_i = (y_i - F_{m-1}(x_i))$</li>
 <li>AdaBoodst<ul>
 <li>Classification with exponential loss: $L(y, F(x)) = exp(-yF(x))$</li>
-<li>$y \in \{-1, +1\}$</li>
+<li>$y \in {-1, +1}$</li>
 <li>Output of tree has to be {-1, +1} in each region</li>
 <li>Each round m, the optimization is simplified to finding the best classifier fit to the weighted training data.</li>
-<li>$\theta_m = \arg\min \sum w_i^{(m)} I \{y_i \ne f_m(x_i; \theta)\}$</li>
+<li>$\theta_m = \arg\min \sum w_i^{(m)} I {y_i \ne f_m(x_i; \theta)}$</li>
 </ul>
 </li>
 </ul>
@@ -257,7 +196,7 @@
 <li>Neglect higher order terms</li>
 <li>Minimize the loss</li>
 <li>$f_m(x) = - g_m(x)$</li>
-<li>$g_m(x) = {\delta L(y, F(x)) \over \delta F(x)}|_{F(x) = F_{m-1}(x)}$</li>
+<li>$g_m(x) = {\delta L(y, F(x)) \over \delta F(x)}|<em>{F(x) = F</em>{m-1}(x)}$</li>
 <li>The new predictor is trained to approximate the negative gradient of the loss</li>
 </ul>
 </li>
@@ -282,7 +221,7 @@
 <li>$\Omega(f) = \gamma J + {1 \over 2} \lambda \sum w_j^2$</li>
 <li>Consider the forward stage wise additive modeling</li>
 <li>$L_m(f) = \sum l(y_i, f_{m-1}(x_i) + F(x_i)) + \Omega(f)$</li>
-<li>Use Taylor's approximation on F(x)</li>
+<li>Use Taylor&#39;s approximation on F(x)</li>
 <li>$L_m(f) = \sum l(y_i, f_{m-1}(x_i)) + g_{im} F_m(x_i) + {1 \over 2} h_{im} F_m(x_i)^2) + \Omega(f)$<ul>
 <li>g is the gradient and h is the hessian</li>
 </ul>
@@ -322,25 +261,12 @@
 </ul>
 </li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

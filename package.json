@@ -1,24 +1,27 @@
 {
-  "name": "notes",
-  "version": "1.0.0",
-  "main": "convert.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brightertiger/notes.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brightertiger/notes/issues"
-  },
-  "homepage": "https://github.com/brightertiger/notes#readme",
-  "description": "",
-  "dependencies": {
-    "cheerio": "^1.0.0",
-    "marked": "^15.0.7"
-  }
+    "name": "markdown-notes-site-generator",
+    "version": "1.0.0",
+    "description": "Static site generator for markdown notes",
+    "main": "index.js",
+    "scripts": {
+        "build": "node index.js",
+        "serve": "http-server dist"
+    },
+    "keywords": [
+        "markdown",
+        "static-site",
+        "generator",
+        "notes"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "glob": "^8.1.0",
+        "gray-matter": "^4.0.3",
+        "marked": "^4.3.0",
+        "mkdirp": "^2.1.6"
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
 }

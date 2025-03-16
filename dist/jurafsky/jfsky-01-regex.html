@@ -1,85 +1,43 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regex</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jfsky 01 Regex | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="#" class="active">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Regex</h1>
-<h2>Regex</h2>
+  <div class="container">
+    <header>
+      <h1>Jfsky 01 Regex</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="regex">Regex</h1>
+<h2 id="regex-1">Regex</h2>
 <ul>
 <li>Language for specifying text search strings</li>
 <li>Algebraic notation for characterizing a set of strings</li>
 <li>Basic regular expression<ul>
-<li>Match the "word" /word/</li>
-<li>Match the "word" or "Word" /[wW]ord/</li>
+<li>Match the &quot;word&quot; /word/</li>
+<li>Match the &quot;word&quot; or &quot;Word&quot; /[wW]ord/</li>
 <li>Match single digit /[0-9]/</li>
 </ul>
 </li>
@@ -93,19 +51,19 @@
 <li>Exclusions</li>
 <li>Not an upper case letter /[^A-Z]/</li>
 <li>Not a period /[^.]/</li>
-<li>If caret is not the first character, it's treated as any other character</li>
+<li>If caret is not the first character, it&#39;s treated as any other character</li>
 </ul>
 </li>
 <li>Question Mark<ul>
 <li>Preceding character or nothing</li>
-<li>"word" or "words" /words?/</li>
-<li>"colour" or "color" /colou?r/</li>
+<li>&quot;word&quot; or &quot;words&quot; /words?/</li>
+<li>&quot;colour&quot; or &quot;color&quot; /colou?r/</li>
 </ul>
 </li>
 <li>Kleene *<ul>
 <li>Zero or more occurrences</li>
-<li>Zero or more "a" /a*/</li>
-<li>Zero or more "a"s or "b"s /[ab]*/</li>
+<li>Zero or more &quot;a&quot; /a*/</li>
+<li>Zero or more &quot;a&quot;s or &quot;b&quot;s /[ab]*/</li>
 </ul>
 </li>
 <li>Kleene +<ul>
@@ -115,63 +73,71 @@
 </li>
 <li>Wildcard<ul>
 <li>Match any single expression</li>
-<li>Any character between "beg" and "n" /beg.n/</li>
+<li>Any character between &quot;beg&quot; and &quot;n&quot; /beg.n/</li>
 </ul>
 </li>
 <li>Anchors<ul>
 <li>Start of the line ^</li>
-<li>Lines starting with "the" /^The/</li>
-<li>End of the line $
-    -   Lines ending with period /\.$/</li>
+<li>Lines starting with &quot;the&quot; /^The/</li>
+<li>End of the line $</li>
+<li>Lines ending with period /.$/</li>
 <li>Word boundary \b /\bthe\b/</li>
 </ul>
 </li>
 <li>Grouping<ul>
-<li>Disjunction "|"<ul>
+<li>Disjunction &quot;|&quot;<ul>
 <li>Match either cat or dog /cat|dog/</li>
 </ul>
 </li>
 <li>Parentheses ()<ul>
-<li>Match "guppy" or "guppies" /gupp(y|ies)/</li>
+<li>Match &quot;guppy&quot; or &quot;guppies&quot; /gupp(y|ies)/</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>Example<ul>
-<li>/(^|[^a-zA-Z])[tT]he([^a-zA-Z]|$)/
-        -   At the start or a non-alphabetic character
-        -   At the end or non-alphabetic character
-        -   Look for "the" or "The"
--   Operators
-    -   Any digit \d
-    -   Any non-digit \D
-    -   Whitespace \s
-    -   Non-whitespace \S
-    -   Any alphanumeric \w
-    -   Non Alpha-numeric \W
--   Range
-    -   Zero or more \*
-    -   One or more +
-    -   Exactly zero or one ?
-    -   N Occurrences {n}
-    -   N-to-M Occurrences {n,m}
-    -   At least N Occurrences {n,}
-    -   Up to M Occurrences {,m}
-
-## Words
-
--   Utterance is the spoken correlate of a sentence
--   Disfluency
-    -   Fragments: broken off words
-    -   Fillers or Filled Pauses "um"
--   Lemma: Lexical form of the same word (cats vs cat)
--   Types (V): Number of distinct words
--   Tokens (N): Number of running words
--   Heap's Law: $V = K N^\beta$</li>
+<li>/(^|[^a-zA-Z])[tT]he([^a-zA-Z]|$)/<ul>
+<li>At the start or a non-alphabetic character</li>
+<li>At the end or non-alphabetic character</li>
+<li>Look for &quot;the&quot; or &quot;The&quot;</li>
 </ul>
 </li>
 </ul>
-<h2>Text Normalization</h2>
+</li>
+<li>Operators<ul>
+<li>Any digit \d</li>
+<li>Any non-digit \D</li>
+<li>Whitespace \s</li>
+<li>Non-whitespace \S</li>
+<li>Any alphanumeric \w</li>
+<li>Non Alpha-numeric \W</li>
+</ul>
+</li>
+<li>Range<ul>
+<li>Zero or more *</li>
+<li>One or more +</li>
+<li>Exactly zero or one ?</li>
+<li>N Occurrences {n}</li>
+<li>N-to-M Occurrences {n,m}</li>
+<li>At least N Occurrences {n,}</li>
+<li>Up to M Occurrences {,m}</li>
+</ul>
+</li>
+</ul>
+<h2 id="words">Words</h2>
+<ul>
+<li>Utterance is the spoken correlate of a sentence</li>
+<li>Disfluency<ul>
+<li>Fragments: broken off words</li>
+<li>Fillers or Filled Pauses &quot;um&quot;</li>
+</ul>
+</li>
+<li>Lemma: Lexical form of the same word (cats vs cat)</li>
+<li>Types (V): Number of distinct words</li>
+<li>Tokens (N): Number of running words</li>
+<li>Heap&#39;s Law: $V = K N^\beta$</li>
+</ul>
+<h2 id="text-normalization">Text Normalization</h2>
 <ul>
 <li>Involves three steps<ul>
 <li>Tokenizing Words</li>
@@ -209,7 +175,7 @@
 </ul>
 </li>
 </ul>
-<h2>Word Normalization</h2>
+<h2 id="word-normalization">Word Normalization</h2>
 <ul>
 <li>Putting words and tokens in a standard format</li>
 <li>Case Folding: Convert everything to lowercase<ul>
@@ -224,7 +190,7 @@
 </ul>
 </li>
 </ul>
-<h2>Edit Distance</h2>
+<h2 id="edit-distance">Edit Distance</h2>
 <ul>
 <li>Similarity between two strings</li>
 <li>Minimum number of editing operations needed to transform one string into another<ul>
@@ -242,25 +208,12 @@
 </li>
 <li>Viterbi Algorithm is a related DP algorithm used for finding most likely sequence of hidden states</li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

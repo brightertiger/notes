@@ -1,88 +1,46 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Trees</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen 02 Decision Trees | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="#" class="active">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Decision Trees</h1>
-<h2>Decision Trees</h2>
+  <div class="container">
+    <header>
+      <h1>Gen 02 Decision Trees</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="decision-trees">Decision Trees</h1>
+<h2 id="decision-trees-1">Decision Trees</h2>
 <ul>
 <li>Recursively split the input / feature space using stubs i.e. decision rules<ul>
 <li>Splits are parallel to the axis</li>
 </ul>
 </li>
 <li>Mathematical Represenation<ul>
-<li>$R_j = \{ x : d_1 &lt;= t_1, d_2 &gt;= t_2 ... \}$\</li>
-<li>$\hat Y_i = \sum_j w_j I\{x_i \in R_j\}$</li>
-<li>$w_j = \frac{\sum_i y_i I \{x_i \in R_j\}}{\sum_i I \{x_i \in R_j\}}$</li>
+<li>$R_j = { x : d_1 &lt;= t_1, d_2 &gt;= t_2 ... }$\</li>
+<li>$\hat Y_i = \sum_j w_j I{x_i \in R_j}$</li>
+<li>$w_j = \frac{\sum_i y_i I {x_i \in R_j}}{\sum_i I {x_i \in R_j}}$</li>
 </ul>
 </li>
 <li>Types of Decision Trees<ul>
@@ -99,7 +57,7 @@
 </ul>
 </li>
 </ul>
-<h2>Splitting</h2>
+<h2 id="splitting">Splitting</h2>
 <ul>
 <li>Split Criteria for Classification Trees<ul>
 <li>The nodes are split to decrease impurity in classification</li>
@@ -154,12 +112,12 @@
 </li>
 <li>After Split<ul>
 <li>Child Nodes<ul>
-<li>$\text{Gini}_{\text{Left}}, N_{\text{Left}}$</li>
-<li>$\text{Gini}_{\text{Right}}, N_{\text{Right}}$</li>
+<li>$\text{Gini}<em>{\text{Left}}, N</em>{\text{Left}}$</li>
+<li>$\text{Gini}<em>{\text{Right}}, N</em>{\text{Right}}$</li>
 </ul>
 </li>
 <li>Updated Gini<ul>
-<li>$\frac{N_{\text{Left}}}{N_{\text{Root}}} \times \text{Gini}_{\text{Left}} + \frac{N_{\text{Right}}}{N_{\text{Root}}} \times \text{Gini}_{\text{Right}}$</li>
+<li>$\frac{N_{\text{Left}}}{N_{\text{Root}}} \times \text{Gini}<em>{\text{Left}} + \frac{N</em>{\text{Right}}}{N_{\text{Root}}} \times \text{Gini}_{\text{Right}}$</li>
 </ul>
 </li>
 </ul>
@@ -170,7 +128,7 @@
 </ul>
 </li>
 </ul>
-<h2>Bias-Variance Trade-off</h2>
+<h2 id="bias-variance-trade-off">Bias-Variance Trade-off</h2>
 <ul>
 <li>Bias<ul>
 <li>Measures ability of an ML algorithm to model true relationship between features and target</li>
@@ -207,21 +165,21 @@
 </ul>
 </li>
 </ul>
-<h2>Nature of Decision Trees</h2>
+<h2 id="nature-of-decision-trees">Nature of Decision Trees</h2>
 <ul>
 <li>Decision Trees can model non-linear relationships (complex deicison boundaries)</li>
 <li>Spline regressions cannot achieve the same results<ul>
 <li>Spline adds indicator variables to capture interactions and create kinks</li>
 <li>But the decision boundary has to be continuous</li>
-<li>The same restriction doesn't apply to decision trees</li>
+<li>The same restriction doesn&#39;t apply to decision trees</li>
 </ul>
 </li>
-<li>Decision Trees don't require feature sscaling</li>
+<li>Decision Trees don&#39;t require feature sscaling</li>
 <li>Decision Trees are less sensitive to outliers<ul>
 <li>Outliers are of various kinds:<ul>
 <li>Outliers: Points with extreme values<ul>
 <li>Input Features<ul>
-<li>Doesn't impact Decision Trees</li>
+<li>Doesn&#39;t impact Decision Trees</li>
 <li>Split finding will ignore the extreme values</li>
 </ul>
 </li>
@@ -236,7 +194,7 @@
 <li>Decision Trees cannot extrapolate well to ranges outside the training data</li>
 <li>Decision trees cannot capture linear time series based trends / seasonality</li>
 </ul>
-<h2>Bagging</h2>
+<h2 id="bagging">Bagging</h2>
 <ul>
 <li>Bootstrap Agrregation</li>
 <li>Sampling with repetition<ul>
@@ -247,16 +205,16 @@
 </ul>
 </li>
 <li>Probability that a point (say i) gets selected atleast once<ul>
-<li>$1 - \frac{1}{e} \approx 63\%$</li>
+<li>$1 - \frac{1}{e} \approx 63%$</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h2>Random Forest</h2>
+<h2 id="random-forest">Random Forest</h2>
 <ul>
 <li>Use bootstrap aggregation (bagging) to create multiple datasets<ul>
-<li>"Random" subspace of dataset</li>
+<li>&quot;Random&quot; subspace of dataset</li>
 </ul>
 </li>
 <li>Use subset of variables for split at each node<ul>
@@ -294,7 +252,7 @@
 </ul>
 </li>
 </ul>
-<h2>ExtraTrees</h2>
+<h2 id="extratrees">ExtraTrees</h2>
 <ul>
 <li>Extremely Randomized Trees</li>
 <li>Bagging:<ul>
@@ -308,7 +266,7 @@
 </ul>
 </li>
 </ul>
-<h2>Variable Importance</h2>
+<h2 id="variable-importance">Variable Importance</h2>
 <ul>
 <li>Split-based importance<ul>
 <li>If variable j is used for split<ul>
@@ -339,8 +297,8 @@
 <li>$\hat f(x_s) =\frac{1}{C} \sum f(x_s,x_i)$</li>
 <li>Average predictions over all other variables</li>
 <li>Can be used to identify important interactions<ul>
-<li>Friedman's H Statistic</li>
-<li>If features don't interact Joint PDP can be decomposed into marginals</li>
+<li>Friedman&#39;s H Statistic</li>
+<li>If features don&#39;t interact Joint PDP can be decomposed into marginals</li>
 </ul>
 </li>
 </ul>
@@ -351,7 +309,7 @@
 </li>
 <li>LIME</li>
 </ul>
-<h2>Handling Categorical Variables</h2>
+<h2 id="handling-categorical-variables">Handling Categorical Variables</h2>
 <ul>
 <li>Binary categorical variables are easily incorporated into decision trees</li>
 <li>For multi-category variables:<ul>
@@ -365,7 +323,7 @@
 </ul>
 </li>
 </ul>
-<h2>Tree Pruning</h2>
+<h2 id="tree-pruning">Tree Pruning</h2>
 <ul>
 <li>Decision trees are prone to overfitting<ul>
 <li>Noisy Samples</li>
@@ -385,7 +343,7 @@
 <li>Minimum impurity decrease</li>
 </ul>
 </li>
-<li>Post-pruning: Grows a full tree and then removes branches that don't improve generalization<ul>
+<li>Post-pruning: Grows a full tree and then removes branches that don&#39;t improve generalization<ul>
 <li>Cost-complexity pruning (used in CART)</li>
 <li>Reduced Error Pruning (REP)</li>
 <li>Pessimistic Error Pruning (PEP)</li>
@@ -395,25 +353,12 @@
 </li>
 <li>Cross-validation can be used to determine optimal pruning level</li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

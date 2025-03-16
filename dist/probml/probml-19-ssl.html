@@ -1,98 +1,36 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSL</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probml 19 Ssl | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="eslr-02-classification.html">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Probml Notes</h3>
-        <ul>
-            <li><a href="probml-00.html">Introduction</a></li>
-<li><a href="probml-01-introduction.html">Introduction (Detailed)</a></li>
-<li><a href="probml-02-probability.html">02-probability</a></li>
-<li><a href="probml-03-probability.html">Probability (Advanced)</a></li>
-<li><a href="probml-04-statistics.html">04-statistics</a></li>
-<li><a href="probml-05-decision_theory.html">05-decision Theory</a></li>
-<li><a href="probml-06-information_theory.html">06-information Theory</a></li>
-<li><a href="probml-08-optimization.html">08-optimization</a></li>
-<li><a href="probml-09-discriminant_analysis.html">09-discriminant Analysis</a></li>
-<li><a href="probml-10-logistic_regression.html">10-logistic Regression</a></li>
-<li><a href="probml-11-linear_regression.html">11-linear Regression</a></li>
-<li><a href="probml-13-ffnn.html">13-ffnn</a></li>
-<li><a href="probml-14-cnn.html">14-cnn</a></li>
-<li><a href="probml-15-rnn.html">15-rnn</a></li>
-<li><a href="probml-16-exemplar.html">16-exemplar</a></li>
-<li><a href="probml-18-trees.html">18-trees</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>SSL</h1>
+  <div class="container">
+    <header>
+      <h1>Probml 19 Ssl</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="ssl">SSL</h1>
 <ul>
 <li><p>Data Augmentation</p>
 <ul>
@@ -110,7 +48,7 @@
 <li>Fine tune the model on a small target dataset </li>
 <li>Chop-off the head of the pretrained model and add a new one </li>
 <li>The parameters may be frozen during fine-tuning </li>
-<li>In case the parameters aren't frozen, use small learning rates.</li>
+<li>In case the parameters aren&#39;t frozen, use small learning rates.</li>
 </ul>
 </li>
 <li><p>Adapters </p>
@@ -157,7 +95,7 @@
 <li>Simple Contrastive Learning for Visual Representations</li>
 <li>Pretraining<ul>
 <li>Take an unlabeled image X</li>
-<li>Apply data augmentation A and A' and get two views X and X'</li>
+<li>Apply data augmentation A and A&#39; and get two views X and X&#39;</li>
 <li>Apply encoder to both views</li>
 <li>Apply projection head to both encodings</li>
 <li>Contrastive Loss function with mini-batch to identify the positive pairs</li>
@@ -208,7 +146,7 @@
 </ul>
 </li>
 <li>Consistency Regularization<ul>
-<li>Model's prediction shouldn't change much for small changes to the input</li>
+<li>Model&#39;s prediction shouldn&#39;t change much for small changes to the input</li>
 <li>Can be implemented by passing augmented versions of same image as loss</li>
 </ul>
 </li>
@@ -217,7 +155,7 @@
 <li>Use graph clustering to group related nodes</li>
 <li>Class labels are assigned to unlabeled data, based on the cluster distribution</li>
 <li>Model Labels: Labels of the data points</li>
-<li>Propagate the labels in such a way that there is minimal label disagreement between node and it's neighbours</li>
+<li>Propagate the labels in such a way that there is minimal label disagreement between node and it&#39;s neighbours</li>
 <li>Label guesses for unlabeled data that can be used for superised learning</li>
 <li>Details:<ul>
 <li>M labeled points, N unlabeled points</li>
@@ -243,7 +181,7 @@
 <li>First sample: $z \sim p(z)$ and then sample $x\sim p(x|z)$</li>
 <li>Encoder: Approximate the posterior</li>
 <li>Decoder: Approximate the likelihood</li>
-<li>Maximize evidence lower bound of the data (ELBO) (derived from Jensen's ineuqlity)</li>
+<li>Maximize evidence lower bound of the data (ELBO) (derived from Jensen&#39;s ineuqlity)</li>
 <li>Use VAEs to learn representations for downstream tasks</li>
 </ul>
 </li>
@@ -288,7 +226,7 @@
 </ul>
 </li>
 </ul>
-<h1>Semi-Supervised and Self-Supervised Learning</h1>
+<h1 id="semi-supervised-and-self-supervised-learning">Semi-Supervised and Self-Supervised Learning</h1>
 <ul>
 <li><p>Semi-Supervised Learning (SSL): Leveraging both labeled and unlabeled data</p>
 <ul>
@@ -354,7 +292,8 @@
 <li>Generate two views of each image via augmentation</li>
 <li>Encode both views with shared encoder</li>
 <li>Apply projection head to map encodings to space for contrastive loss</li>
-<li>Contrastive loss: Maximize similarity between positive pairs (same image)<br>and minimize similarity between negative pairs (different images)</li>
+<li>Contrastive loss: Maximize similarity between positive pairs (same image)
+and minimize similarity between negative pairs (different images)</li>
 <li>For downstream tasks, discard projection head and fine-tune encoder</li>
 </ol>
 </li>
@@ -379,7 +318,7 @@
 </li>
 <li><p>Masked Autoencoders:</p>
 <ul>
-<li>Inspired by BERT's success in NLP</li>
+<li>Inspired by BERT&#39;s success in NLP</li>
 <li>Mask significant portions of input (e.g., 75% of image patches)</li>
 <li>Train encoder-decoder to reconstruct original input</li>
 <li>For downstream tasks, use only encoder</li>
@@ -402,25 +341,12 @@
 </ul>
 </li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

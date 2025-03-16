@@ -1,79 +1,37 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classification</title>
-    <link rel="stylesheet" href="../styles.css">
 
-    <!-- MathJax for equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-    // MathJax configuration
-    window.MathJax = {
-        tex: {
-            inlineMath: [['$', '$']],
-            displayMath: [['$$', '$$']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eslr 02 Classification | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
     };
-    </script>
-    </head>
-
+  </script>
+</head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-    <a href="../index.html" class="home-link">
-        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-    </a>
-    <h2>Navigation</h2>
-    <div class="nav-section">
-        <h3>Eslr Notes</h3>
-        <ul>
-            <li><a href="eslr-00.html">Introduction</a></li>
-<li><a href="eslr-01-regression.html">01-Regression</a></li>
-<li><a href="#" class="active">02-Classification</a></li>
-<li><a href="eslr-03-kernel-methods.html">03-Kernel-Methods</a></li>
-<li><a href="eslr-04-model-assessment.html">04-Model-Assessment</a></li>
-<li><a href="eslr-08-model-selection.html">08-Model-Selection</a></li>
-<li><a href="eslr-09-additive-models.html">09-Additive-Models</a></li>
-<li><a href="eslr-10-boosting.html">10-Boosting</a></li>
-<li><a href="eslr-15-random-forest.html">15-Random-Forest</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>General Notes</h3>
-        <ul>
-            <li><a href="gen-00.html">00</a></li>
-<li><a href="gen-01-basic-statistics.html">01-Basic-Statistics</a></li>
-<li><a href="gen-02-decision_trees.html">02-Decision Trees</a></li>
-<li><a href="gen-03-boosting.html">03-Boosting</a></li>
-<li><a href="gen-04-xgboost.html">04-Xgboost</a></li>
-<li><a href="gen-05-clustering.html">05-Clustering</a></li>
-<li><a href="gen-06-support_vector_machines.html">06-Support Vector Machines</a></li>
-<li><a href="gen-07-dimensionality_reduction.html">07-Dimensionality Reduction</a></li>
-<li><a href="gen-08-regression.html">08-Regression</a></li>
-        </ul>
-    </div><div class="nav-section">
-        <h3>Jurafsky Notes</h3>
-        <ul>
-            <li><a href="jfsky-00.html">00</a></li>
-<li><a href="jfsky-01-regex.html">01-Regex</a></li>
-<li><a href="jfsky-02-tokenization.html">02-Tokenization</a></li>
-<li><a href="jfsky-03-vectors.html">03-Vectors</a></li>
-<li><a href="jfsky-04-sequence.html">04-Sequence</a></li>
-<li><a href="jfsky-05-encoder.html">05-Encoder</a></li>
-<li><a href="jfsky-06-transfer.html">06-Transfer</a></li>
-        </ul>
-    </div></aside>
-
-        <main class="content"><h1>Classification</h1>
-<h2>Decision Boundary</h2>
+  <div class="container">
+    <header>
+      <h1>Eslr 02 Classification</h1>
+      
+      <a href="/" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="classification">Classification</h1>
+<h2 id="decision-boundary">Decision Boundary</h2>
 <ul>
 <li>Classificaiton approach is to learn a discriminant function $\delta_k(x)$ for each class<ul>
 <li>Classify x to the class with largest discriminant value</li>
@@ -87,7 +45,7 @@
 </li>
 <li>Linear Decision Boundary: $f_k(x) = \beta_{0k} + \beta_k x$</li>
 <li>Decision Boundary between two classes (k, l) is the set of points where $f_k(x) = f_l(x)$<ul>
-<li>$\{x : (\beta_{0k} - \beta_{0l}) + (\beta_k - \beta_l) x = 0\}$</li>
+<li>${x : (\beta_{0k} - \beta_{0l}) + (\beta_k - \beta_l) x = 0}$</li>
 <li>Affine set or a hyperplane</li>
 </ul>
 </li>
@@ -96,15 +54,15 @@
 <li>$P({G=0\over X=x}) = \frac{1}{1 + \exp(\beta x)}$</li>
 <li>$\log({P(G=1 | X=x) \over p(G=0 | X=x)}) = x \beta$</li>
 <li>Log-odds transformation gives linear decision boundary</li>
-<li>Decsion boundary is the set of points $\{x| \beta x = 0\}$</li>
+<li>Decsion boundary is the set of points ${x| \beta x = 0}$</li>
 </ul>
 </li>
 </ul>
-<h2>Linear Probability Model</h2>
+<h2 id="linear-probability-model">Linear Probability Model</h2>
 <ul>
 <li>Encode each of the k classes with an indicator function $Y_{N \times K}$</li>
 <li>Fit a regression model to each of the classes simulatneously<ul>
-<li>$\hat \beta = (X'X)^{-1}(X'Y)$</li>
+<li>$\hat \beta = (X&#39;X)^{-1}(X&#39;Y)$</li>
 <li>$\hat Y = X \hat \beta$</li>
 </ul>
 </li>
@@ -119,7 +77,7 @@
 </ul>
 </li>
 </ul>
-<h2>Linear and Quadratic Discriminant Analysis</h2>
+<h2 id="linear-and-quadratic-discriminant-analysis">Linear and Quadratic Discriminant Analysis</h2>
 <ul>
 <li>Bayes theorem<ul>
 <li>posterior $\propto$ prior x likelihood</li>
@@ -135,7 +93,7 @@
 <li>LDA (and QDA) assumes the discriminant function to have MVN probability density function</li>
 <li>LDA makes the assumption that the covariance martix (for MVN) is common for all the classes</li>
 <li>Discrimination Function<ul>
-<li>$f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp\{(X - \mu)^T \Sigma^{-1} (X - \mu)\}$</li>
+<li>$f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp{(X - \mu)^T \Sigma^{-1} (X - \mu)}$</li>
 </ul>
 </li>
 <li>Decision Boundary<ul>
@@ -167,7 +125,7 @@
 </ul>
 </li>
 </ul>
-<h2>Logistic Regression</h2>
+<h2 id="logistic-regression">Logistic Regression</h2>
 <ul>
 <li>Model posterior probabilities via separate functions while ensuring the output remains in the range [0,1]<ul>
 <li>$P({G=1 \over X=x}) = \frac{\exp(\beta x)}{1 + \exp(\beta x)}$</li>
@@ -183,15 +141,14 @@
 </li>
 </ul>
 </li>
-<li>Optimization<ul>
-<li>Non-linear function of parameters</li>
-<li>Use Newton-Raphson method</li>
-<li>Seond Order Derivative or Hessian</li>
-<li><ul>
-<li>$\frac{\delta^2 LL}{\delta \beta^2} = \sum x_i x_i^T p(x_i, \beta) (1 - p(x_i, \beta))$</li>
-</ul>
-</li>
-<li>The second order derivative is positive, hence it's a convex optimization problem</li>
+<li><h2 id="optimization-----non-linear-function-of-parameters-----use-newton-raphson-method-----seond-order-derivative-or-hessian">Optimization
+-   Non-linear function of parameters
+-   Use Newton-Raphson method
+-   Seond Order Derivative or Hessian</h2>
+<pre><code>-   $\frac{\delta^2 LL}{\delta \beta^2} = \sum x_i x_i^T p(x_i, \beta) (1 - p(x_i, \beta))$
+</code></pre>
+<ul>
+<li>The second order derivative is positive, hence it&#39;s a convex optimization problem</li>
 <li>IRLS (Iteratively Weighted Least Squares) algorithm</li>
 </ul>
 </li>
@@ -207,11 +164,11 @@
 </li>
 <li>Regularization<ul>
 <li>Lasso penalties can be added to the objective function</li>
-<li>Intercept term isn't penalized</li>
+<li>Intercept term isn&#39;t penalized</li>
 </ul>
 </li>
 </ul>
-<h2>Comparison between LDA and Logistic Regression</h2>
+<h2 id="comparison-between-lda-and-logistic-regression">Comparison between LDA and Logistic Regression</h2>
 <ul>
 <li>Both Logistic and LDA return linear decision boundaries</li>
 <li>Difference lies in the way coefficients are estimated</li>
@@ -226,20 +183,20 @@
 </ul>
 </li>
 </ul>
-<h2>Percepton Learning Algorithm</h2>
+<h2 id="percepton-learning-algorithm">Percepton Learning Algorithm</h2>
 <ul>
 <li>Minimize the distance of missclassified points to the separating hyperplane</li>
 <li>$D(\beta) = - \sum y (x^T \beta)$</li>
 <li>Use SGD to estimate the parameters</li>
 <li>When the data is separable, there are many solutions that exist. The final convergence depends on the initialization.</li>
-<li>When data isn't separable, there is no convergence.</li>
+<li>When data isn&#39;t separable, there is no convergence.</li>
 </ul>
-<h2>Maximum Margin Classifiers</h2>
+<h2 id="maximum-margin-classifiers">Maximum Margin Classifiers</h2>
 <ul>
 <li>Maximize the distance of of points from either class to the hyperplane.</li>
-<li>$L = \max_{\beta, ||\beta|| = 1} M \, \, \text{subject to} \, y_i \times x_i \beta &gt;= M \, \forall \, i \in N$</li>
+<li>$L = \max_{\beta, ||\beta|| = 1} M , , \text{subject to} , y_i \times x_i \beta &gt;= M , \forall , i \in N$</li>
 <li>The final parameters can be arbitrarily scaled.</li>
-<li>$L = \max {1 \over 2}||\beta||^2 \, \, \text{subject to} \, y_i \times x_i \beta &gt;= 1 \, \forall \, i \in N$</li>
+<li>$L = \max {1 \over 2}||\beta||^2 , , \text{subject to} , y_i \times x_i \beta &gt;= 1 , \forall , i \in N$</li>
 <li>Lagrangian Multiplier</li>
 <li>$L = \max {1 \over 2}||\beta||^2 - \sum \alpha_i (y_i \times x_i \beta) - 1)$</li>
 <li>Taking derivative wrt to $\beta$<ul>
@@ -248,25 +205,12 @@
 </ul>
 </li>
 </ul>
-<div class="page-navigation"><span class="nav-arrow prev disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Previous
-            </span><span class="nav-arrow next disabled">
-                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </span></div></main>
-    </div>
 
-    <script src="../script.js"></script>
-
-
-
-
-
-
-</body></html>
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  
