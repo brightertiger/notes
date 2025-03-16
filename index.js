@@ -10,7 +10,7 @@ const mkdirp = require('mkdirp');
 const config = {
     sourceDir: 'notes',
     outputDir: '.',
-    siteTitle: 'My Notes',
+    siteTitle: 'Machine Learning Notes',
     dateFormat: { year: 'numeric', month: 'long', day: 'numeric' }
 };
 
@@ -38,7 +38,8 @@ function getFolderDisplayName(folderPath) {
         .replace(/_/g, ' ')
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .join(' ')
+        .toUpperCase();
 }
 
 // Load and process markdown file
