@@ -1,0 +1,157 @@
+# Sequence Architectures
+
+## Sequence Modeling
+
+-   FFNNs cant be used because of limited context window
+    -   Languages can have longer dependencies over arbitrary context length
+-   Language Models assign conditional probability to the next word
+    -   $P(W_{1:n}) = \prod P(W_i | W_{1:i-1})$\
+-   Quality of a language model is assessed by perplexity
+    -   $PP = P(W_{1:n})^{-1/n}$
+    -   Inverse probability that the model assigns to the test sequence nomarlied by the length
+
+## Recurrent Neural Networks
+
+-   NN architecture that contains a cycle in its network connections
+-   The hidden layer output from previous step is linked to the current hidden layer output
+-   Predict using current intput and previous hidden state
+-   Removes the fixed context dependency arising in FFNNs
+-   The temporal hidden output can be persisited for infinite steps
+-   Inference
+    -   $h_t = g(U h_{t-1} + W x_t)$
+    -   $y_t = V (h_t)$
+-   Training
+    -   Chain rule for backpropagation
+    -   Output dependens on hidden state and hiddent state depends on previous time step
+    -   BPTT: backpropagation through time
+    -   In terms of computational graph, the network is "unrolled" for the entire sequence
+    -   For very long sequences, use truncated BPTT
+-   RNNs and Language Models
+    -   Predict next word using current word and previous hidden state\
+    -   Removes the limited context problem
+    -   Use word embeddings to enhance the model's generalization ability
+    -   \$e_t = E x_t \$
+    -   $h_t = g(U h_{t-1} + W e_t)$
+    -   $y_t = V (h_t)$
+    -   Output the probability distribution over the entire vocabulary
+    -   Loss function: Cross entropy, difference between predictied probability and true distribution
+    -   Minimize the error in predicting the next word
+    -   Teacher forcing for training
+        -   In training phase, ignore the model output for predicting the next word.
+        -   Use the actual word instead
+    -   Weight tying
+        -   Input embedding lookup and output probbaility matrix have same dimensions \|V\|
+        -   Avoid using two different matrices, use the same one instead
+-   RNN Tasks
+    -   Sequence Labeling
+        -   NER tasks, POS tagging
+        -   At each step predict the current tag rather than the next word
+        -   Use softmax over tagset with CE loss function
+    -   Sequence Classification
+        -   Classify entire sequences rather than the tokens
+        -   Use hidden state from the last step and pass to FFNN
+        -   Backprop will be used to update the RNN cycle links
+        -   Use pooling to enhance performance
+            -   Element-wise Mean, Max of all intermediate hidden states
+    -   Sequence Generation
+        -   Encoder-decoder architecture
+        -   Autoregressive generation
+        -   Use \<s\> as the first token (BOS) and hidden state from encoder
+        -   Sample form RNN, using output softmax
+        -   Use the embedding from the generated token as next input
+        -   Keep sampling till \</s\> (EOS) token is sampled
+-   RNN Architectures
+    -   Stacked RNNs
+        -   Multiple RNNs "stacked together"
+        -   Output from one layer serves as input to another layer
+        -   Differening levels of abstraction across layers
+    -   Bidirectional RNNs
+        -   Many applications have full access to input sequence
+        -   Process the sequence from left-to-right and right-to-left
+        -   Concatenate the output from forward and reversed passes
+
+## LSTM
+
+-   RNNs are hard to train
+-   Hidden state tends to be fairly local in practice, limited long term dependencies
+    -   Vanishing gradients
+    -   Repeated multiplications in backpropagation step
+    -   Signoid derivatives between (0-0.25) and tanh derivatives between (0-1)
+    -   Drives the gradients to zero over long sequence lengths
+    -   Infinite memeory of hidden states
+-   LSTMs introduce context management
+    -   Enable network to learn to forget information no longer needed
+    -   Persist information for likely needed for deicisions yet to come
+    -   Use gating mechanism (through additional weights) to control the flow of information
+-   Architecture
+    -   Feedforward layer
+    -   Sigmoid activation
+    -   Point-wise multiplication with the layer being gated (binary mask)
+-   Input Gate
+    -   Actual information
+    -   $g_t = \sigma(U h_{t-1} + W x_t)$
+-   Add Gate
+    -   Select the information to keep from current context
+    -   $i_t = \sigma(U h_{t-1} + W x_t)$
+    -   $j_t = i_t \odot g_t$
+-   Forget gate
+    -   Delete information from context no longer needed
+    -   Weighted sum of previous hidden state and current input
+    -   $f_t = \sigma(U h_{t-1} + W x_t)$
+    -   $k_t = f_t \odot c_{t-1}$
+-   Context
+    -   Sum of add and forget
+    -   $c_t = j_t + k_t$
+-   Output Gate
+    -   $o_t = \sigma(U h_{t-1} + W x_t)$
+    -   $h_t = o_t \odot \tanh(c_t)$
+-   In addition to hidden state, LSTMs also persist the context
+
+## Self Attention
+
+-   LSTMs difficult to parallelize
+-   Still not effective for very long dependencies. Bahdanau attention etc. hacks needed.
+-   Transformers - Replace recurrent layers with self attention layers
+-   Self Attention Mechanism
+    -   Map input to output of same length
+    -   At step t, model has access to all inputs upto step t
+        -   Helps with auto-regressive generation
+    -   Computation for step t is independent of all other steps
+        -   Easy parallelization
+    -   Compare current input to the collection which reveals its relevance in the given context
+    -   $y_3$ is generated by comparing $x_3$ to $x_1, x_2, x_3$
+-   Core of Attention Approach
+    -   Comparison is done using dot product operations (large value, more similar)
+        -   $\text{score}(x_i, x_j) = x_i . x_j$
+    -   Compute attention weights
+        -   $\alpha_{ij} = \text{softmax}(\text{score}(x_i, x_j))$
+    -   Compute output
+        -   $y_i = \sum \alpha_{ij} x_j$
+-   Sophistication wrt Transformers
+    -   Each input can play three different roles
+        -   Query: When it's being compared to other inputs (Current focus)
+        -   Key: When it's acting as context (previous input) fo comparison
+        -   Value: When it's being used to compute the output
+    -   For each role, there exists a separate embedding matrix
+        -   $\text{score}(x_i, x_j) = q_i . k_j / \sqrt d$
+        -   $y_i = \sum \alpha_{ij} v_j$
+        -   Normalization to avoid overflow in softmax layer
+    -   Since calculations are independent, use matrix multiplications
+    -   Use masking to avoid peeking into the future
+-   Transformer Block
+    -   Attention layer followed by FFNN with residual connections and layer norm
+    -   $z = \text{Layer Norm}(x + \text{Self Attention}(x))$
+    -   $y = \text{Layer Norm}(z + \text{FFNN}(z))$
+    -   Layer Norm dies normalization across the hidden dimension
+-   Multi-Head Attention
+    -   Words can exhibit different interrelationships (syntactic, semantic etc.)
+    -   Parallel layers to capture each of the underlying relationships
+    -   Concatenate the output from each of the heads
+-   Positional Embeddings
+    -   Shuffling input order should matter
+    -   Self-attention logic (unlike RNNs) doesn't respect sequence
+    -   Positional embeddings modify the input embedddings based on the position in the sequence
+    -   Size and Cosine functions
+-   BERT Architecture
+    -   Base Model - 12 heads, 12 layers, 64 diemnsions, 768 size (12 \* 64)
+    -   Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 \* 64) 

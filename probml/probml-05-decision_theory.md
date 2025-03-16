@@ -1,0 +1,198 @@
+# Decision Theory
+
+- Optimal Policy specifies which action to take for each possible observation to minimize risk or maximize utility
+- Implicit assumption is that agents are risk neutral. 50 vs 0.5 * 100
+- Zero-One loss: miss-classification rate in binary classifier
+    - $l_{01}(y, \hat y) = I\{y \ne \hat y\}$
+    - Optimal policy is to choose most probable label to minimize risk
+        - $R(y | x) = p(y \ne \hat y | x) = 1 - p(y = \hat y | x)$
+        - $\pi(x) = \arg \max p(y | x)$
+    - In case the errors are cost-sensitive
+        - FP is not same as FN
+        - $l_{01} = c \times l_{10}$
+        - Choose the label 1 if expected loss is lower:
+            - $p0 \times l_{01} < p1 \times c \times l_{10}$
+        - c will trade-off the decision boundary 
+    - In case reject or abstain is also a possible action
+        - Assume the cost of error $\lambda_e$
+        - Assume the cost of rejection: $\lambda_r$
+        - No decision when model confidence is below $1 - {\lambda_e \over \lambda _r}$
+
+- ROC Curves
+  - Summarize performance across various thresholds
+  - Confusion Matrix
+    - Give a threshold $\tau$
+    - Confusion Matrix
+          - Positive, Negative: Model Prediction
+          - True, False: Actual Labels
+          - TP, TN: Correct Predictions
+          - FP: Model predicts 1, Ground Truth is 0
+          - FN: Model predicts 0, Ground Truth is 1
+      - Ratios from Confusion Matrix
+          - TPR, Sensitivity, Recall
+              - TP / (TP + FN)
+              - Accuracy in positive predictions
+          - FPR, Type 1 Error rate
+              - FP / (FP + TN)
+              - Error in Negative Predictions
+  - ROC Curve is a plot between FPR (x-axis) and TPR (y-axis) across various thresholds
+  - AUC is a numerical summary of ROC
+  - Equal Error Rate is where ROC crosses -45 degree line.
+  - ROC Curve is insensitive to class imbalance
+      - FPR consists of TN in denominator
+      - If TN >> TP, metric becomes insensitive to FPR
+  - Precision-Recall Curves
+      - The negatives are not model specific but system specific
+      - For a search query, retrieve 50 vs 500 items.  (or tiles vs list)
+      - Precision
+          - TP / TP + FP
+      - Recall 
+          - TP / TP + FN
+      - There is no dependency on TN
+      - Precision curve has distortions. Smooth it out by interpolation.
+      - To summarize the performance by a scalar
+          - Precision @ K
+          - Average Precision: Area under interpolated precision curve
+          - mAP or Mean Average Precision is mean of AP across different PR curves (say different queries)
+      - F-Score
+          - Weighted harmonic mean between precision and recall
+          - ${1 \over F} = {1 \over 1 + \beta^2} {1 \over P} + {\beta^2 \over 1 + \beta^2} {1 \over R}$
+          - Harmonic mean imposes more penalty if either precision or recall fall to a very low level
+          
+  - Class Imbalance
+      - ROC curves are not sensitive to class imbalance. Does not matter which class is defined as 1 or 0.
+      - PR curves are sensitive to class imbalance. Switching classes impacts performance.
+          - $P = {TP \over TP + FP}$
+      - PR-AUC is more appropriate in case class imbalance
+      - Multiclass problems can be treated as multiple binary classes. One class vs Rest.
+      - Decision threshold calibration finds the optimal threshold for desired trade-off between precision and recall
+
+- Regression
+  - Metrics
+      - Mean Squared Error: ${1 \over N} \sum (y - \hat y)^2$
+      - Mean Absolute Error: ${1 \over N} \sum |y - \hat y|$
+      - MAE is robust to outliers - proportional to regression with Laplace conditional distribution
+      - MSE has simple calculus and proportional to regression with Gaussian conditional distribution 
+      - Huber loss: MSE below cutoff, MAE above cutoff
+      - Loss functions are usually calibrated with a proper scoring rule
+      - Log score of the predicted density at the true value
+  - Quantile Loss
+      - Probability that value y is less than q quantile is q
+      - $P(y \le y_q) = q$
+      - Linear function with positive slope for over-prediction and negative slope for under-prediction
+      - Slope depends on the quantile q
+
+- Calibration
+  - Property that predicted certainty of events match the frequency of their occurrence
+  - Reliability Diagrams
+      - x-asis: Predicted Probability
+      - y-asis: Actual Probability
+
+- Bayes Model Selection and Averaging
+  - Bayesian approach to model selection
+      - Choose $m \in M$ to maximize posterior $p(m|D)$
+      - $p(m|D) \propto p(D|m)p(m)$
+      - Use uniform prior over model classes
+      - $p(D|m) = \int p(D|\theta,m)p(\theta|m)d\theta$
+      - Integration over all possible parameter values
+      - In practice, models might be compared using BIC or AIC
+      - BIC approximates Bayes factor
+      - AIC approximates Cross-validation
+
+  - Akaike's Information Criterion
+      - Maximizes predictive density of held out data
+      - Approximating out-of-sample generalization
+      - As trained model fits the training data
+      - $AIC = -2LL + 2C$
+      - LL is log-likelihood
+      - C is number of parameters in the model
+  
+  - Bayesian Information Criteria
+      - Biases in favor of simpler models
+      - $BIC = -2LL + C\log N$
+      - LL is log-likelihood
+      - C is number of parameters in the model
+      - N is the number of observations  
+
+  - Minimum Description Length
+      - Minimum number of bits needed to describe the model and the data
+      - If we describe model in $L_1$ bits, and then describe the dataset using the model in $L_2$ bits. 
+      - The MDL for the model is $L_1 + L_2$
+
+  - Approximation of Bayesian Model Comparison
+      - Integrated likelihood is analytically intractable
+      - Approximate the integral by Laplace approximation
+      - Uses 2nd order taylor expansion around MLE / MAP
+      - The model is approximated as gaussian with constant determinant as n increases
+      - AIC is an approximation of KL-Divergence between the the true model and a fitted model
+      - Simple to compute
+      - AIC = $2 \times \text{dof} - 2 \times LL$ (dof: degrees of freedom)
+      - Sample error can result in overfitting
+      - AIC_C: when sample size is small
+          - AIC_C = AIC + ${2C(C+1) \over N-C-1}$
+          - C is additional penalty for increasing number of parameters
+
+  - Widely Applicable / Watanabe-Akaike Information Criterion 
+      - Penalizes models based on effective degrees of freedom
+      - $C = 2 \times \text{dof}$
+    
+
+- Frequentist Decision Theory
+  - Risk of an estimator is the expected loss when applying the estimator to data sampled from likelihood function $p( y,x | \theta)$
+  - Bayes Risk
+      - True generating function unknown
+      - Assume a prior and then average it out
+  - Maximum Risk
+      - Minimize the maximum risk
+  - Consistent Estimator
+      - Recovers true parameter in the limit of infinite data
+  - Empirical Risk Minimization
+      - Population Risk
+          - Expectation of the loss function w.r.t. true distribution
+          - True distribution is unknown
+          - $R(f, \theta^*) = \mathbf{E}[l(\theta^*, \pi(D))]$
+      - Empirical Risk
+          - Approximate the expectation of loss by using training data samples
+          - $R(f, D) = \mathbf{E}[l(y, \pi(x))]$
+      - Empirical Risk Minimizaiton
+          - Optimize empirical risk over hypothesis space of functions
+          - $f_{ERM} = \arg \min_H R(f,D)$
+      - Approximation Error
+          - Risk that the chosen true parameters don't lie in the hypothesis space
+      - Estimation Error
+          - Error due to having finite training set
+          - Difference between training error and test error
+          - Generalization Gap
+      - Regularized Risk
+          - Add complexity penalty
+          - $R_\lambda(f,D) = R(f,D) + \lambda C(f)$
+          - Complexity term resembles the prior term in MAP estimation
+      - Structural Risk
+          - Empirical underestimates population risk
+          - Structural risk minimization is to pick the right level of model complexity by minimizing regularized risk and cross-validation
+
+- Statistical Learning Theory
+  - Upper bound on generalization error with certain probability
+  - PAC (probably approximately correct) learnable
+  - Hoeffding's Inequality
+      - Upper bound on generalization error
+  - VC Dimension
+      - Measures the degrees of freedom of a hypothesis class
+
+- Frequentist Hypothesis Testing
+  - Null vs Alternate Hypothesis
+  - Likelihood Ratio Test
+      - $p(D| H_0) / p(D| H_1)$
+  - Null Hypothesis Significance Testing
+      - Type-1 Error
+          - P(Reject H0 | H0 is True)
+          - Significance of the test
+          - $\alpha$
+      - Type-2 Error
+          - P(Accept H0 | H1 is True)
+          - $\beta$
+          - Power of the test is $1 - \beta$
+      - Most powerful test is the one with highest power given a level of significance
+      - Neyman-Pearson lemma: Likelihood ratio test is the most powerful test
+      - p-value
+          - Probability, under the null hypothesis, of observing a test statistic larger that that actually observed 

@@ -1,0 +1,153 @@
+# Trees
+
+- Recursively partition the input space and define a local model in the resulting region of the input space
+    - Node i
+    - Feature dimension d_i is compared to threshold t_i
+        - $R_i = \{x : d_1 \le t1, d_2 \le t_2\}$
+        - Axis parallel splits
+    - At leaf node, model specifies the predicted output for any input that falls in the region
+        - $w_1 = {\sum_{N} y_n  I \{x \in R_1\} \over \sum_{N}  I \{x \in R_1\}}$
+    - Tree structure can be represented as
+        - $f(x, \theta) = \sum_J w_j  I\{x \in R_j\}$ 
+        - where j denotes a leaf node
+
+- Model Fitting
+    - $L(\theta) = \sum_J \sum_{i \in R_j} (y_i, w_j)$
+    - The tree structure is non-differentiable
+    - Greedy approach to grow the tree
+    - C4.5, ID3 etc.
+    - Finding the split
+        - $L(\theta) = {|D_l \over |D|} c_l + {|D_r \over |D|} c_r$
+        - Find the split such that the new weighted overall cost after splitting is minimized
+        - Looks for binary splits because of data fragmentation
+    - Determining the cost
+        - Regression: Mean Squared Error
+        - Classification:
+            - Gini Index: $\sum \pi_ic (1 - \pi_ic)$
+            - $\pi_ic$ probability that the observation i belongs to class c 
+            - $1 - \pi_ic$ probability of misclassification
+            - Entropy: $\sum \pi_{ic} \log \pi_{ic}$
+    - Regularization
+        - Approach 1: Stop growing the tree according to some heuristic
+            - Example: Tree reaches some maximum depth
+        - Approach 2: Grow the tree to its maximum possible depth and prune it back
+    - Handling missing features
+        - Categorical: Consider missing value as a new category
+        - Continuous: Surrogate splits
+            - Look for variables that are most correlated to the feature used for split
+    - Advantages of Trees
+        - Easy to interpret
+        - Minimal data preprocessing is required
+        - Robust to outliers
+    - Disadvantages of Trees
+        - Easily overfit
+        - Perform poorly on distributional shifts
+
+- Ensemble Learning
+    - Decision Trees are high variance estimators
+    - Average multiple models to reduce variance
+    - $f(y| x) = {1 \over M} \sum f_m (y | x)$
+    - In case of classification, take majority voting
+        - $p = Pr(S > M/2) = 1 - \text{Bin}(M, M/2, \theta)$
+        - Bin(.) if the CDF of the binomial distribution
+        - If the errors of the models are uncorrelated, the averaging of classifiers can boost the performance
+    - Stacking
+        - Stacked Generalization
+        - Weighted Average of the models
+        - $f(y| x) = {1 \over M} \sum w_m f_m (y | x)$
+        - Weights have to be learned on unseen data
+        - Stacking is different from Bayes averaging
+            - Weights need not add up to 1
+            - Only a subset of hypothesis space considered in stacking
+
+- Bagging
+    - Bootstrap aggregation
+    - Sampling with replacement
+        - Start with N data points
+        - Sample with replacement till N points are sampled
+        - Probability that a point is never selected
+            - $(1 - {1 \over N})^N$
+            - As N → $\infty$, the value is roughly 1/e (37% approx)
+    - Build different estimators of these sampled datasets
+    - Model doesn't overly rely on any single data point
+    - Evaluate the performance on the 37% excluded data points
+        - OOB (out of bag error)
+    - Performance boost relies on de-correlation between various models
+        - Reduce the variance is predictions
+        - The bias remains put
+        - $V = \rho \sigma ^ 2 + {(1 - \rho) \over B} \sigma ^2$
+        - If the trees are IID, correlation is 0, and variance is 1/B
+    - Random Forests
+        - De-correlate the trees further by randomizing the splits
+        - A random subset of features chosen for split at each node
+        - Extra Trees: Further randomization by selecting subset of thresholds 
+
+- Boosting
+    - Sequentially fitting additive models
+        - In the first round, use original data
+        - In the subsequent rounds, weight data samples based on the errors
+            - Misclassified examples get more weight
+    - Even if each single classifier is a weak learner, the above procedure makes the ensemble a strong classifier
+    - Boosting reduces the bias of the individual weak learners to result in an overall strong classifier
+    - Forward Stage-wise Additive Modeling
+        - $F_m(x) = F_{m-1}(x) + \beta_m f_m(x; \theta_m)$
+        - $\beta_m, \theta_m$ are chosen to minimize the loss.
+        - Add new models that address the residual error $r_i = (y_i - F_{m-1}(x_i))$
+        - AdaBoodst
+            - Classification with exponential loss: $L(y, F(x)) = exp(-yF(x))$
+            - $y \in \{-1, +1\}$
+            - Output of tree has to be {-1, +1} in each region
+            - Each round m, the optimization is simplified to finding the best classifier fit to the weighted training data.
+            - $\theta_m = \arg\min \sum w_i^{(m)} I \{y_i \ne f_m(x_i; \theta)\}$
+    - Gradient Boosting
+        - Fit the entire model in forward stagewise manner
+        - $F_m(x) = F_{m-1}(x) + \beta_m f_m(x; \theta_m)$
+        - Expand this as a Taylor series around $F_{m-1}(x)$
+        - $L(y, F_m(x)) = L(y, F_{m-1}(x)) + g_m(x) + \beta_m f_m(x) + O(\beta_m^2)$
+        - Neglect higher order terms
+        - Minimize the loss
+        - $f_m(x) = - g_m(x)$
+        - $g_m(x) = {\delta L(y, F(x)) \over \delta F(x)}|_{F(x) = F_{m-1}(x)}$
+        - The new predictor is trained to approximate the negative gradient of the loss
+    - In the current form, the optimization is limited to the set of training points
+    - Need a function that can generalize
+    - Train a weak learner that can approximate the negative gradient signal
+        - $F_m = \arg\min \sum (-g_m -F(x_i))^2$
+        - Use a shrinkage factor for regularization
+    - Stochastic Gradient Boosting
+        - Data Subsampling for faster computation and better generalization
+
+- XGBoost
+    - Extreme Gradient Boosting
+    - Add regularization to the objective
+    - $L(f) = \sum l(y_i, f(x_i)) + \Omega(f)$
+    - $\Omega(f) = \gamma J + {1 \over 2} \lambda \sum w_j^2$
+    - Consider the forward stage wise additive modeling
+    - $L_m(f) = \sum l(y_i, f_{m-1}(x_i) + F(x_i)) + \Omega(f)$
+    - Use Taylor's approximation on F(x)
+    - $L_m(f) = \sum l(y_i, f_{m-1}(x_i)) + g_{im} F_m(x_i) + {1 \over 2} h_{im} F_m(x_i)^2) + \Omega(f)$
+        - g is the gradient and h is the hessian
+    - Dropping the constant terms and using a decision tree form of F
+    - $F(x_{ij}) = w_{j}$
+    - $L_m = \sum_j (\sum_{i \in I_j} g_{im}w_j) + (\sum_{i \in I_j} h_{im} w_j^2) + \gamma J + {1 \over 2} \lambda \sum w_j^2$ 
+    - Solution to the Quadratic Equation:
+        - $G_{jm} = \sum_{i \in I_j} g_{im}$
+        - $H_{jm} = \sum_{i \in I_j} h_{im}$
+        - $w^* = {- G \over H + \lambda}$
+        - $L(w^*) = - {1 \over 2} \sum_J {G^2_{jm} \over H_{jm} + \lambda} + \gamma J$
+    - Condition for Splitting the node:
+        - $\text{gain} = [{G^2_L \over H_L + \lambda} + {G^2_R \over H_R + \lambda} - {G^2_L + G^2_R \over H_R + H_L + \lambda}] - \gamma$
+        - Gamma acts as regularization
+        - Tree wont split if the gain from split is less than gamma
+
+- Feature Importance
+    - $R_k(T) = \sum_J G_j  I(v_j = k)$
+    - G is the gain in accuracy / reduction in cost
+    - I(.) returns 1 if node uses the feature
+    - Average the value of R over the ensemble of trees
+    - Normalize the values 
+    - Biased towards features with large number of levels
+
+- Partial Dependency Plot
+    - Assess the impact of a feature on output
+    - Marginalize all other features except k 

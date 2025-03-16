@@ -1,0 +1,80 @@
+# Encoder-Decoder Models
+
+## Overview
+
+-   Encoder-Decoder or Seq2Seq architecture
+-   Can be implemented using Transformers or RNNs
+-   Output sequence is a complex transformation of the entire input sequence
+-   In MT, the sequence order may not always agree.
+    -   Word order topology changes from language to language (subject-verb-object)
+    -   Same vocab maynot exists. Words map to phrases.
+-   Encoder block takes an input sequence and created a contextualized vector representation
+-   Decoder block uses this representation to generate the output sequence
+-   Architecture
+    -   Encoder: Input is sequence and output is contextualized hidden states
+    -   Context Vector: A transformation of the contextualized hidden states
+    -   Decoder: Uses context vector to geenrate arbitratry length sequences
+
+## Sequence Models
+
+-   Models are autoregressive by nature
+-   Add a BOS token \<s\> for conditional generation
+-   Keep sampling till EOS token \</s\>
+-   RNN / LSTM
+    -   Encoder
+        -   Process the input sequence token by token
+    -   Context vector
+        -   Use the final hidden state of LSTM as the context vector
+    -   Decoder
+        -   Use the context vector for initialization
+        -   Use BOS token for generation
+    -   Drawback: Influence of context vector wanes as longer sequences are generated
+        -   Solution is to make context vecotr available for each timestep of the decoder
+    -   Training happens via teacher forcing
+-   Transformers
+    -   Uses Cross-Attention for decoding
+    -   Keys and values come from encoder but query comes from decoder
+    -   Allows decoder to attend to each token of the input sequence
+-   Tokenization
+    -   BPE / Wordpiece tokenizer
+
+## Evaluation
+
+-   Human Evaluation
+    -   Adequacy: How accurate is the meaning
+    -   Fluency: Grammatical correctness
+-   Automatic Evaluation
+    -   chrF Score: Character F-Score
+    -   BLEU: Bilingual Evaluation Understudy
+        -   n-gram precision: Compares n-gram of source with n-gram of output
+        -   Add a brevity penalty for best match length
+    -   BERTScore
+        -   Pass the sequences to BERT
+        -   Compute embeddings for each token
+        -   Compute cosine similarity for ech pair of tokens
+        -   Match the tokens greedily and compute precision and recall \## Attention
+-   Final hidden state acts as the bottleneck
+-   Attention mechanism helps the decoder to acess all the intermediate hidden states and not just the last one
+-   Generate the context vector using weighted sum of all encoder states
+-   Replces the static context vector with one dynmically derived from encoder hidden states
+-   Consine similarity between decoder hidden state at time t wrt encoder hidden states
+
+## Decoding
+
+-   Plain vanilla greedy decoding selects the argmax results over the the vocab to generate the output
+    -   Select the highest probability token
+-   The overall results may be suboptimal. A token that looks good now may turn out to be wrong later
+-   Use search trees.
+    -   The most probable sequence may not be composed of argmax tokens at each step
+    -   Exhaustive search is too slow
+-   Beam Search
+    -   Select top-k possible tokens at each time step (beam width) (BFS approach)
+    -   Each of the "k" hypothesis is passed incrementally to distinct decoders
+    -   The process continues until </s> token is sampled
+    -   Seach continues untill ll the beams converge
+    -   Longer sequences are penalized. Normalization is required
+    -   Usually k is between 5 and 10
+-   Top-K Sampling
+    -   Top-K tokens are sleected and the probability mas is redistributed among them
+-   Top-P Sampling
+    -   Instead of selecting the top-k tokens, select the set of tokens whos eprobability mass exceeds threshold 

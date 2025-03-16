@@ -1,0 +1,21 @@
+# ProbML Notes
+
+- Resource: Probabilistic Machine Learning
+- Topics Covered:
+  - Chapter 1: Introduction
+  - Chapter 2: Probability
+  - Chapter 3: Probability
+  - Chapter 4: Statistics
+  - Chapter 5: Decision Theory
+  - Chapter 6: Information Theory
+  - Chapter 8: Optimization
+  - Chapter 9: Discriminant Analysis
+  - Chapter 10: Logistic Regression
+  - Chapter 11: Linear Regression
+  - Chapter 13: FFNN
+  - Chapter 14: CNN
+  - Chapter 15: RNN
+  - Chapter 16: KNN
+  - Chapter 18: Trees
+  - Chapter 19: SSL
+  - Chapter 21: Rec Sys 

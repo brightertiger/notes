@@ -1,8 +1,0 @@
-# Overview
-
-This is a collection of notes on data science topics.
-
-- Chapter 1: Notes on  general DS topics from Statquest etc.
-- Chapter 2: Notes on Kevin Murphy's Probabilituc Machine Learning
-- Chapter 3: Notes on Hastie's ESLR
-- Chapter 4: Notes on Jurafsky's Speech and Language Processing
