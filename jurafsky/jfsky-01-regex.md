@@ -6,44 +6,44 @@
 -   Algebraic notation for characterizing a set of strings
 -   Basic regular expression
     -   Match the "word" /word/
-    -   Match the "word" or "Word" /\[wW\]ord/
-    -   Match single digit /\[1234567890\]/
+    -   Match the "word" or "Word" /[wW]ord/
+    -   Match single digit /[0-9]/
 -   Ranges
-    -   Capital Letters /\[A-Z\]/
-    -   Lower Case Letters /\[a-z\]/
-    -   Single Digit /\[0-9\]/
+    -   Capital Letters /[A-Z]/
+    -   Lower Case Letters /[a-z]/
+    -   Single Digit /[0-9]/
 -   Caret
     -   Exclusions
-    -   Not an upper case letter /\[\^A-Z\]/
-    -   Not a period /\[\^.\]/
+    -   Not an upper case letter /[^A-Z]/
+    -   Not a period /[^.]/
     -   If caret is not the first character, it's treated as any other character
 -   Question Mark
     -   Preceding character or nothing
     -   "word" or "words" /words?/
     -   "colour" or "color" /colou?r/
 -   Kleene \*
-    -   Zero or more occurances
+    -   Zero or more occurrences
     -   Zero or more "a" /a\*/
-    -   Zero or more "a"s or "b"s /\[ab\]\*/
+    -   Zero or more "a"s or "b"s /[ab]\*/
 -   Kleene +
-    -   One or more occurances
-    -   One or more digits /\[0-9\]+/
+    -   One or more occurrences
+    -   One or more digits /[0-9]+/
 -   Wildcard
     -   Match any single expression
     -   Any character between "beg" and "n" /beg.n/
 -   Anchors
-    -   Start of the line \^
-    -   Lines starting with "the" /\^The/
-    -   End of the line \$
-    -   Lines ending with period /\\.\$/
+    -   Start of the line ^
+    -   Lines starting with "the" /^The/
+    -   End of the line $
+    -   Lines ending with period /\.$/
     -   Word boundary \b /\bthe\b/
 -   Grouping
-    -   Disjunction "\|"
-        -   Match either cat or dog /cat\|dog/
-    -   Paranthesis ()
-        -   Match "guppy" or "guppies" /gupp(y\|ies)/
+    -   Disjunction "|"
+        -   Match either cat or dog /cat|dog/
+    -   Parentheses ()
+        -   Match "guppy" or "guppies" /gupp(y|ies)/
 -   Example
-    -   /(ˆ\|\[ˆa-zA-Z\])\[tT\]he(\[ˆa-zA-Z\]\|\$)/
+    -   /(^|[^a-zA-Z])[tT]he([^a-zA-Z]|$)/
         -   At the start or a non-alphabetic character
         -   At the end or non-alphabetic character
         -   Look for "the" or "The"
@@ -58,10 +58,10 @@
     -   Zero or more \*
     -   One or more +
     -   Exactly zero or one ?
-    -   N Occurances {n}
-    -   N-to-M Occurances {n,m}
-    -   Atleast N Occurances {n,}
-    -   Upto M Occurances {,m}
+    -   N Occurrences {n}
+    -   N-to-M Occurrences {n,m}
+    -   At least N Occurrences {n,}
+    -   Up to M Occurrences {,m}
 
 ## Words
 
@@ -77,28 +77,28 @@
 ## Text Normalization
 
 -   Involves three steps
-    -   Tokenzing Words
+    -   Tokenizing Words
     -   Normalizing word formats
     -   Segmenting sentences
 -   Tokenization
-    -   Breaing up a an utterance into tokens
-    -   Penn Treebank Tokenization
-    -   NLTK Regex Tokenization
+    -   Breaking up an utterance into tokens
+    -   Penn Treebank Tokenization (standard in many NLP applications)
+    -   NLTK Regex Tokenization (flexible rule-based approach)
     -   Byte Pair Encoding
-        -   Emperically determine the tokens using data
-        -   Useful in dealing with unseen words
-        -   Use subwords tokens which are arbitrary substrings
+        -   Empirically determine the tokens using data
+        -   Useful in dealing with unseen words (OOV problem)
+        -   Use subword tokens which are arbitrary substrings
         -   Token Learner: Creates vocabulary out of corpus
-        -   Token Segementor: Applies token learner on raw test data
+        -   Token Segmentor: Applies token learner on raw test data
         -   BPE Token Learner
             -   Starts with individual characters as vocab
-            -   Merges the most frequently occuring pairs and adds them to back vocab
+            -   Merges the most frequently occurring pairs and adds them to vocab
             -   Repeats the count and merge process to create longer substrings
-            -   Continues until vocab size is reached
-            -   No merging across word boundries
+            -   Continues until target vocab size is reached
+            -   No merging across word boundaries
         -   BPE Token Parser
             -   Run the token learner on test data
-            -   Same order in which tokens were created
+            -   Apply merges in the same order in which tokens were created
             -   First split into individual characters
             -   Merge the characters based on BPE vocab
 
@@ -106,15 +106,23 @@
 
 -   Putting words and tokens in a standard format
 -   Case Folding: Convert everything to lowercase
+    -   Simple but loses information (US vs. us, Apple vs. apple)
 -   Lemmatization: Reduce words to roots
-    -   Stemming (ing, ed etc.)
-    -   Porter Stemming
+    -   Maps variants to the same base form (am, are, is → be)
+    -   Stemming (removes suffixes like -ing, -ed, etc.)
+    -   Porter Stemming (algorithm for English stemming)
+    -   Typically requires POS information for accuracy
 
 ## Edit Distance
 
 -   Similarity between two strings
 -   Minimum number of editing operations needed to transform one string into another
     -   Insertion, Deletion and Substitution
--   Levenstien Distance: All three operations ahve the same cost
--   Dynamic Programming
-    -   Viterbi Algorithm 
+-   Levenshtein Distance: All three operations have the same cost (typically 1)
+-   Dynamic Programming solution:
+    -   Create a matrix D[i,j] representing distance between first i chars of string1 and first j chars of string2
+    -   Initialize: D[i,0] = i, D[0,j] = j
+    -   Fill matrix: D[i,j] = min(D[i-1,j]+1, D[i,j-1]+1, D[i-1,j-1]+cost)
+      - where cost = 0 if string1[i-1] = string2[j-1], otherwise 1
+    -   Final distance is in D[m,n]
+-   Viterbi Algorithm is a related DP algorithm used for finding most likely sequence of hidden states 

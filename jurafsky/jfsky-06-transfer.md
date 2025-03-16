@@ -1,9 +1,9 @@
 # Transfer Learning
 
 -   Contextual Embeddings: Representation of words in context. Same word can have different embeddings based on the context in which it appears.
--   Pretraining: Learning contextual embeddings from vast text of data.
+-   Pretraining: Learning contextual embeddings from vast amounts of text data.
 -   Fine-tuning: Taking generic contextual representations and tweaking them to a specific downstream task by using a NN classifier head.
--   Transfer Learning: Pretrain-Finetune paradigm is called as transfer learning.
+-   Transfer Learning: Pretrain-Finetune paradigm is called transfer learning.
 -   Language Models:
     -   Causal: Left-to-Right transformers
     -   Bidirectional: Model can see both left and right context
@@ -15,67 +15,90 @@
 -   Bidirectional encoders allow self attention mechanism to cover the entire input sequence
 -   Map the input sequence embeddings to output embeddings of the same length with expanded context
 -   Self Attention
-    -   $$\text{SA} = \text{softmax}(\frac{QK}{\sqrt D}) V$$
+    -   $$\text{SA} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 -   BERT Base
-    -   Subword vocabulary of 30K using word piece
+    -   Subword vocabulary of 30K using WordPiece
     -   Hidden layer size of 768 (12 \* 64)
-    -   12 Layers, 12 attention aheads
-    -   100MM+ parameters
-    -   Max Seq length is 512 tokens
+    -   12 Layers, 12 attention heads
+    -   110M+ parameters
+    -   Max Sequence length is 512 tokens
 -   Size of input layer dictates the complexity of the model
--   Computational time and memory grow quadratically with input sequence
+-   Computational time and memory grow quadratically with input sequence length
 
 ## Pre-Training
 
--   Fill-in-the-blank or Cloze task
--   Predict the "masked" words (MLM)
--   Use CE loss over the vocab to drive training
--   Self-supervised Learning
--   MLM
-    -   Requires unannotated large text corpus
-    -   Random sample (15%) of tokens is chosen to masked for learning
-    -   80% replaced with \[MASK\]
-    -   10% replaced with random word
-    -   10% replaced left unchanged
-    -   Predict original token for each of the masked input
--   Span
-    -   Contiguous sequence of one or more words
-    -   Randomly selected spans from training sequence
+-   Fill-in-the-blank or Cloze task approach
+-   Predict the "masked" words (Masked Language Modeling - MLM)
+-   Use cross-entropy loss over the vocabulary to drive training
+-   Self-supervised Learning (creates supervision from unlabeled data)
+-   Masked Language Modeling (BERT approach)
+    -   Requires large unannotated text corpus
+    -   Random sample (15%) of tokens is chosen to be masked for learning
+    -   For these 15% tokens:
+        -   80% replaced with [MASK] token
+        -   10% replaced with random word (adds noise, prevents overfitting)
+        -   10% left unchanged (helps model learn bidirectional context)
+    -   Predict original token for each of the masked positions
+    -   Model must use bidirectional context to make accurate predictions
+-   Span-based Approaches (e.g., SpanBERT)
+    -   Mask contiguous sequences of tokens rather than individual tokens
     -   Span length selected from geometric distribution
-    -   Starting location is slelected from uniforma distribution
-    -   Once the span is selected, all the words within the span are substituted
-    -   Learning objective: MLM + Span Boundary Objective (SBO)
-    -   Predict words in the span using the starting and ending token and positional embeddings
--   NSP
-    -   Next Sentence prediction
-    -   Paraphrase, entailment and discourse coherence
-    -   Actual pair of adjacent sentences or not
-    -   Distinguish true paris from random pairs
+    -   Starting location is selected from uniform distribution
+    -   Once the span is selected, all words within it are masked
+    -   Learning objectives:
+        -   Masked Language Modeling (predict masked tokens)
+        -   Span Boundary Objective (SBO): Predict internal span words using only boundary tokens
+    -   Better for tasks requiring span representations (QA, coreference)
+-   Next Sentence Prediction (NSP)
+    -   Additional pre-training task in original BERT
+    -   Helps with discourse understanding tasks
+    -   Training data consists of:
+        -   50% actual pairs of adjacent sentences
+        -   50% random sentence pairs (negative examples)
+    -   Model must distinguish true pairs from random pairs
+    -   Later models (RoBERTa, ALBERT) found this less helpful than expected
 -   Training Data
-    -   Books corpus
-    -   English Wiki
+    -   Large diverse text corpora:
+        -   Books corpus (800M words)
+        -   English Wikipedia (2.5B words)
+        -   Additional data in later models (CommonCrawl, etc.)
+    -   Computationally expensive (days/weeks on TPU/GPU clusters)
 
 ## Fine-Tuning
 
--   Creation of applications on top of pretrained models leveraging the generalizations from SSL
--   Limited mount of labeled data
--   Freeze or minimal adjsutments to pretrained weights
+-   Creation of task-specific models on top of pretrained models leveraging generalizations from self-supervised learning
+-   Advantages:
+    -   Requires limited amount of labeled data
+    -   Much faster than training from scratch
+    -   Often better performance than task-specific architectures
+-   Methods:
+    -   Full fine-tuning: Update all parameters of pretrained model
+    -   Adapter tuning: Keep most parameters frozen, add small trainable modules
+    -   Prompt tuning: Frame downstream task as a language modeling problem
+-   Task-specific modifications:
+    -   Add classification head (typically 1-2 layers)
+    -   Adjust learning rate (typically 2e-5 to 5e-5)
+    -   Train for fewer epochs (2-4 typically sufficient)
 -   Sequence Classification
-    -   \[CLS\] token embedding
-    -   Classifier head
--   NLI
-    -   Recognize contradiciton, entailment and neutral
-    -   CLS token for premise. \[CLS\] premise \[SEP\] text \[SEP\]
--   Sequence Labeling
-    -   Prediction for each token
-    -   Softmax over label classes
-    -   BIO tags (beginning, inside, outside)
-    -   Word Peice Tokenization creates challenge
-        -   Traning expand the tags
-        -   Scoring use tag assigned to the first subword token
--   Span based representations
-    -   Middle ground between token level and sequence level classifications
-    -   Generate possible spans
-    -   Average the embeddings within the spans
-    -   Span represenatations: concatenate \[start, end and average\] embeddings
-    -   Use regression to predict start and end tokens 
+    -   Add special [CLS] token at beginning of input
+    -   Use [CLS] token's final-layer representation
+    -   Add classification head: linear layer + softmax
+    -   Fine-tune with labeled examples
+-   Natural Language Inference (NLI)
+    -   Recognize contradiction, entailment, or neutral relationship between text pairs
+    -   Input format: [CLS] premise [SEP] hypothesis [SEP]
+    -   Use [CLS] representation for classification
+-   Sequence Labeling (NER, POS tagging)
+    -   Prediction for each token (token-level classification)
+    -   Add softmax layer over label classes for each token
+    -   Use BIO tagging scheme (Beginning, Inside, Outside)
+    -   WordPiece tokenization creates challenges:
+        -   Training: Expand the labels to all subword tokens
+        -   Evaluation: Use tag assigned to the first subword token
+-   Span-based Tasks (QA, extraction)
+    -   For tasks requiring identifying spans in text
+    -   Generate span representations:
+        -   Concatenate [start, end, pooled-span] embeddings
+        -   Or use span boundary representations
+    -   Use regression or classification to predict start and end positions
+    -   SQuAD format: [CLS] question [SEP] context [SEP] 

@@ -5,8 +5,8 @@
 -   Language Models assign probabilities to sequence of words
     -   $P(w_1, w_2, ..., w_n)$
 -   Simplify the calculation using chain rule
-    -   $P(w_1, w_2, ..., w_n) = P(w_1) \times P(w_2 | w_1)..... \times P(w_n | w_1 w_2 .. w_{n-1})$
-    -   $P(w_1, w_2, ..., w_n) = \prod P(w_i | w_{1:i-1})$
+    -   $P(w_1, w_2, ..., w_n) = P(w_1) \times P(w_2 | w_1) \times ... \times P(w_n | w_1 w_2 ... w_{n-1})$
+    -   $P(w_1, w_2, ..., w_n) = \prod_{i=1}^{n} P(w_i | w_{1:i-1})$
 -   Joint probability can be expressed as a product of conditional probabilities
     -   Probability of a word given historical context
     -   $P(w_n | h)$
@@ -17,8 +17,8 @@
     -   $P(w_n | h) \approx P(w_n | w_{n-1})$
 -   Estimate the probabilities using Maximum Likelihood
     -   Relative frequency
-    -   $P(w_n | w_{n-1}) = {P(w_{n-1}, w_n) \over \sum_k P(w_{n-1}, w_k)}$
-    -   $P(w_n | w_{n-1}) = P(w_{n-1}, w_n) / P(w_{n-1})$
+    -   $P(w_n | w_{n-1}) = \frac{P(w_{n-1}, w_n)}{\sum_k P(w_{n-1}, w_k)}$
+    -   $P(w_n | w_{n-1}) = \frac{count(w_{n-1}, w_n)}{count(w_{n-1})}$
 -   BOS and EOS tokens to handle the edge cases
 -   N-gram models apt at capturing syntactic features (noun-verb-adj etc)
 -   To avoid numerical underflow, overflow problems use log probabilities
@@ -27,23 +27,27 @@
 ## Perplexity
 
 -   Inverse probability normalized by the length of sequence
--   $PP(W) = P(w_1 w_2 ... w_n)^{ - {1 \over n}}$
--   $PP(W) = \sqrt[n]{\prod 1 / P(w_i | w_{1:i-1})}$
+-   $PP(W) = P(w_1 w_2 ... w_n)^{-\frac{1}{n}}$
+-   $PP(W) = \sqrt[n]{\prod_{i=1}^{n} \frac{1}{P(w_i | w_{1:i-1})}}$
 -   Higher the conditional probability, lower is the perplexity
 -   Weighted average branching factor
-    -   Branching factor refers to the number of possible words that can follow a particluar word
--   Perplxity of LMs comparable only if they use same vocabulary
+    -   Branching factor refers to the number of possible words that can follow a particular word
+    -   Lower perplexity means model is more confident in its predictions
+-   Perplexity of LMs comparable only if they use same vocabulary
+    -   Adding rare words increases perplexity
 
 ## Perplexity and Entropy
 
 -   Entropy is a measure of information
     -   Number of bits it takes to encode information (log base 2)
-    -   $H(x) = - \sum p \log (p)$
--   Entropy Rate: Entropy // Seq Length
+    -   $H(X) = -\sum_{x} p(x) \log_2(p(x))$
+-   Entropy Rate: Entropy per symbol in a sequence
+    -   $H(W) = \lim_{n \to \infty} \frac{1}{n}H(w_1, w_2, ..., w_n)$
 -   LMs can potentially consider infinite sequence length
-    -   $H(W) = - \lim_{n \to \infty} {1 \over n} \sum p(w_{1:n}) \log(p_{1:n})$
-    -   $H(W) \approx - {1 \over n} \log p(w_{1:n})$
--   $P(W) = 2^{H(W)}$
+    -   $H(W) = -\lim_{n \to \infty} \frac{1}{n} \sum_{w_{1:n}} p(w_{1:n}) \log_2(p(w_{1:n}))$
+    -   $H(W) \approx -\frac{1}{n} \log_2 p(w_{1:n})$
+-   Perplexity relates to entropy: $PP(W) = 2^{H(W)}$
+    -   Perplexity can be interpreted as the average number of choices the model has when predicting the next word
 
 ## Unknown Words
 
@@ -58,21 +62,29 @@
 -   Avoid assigning zero probabilities to unseen sequences
 -   Laplace Smoothing
     -   Add smoothing constants while calculating relative frequencies
-    -   1 to numerator
-    -   V to denominator, V is the vocab size to ensure that probabilities sum up to 1
-    -   $P(w_i) = (w_i + 1) / (N + V)$
-    -   $P(w_i | w_n) = \text{count}(w_i, w_n) + 1 / \text{count}(w_n) + V$
+    -   Add 1 to numerator (count)
+    -   Add V to denominator (V is the vocab size) to ensure that probabilities sum up to 1
+    -   $P(w_i) = \frac{\text{count}(w_i) + 1}{N + V}$
+    -   $P(w_i | w_{j}) = \frac{\text{count}(w_i, w_{j}) + 1}{\text{count}(w_{j}) + V}$
     -   Discount some probability mass from seen phrases and save it for unseen phrases
-    -   Generalization to "Add - k" smoothing
+    -   Generalization to "Add-k" smoothing (k can be less than 1)
 -   Back-off
-    -   Use shorter sequences in case not enough support for full context
-    -   Trigram if evidence is sufficent, otherwise use bigram
+    -   Use shorter sequences if not enough support for full context
+    -   Use trigram if evidence is sufficient, otherwise use bigram
+    -   $P_{BO}(w_i|w_{i-2}w_{i-1}) = \begin{cases} 
+      P(w_i|w_{i-2}w_{i-1}) & \text{if count}(w_{i-2}w_{i-1}w_i) > 0 \\
+      \alpha(w_{i-2}w_{i-1}) \cdot P_{BO}(w_i|w_{i-1}) & \text{otherwise}
+    \end{cases}$
+    -   Where α is a normalization factor
 -   Interpolation
     -   Mix the probability estimates from all n-grams
-    -   $P(w_1 | w_2 w_3) = \lambda_1 P(w_1) + \lambda_2 P(w_1 | w_2) + + \lambda_3 P(w_1 | w_2 w_3)$
+    -   $P(w_i | w_{i-2}w_{i-1}) = \lambda_1 P(w_i) + \lambda_2 P(w_i | w_{i-1}) + \lambda_3 P(w_i | w_{i-2}w_{i-1})$
+    -   λ values sum to 1, typically learned from held-out data
 -   Kneser-Ney Smoothing
-    -   Absolute discounting
-    -   $P(w_1 | w_2) = C(w_1 w_2) - d / \sum c(w_2) + \lambda P(w_1)$
+    -   State-of-the-art n-gram smoothing technique
+    -   Uses absolute discounting with a sophisticated back-off distribution
+    -   $P_{KN}(w_i | w_{i-1}) = \frac{\max(c(w_{i-1}w_i) - d, 0)}{\sum_v c(w_{i-1}v)} + \lambda(w_{i-1})P_{continuation}(w_i)$
+    -   Where d is discount (typically 0.75) and P_continuation captures how likely word appears in new contexts
 
 ## Efficiency
 

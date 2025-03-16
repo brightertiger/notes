@@ -2,45 +2,45 @@
 
 ## Sequence Modeling
 
--   FFNNs cant be used because of limited context window
+-   FFNNs can't be used because of limited context window
     -   Languages can have longer dependencies over arbitrary context length
 -   Language Models assign conditional probability to the next word
-    -   $P(W_{1:n}) = \prod P(W_i | W_{1:i-1})$\
+    -   $P(W_{1:n}) = \prod_{i=1}^{n} P(W_i | W_{1:i-1})$
 -   Quality of a language model is assessed by perplexity
     -   $PP = P(W_{1:n})^{-1/n}$
-    -   Inverse probability that the model assigns to the test sequence nomarlied by the length
+    -   Inverse probability that the model assigns to the test sequence normalized by the length
 
 ## Recurrent Neural Networks
 
 -   NN architecture that contains a cycle in its network connections
 -   The hidden layer output from previous step is linked to the current hidden layer output
--   Predict using current intput and previous hidden state
+-   Predict using current input and previous hidden state
 -   Removes the fixed context dependency arising in FFNNs
--   The temporal hidden output can be persisited for infinite steps
+-   The temporal hidden output can be persisted for infinite steps
 -   Inference
-    -   $h_t = g(U h_{t-1} + W x_t)$
-    -   $y_t = V (h_t)$
+    -   $h_t = g(Uh_{t-1} + Wx_t)$
+    -   $y_t = V(h_t)$
 -   Training
     -   Chain rule for backpropagation
-    -   Output dependens on hidden state and hiddent state depends on previous time step
+    -   Output depends on hidden state and hidden state depends on previous time step
     -   BPTT: backpropagation through time
     -   In terms of computational graph, the network is "unrolled" for the entire sequence
     -   For very long sequences, use truncated BPTT
 -   RNNs and Language Models
-    -   Predict next word using current word and previous hidden state\
+    -   Predict next word using current word and previous hidden state
     -   Removes the limited context problem
     -   Use word embeddings to enhance the model's generalization ability
-    -   \$e_t = E x_t \$
-    -   $h_t = g(U h_{t-1} + W e_t)$
-    -   $y_t = V (h_t)$
+    -   $e_t = Ex_t$
+    -   $h_t = g(Uh_{t-1} + We_t)$
+    -   $y_t = V(h_t)$
     -   Output the probability distribution over the entire vocabulary
-    -   Loss function: Cross entropy, difference between predictied probability and true distribution
+    -   Loss function: Cross entropy, difference between predicted probability and true distribution
     -   Minimize the error in predicting the next word
     -   Teacher forcing for training
-        -   In training phase, ignore the model output for predicting the next word.
+        -   In training phase, ignore the model output for predicting the next word
         -   Use the actual word instead
     -   Weight tying
-        -   Input embedding lookup and output probbaility matrix have same dimensions \|V\|
+        -   Input embedding lookup and output probability matrix have same dimensions |V|
         -   Avoid using two different matrices, use the same one instead
 -   RNN Tasks
     -   Sequence Labeling
@@ -72,86 +72,65 @@
 
 ## LSTM
 
--   RNNs are hard to train
--   Hidden state tends to be fairly local in practice, limited long term dependencies
-    -   Vanishing gradients
+-   RNNs are hard to train due to vanishing/exploding gradients
+-   Hidden state tends to be fairly local in practice, limiting long-term dependencies
+    -   Vanishing gradients: Signal from far-away timesteps gets lost
     -   Repeated multiplications in backpropagation step
-    -   Signoid derivatives between (0-0.25) and tanh derivatives between (0-1)
-    -   Drives the gradients to zero over long sequence lengths
-    -   Infinite memeory of hidden states
--   LSTMs introduce context management
+    -   Sigmoid derivatives between (0-0.25) and tanh derivatives between (0-1)
+    -   Gradients diminish exponentially over long sequence lengths
+-   LSTMs introduce explicit memory management
     -   Enable network to learn to forget information no longer needed
-    -   Persist information for likely needed for deicisions yet to come
-    -   Use gating mechanism (through additional weights) to control the flow of information
+    -   Persist information likely needed for decisions yet to come
+    -   Use gating mechanism (through additional parameters) to control the flow of information
 -   Architecture
-    -   Feedforward layer
-    -   Sigmoid activation
-    -   Point-wise multiplication with the layer being gated (binary mask)
--   Input Gate
-    -   Actual information
-    -   $g_t = \sigma(U h_{t-1} + W x_t)$
--   Add Gate
-    -   Select the information to keep from current context
-    -   $i_t = \sigma(U h_{t-1} + W x_t)$
-    -   $j_t = i_t \odot g_t$
--   Forget gate
-    -   Delete information from context no longer needed
-    -   Weighted sum of previous hidden state and current input
-    -   $f_t = \sigma(U h_{t-1} + W x_t)$
-    -   $k_t = f_t \odot c_{t-1}$
--   Context
-    -   Sum of add and forget
-    -   $c_t = j_t + k_t$
--   Output Gate
-    -   $o_t = \sigma(U h_{t-1} + W x_t)$
-    -   $h_t = o_t \odot \tanh(c_t)$
--   In addition to hidden state, LSTMs also persist the context
+    -   Memory cell (long-term memory) + hidden state (working memory)
+    -   Three gates control information flow:
+        -   Forget gate: What to remove from cell state
+        -   Input gate: What new information to store
+        -   Output gate: What to output based on cell state
+-   Input Gate Logic
+    -   Candidate values: $g_t = \tanh(W_g x_t + U_g h_{t-1} + b_g)$
+    -   Input gate: $i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$
+    -   New information: $j_t = i_t \odot g_t$
+-   Forget Gate Logic
+    -   Forget gate: $f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$
+    -   Retained memory: $k_t = f_t \odot c_{t-1}$
+-   Cell State Update
+    -   $c_t = j_t + k_t$ (add new information to retained memory)
+-   Output Gate Logic
+    -   Output gate: $o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$
+    -   Hidden state: $h_t = o_t \odot \tanh(c_t)$
+-   LSTMs maintain two states: cell state (c) for long-term memory and hidden state (h) for output
 
 ## Self Attention
 
--   LSTMs difficult to parallelize
--   Still not effective for very long dependencies. Bahdanau attention etc. hacks needed.
--   Transformers - Replace recurrent layers with self attention layers
--   Self Attention Mechanism
-    -   Map input to output of same length
-    -   At step t, model has access to all inputs upto step t
-        -   Helps with auto-regressive generation
-    -   Computation for step t is independent of all other steps
-        -   Easy parallelization
-    -   Compare current input to the collection which reveals its relevance in the given context
-    -   $y_3$ is generated by comparing $x_3$ to $x_1, x_2, x_3$
--   Core of Attention Approach
-    -   Comparison is done using dot product operations (large value, more similar)
-        -   $\text{score}(x_i, x_j) = x_i . x_j$
-    -   Compute attention weights
-        -   $\alpha_{ij} = \text{softmax}(\text{score}(x_i, x_j))$
-    -   Compute output
-        -   $y_i = \sum \alpha_{ij} x_j$
--   Sophistication wrt Transformers
-    -   Each input can play three different roles
-        -   Query: When it's being compared to other inputs (Current focus)
-        -   Key: When it's acting as context (previous input) fo comparison
-        -   Value: When it's being used to compute the output
-    -   For each role, there exists a separate embedding matrix
-        -   $\text{score}(x_i, x_j) = q_i . k_j / \sqrt d$
-        -   $y_i = \sum \alpha_{ij} v_j$
-        -   Normalization to avoid overflow in softmax layer
-    -   Since calculations are independent, use matrix multiplications
-    -   Use masking to avoid peeking into the future
--   Transformer Block
-    -   Attention layer followed by FFNN with residual connections and layer norm
-    -   $z = \text{Layer Norm}(x + \text{Self Attention}(x))$
-    -   $y = \text{Layer Norm}(z + \text{FFNN}(z))$
-    -   Layer Norm dies normalization across the hidden dimension
+-   LSTMs still have limitations:
+    -   Difficult to parallelize (sequential processing)
+    -   Still not fully effective for very long dependencies
+-   Transformers - Replace recurrent layers with self-attention layers
+-   Self-Attention Mechanism
+    -   Create three projections of each input vector:
+        -   Query (Q): What the token is looking for
+        -   Key (K): What the token offers for matching
+        -   Value (V): The actual information to be aggregated
+    -   Compute attention scores between each token and all other tokens
+    -   Weight values according to attention scores
+    -   Crucial innovation: allows direct connections between any tokens regardless of distance
+-   Computation Steps
+    -   Project input sequence X into Q, K, V matrices using learned weight matrices
+        -   $Q = XW^Q$, $K = XW^K$, $V = XW^V$
+    -   Compute attention scores: $S = QK^T$
+    -   Scale to stabilize gradients: $S' = S/\sqrt{d_k}$ where d_k is dimension of keys
+    -   Apply softmax to get attention weights: $A = \text{softmax}(S')$
+    -   Compute weighted values: $Z = AV$
 -   Multi-Head Attention
-    -   Words can exhibit different interrelationships (syntactic, semantic etc.)
-    -   Parallel layers to capture each of the underlying relationships
-    -   Concatenate the output from each of the heads
--   Positional Embeddings
-    -   Shuffling input order should matter
-    -   Self-attention logic (unlike RNNs) doesn't respect sequence
-    -   Positional embeddings modify the input embedddings based on the position in the sequence
-    -   Size and Cosine functions
+    -   Multiple parallel attention mechanisms
+    -   Each head can capture different types of relationships
+    -   Concatenate outputs and project back to original dimension
+-   Positional Encodings
+    -   Unlike RNNs, self-attention operations are order-invariant
+    -   Add position information to input embeddings
+    -   Using sinusoidal functions: $PE_{(pos,2i)} = \sin(pos/10000^{2i/d})$, $PE_{(pos,2i+1)} = \cos(pos/10000^{2i/d})$
 -   BERT Architecture
     -   Base Model - 12 heads, 12 layers, 64 diemnsions, 768 size (12 \* 64)
     -   Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 \* 64) 
