@@ -9,7 +9,7 @@ const mkdirp = require('mkdirp');
 // Configuration
 const config = {
     sourceDir: 'notes',
-    outputDir: 'dist',
+    outputDir: '.',
     siteTitle: 'My Notes',
     dateFormat: { year: 'numeric', month: 'long', day: 'numeric' }
 };
@@ -47,7 +47,14 @@ function processMarkdownFile(filePath) {
     const { content, data } = matter(fileContent);
     const html = marked.parse(content);
 
-    const title = data.title || createTitleFromFilename(filePath);
+    // Extract title from the first heading in the markdown if available
+    let titleFromContent = '';
+    const headingMatch = content.match(/^#\s+(.+)$/m);
+    if (headingMatch) {
+        titleFromContent = headingMatch[1].trim();
+    }
+
+    const title = data.title || titleFromContent || createTitleFromFilename(filePath);
     const date = data.date ? new Date(data.date).toLocaleDateString('en-US', config.dateFormat) : null;
 
     return {
@@ -64,7 +71,15 @@ function processMarkdownFile(filePath) {
 }
 
 // Generate HTML page for a note
-function generateNotePage(note) {
+function generateNotePage(note, cssPath) {
+    // Calculate relative path to root for the back link
+    const relativePath = path.relative(config.sourceDir, note.path);
+    const outputDir = path.dirname(path.join(config.outputDir, relativePath));
+    let rootPath = path.relative(outputDir, config.outputDir);
+
+    // Make sure we point to index.html explicitly
+    rootPath = rootPath ? `${rootPath}/index.html` : 'index.html';
+
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +87,7 @@ function generateNotePage(note) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${note.title} | ${config.siteTitle}</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="${cssPath}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <!-- MathJax for LaTeX support -->
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -94,13 +109,12 @@ function generateNotePage(note) {
     <header>
       <h1>${note.title}</h1>
       ${note.date ? `<p class="date">Last updated: ${note.date}</p>` : ''}
-      <a href="/" class="home-link">← Back to Home</a>
+      <a href="${rootPath}" class="home-link">← Back to Home</a>
     </header>
     <main class="content">
       ${note.html}
     </main>
     <footer>
-      <p>Generated with Markdown Notes Static Site Generator</p>
     </footer>
   </div>
 </body>
@@ -109,14 +123,20 @@ function generateNotePage(note) {
 }
 
 // Generate folder index page
-function generateFolderIndexPage(folderPath, notes) {
+function generateFolderIndexPage(folderPath, notes, cssPath) {
     const folderName = getFolderName(folderPath);
     const folderDisplayName = getFolderDisplayName(folderPath);
 
+    // Calculate relative path to root for the back link
+    let rootPath = path.relative(path.join(config.outputDir, folderPath), config.outputDir);
+
+    // Make sure we point to index.html explicitly
+    rootPath = rootPath ? `${rootPath}/index.html` : 'index.html';
+
     const notesLinks = notes.map(note => {
-        const relativePath = path.relative(config.sourceDir, note.path);
-        const htmlPath = relativePath.replace(/\.md$/, '.html');
-        return `<li><a href="/${htmlPath}">${note.title}</a></li>`;
+        // Calculate relative path from folder to note
+        const noteRelativePath = path.basename(note.path, '.md') + '.html';
+        return `<li><a href="${noteRelativePath}">${note.title}</a></li>`;
     }).join('\n      ');
 
     return `
@@ -126,14 +146,14 @@ function generateFolderIndexPage(folderPath, notes) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${folderDisplayName} | ${config.siteTitle}</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="${cssPath}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 </head>
 <body>
   <div class="container">
     <header>
       <h1>${folderDisplayName}</h1>
-      <a href="/" class="home-link">← Back to Home</a>
+      <a href="${rootPath}" class="home-link">← Back to Home</a>
     </header>
     <main>
       <ul class="notes-list">
@@ -141,7 +161,6 @@ function generateFolderIndexPage(folderPath, notes) {
       </ul>
     </main>
     <footer>
-      <p>Generated with Markdown Notes Static Site Generator</p>
     </footer>
   </div>
 </body>
@@ -150,7 +169,7 @@ function generateFolderIndexPage(folderPath, notes) {
 }
 
 // Generate home page with folder cards
-function generateHomePage(folders) {
+function generateHomePage(folders, cssPath) {
     const folderCards = folders.map(folder => {
         const folderName = getFolderName(folder.path);
         const folderDisplayName = getFolderDisplayName(folder.path);
@@ -160,7 +179,7 @@ function generateHomePage(folders) {
     <div class="card">
       <h2>${folderDisplayName}</h2>
       <p>${noteCount} note${noteCount !== 1 ? 's' : ''}</p>
-      <a href="/${folderName}/index.html" class="card-link">View Notes</a>
+      <a href="${folderName}/index.html" class="card-link">View Notes</a>
     </div>`;
     }).join('\n    ');
 
@@ -171,7 +190,7 @@ function generateHomePage(folders) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${config.siteTitle}</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="${cssPath}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 </head>
 <body>
@@ -185,7 +204,6 @@ function generateHomePage(folders) {
       </div>
     </main>
     <footer>
-      <p>Generated with Markdown Notes Static Site Generator</p>
     </footer>
   </div>
 </body>
@@ -448,9 +466,13 @@ async function generateSite() {
         const outputPath = note.outputPath;
         const outputDir = path.dirname(outputPath);
 
+        // Calculate relative path to CSS from this note
+        const cssPath = path.relative(outputDir, path.join(config.outputDir, 'css', 'style.css'));
+
         mkdirp.sync(outputDir);
 
-        const html = generateNotePage(note);
+        // Pass the CSS path to the template
+        const html = generateNotePage(note, cssPath);
         fs.writeFileSync(outputPath, html);
         console.log(`Generated note page: ${outputPath}`);
     }
@@ -462,16 +484,20 @@ async function generateSite() {
         const outputPath = path.join(config.outputDir, folder.path, 'index.html');
         const outputDir = path.dirname(outputPath);
 
+        // Calculate relative path to CSS from this folder
+        const cssPath = path.relative(outputDir, path.join(config.outputDir, 'css', 'style.css'));
+
         mkdirp.sync(outputDir);
 
-        const html = generateFolderIndexPage(folder.path, folder.notes);
+        // Pass the CSS path to the template
+        const html = generateFolderIndexPage(folder.path, folder.notes, cssPath);
         fs.writeFileSync(outputPath, html);
         console.log(`Generated folder index page: ${outputPath}`);
     }
 
     // Generate home page
     const nonRootFolders = folders.filter(folder => folder.path !== '.');
-    const homePage = generateHomePage(nonRootFolders);
+    const homePage = generateHomePage(nonRootFolders, 'css/style.css');
     fs.writeFileSync(path.join(config.outputDir, 'index.html'), homePage);
     console.log('Generated home page');
 

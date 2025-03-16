@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dimensionality Reduction | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Dimensionality Reduction</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="dimensionality-reduction">Dimensionality Reduction</h1>
+<h2 id="background">Background</h2>
+<ul>
+<li>Curse of Dimensionality<ul>
+<li>Data has too many features (n &lt;&lt; p)</li>
+<li>Data volume required for good generalization grows exponentially</li>
+<li>Same edge (say 10) square and cube<ul>
+<li>1x1 patch covers 1% area in quare</li>
+<li>1x1x1 patch covers 0.1% volume in cube</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Two approaches<ul>
+<li>Feature Selection<ul>
+<li>Use only a subset of original features\</li>
+</ul>
+</li>
+<li>Latent Features<ul>
+<li>Recombine the original features for more efficient representation</li>
+<li>Can be linear or non-linear</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="principal-component-analysis">Principal Component Analysis</h2>
+<ul>
+<li>Find a linear and orthogonal projection of data from high dimension to low dimension<ul>
+<li>Encode original data $x \in R^D$ using $W \in R^{D \times L}$<ul>
+<li>Encode: $z = W^T x \in R^L$</li>
+</ul>
+</li>
+<li>Decode $z$ by projecting it from lower dimension to higher dimension<ul>
+<li>Decode: $\hat x = W z$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Objective is to minimize reconstruction error<ul>
+<li>$L(w) = {1 \over N} \sum ||x - \hat x||^2$</li>
+</ul>
+</li>
+<li>Proof: Project all the data to one dimension<ul>
+<li>$w_1 \in R^D$</li>
+<li>$\hat x = z_{1} w_1$</li>
+<li>Optimal value of z and w that minimizes reconstruction error</li>
+<li>$L = {1 \over N} \sum ||x_i - z_{i1} w_1||^2$</li>
+<li>$L = {1 \over N} \sum (x_i - z_{i1} w_1)^T(x_i - z_{i1} w_1)$</li>
+<li>$L = {1 \over N} \sum x_i^T x_i -2 z_{i1} w_1^T x_i - z_{i1} w_1^Tw_1 z_{i1}$</li>
+<li>Orthonormal Assumption $\implies w_1^Tw_1 = 1$</li>
+<li>$L = {1 \over N} \sum x_i^T x_i -2 z_{i1} w_1^T x_i - z_{i1}^2$</li>
+<li>Take Derivaties wrt z and w</li>
+<li>${\delta L \over \delta z_{i1}} = {1 \over N} (-2 w_1^T x_i + 2 z_{i1}) = 0$</li>
+<li>Optimal Embedding: $z_{i1} = w_1^T x$</li>
+<li>Plugging the value of z in L</li>
+<li>$L = {1 \over N} \sum x_i^T x_i - z_{i1}^2$</li>
+<li>$L = C - {1 \over N} \sum z_{i1}^2$</li>
+<li>$L = C - {1 \over N} \sum w_1^T x_i^T x_i w_1$</li>
+<li>$L = - {1 \over N} w_1^T \Sigma w_1$</li>
+<li>$\Sigma$ is the Var-Cov matrix of X</li>
+<li>The loss can be minimized trivially by scaling $w$</li>
+<li>To avoid this, impose a unit-norm constraint on $w$</li>
+<li>$L = {1 \over N} w_1^T \Sigma w_1 + \lambda (w_1^T w_1 - 1)$</li>
+<li>${\delta L \over \delta w_1} = -2 \Sigma w_1 + 2 \lambda w_1 = 0$</li>
+<li>Optimal w is given by eigen vector of $\Sigma$</li>
+<li>To minimize the loss, pick the vector corresponding to highest eigenvalue</li>
+</ul>
+</li>
+<li>PCA finds vectors that maximize the variance of projected data<ul>
+<li>$L = C - {1 \over N} \sum z_{i1}^2$</li>
+<li>The original data is scaled</li>
+<li>$E(z_1) = E(w_1^T x) = 0$</li>
+<li>$L = C + \text{Var}(z_1)$</li>
+</ul>
+</li>
+<li>Geometric Explanation<ul>
+<li>Find a new axis to capture the data</li>
+<li>Distance of the point from origin is fixed $R^2$</li>
+<li>$D^2$ if the distance of the point from origin along the new axis (Variance)</li>
+<li>$\epsilon$ if the vertical distance of the point from the new axis (Distortion)</li>
+<li>By Pythagoras theorem $R^2 = D^2 + \epsilon$</li>
+<li>PCA maximizes the variance $D^2$</li>
+<li>Is equivalent to minimizing distortion $\epsilon$ as $R^2$ is constant</li>
+</ul>
+</li>
+<li>Eigenvalues euqal the sum-sq(distances) on points on the principal component axis</li>
+<li>Use eigenvalues to understand how much variation is captured by each principal component</li>
+<li>Use scree plot (varation captured vs # components) to understand how many components should be included</li>
+<li>The maximum number of components are equal to the number of features in the original data<ul>
+<li>Full basis</li>
+<li>If data is 2D, the eigen value for the 3rd PC will be 0</li>
+</ul>
+</li>
+<li>Principal components are linear combinations of original features<ul>
+<li>The weights used for linear combinations are called factor loadings</li>
+<li>Factor loadings denote the importance of features in capturing variance</li>
+</ul>
+</li>
+<li>PCA + linear regression is still interpretable<ul>
+<li>Use estimated coefficients and factor loadings to understand how the original variables are being used</li>
+</ul>
+</li>
+<li>PCA is calculated using SVD (singular value decomposition)<ul>
+<li>$X = U S V^T \in R^{N \times D}$<ul>
+<li>$U \in R^{N \times N}$ is orthonormal</li>
+<li>$S \in R^{N \times D}$ is diagonal (contains singular values)</li>
+<li>$V \in R^{D \times D}$ is orthonormal</li>
+</ul>
+</li>
+<li>$X^T X = (U S V^{T})^T(U S V^{T}) = V S^T U^T U S V^T = V S^T S V^T$</li>
+<li>Since S is a diagonal matrix, $S^TS$ is diagonal as well</li>
+<li>$X^T X = V D V^T$ where $D = S^T S$</li>
+<li>On multiplying both sides by V: $(X^T X)V = V D$</li>
+<li>D matrix gives the eigenvalues and V matrix gives the corresponding eigenvectors</li>
+</ul>
+</li>
+<li>Notes<ul>
+<li>PCA doesn&#39;t work well if the interrelationships are non-linear<ul>
+<li>Kernel PCA, Factor Analysis</li>
+</ul>
+</li>
+<li>PCA doesn&#39;t work well in case of outliers</li>
+<li>PCA can&#39;t handle missing data</li>
+<li>PCA is unsupervised<ul>
+<li>LDA is a supervised dimensionality reduction technique</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="stochastic-neighbour-embedding-sne">Stochastic Neighbour Embedding (SNE)</h2>
+<ul>
+<li>Unsupervised Non-parametric Mehtod for dimensionality reduction</li>
+<li>Manifold is a topological space which is locally Euclidean<ul>
+<li>Eath is a 2D surface embedded in a 3D space</li>
+<li>High-dimensional data can lie in a low dimenison manifold</li>
+</ul>
+</li>
+<li>Idea is to preserve nearest neighbours instead of preserving distances</li>
+<li>Convert the distances in high-dimension to probabilities<ul>
+<li>Probability the point i will select j as it&#39;s neighbour</li>
+<li>Gaussian Kernel</li>
+<li>$p_{j|i} \propto \exp({|| x_i - x_j||^2 \over 2\sigma_i^2})$</li>
+<li>$\sigma_i^2$ is the variance for data point i<ul>
+<li>Magnify the scale of points in dense region</li>
+<li>Diminish the scale of points in sparse regions</li>
+<li>Perplexity parameter (say 30)</li>
+<li>Variance will be adjusted to cover approx 30 neighbours</li>
+<li>Balance between local and global aspects of the data</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Initialize the low-dimnesion representations and calculate the same probability<ul>
+<li>$q_{j|i} \propto \exp({|| z_i - z_j||^2})$</li>
+<li>Variance is assumed to be constant here</li>
+</ul>
+</li>
+<li>A good representation will preserve the neighbours</li>
+<li>$p$ and $q$ are probability distributions. KL Divergence will capture the distance between them</li>
+<li>$L = KL(p||q) = \sum_i\sum_j p_{i|j}\log({p_{i|j} \over q_{i|j}})$<ul>
+<li>If p is high and q is low, the penalty is high</li>
+<li>Points were neighbours in high dimension but not in lo dimension</li>
+<li>If p is low and q is high, the penalty is low</li>
+<li>Unrelated points are pushed closer now</li>
+</ul>
+</li>
+<li>Calculate $z$ by minimizing KL-Div using SGD<ul>
+<li>$\Delta_{z_i} L = 0$</li>
+<li>$2 \sum (z_i - z_j) (p_{i|j} - q_{i|j} + p_{j|i} - q_{j|i})$</li>
+</ul>
+</li>
+<li>Symmetric SNE<ul>
+<li>In the above formulation the distances are not symmetric</li>
+<li>$p_{i|j} \ne p_{j|i}$</li>
+<li>To enforce this: $p_{ij} = (p_{i|j} + p_{j|i}) / 2$</li>
+<li>Equivalent to using constant variance in high-dimensional space</li>
+<li>$\Delta_{z_i} L = 4 \sum (z_i - z_j) (p_{ij} - q_{ij})$<ul>
+<li>Similar to Potential energy in a spring (F = kx)</li>
+<li>$(p_{ij} - q_{ij})$ is k</li>
+<li>$(z_i - z_j)$ is x</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>t-SNE<ul>
+<li>SNE has a crowding problem</li>
+<li>Gaussian Kernel pushes moderately far away points in high dimension close together in low dimension (squared errors)</li>
+<li>Replace it with t-distribution that has fatter tails (probability goes to 0 slowly)<ul>
+<li>The fatter tails allow dissimilar points to be far apart in lower dimension as well</li>
+<li>Removes unwanted attractive forces between points that are modelrately far in high dimension</li>
+</ul>
+</li>
+<li>$q_{j|i} \propto (1+{|| z_i - z_j||^2})^{-1}$</li>
+<li>$\Delta_{z_i} L = \sum (z_i - z_j) (p_{ij} - q_{ij}) (1 + || z_i - z_j||^2)^{-1}$</li>
+<li>$(1 + || z_i - z_j||^2)^{-1}$ ensures well separated clusters with tightly packed points inside</li>
+<li>Introduces strong repulsions between the dissimilar datapoints that are modeled by small pairwise distance in the low-dimensional map</li>
+<li>Coordinates after embedding have no inherent meaning</li>
+</ul>
+</li>
+<li>UMAP<ul>
+<li>Uniform Manifold Approximation and Projection\</li>
+<li>Similar to t-SNE but much faster<ul>
+<li>t-SNE calculates all pairwise distances</li>
+<li>UMAP calculates distances between close neighbours only</li>
+</ul>
+</li>
+<li>t-SNE start with random initialization, UMAP start with spectral embeddings</li>
+<li>t-SNE moves every points slightly in each iteration, UMAP can move single points or subset of points in each iteration</li>
+<li>Mathematics<ul>
+<li>t-SNE uses Gaussian desnity function to calculate the distance between points in high dimension</li>
+<li>UMAP uses similarity scores<ul>
+<li>Hyperparameter: number of neighbours (similar to perplexity in t-SNE)</li>
+<li>Calculate log(number of neighbours)</li>
+<li>Calculate similarity scores</li>
+<li>$\exp(-(\text{raw distance} - \text{distance to nearest neighbour}) / \sigma$</li>
+<li>Rescale the curve such that sum of distances = log(number of neighbours)</li>
+</ul>
+</li>
+<li>UMAP makes the scores symmetrical by $(S_1 + S_2) - S_1S_2$</li>
+<li>Initialize a low dimension graph using Spectral Embedding<ul>
+<li>Decompoistion of Graph Laplacian</li>
+<li>Graph Laplacian = Degree Matrix - Adjacency Matrix</li>
+</ul>
+</li>
+<li>Calculate the similarity in low dimension using t-distrbution<ul>
+<li>$(1 + \alpha d^{2\beta})^{-1}$</li>
+<li>The parameters help user control the shape of the curve</li>
+</ul>
+</li>
+<li>Cost Function<ul>
+<li>Cross-Entropy between graphs</li>
+<li>$\log(1 - S_{\text{not neighbour}}) - log(S_{\text{neighbour}})$\</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UMAP can accomodate new data (predict function) without recomputation</li>
+</ul>
+</li>
+</ul>
+<h2 id="applications-of-dimensionality-reduction">Applications of Dimensionality Reduction</h2>
+<ul>
+<li>Data Visualization:<ul>
+<li>Reduce high-dimensional data to 2D or 3D for visualization</li>
+<li>Helps identify patterns, clusters, and outliers visually</li>
+</ul>
+</li>
+<li>Noise Reduction:<ul>
+<li>Lower-dimensional representations can filter out noise</li>
+<li>PCA can help separate signal from noise when the variance of the noise is smaller than the variance of the signal</li>
+</ul>
+</li>
+<li>Preprocessing for Machine Learning:<ul>
+<li>Mitigates curse of dimensionality</li>
+<li>Can improve performance of models sensitive to high dimensionality</li>
+<li>Reduces computational complexity and storage requirements</li>
+</ul>
+</li>
+<li>Feature Extraction:<ul>
+<li>Creates new features that better capture the underlying structure of data</li>
+<li>Often more informative than original features</li>
+</ul>
+</li>
+<li>Multicollinearity Reduction:<ul>
+<li>Addresses correlation among predictor variables in regression</li>
+<li>PCA specifically creates uncorrelated components</li>
+</ul>
+</li>
+</ul>
+<h2 id="comparing-dimensionality-reduction-techniques">Comparing Dimensionality Reduction Techniques</h2>
+<ul>
+<li>Linear vs. Non-linear:<ul>
+<li>Linear methods (PCA, LDA): Preserve global structure, computationally efficient</li>
+<li>Non-linear methods (t-SNE, UMAP): Better at preserving local structure, capturing complex relationships</li>
+</ul>
+</li>
+<li>Supervised vs. Unsupervised:<ul>
+<li>Unsupervised (PCA, t-SNE): No target variable required</li>
+<li>Supervised (LDA): Incorporates class information</li>
+</ul>
+</li>
+<li>Local vs. Global:<ul>
+<li>Global (PCA): Preserves large pairwise distances</li>
+<li>Local (t-SNE, UMAP): Preserves small pairwise distances</li>
+</ul>
+</li>
+<li>Selection considerations:<ul>
+<li>Data size: Some methods (t-SNE) don&#39;t scale well to large datasets</li>
+<li>Interpretability: Some methods (PCA) produce more interpretable features</li>
+<li>Goal: Visualization vs. preprocessing vs. feature extraction</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

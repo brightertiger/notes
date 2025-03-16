@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Introduction</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="introduction">Introduction</h1>
+<ul>
+<li><p>Definition</p>
+<ul>
+<li>A computer program is said to learn from experience E with respect to some class of tasks T, and performance measure P,</li>
+<li>If its performance at tasks in T, as measured by P, improves with experience E.</li>
+</ul>
+</li>
+<li><p>Supervised Learning</p>
+<ul>
+<li>Task is to learn a mapping function from inputs to outputs</li>
+<li>Inputs are vectors called features, covariates, predictors</li>
+<li>Output is called as label, target, response</li>
+</ul>
+</li>
+<li><p>Classification</p>
+<ul>
+<li>Output is a set of unordered, mutually exclusive labels</li>
+<li>Goal is to design a model with minimum misclassification rate</li>
+<li>$L(\theta) = {1 \over N} \sum I{y \ne f(x, \theta)}$</li>
+<li>Empirical Risk is the average loss on training set</li>
+<li>Model fitting minimizes empirical risk (ERM)</li>
+<li>Overall goal is generalization</li>
+</ul>
+</li>
+<li><p>Uncertainty</p>
+<ul>
+<li>Model cannot map inputs to outputs with 100% certainty</li>
+<li>Model Uncertainty due to lack of knowledge between input and output</li>
+<li>Data Uncertainty due to stochasticity in labels</li>
+<li>Good model assigns high probability to true output for each input</li>
+<li>Intuition for minimizing NLL (negative log-likelihood)</li>
+<li>$NLL(\theta) = {1 \over N} \sum p(y | f(x, \theta))$</li>
+<li>Optimal parameters give the MLE estimate</li>
+</ul>
+</li>
+<li><p>Regression</p>
+<ul>
+<li>Output is a real valued quantity</li>
+<li>Model fitting often involves minimizing the quadratic loss or MSE</li>
+<li>$L(\theta) = {1 \over N} \sum (y - f(x, \theta))^2$</li>
+<li>Data uncertainty. For example: if the output distribution is Gaussian</li>
+<li>$p(y | x, \theta) = \mathcal N(y | f(x, \theta), \ \sigma^2)$</li>
+<li>$NLL(\theta) \propto MSE(\theta)$</li>
+<li>Linear Regression is an affine transformation between inputs and outputs</li>
+<li>Polynomial Regression improves the fit by considering higher order interactions</li>
+<li>FNNs do feature extraction by nesting the functions</li>
+</ul>
+</li>
+<li><p>Overfitting and Generalization</p>
+<ul>
+<li>A model that perfectly fits training data but is too complex suffers from overfitting</li>
+<li>Population risk the theoretical expected loss on the true data generating process</li>
+<li>Generalization gap is the difference between empirical risk and population risk</li>
+<li>High generalization gap is a sign of overfitting</li>
+<li>Population risk is hard to estimate. Approximate using test risk. Expected error on unseen data points.</li>
+<li>Test error has U-shaped curve wrt model&#39;s degree of freedom</li>
+</ul>
+</li>
+<li><p>No Free Lunch Theorem: No single best model that works optimally for all kinds of problems</p>
+</li>
+<li><p>Unsupervised Learning</p>
+<ul>
+<li>Learn an unconditional model of the data $p(x)$ rather than $p(y | x)$</li>
+<li>In clustering, the goal is to partition the input space into regions with homogenous points.</li>
+<li>Dimensionality reduction projects input data from high dimension to lower dimension subspace.</li>
+<li>Self-Supervised Learning involves creating proxy supervised tasks from unlabled data</li>
+<li>Evaluation is done by measuring the probability assigned by the model to unseen data</li>
+<li>This treats the problem as one of density estimation</li>
+<li>Unsupervised learning also aims to increase sample efficiency in downstream supervised learning tasks</li>
+</ul>
+</li>
+<li><p>Reinforcement Learning</p>
+<ul>
+<li>A system or an agent learns how to interact with its environment</li>
+<li>Goal is learn a policy that specifies optimal action given a state</li>
+<li>Unlike, Supervised Learning, the reward signal is occasional and delayed.</li>
+<li>Learning with critic vs learning with teacher.</li>
+</ul>
+</li>
+<li><p>Data Preprocessing</p>
+<ul>
+<li><p>Text Data</p>
+<ul>
+<li>Bag of Words transforms a document to a term frequency matrix</li>
+<li>Frequent words have undue influence (pareto distribution)</li>
+<li>Log of counts assuage some of the problems</li>
+<li>Inverse Document Frequency: $\text{IDF}_i = \log {N \over 1 + \text{DF}_i}$</li>
+<li>N is the total number of documents and DF is the documents with term i</li>
+<li>$\text{TF-IDF} = \log(1 + TF) \times IDF$</li>
+<li>Word embeddings map sparse vector representation of word to lower dimension dense vector</li>
+<li>UNK token can help capture OOV words</li>
+<li>Sub-word units or word pieces created using byte-pair encoding perform better than UNK token and help in reducing the vocabulary.</li>
+</ul>
+</li>
+<li><p>Missing Data</p>
+<ul>
+<li>MCAR: missing completely at random</li>
+<li>MAR: missing at random</li>
+<li>NMAR: not missing at random</li>
+<li>Handling of the missing values depends to the type</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

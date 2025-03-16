@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistics | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Statistics</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="statistics">Statistics</h1>
+<ul>
+<li><p>Inference is the process of quantifying uncertainty about an unknown quantity estimated from finite sample of data</p>
+</li>
+<li><p>Maximum Likelihood Estimation</p>
+<ul>
+<li>Pick parameters that assign highest probability to training data<ul>
+<li>$\theta_{MLE} = \arg \max p(D | \theta) = \arg \max \prod p(y | x, \theta)$</li>
+</ul>
+</li>
+<li>MLE can be factorized because of IID assumption</li>
+<li>Maximizing MLE is equivalent to minimizing NLL<ul>
+<li>$\text{NLL}(\theta) = -\log p(D | \theta)$</li>
+</ul>
+</li>
+<li>For unsupervised learning MLE is unconditional.<ul>
+<li>$\theta_{MLE} = \arg\max p(x | \theta)$</li>
+</ul>
+</li>
+<li>Justification for MLE<ul>
+<li>Bayesian MAP estimate with uninformative uniform prior<ul>
+<li>$\theta_{MAP} = \arg\max p(\theta | D) = \arg \max [p(D | \theta)p(\theta)]$</li>
+</ul>
+</li>
+<li>KL Divergence: MLE brings predicted distribution close to empirical distribution<ul>
+<li>$KL(p||q) = H(p) - H(p,q)$</li>
+<li>Cross-entropy term in KL-Divergence corresponds to minimizing negative log-likelihood</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sufficient Statistics of the data summarize all the information needed.<ul>
+<li>N0 (negative # samples) and N1 (positive # samples) in case of Bernoulli Distribution</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>MLE Examples</p>
+<ul>
+<li>Bernoulli Distribution<ul>
+<li>$NLL(\theta) = N_1 \log(\theta) - N_0 \log(1-\theta)$</li>
+<li>$\Delta NLL \Rightarrow \theta = N_1 / (N_0 + N_1)$</li>
+</ul>
+</li>
+<li>Categorical DIstribution<ul>
+<li>Add unity contraint as Lagrangian</li>
+<li>$NLL(\theta) = \sum N_k \log(\theta) + \lambda (\sum \theta_k -1))$</li>
+</ul>
+</li>
+<li>Gaussian Distribution<ul>
+<li>$NLL(\theta) = {1 \over 2\sigma^2 }\sum \log(y - \mu)^2 + {N \over 2} log (2\pi \sigma^2)$</li>
+<li>Sample mean and sample variance become sufficient statistics</li>
+</ul>
+</li>
+<li>Linear Regression<ul>
+<li>$p(y | x; \theta) = \mathcal N (y | wx +b, \sigma^2)$</li>
+<li>$NLL \propto \sum (y - wx - b) ^ 2$</li>
+<li>Quadratic Loss is a good choice for linear regression</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Empirical Risk Minimization</p>
+<ul>
+<li>Empirical Risk Minimization is the expected loss where the expectation is taken wrt to empirical distribution</li>
+<li>ERM generalizes MLE  by replacing log-loss with any loss function<ul>
+<li>$L(\theta) = {1 \over N} \sum l(y, x, \theta)$</li>
+<li>Loss could be miss-classification rate as an example</li>
+</ul>
+</li>
+<li>Surrogate losses devised to make optimization easier.<ul>
+<li>Log-Loss, Hinge-Loss etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Method of Moments (MoM) compares theoretical moments of a distribution with to the empirical ones. </p>
+<ul>
+<li>Moments are quantitative measures related to the shape of the function&#39;s graph</li>
+</ul>
+</li>
+<li><p>In batch learning, entire dataset is available before training.</p>
+</li>
+<li><p>In online learning, dataset arrives sequentially.</p>
+<ul>
+<li>$\theta_t = f(x_t, \theta_{t-1})$</li>
+<li>Recursive updates are required. For example MA, or EWMA<ul>
+<li>$\mu_t = \mu_{t-1} + {1 \over t}(x_t - \mu_{t-1})$</li>
+<li>$\mu_t = \beta \mu_{t-1} + (1 - \beta) y_t$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Regularization</p>
+<ul>
+<li>MLE/ERM picks parameters that minimize loss on training set.</li>
+<li>Empirical distribution may not be same as true distribution.</li>
+<li>Model may not generalize well. Loss on unseen data points could be high. Overfitting.</li>
+<li>Regularization helps reduce overfitting by adding a penalty on complexity. <ul>
+<li>In-built in MAP estimation</li>
+<li>$L(\theta) = NLL + \lambda \log p(\theta)$</li>
+<li>Add-one smoothing in Bernoulli to solve zero count problem is regularization.</li>
+<li>The extra one term comes from Beta priors.</li>
+</ul>
+</li>
+<li>In linear regression, assume parameters from standard gaussian.<ul>
+<li>$L(\theta) = NLL + \lambda \log w^2$</li>
+<li>L2 Penalty in MAP estimation</li>
+</ul>
+</li>
+<li>Regularization strength is picked by looking at validation dataset<ul>
+<li>Validation risk is estimate for population risk.</li>
+<li>Cross-Validation in case of small size of training dataset</li>
+</ul>
+</li>
+<li>One Standard Error Rule<ul>
+<li>Select the model with loss within one SE of the baseline / simple model</li>
+</ul>
+</li>
+<li>Early Stopping prevents too many steps away from priors. Model doesn&#39;t memorize too much.</li>
+<li>Using more suitable informative data samples also prevents overfitting.<ul>
+<li>Bayes&#39; Error is inherent error due to stochasticity.</li>
+<li>With more data, learning curve approaches Bayes&#39; Error.</li>
+<li>If we start with very few observations, adding more data may increase the error as model uncovers new data patterns.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Bayesian Statistics</p>
+<ul>
+<li>Start with prior distribution</li>
+<li>Likelihood reflects the data for each setting of the prior</li>
+<li>Marginal Likelihood shows the average probability of the data by marginalizing over model parameters</li>
+<li>Posterior Predictive Distribution: is Bayes Model Averaging<ul>
+<li>$p(y | x, D) = \int p(y | x, \theta) p(\theta | D) d\theta$ </li>
+<li>Multiple parameter values considered, prevents overfitting</li>
+<li>Plug-in Approximation: Uses dirac delta to pul all the weight on MLE</li>
+<li>This simplifies the calculations</li>
+</ul>
+</li>
+<li>Conjugate Priors<ul>
+<li>posterior = prior x likelihood</li>
+<li>Select prior in a form that posterior is closed form and has same family as prior</li>
+<li>Bernoulli-Beta</li>
+<li>Gaussian-Gaussian</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Frequentist Statistics</p>
+<ul>
+<li>Data is a random sample drawn from some underlying distribution</li>
+<li>Induces a distribution over the test statistic calculated from the sample.</li>
+<li>Estimate variation across repeated trials.</li>
+<li>Uncertainty is calculated by quantifying how the estimate would change if the data was sampled again.</li>
+<li>Sampling Distribution<ul>
+<li>Distribution of results if the estimator is applied multiple times to different datasets sampled from same distribution</li>
+</ul>
+</li>
+<li>Bootstrap<ul>
+<li>If the underlying distribution is complex, approximate it by a Monte-Carlo technique</li>
+<li>Sample N data points from original dataset of size N with replacement</li>
+<li>Bootstrap Sample is 0.633 x N on average<ul>
+<li>Probability the point is selected atleast once</li>
+<li>$1 - (1 - {1 \over N})^N \approx 1 - {1 \over e}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>100 (1 - a) % CI is the probability that the true value of the parameter lies in the range.</li>
+</ul>
+</li>
+<li><p>Bias-Variance Tradeoff</p>
+<ul>
+<li>Bias of an estimator<ul>
+<li>$bias(\hat \theta) = E[\hat \theta] - \theta^*$<ul>
+<li>Measures how much the estimate will differ from true value</li>
+<li>Sample variance is not an unbiased estimator for variance</li>
+</ul>
+</li>
+<li>$\mathbf V[\hat \theta] = E[\hat \theta ^ 2] - E[\hat \theta]^2$<ul>
+<li>Measures how much will the estimate vary is data is resampled</li>
+</ul>
+</li>
+<li>Mean Squared Error<ul>
+<li>$E[(\hat \theta - \theta^*)^2] = \text{bias}^2 + \text{variance}$</li>
+<li>It&#39;s okay to use a biased estimator if the bias is offset by decrease in variance.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

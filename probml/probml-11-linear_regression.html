@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Linear Regression</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="linear-regression">Linear Regression</h1>
+<ul>
+<li><p>Predict real valued output</p>
+</li>
+<li><p>$p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)$</p>
+</li>
+<li><p>Simple Linear regression has one feature vector</p>
+</li>
+<li><p>Multiple Linear Regression has many feature vectors</p>
+</li>
+<li><p>Multivariate Linear Regression has multiple outputs</p>
+</li>
+<li><p>Feature extractor helps in improving the fit of the model</p>
+</li>
+<li><p>Least Square Estimate</p>
+<ul>
+<li>Minimize the negative log likelihood (NLL)</li>
+<li>$\text{NLL}(w, \sigma^2) = \frac{1}{2\sigma^2} \sum (y - \hat y)^2 + \frac{N}{2} \log(2\pi\sigma^2)$</li>
+<li>First term is referred as Residual Sum Squares (RSS) </li>
+<li>Ordinary Least Squares<ul>
+<li>$\nabla_w RSS = 0$</li>
+<li>$X^TXw = X^Ty$</li>
+<li>Normal Equation because $Xw - y$ is orthogonal to $X$</li>
+<li>$w = (X^TX)^{-1}X^Ty$</li>
+<li>Hessian is $X^TX$ i.e. positive definite if X is full rank</li>
+</ul>
+</li>
+<li>Inverting $X^TX$ is not easy for numerical reasons as it may be ill-conditioned or singular</li>
+<li>A better approach is to compute pseudo-inverse using SVD</li>
+<li>If the variance is heteroskedastic, the model becomes weighted least squares.<ul>
+<li>$p(y|x, \theta) = N(y| wx +b, \sigma^2(x))$</li>
+</ul>
+</li>
+<li>In case of if simple linear regression:<ul>
+<li>$w = C_{xy} / C_{xx}$, i.e. ratio of covariances</li>
+<li>$b = \bar y - w \bar x$</li>
+</ul>
+</li>
+<li>In case of two inputs with no correlation:<ul>
+<li>$W_{X1} = R_{YX2.X1}$</li>
+<li>$W_{X2} = R_{YX1.X2}$</li>
+<li>Partial Regression Coefficients Y on X1 keeping X2 constant</li>
+</ul>
+</li>
+<li>The estimate of variance from NLL is MSE of residuals<ul>
+<li>$\hat \sigma^2 = {1 \over N}\sum (y - \hat y)^2$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Goodness of Fit</p>
+<ul>
+<li>Residual Plots: Check if the residuals are normally distributed with zero mean</li>
+<li>Prediction Accuracy: RMSE $\sqrt{ {1\over N} RSS}$ measures prediction error</li>
+<li>Coefficient of Determination: $R^2 = 1 - {RSS \over TSS}$<ul>
+<li>TSS: Prediction from baseline model: average of Y</li>
+<li>TSS - RSS: Reduction in variance / betterment in fit</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Ridge Regression</p>
+<ul>
+<li>MLE / OLS estimates can result in overfitting</li>
+<li>MAP estimation with zero mean Gaussian Prior<ul>
+<li>$p(w) = N(0, \lambda^{-1}\sigma^2)$</li>
+<li>$L(w) = RSS + \lambda ||w||^2$</li>
+</ul>
+</li>
+<li>$\lambda$ is the L2 regularization or weight decay</li>
+<li>Ridge Regression is connected to PCA<ul>
+<li>The eigenvectors, eigenvalues of $X^TX$ matrix</li>
+<li>Ridge regression shrinks the eigenvectors corresponding to smaller eigenvalues.</li>
+<li>$\lambda$ is sometimes referred as shrinkage parameter</li>
+<li>Alternate way is to run PCA on X and then run regression</li>
+<li>Ridge is a superior approach</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Robust Linear Regression</p>
+<ul>
+<li>MLE/MAP is sensitive to outliers</li>
+<li>Solutions<ul>
+<li>Replace Gaussian with Student-t distribution which has heavy tails<ul>
+<li>The model does not get obsessed with outliers</li>
+<li>Tails have more mass which gets factored in while maximizing MLE</li>
+</ul>
+</li>
+<li>Compute MLE using EM<ul>
+<li>Represent Student-t distribution as Gaussian scale mixture</li>
+</ul>
+</li>
+<li>Using Laplace Distribution which is robust to outliers</li>
+<li>Using Huber Loss<ul>
+<li>L2 loss for small errors</li>
+<li>L1 loss for large erros</li>
+<li>Loss function is differentiable</li>
+</ul>
+</li>
+<li>RANSAC<ul>
+<li>Random Sample Concensus</li>
+<li>Identify outliers from fitted models</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Lasso Regression</p>
+<ul>
+<li>Least absolute shrinkage and selection operator</li>
+<li>Case where we want the parameters to be zero i.e. sparse models</li>
+<li>Used for feature selection</li>
+<li>MAP formulation with Laplace priors</li>
+<li>L1 regularization</li>
+<li>Rationale for sparsity<ul>
+<li>Consider Lagrange Formulation with constraint</li>
+<li>L1 formulation: $||w|| \le B$</li>
+<li>L2 formulation: $||w||^2 \le B$</li>
+<li>L1 constraint is a rhombus</li>
+<li>L2 constraint is a sphere</li>
+<li>The objective is more likely to intersect L1 constraint at an point corner</li>
+<li>At the corners the parameters for some dimensions are 0</li>
+</ul>
+</li>
+<li>Regularization Path<ul>
+<li>Start with very high value of regularization</li>
+<li>Gradually decrease the regularization strength</li>
+<li>The set of parameters that get swept out is known as regularization path</li>
+<li>Performs variable selection</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Elastic Net</p>
+<ul>
+<li>Combination of Ridge and Lasso</li>
+<li>Helpful in dealing with correlated variables</li>
+<li>Estimates of highly correlated variables tend be equal</li>
+</ul>
+</li>
+<li><p>Coordinate Descent</p>
+<ul>
+<li>Basis for glmnet library</li>
+<li>Solve for jth coefficient while all others are fixed</li>
+<li>Cycle through the coordinates</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

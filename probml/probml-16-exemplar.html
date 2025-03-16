@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplar Methods | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Exemplar Methods</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="exemplar-methods">Exemplar Methods</h1>
+<ul>
+<li><p>Non-parametric Models</p>
+<ul>
+<li>Keep the training data around</li>
+<li>Effective number of model parameters grow with |D|</li>
+</ul>
+</li>
+<li><p>Instance-based Learning</p>
+<ul>
+<li>Models keep training examples around test time</li>
+<li>Define similarity between training points and test input</li>
+<li>Assign the label based on the similarity</li>
+</ul>
+</li>
+<li><p>KNN</p>
+<ul>
+<li>Classify the new input based on K closest examples in the training set</li>
+<li>$p(y = c | x, D) = \frac{1}{K} \sum_{i \in N_K(x)} I{y_i=c}$</li>
+<li>The closest point can be computed using Mahalanobis Distance</li>
+<li>$d_M(x,\mu) = \sqrt{(x-\mu)^TM(x-\mu)}$</li>
+<li>M is positive definite matrix</li>
+<li>If M = I, then distance reduces to Euclidean distance</li>
+</ul>
+</li>
+<li><p>Curse of Dimensionality</p>
+<ul>
+<li>Space volume grows exponentially with increase in dimension<ul>
+<li>Suppose inputs are uniformly distributed</li>
+<li>As we move from square to cube, 10% edge covers less region</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Speed and Memory Requirements</p>
+<ul>
+<li>Finding K nearest neighbors slow</li>
+<li>KD Tree / LSH to speed up approximate neighbor calculation<ul>
+<li>KD Tree:<ul>
+<li>K dimensional binary search tree</li>
+</ul>
+</li>
+<li>LSH: Similar objects go to same hash bucket<ul>
+<li>Shingling, Minhash, LSH</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Open Set recognition</p>
+<ul>
+<li>New classes appear at test time<ul>
+<li>Person Re-identification</li>
+<li>Novelty Detection</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Learning Distance Matrix</p>
+<ul>
+<li>Treat M is the distance matrix as a parameter</li>
+<li>Large Margin Nearest Neighbors</li>
+<li>Find M such that<ul>
+<li>$M = W^T W$ (Positive Definite)</li>
+<li>Similar points have minimum distance</li>
+<li>Dissimilar points are at least m units away (margin)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Deep Metric Learning</p>
+<ul>
+<li>Reduce the curse of dimensionality</li>
+<li>Project he input from high dimension space to lower dimension via embedding</li>
+<li>Normalize the embedding</li>
+<li>Compute the distance<ul>
+<li>Euclidean or Cosine, both are related</li>
+<li>$|e_1 - e_2|^2 = |e1|^2 + |e_2|^2 - 2e_1 e_2$</li>
+<li>Euclidean = 2 ( 1 - Cosine)</li>
+<li>$\cos \theta = {a \dot b \over ||a|| ||b||}$</li>
+<li>Derivation via trigonometry <ul>
+<li>$\ cos \theta = a^2 + b ^ 2 - c^2 / 2 a b$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Learn an embedding function such that similar examples are close and dissimar examples are far</li>
+<li>Loss functions:<ul>
+<li>Classification Losses<ul>
+<li>Only learn to push examples on correct side of the decision boundary</li>
+</ul>
+</li>
+<li>Pairwise Loss<ul>
+<li>Simaese Neural Network</li>
+<li>Common Backbone to embed the inputs</li>
+<li>$L(\theta, x_i, x_j) =  I {y_i =y_j} d(x_i, x_j) +  I {y_i \ne y_j} [m - d(x_i, x_j)]_+$</li>
+<li>If same class, minimize the distance</li>
+<li>If different class, maximize the distance with m margin (Hinge Loss)</li>
+</ul>
+</li>
+<li>Triplet Loss<ul>
+<li>In Pairwise Loss: positive and negative examples siloed</li>
+<li>$L(\theta, x_i, x^+, x^-) = [m + d(x_i, x_+) - d(x_i, x_-)]_+$</li>
+<li>Minimize the distance between anchor and positive</li>
+<li>Maximize the distance between anchor and negative</li>
+<li>m is the safety margin</li>
+<li>Need to mine hard negative examples that are close to the positive pairs</li>
+<li>Computationally slow</li>
+<li>Use proxies to represent each class and speed up the training</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Kernel Density Estimation</p>
+<ul>
+<li>Density Kernel<ul>
+<li>Domain: R</li>
+<li>Range: R+</li>
+<li>$\int K(x)dx = 1$</li>
+<li>$K(-x) = K(x)$</li>
+<li>$\int x K(x-x_n) dx = x_n$</li>
+</ul>
+</li>
+<li>Gaussian Kernel<ul>
+<li>$K(x) = {1 \over \sqrt{2\pi}} \exp(-{1\over2}x^2)$</li>
+<li>RBF: Generalization to vector valued inputs</li>
+</ul>
+</li>
+<li>Bandwitdth<ul>
+<li>Parameter to control the width of the kernel</li>
+</ul>
+</li>
+<li>Density Estimation<ul>
+<li>Extend the concept of Gaussian Mixture models to the extreme</li>
+<li>Each point acts as an individual cluster<ul>
+<li>Mean $x_n$ </li>
+<li>Constant variance</li>
+<li>No covariance</li>
+<li>Var-Cov matrix is $\sigma^2 I$</li>
+<li>$p(x|D) = {1 \over N}\sum K_h(x - x_n)$</li>
+<li>No model fitting is required</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>KDE vs KNN<ul>
+<li>KDE and KNN are closely related</li>
+<li>Essentially, in KNN we grow the volume around a point till we encounter K neighbors.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

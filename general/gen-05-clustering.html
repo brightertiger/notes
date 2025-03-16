@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clustering | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Clustering</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="clustering">Clustering</h1>
+<ul>
+<li>Unsupervised learning technique</li>
+<li>Assign similar data points to a single group / cluster</li>
+</ul>
+<h2 id="hierarchical-agglomerative-clustering">Hierarchical Agglomerative Clustering</h2>
+<ul>
+<li>At each step, merge the two most similar groups</li>
+<li>Keep giong unit there is a single group left</li>
+<li>Similarity between groups<ul>
+<li>Single Link: Distance between the two closest members of each group</li>
+<li>Complete Link: Distance between the two farthest members of each group</li>
+<li>Average Link: Average Diatnace between all pairs</li>
+</ul>
+</li>
+</ul>
+<h2 id="k-means-clustering">K-Means Clustering</h2>
+<ul>
+<li><p>Hierarchical Clustering is very slow</p>
+</li>
+<li><p>Algorithm</p>
+<ul>
+<li>Assume there are K (hyperparameter) clusters</li>
+<li>Assign each data point to its nearest cluster center<ul>
+<li>$z_n^* = \arg \min_k ||x_n - \mu_k ||^2$</li>
+</ul>
+</li>
+<li>Update the cluster centers at the end of assignments<ul>
+<li>$\mu_k = {1 \over N_k}\sum_{n: z_n=k} x_n$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Objective</p>
+<ul>
+<li>Minimize distortion</li>
+<li>$L = \sum_{n} ||x_n - \mu_{z_n}||^2$</li>
+</ul>
+</li>
+<li><p>Non-Convex objective, sensitive to intialization</p>
+</li>
+<li><p>Multiple Restarts to control randomness</p>
+</li>
+<li><p>K-Means++ Algorithm</p>
+<ul>
+<li>Pick centers sequentially to cover the data</li>
+<li>Pick initial points randomly</li>
+<li>For subsequent rounds, initialize with points picked with probability proportional to the distance from it&#39;s cluster center</li>
+<li>Points far away from the cluster center are morelikely to picked in subsequent iterations</li>
+</ul>
+</li>
+<li><p>K-Medoids Algorithm</p>
+<ul>
+<li>More robust to outliers</li>
+<li>Dont update the cluster center with mean</li>
+<li>Use average dissimilarity to all other points in the cluster (i.e. medoid)</li>
+<li>$z_n^* = \arg \min d(x_n,\mu_k)$</li>
+<li>$\mu_k^* = \arg \min_n \sum_{n&#39;} d(x_n,x_n&#39;)$</li>
+<li>Point has smallest sum of distances to all other points</li>
+<li>Partitioning around medoid<ul>
+<li>Swap the current medoid center with a non-medoid to see if the cost decreases</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Selecting the number of Clusters</p>
+<ul>
+<li>Minimize Distortion<ul>
+<li>Use a validation dataset</li>
+<li>Select the parameter that minimizes distortion on validation</li>
+<li>But usually it descreases monotonically with number of clusters</li>
+</ul>
+</li>
+<li>Elbow method<ul>
+<li>Rate at which distortion goes down with number of clusters</li>
+</ul>
+</li>
+<li>Silhoutte Coefficient<ul>
+<li>How similar object is to it&#39;s own cluster compared to other clusters</li>
+<li>Measures Compactness</li>
+<li>Given data point i<ul>
+<li>$a_i$ = (Mean distance to observations in own cluster)</li>
+<li>$b_i$ = (Mean Distance ot observations in the next closest cluster)</li>
+</ul>
+</li>
+<li>$S_i = (a_i - b_i) / \max(a_i, b_i)$</li>
+<li>Average the score for all the K clusters</li>
+<li>Ideal value is 1, worst value is -1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>K-Means is a variant of EM</p>
+<ul>
+<li>K-Means assumes that clusters are spherical</li>
+<li>Hard assignment in K-Means vs Soft Assignment in EM</li>
+</ul>
+</li>
+<li><p>Limitations of K-Means:</p>
+<ul>
+<li>Assumes clusters are spherical and equally sized</li>
+<li>Sensitive to outliers (means are affected by extreme values)</li>
+<li>Requires number of clusters (K) to be specified</li>
+<li>May converge to local optima</li>
+<li>Cannot handle non-convex clusters</li>
+<li>Uses Euclidean distance, which may not be appropriate for all data types</li>
+</ul>
+</li>
+<li><p>Interpreting Clustering Results:</p>
+<ul>
+<li>Cluster centers: Represent &quot;prototypical&quot; members of each cluster</li>
+<li>Cluster sizes: Distribution of data across clusters</li>
+<li>Within-cluster variation: Measure of cluster homogeneity</li>
+<li>Between-cluster variation: Measure of cluster separation</li>
+<li>Silhouette score: Combines cohesion and separation metrics</li>
+<li>Visualization: Use dimensionality reduction (PCA, t-SNE) to visualize clusters</li>
+</ul>
+</li>
+</ul>
+<h2 id="spectral-clustering">Spectral Clustering</h2>
+<ul>
+<li>Clusters in a graph</li>
+<li>Find a subgraph<ul>
+<li>Maxmimum number of within cluster connections</li>
+<li>Minimum number of between cluster connections</li>
+</ul>
+</li>
+<li>Calculate degree and adjacency matrix</li>
+<li>Calculate the graph Laplacian $L=D-A$<ul>
+<li>0 if the nodes are not connected</li>
+<li>-1 if the nodes are connected</li>
+</ul>
+</li>
+<li>Second smallest eigenvalue and eigenvector of L gives the best cut for graph partition<ul>
+<li>The smallest value will be zero</li>
+<li>Group the nodes using second smallest eigenvector</li>
+</ul>
+</li>
+<li>Applicable to pairwise similarity matrix<ul>
+<li>Graph Representation<ul>
+<li>Node is the object</li>
+<li>Distance denotes the edge</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="dbscan">DBSCAN</h2>
+<ul>
+<li><p>Density based spatial clustering</p>
+</li>
+<li><p>Clusters are dense regions in space separated by regions with low density</p>
+</li>
+<li><p>Recusrvely expand the cluster based on dense connectivity</p>
+</li>
+<li><p>Can find clusters of arbitrary shape</p>
+</li>
+<li><p>Two parameters:</p>
+<ul>
+<li>$\epsilon$ radius</li>
+<li>mininum # points to be contained in the neighbourhood</li>
+</ul>
+</li>
+<li><p>Core Point</p>
+<ul>
+<li>Point that has mininum # points in $\epsilon$ radius</li>
+</ul>
+</li>
+<li><p>Direct Density Reachble</p>
+<ul>
+<li>Points in $\epsilon$ radius of core point</li>
+</ul>
+</li>
+<li><p>Density Reachable</p>
+<ul>
+<li>Chain connects the two points</li>
+<li>Chain is formed by considering many different core points</li>
+</ul>
+</li>
+<li><p>Border Point</p>
+<ul>
+<li>Point is DDR but not core</li>
+</ul>
+</li>
+<li><p>Expand the clusters recursively by collapsing DR and DDR points</p>
+</li>
+<li><p>Advantages of DBSCAN:</p>
+<ul>
+<li>Does not require specifying number of clusters</li>
+<li>Can find arbitrarily shaped clusters</li>
+<li>Robust to outliers (identifies them as noise)</li>
+<li>Only needs two parameters: epsilon and minimum points</li>
+</ul>
+</li>
+<li><p>Disadvantages of DBSCAN:</p>
+<ul>
+<li>Struggles with varying density clusters</li>
+<li>Selection of parameters can be challenging</li>
+<li>Not efficient for high-dimensional data due to curse of dimensionality</li>
+<li>May have difficulty with datasets where clusters are close to each other</li>
+</ul>
+</li>
+<li><p>Extensions to DBSCAN:</p>
+<ul>
+<li>OPTICS: Ordering points to identify clustering structure</li>
+<li>HDBSCAN: Hierarchical DBSCAN that extracts clusters from varying densities</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

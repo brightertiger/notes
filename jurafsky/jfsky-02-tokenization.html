@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokenization | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tokenization</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="tokenization">Tokenization</h1>
+<h2 id="n-grams">N-Grams</h2>
+<ul>
+<li>Language Models assign probabilities to sequence of words<ul>
+<li>$P(w_1, w_2, ..., w_n)$</li>
+</ul>
+</li>
+<li>Simplify the calculation using chain rule<ul>
+<li>$P(w_1, w_2, ..., w_n) = P(w_1) \times P(w_2 | w_1) \times ... \times P(w_n | w_1 w_2 ... w_{n-1})$</li>
+<li>$P(w_1, w_2, ..., w_n) = \prod_{i=1}^{n} P(w_i | w_{1:i-1})$</li>
+</ul>
+</li>
+<li>Joint probability can be expressed as a product of conditional probabilities<ul>
+<li>Probability of a word given historical context</li>
+<li>$P(w_n | h)$</li>
+</ul>
+</li>
+<li>N-gram refers to a sequence of n words</li>
+<li>N-gram model makes the Markov assumption<ul>
+<li>$P(w | h)$ can be approximated using just the last n-1 words</li>
+</ul>
+</li>
+<li>For example in case of a bigram model<ul>
+<li>$P(w_n | h) \approx P(w_n | w_{n-1})$</li>
+</ul>
+</li>
+<li>Estimate the probabilities using Maximum Likelihood<ul>
+<li>Relative frequency</li>
+<li>$P(w_n | w_{n-1}) = \frac{P(w_{n-1}, w_n)}{\sum_k P(w_{n-1}, w_k)}$</li>
+<li>$P(w_n | w_{n-1}) = \frac{count(w_{n-1}, w_n)}{count(w_{n-1})}$</li>
+</ul>
+</li>
+<li>BOS and EOS tokens to handle the edge cases</li>
+<li>N-gram models apt at capturing syntactic features (noun-verb-adj etc)</li>
+<li>To avoid numerical underflow, overflow problems use log probabilities<ul>
+<li>$p_1 \times p_2 = \exp(\log p_1 + \log p_2)$</li>
+</ul>
+</li>
+</ul>
+<h2 id="perplexity">Perplexity</h2>
+<ul>
+<li>Inverse probability normalized by the length of sequence</li>
+<li>$PP(W) = P(w_1 w_2 ... w_n)^{-\frac{1}{n}}$</li>
+<li>$PP(W) = \sqrt[n]{\prod_{i=1}^{n} \frac{1}{P(w_i | w_{1:i-1})}}$</li>
+<li>Higher the conditional probability, lower is the perplexity</li>
+<li>Weighted average branching factor<ul>
+<li>Branching factor refers to the number of possible words that can follow a particular word</li>
+<li>Lower perplexity means model is more confident in its predictions</li>
+</ul>
+</li>
+<li>Perplexity of LMs comparable only if they use same vocabulary<ul>
+<li>Adding rare words increases perplexity</li>
+</ul>
+</li>
+</ul>
+<h2 id="perplexity-and-entropy">Perplexity and Entropy</h2>
+<ul>
+<li>Entropy is a measure of information<ul>
+<li>Number of bits it takes to encode information (log base 2)</li>
+<li>$H(X) = -\sum_{x} p(x) \log_2(p(x))$</li>
+</ul>
+</li>
+<li>Entropy Rate: Entropy per symbol in a sequence<ul>
+<li>$H(W) = \lim_{n \to \infty} \frac{1}{n}H(w_1, w_2, ..., w_n)$</li>
+</ul>
+</li>
+<li>LMs can potentially consider infinite sequence length<ul>
+<li>$H(W) = -\lim_{n \to \infty} \frac{1}{n} \sum_{w_{1:n}} p(w_{1:n}) \log_2(p(w_{1:n}))$</li>
+<li>$H(W) \approx -\frac{1}{n} \log_2 p(w_{1:n})$</li>
+</ul>
+</li>
+<li>Perplexity relates to entropy: $PP(W) = 2^{H(W)}$<ul>
+<li>Perplexity can be interpreted as the average number of choices the model has when predicting the next word</li>
+</ul>
+</li>
+</ul>
+<h2 id="unknown-words">Unknown Words</h2>
+<ul>
+<li>If probability of a word is zero, the perplexity is not defined.</li>
+<li>Unknown words or OOV words (out of vocab)</li>
+<li>Handle via pre-processing <UNK> token<ul>
+<li>Replace rare words with this token in training corpus</li>
+</ul>
+</li>
+<li>LMs can achieve lower perplexity by selecting smaller vocab size</li>
+</ul>
+<h2 id="smoothing">Smoothing</h2>
+<ul>
+<li>Avoid assigning zero probabilities to unseen sequences</li>
+<li>Laplace Smoothing<ul>
+<li>Add smoothing constants while calculating relative frequencies</li>
+<li>Add 1 to numerator (count)</li>
+<li>Add V to denominator (V is the vocab size) to ensure that probabilities sum up to 1</li>
+<li>$P(w_i) = \frac{\text{count}(w_i) + 1}{N + V}$</li>
+<li>$P(w_i | w_{j}) = \frac{\text{count}(w_i, w_{j}) + 1}{\text{count}(w_{j}) + V}$</li>
+<li>Discount some probability mass from seen phrases and save it for unseen phrases</li>
+<li>Generalization to &quot;Add-k&quot; smoothing (k can be less than 1)</li>
+</ul>
+</li>
+<li>Back-off<ul>
+<li>Use shorter sequences if not enough support for full context</li>
+<li>Use trigram if evidence is sufficient, otherwise use bigram</li>
+<li>$P_{BO}(w_i|w_{i-2}w_{i-1}) = \begin{cases} 
+  P(w_i|w_{i-2}w_{i-1}) &amp; \text{if count}(w_{i-2}w_{i-1}w_i) &gt; 0 \
+  \alpha(w_{i-2}w_{i-1}) \cdot P_{BO}(w_i|w_{i-1}) &amp; \text{otherwise}
+\end{cases}$</li>
+<li>Where α is a normalization factor</li>
+</ul>
+</li>
+<li>Interpolation<ul>
+<li>Mix the probability estimates from all n-grams</li>
+<li>$P(w_i | w_{i-2}w_{i-1}) = \lambda_1 P(w_i) + \lambda_2 P(w_i | w_{i-1}) + \lambda_3 P(w_i | w_{i-2}w_{i-1})$</li>
+<li>λ values sum to 1, typically learned from held-out data</li>
+</ul>
+</li>
+<li>Kneser-Ney Smoothing<ul>
+<li>State-of-the-art n-gram smoothing technique</li>
+<li>Uses absolute discounting with a sophisticated back-off distribution</li>
+<li>$P_{KN}(w_i | w_{i-1}) = \frac{\max(c(w_{i-1}w_i) - d, 0)}{\sum_v c(w_{i-1}v)} + \lambda(w_{i-1})P_{continuation}(w_i)$</li>
+<li>Where d is discount (typically 0.75) and P_continuation captures how likely word appears in new contexts</li>
+</ul>
+</li>
+</ul>
+<h2 id="efficiency">Efficiency</h2>
+<ul>
+<li>Reduce memory footprint</li>
+<li>Quantization for probabilities</li>
+<li>Reverse Tries for N-grams</li>
+<li>String Hashing</li>
+<li>Bloom filters</li>
+<li>Stupid Backoff</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Additive Models | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Additive Models</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="additive-models">Additive Models</h1>
+<h2 id="generalized-additive-models">Generalized Additive Models</h2>
+<ul>
+<li>Linear models fail to capture non-linear trends</li>
+<li>Additive models an alternative<ul>
+<li>$g[\mu(X)] = \alpha + f(X_1) + f(X_2)....$</li>
+<li>$f(x)$ are non-parametric smoothing functions (say cubic splines)</li>
+<li>$\mu(x)$ is the conditional mean</li>
+<li>$g(x)$ is the link functions<ul>
+<li>identity, logit, log-linear etc.\</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Estimation using Penalized Sum Squares (PRSS)</li>
+<li>The coefficients of the regression are replaced with a flexible function (say spline)<ul>
+<li>Allows for modeling non-linear relationships</li>
+</ul>
+</li>
+</ul>
+<h2 id="tree-based-methods">Tree-based Methods</h2>
+<ul>
+<li>Partition the feature space into rectangels and fit a simple model in each partition</li>
+<li>Regression Setting</li>
+<li>$f(X) = \sum c_i I{X \in R_i}$</li>
+<li>$c_m = ave(y_i | X_i \in R_m)$</li>
+<li>Greedy Algorithms to find best splits<ul>
+<li>$R_1 = {X | X_j \le s}; ; R_2 = {X | X_j &gt; s}$\</li>
+<li>$\min_{j,s} \min \sum (y_i - c_i)^2 I{X \in R_i}$</li>
+</ul>
+</li>
+<li>Tree size is a hyperparameter</li>
+<li>Pruning<ul>
+<li>Option-1<ul>
+<li>Split only if delta is greater than some threshold</li>
+<li>Short Sighted, the node may lead to a better split down the line\</li>
+</ul>
+</li>
+<li>Option 2<ul>
+<li>Grow the tree to full saize (say depth 5)</li>
+<li>$N_m$ # of observations in m&#39;th node</li>
+<li>$C_m = \sum y_i / N_m$</li>
+<li>$Q_m = {1 \over N_m }\sum (y_i - C_m)^2$</li>
+<li>Cost-Complexity Pruning</li>
+<li>$C = \sum_T N_m Q_m(T) + \alpha |T|$</li>
+<li>$\alpha$ governs the trade-off, large value leads to smaller trees</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Classification Setting</li>
+<li>$p_{mk} = {1 \over N_m}\sum_{R_m} I{y_i = k}$</li>
+<li>Splitting Criteria<ul>
+<li>Miss-classification Error: $1 - \hat p_{mk}$</li>
+<li>Gini Index: $\sum_K p_{mk}(1 - \hat p_{mk})$<ul>
+<li>Probability of miscalssification</li>
+<li>Variance of Binomial Distribution</li>
+</ul>
+</li>
+<li>Cross-Entropy: $- \sum_K p_{mk} \log (p_{mk})$</li>
+<li>Gini Index and Cross Entropy more sensitive to node probabilities</li>
+</ul>
+</li>
+<li>Splitting categorical variable<ul>
+<li>N levels, $2^{N-1} - 1$ possible paritions</li>
+<li>Order the categories by proportion</li>
+<li>Treat the variable as continuous</li>
+</ul>
+</li>
+<li>Missing Values<ul>
+<li>Create a new level within the original corresponding to missing observations</li>
+<li>Create a surrogate variable for missing values<ul>
+<li>Split by non-missing values</li>
+<li>Leverage the correlation between predictors and surrogates to minimize loss of information</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Evaluation<ul>
+<li>$L_{xy} =$ Loss for predicting class x obkect as k</li>
+<li>$L_{00}, L_{11} = 0$</li>
+<li>$L_{10} =$ False Negative</li>
+<li>$L_{01} =$ False Positive</li>
+<li>Sentitivity:<ul>
+<li>Prediciting disease as disease (Recall)</li>
+<li>TP / TP + FN</li>
+<li>$L_{11} / (L_{11} + L_{10})$</li>
+</ul>
+</li>
+<li>Specificity:<ul>
+<li>Predicting non-disease as non-disease<ul>
+<li>TN / TN + FP</li>
+<li>$L_{00} / (L_{00} + L_{01})$\</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AUC-ROC<ul>
+<li>How Sentitivity (y) and Specificty (x) vary with thresholds</li>
+<li>Area under ROC Curve is the C-statistic</li>
+<li>Equivalent to Mann-Whitney U Test, Wilcoxin rank-sum test</li>
+<li>Median Difference in prediction scores for two groups</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>MARS<ul>
+<li>High dimension regression</li>
+<li>Piece-wise Linear basis Functions</li>
+<li>Analogous to deision tree splits</li>
+<li>Can handle interactions</li>
+</ul>
+</li>
+</ul>
+<h2 id="prim">PRIM</h2>
+<ul>
+<li>Patient Rule Induction Method</li>
+<li>Boxes with high response rates</li>
+<li>Non-tree partitioning structure</li>
+<li>Start with a large box and<ul>
+<li>Peeling: compress the side that gives the largest mean</li>
+<li>Pasting: expand the bix dimensions that gives the largest mean</li>
+</ul>
+</li>
+</ul>
+<h2 id="mixture-of-experts">Mixture of Experts</h2>
+<ul>
+<li>Tree splits are not hard decisions but soft probabilities</li>
+<li>Terminal nodes are called experts<ul>
+<li>A linear model is fit in each terminal node</li>
+</ul>
+</li>
+<li>Non-terminal nodes are called gating networks</li>
+<li>The decision of experts is combined by gating networks</li>
+<li>Estimation via EM Algorithm</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regression | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Regression</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="regression">Regression</h1>
+<h2 id="bi-variate-regression">Bi-variate Regression</h2>
+<ul>
+<li>Fit a straight line to data<ul>
+<li>How the conditional mean of response variable changes with change in explanatory variables</li>
+<li>Minimize SSE: $\sum (y - \hat y)^2$</li>
+<li>$E(y|x) = \hat y = a + bx$</li>
+<li>$a = \bar y - b \bar x$</li>
+<li>$b = S_{xy} / S_{xx} = \sum (x-\bar x)(y - \bar y) / \sum (x - \bar x)^2$</li>
+</ul>
+</li>
+<li>Outlier: If a point lies far off from the rest of the data</li>
+<li>Influential: If a point causes large change in slope of the fitted line</li>
+<li>Variance<ul>
+<li>Assume constant variance (homoscedasticity)</li>
+<li>$s = \sqrt{SSE \over (n-p)}$</li>
+</ul>
+</li>
+<li>Correlation<ul>
+<li>Strength of linear association</li>
+<li>$r = \frac{\sum{(x - \bar x)(y - \bar y)}}{\sqrt{(x - \bar x)^2} \sqrt{(y - \bar y)^2}}$</li>
+<li>$r = (s_x / s_y) b$<ul>
+<li>In case of standardized variables, r = b</li>
+<li>Regression towards mean<ul>
+<li>$|r| &lt;= 1$</li>
+<li>Line passes thourgh $(\bar x, \bar y)$</li>
+<li>A unit increase in x leads to r increase in y</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>R-Square<ul>
+<li>Coefficient of determination</li>
+<li>$R^2 = (TSS - SSE) / TSS$</li>
+<li>$SSE = \sum(y - \hat y)^2$</li>
+<li>$TSS = \sum(y - \bar y)^2$</li>
+<li>Squared correlation coefficient</li>
+</ul>
+</li>
+<li>Statistical Significance<ul>
+<li>$t = b / se$</li>
+<li>$se = s / \sqrt{S_{xx}}$</li>
+<li>$s = \sqrt{SSE / (n-2)}$</li>
+<li>$t^2 = F = \frac{r^2 / (2-1)}{1-r^2 / n - 2}$</li>
+</ul>
+</li>
+</ul>
+<h2 id="multivariate-regression">Multivariate Regression</h2>
+<ul>
+<li>Types of relationships<ul>
+<li>Spurious: Both variables jointly affected by a third variable</li>
+<li>Mediator: An intervening third variable indirectly affects the two variables</li>
+<li>Suppressor: Association only exists after controlling for a third variable</li>
+</ul>
+</li>
+<li>Extending regression to multiple explanatory variables<ul>
+<li>$E(y|x) = \hat y = a + b_1 x_1 + b_2 x_2$</li>
+<li>b1 is the relationship between y and x1 after controlling for all other variables (x2)</li>
+<li>b1 is the partial regression coefficient</li>
+<li>It represents first order partial correlation</li>
+<li>$r_{yx_1.x_2}= (R^2 - r^2_{yx_2}) / (1 - r^2_{yx_2})$</li>
+</ul>
+</li>
+<li>Partial Regression Plots<ul>
+<li>True association between x1 and y after controlling for x2</li>
+<li>Regress y on x2: $\hat y = a&#39; + b&#39;x_2$</li>
+<li>Regress x1 on x2: $\hat x_1 = a&#39;&#39; + b&#39;&#39; x_2$</li>
+<li>Plot the residuals from first regression against the second.</li>
+</ul>
+</li>
+<li>Statistical Significance<ul>
+<li>Collective Influence<ul>
+<li>F Test</li>
+<li>$F = \frac{R^2 / p-1}{(1 - R^2) / (n-p)}$</li>
+</ul>
+</li>
+<li>Individual Influence<ul>
+<li>t test</li>
+<li>$t = \beta / se$</li>
+<li>$s = \sqrt{SSE / n-p}$</li>
+</ul>
+</li>
+<li>Comparing Two Models<ul>
+<li>Complete Model: With all the variables</li>
+<li>Reduced Model: Dropping some of the variables</li>
+<li>$F = \frac{(SSE_r - SSE_c)/(df_c - df_r)}{SSE_c / df_c}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ANOVA<ul>
+<li>Total $SST = \sum (y - \bar y)^2, ; df = n-1$</li>
+<li>Regression $SSR = \sum (\hat y - \bar y)^2, ; df = p-1$</li>
+<li>Error $SSE = \sum (y - \hat y)^2, ; df = n-p$</li>
+<li>$F = MSR / MSE = (SSR / df) / (SSE / df)$</li>
+</ul>
+</li>
+<li>Bonferroni Correction<ul>
+<li>Multiple comparisons</li>
+<li>Significance Level // # of comparisons</li>
+</ul>
+</li>
+</ul>
+<h2 id="logistic-regression">Logistic Regression</h2>
+<ul>
+<li>S-shaped curve to model binary response variable</li>
+<li>Models underlying probability as CDF of logistic distribution<ul>
+<li>$P(y=1) = \frac{\exp(x \beta)}{1 + \exp(x \beta)}$</li>
+</ul>
+</li>
+<li>Log-odds ratio modeled as linear function of features<ul>
+<li>$\log{\frac{P(y=1)}{1- P(y=1)}} = \alpha + \beta x$</li>
+<li>Logit link function</li>
+</ul>
+</li>
+<li>Interpreting Logistic Regression Model<ul>
+<li>The coefficients denote odds ratio</li>
+<li>$\exp \beta$ is the odds ratio wrt of x</li>
+</ul>
+</li>
+<li>Propensity Scores<ul>
+<li>Adjust for selection bias in comparing two groups<ul>
+<li>Smokers and treatment impact on Death. Treatment is more prevalant in smokers\</li>
+</ul>
+</li>
+<li>Control for confounding variables when computing ATE (average treatment effect)</li>
+<li>Propensity is the probability of being in a particular group for a given setting of explanatory variable</li>
+<li>Can be computed using conditional probabilities but difficult to estimate in high-dimension</li>
+<li>Use logistic regression to estimate how propensity depends on explanatory variables</li>
+<li>Use propensity score to do pair matching (weighted random sampling using proensity scores)</li>
+</ul>
+</li>
+<li>Likelihood Ratio Test<ul>
+<li>Compare two models</li>
+<li>Probability of observed data as a function of parameters</li>
+<li>Likelihood Ratio: $-2 (\log l_0 - \log l_1)$ follows chi-squared distribution</li>
+</ul>
+</li>
+<li>Wald Statistic<ul>
+<li>Square of Z-stat: $\beta / se$</li>
+</ul>
+</li>
+<li>Ordinal Response (ordered categories):<ul>
+<li>Setup the problem as one of cumulative logits</li>
+<li>$P(y \le 2) = P(y=1) + P(y=2)$</li>
+</ul>
+</li>
+<li>Nominal Response (unordered categories):<ul>
+<li>One-vs-Rest setup: One model per class</li>
+<li>One-vs-One setup: One model per pair of classes</li>
+</ul>
+</li>
+</ul>
+<h2 id="regression-diagnostics">Regression Diagnostics</h2>
+<ul>
+<li>Residual Analysis:<ul>
+<li>Residual plots: Check for patterns in residuals vs. fitted values</li>
+<li>Q-Q plots: Assess normality of residuals</li>
+<li>Scale-location plots: Check homoscedasticity assumption</li>
+<li>Residuals vs. leverage: Identify influential observations</li>
+</ul>
+</li>
+<li>Multicollinearity:<ul>
+<li>Variance Inflation Factor (VIF): $VIF_j = \frac{1}{1-R_j^2}$</li>
+<li>$R_j^2$ is the R-squared from regressing the jth predictor on all other predictors</li>
+<li>VIF &gt; 10 indicates problematic multicollinearity</li>
+<li>Remedies: Remove variables, principal components regression, ridge regression</li>
+</ul>
+</li>
+<li>Influential Observations:<ul>
+<li>Cook&#39;s distance: Measures effect of deleting observations</li>
+<li>DFBETA: Change in coefficient estimates when observation is removed</li>
+<li>Leverage (hat values): Potential to influence the fit</li>
+<li>High leverage + high residual = influential point</li>
+</ul>
+</li>
+<li>Model Selection:<ul>
+<li>Akaike Information Criterion (AIC): $AIC = 2k - 2\ln(L)$</li>
+<li>Bayesian Information Criterion (BIC): $BIC = k\ln(n) - 2\ln(L)$</li>
+<li>Adjusted R-squared: $R_{adj}^2 = 1 - \frac{(1-R^2)(n-1)}{n-p-1}$</li>
+<li>Where k is number of parameters, L is likelihood, n is sample size, p is number of predictors</li>
+</ul>
+</li>
+</ul>
+<h2 id="advanced-regression-techniques">Advanced Regression Techniques</h2>
+<ul>
+<li>Ridge Regression:<ul>
+<li>Adds L2 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||^2$</li>
+<li>Shrinks coefficients towards zero but doesn&#39;t eliminate variables</li>
+<li>Particularly useful for multicollinearity</li>
+</ul>
+</li>
+<li>Lasso Regression:<ul>
+<li>Adds L1 penalty to objective: $\min_\beta ||y - X\beta||^2 + \lambda||\beta||_1$</li>
+<li>Can shrink coefficients exactly to zero (feature selection)</li>
+<li>Works well for high-dimensional sparse data</li>
+</ul>
+</li>
+<li>Elastic Net:<ul>
+<li>Combines L1 and L2 penalties: $\min_\beta ||y - X\beta||^2 + \lambda_1||\beta||_1 + \lambda_2||\beta||^2$</li>
+<li>Balances feature selection and coefficient shrinkage</li>
+</ul>
+</li>
+<li>Quantile Regression:<ul>
+<li>Models conditional quantiles instead of conditional mean</li>
+<li>Robust to outliers and heteroscedasticity</li>
+<li>Provides more complete picture of relationship between variables</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

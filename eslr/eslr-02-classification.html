@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classification | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Classification</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="classification">Classification</h1>
+<h2 id="decision-boundary">Decision Boundary</h2>
+<ul>
+<li>Classificaiton approach is to learn a discriminant function $\delta_k(x)$ for each class<ul>
+<li>Classify x to the class with largest discriminant value</li>
+</ul>
+</li>
+<li>The decision boundary is linear if<ul>
+<li>$\delta_k(x)$ is linear</li>
+<li>Posterior prbability is linear $P(G=k|X=x)$</li>
+<li>Their monotonic transformation is linear</li>
+</ul>
+</li>
+<li>Linear Decision Boundary: $f_k(x) = \beta_{0k} + \beta_k x$</li>
+<li>Decision Boundary between two classes (k, l) is the set of points where $f_k(x) = f_l(x)$<ul>
+<li>${x : (\beta_{0k} - \beta_{0l}) + (\beta_k - \beta_l) x = 0}$</li>
+<li>Affine set or a hyperplane</li>
+</ul>
+</li>
+<li>Example: Binary Logistic Regression<ul>
+<li>$P({G=1 \over X=x}) = \frac{\exp(\beta x)}{1 + \exp(\beta x)}$</li>
+<li>$P({G=0\over X=x}) = \frac{1}{1 + \exp(\beta x)}$</li>
+<li>$\log({P(G=1 | X=x) \over p(G=0 | X=x)}) = x \beta$</li>
+<li>Log-odds transformation gives linear decision boundary</li>
+<li>Decsion boundary is the set of points ${x| \beta x = 0}$</li>
+</ul>
+</li>
+</ul>
+<h2 id="linear-probability-model">Linear Probability Model</h2>
+<ul>
+<li>Encode each of the k classes with an indicator function $Y_{N \times K}$</li>
+<li>Fit a regression model to each of the classes simulatneously<ul>
+<li>$\hat \beta = (X&#39;X)^{-1}(X&#39;Y)$</li>
+<li>$\hat Y = X \hat \beta$</li>
+</ul>
+</li>
+<li>Drawbacks<ul>
+<li>Predictions can be outside range (0,1)</li>
+<li>Classes can be masked by others<ul>
+<li>Large number of classes with small number of features</li>
+<li>Possible that one of the classes (say 2) gets dominated thoughout by the other classes (1,3)</li>
+<li>The model will never predict for class 2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="linear-and-quadratic-discriminant-analysis">Linear and Quadratic Discriminant Analysis</h2>
+<ul>
+<li>Bayes theorem<ul>
+<li>posterior $\propto$ prior x likelihood</li>
+<li>$P(G = k | X= x) = \frac{f_k(x) \times \pi_k}{\sum_k f_k(x) \times \pi_k}$</li>
+<li>$f_k(x)$ is the discriminant function</li>
+<li>$\pi_k$ is the prior estimate</li>
+</ul>
+</li>
+<li>Naive Bayes assumes each of the class densities are product of marginal densities.<ul>
+<li>Inputs are conditionally independent of each class</li>
+</ul>
+</li>
+<li>LDA (and QDA) assumes the discriminant function to have MVN probability density function</li>
+<li>LDA makes the assumption that the covariance martix (for MVN) is common for all the classes</li>
+<li>Discrimination Function<ul>
+<li>$f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp{(X - \mu)^T \Sigma^{-1} (X - \mu)}$</li>
+</ul>
+</li>
+<li>Decision Boundary<ul>
+<li>$\log(\frac{P(G=k | X=x)}{P(G=l | X=x)}) = C + X^T \Sigma^{-1}(\mu_k - \mu_l)$</li>
+<li>Linear in X</li>
+<li>The constant terms can be grouped together because of common covariance matrix</li>
+</ul>
+</li>
+<li>Estimation<ul>
+<li>$\pi_k = N_k / N$</li>
+<li>$\mu_k = \sum_{i \in K} x_i / N_k$</li>
+<li>$\Sigma = \sum_k \sum_{i \in K} (x_i - \mu_k)^T(x_i - \mu_k) / N_k$</li>
+</ul>
+</li>
+<li>QDA relaxes the assumtion of contant covariance matrix<ul>
+<li>It assumes a class specific covariance matrix</li>
+<li>Discrimination function becomes quadratic in x</li>
+<li>The number of parameters to be estimated grows considerably</li>
+</ul>
+</li>
+<li>Regularization<ul>
+<li>Compromise between LDA and QDA</li>
+<li>Shrink the individual covariances of QDA towards LDA</li>
+<li>$\alpha \Sigma_k + (1 - \alpha) \Sigma$</li>
+</ul>
+</li>
+<li>Computation<ul>
+<li>Simplify the calculation by using eigen decomposition of the covariance matrix $\Sigma$</li>
+</ul>
+</li>
+</ul>
+<h2 id="logistic-regression">Logistic Regression</h2>
+<ul>
+<li>Model posterior probabilities via separate functions while ensuring the output remains in the range [0,1]<ul>
+<li>$P({G=1 \over X=x}) = \frac{\exp(\beta x)}{1 + \exp(\beta x)}$</li>
+<li>$P({G=0\over X=x}) = \frac{1}{1 + \exp(\beta x)}$</li>
+</ul>
+</li>
+<li>Estimation is done by maximizing conditional log-likelihood<ul>
+<li>$LL(\beta) = \sum y_i(\log(p(x_i, \beta)) + (1 - y_i) (1 - \log(p(x_i, \beta))$</li>
+<li>$LL(\beta) = \sum y (x \beta) + \log(1 + \exp x \beta)$</li>
+<li>Normal Equation<ul>
+<li>$\frac{\delta LL}{\delta \beta} = \sum x_i (y_i - p(x_i, \beta)) = 0$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="optimization-----non-linear-function-of-parameters-----use-newton-raphson-method-----seond-order-derivative-or-hessian">Optimization
+-   Non-linear function of parameters
+-   Use Newton-Raphson method
+-   Seond Order Derivative or Hessian</h2>
+<pre><code>-   $\frac{\delta^2 LL}{\delta \beta^2} = \sum x_i x_i^T p(x_i, \beta) (1 - p(x_i, \beta))$
+</code></pre>
+<ul>
+<li>The second order derivative is positive, hence it&#39;s a convex optimization problem</li>
+<li>IRLS (Iteratively Weighted Least Squares) algorithm</li>
+</ul>
+</li>
+<li>Goodness of Fit<ul>
+<li>Deviance = $-2 (\log L_M - \log L_S)$</li>
+<li>L(M): LL of Current Model</li>
+<li>L(S) LL of Saturated Model<ul>
+<li>Model that perfectly fits the data, Constant for a given dataset</li>
+</ul>
+</li>
+<li>Compare two different models by looking at change in deivance</li>
+</ul>
+</li>
+<li>Regularization<ul>
+<li>Lasso penalties can be added to the objective function</li>
+<li>Intercept term isn&#39;t penalized</li>
+</ul>
+</li>
+</ul>
+<h2 id="comparison-between-lda-and-logistic-regression">Comparison between LDA and Logistic Regression</h2>
+<ul>
+<li>Both Logistic and LDA return linear decision boundaries</li>
+<li>Difference lies in the way coefficients are estimated</li>
+<li>Logistic Regression makes less stringent assumptions<ul>
+<li>LR maximizes conditional log-likelihood</li>
+<li>LDA maximizes full log-likelihood (i.e. joint desnity)</li>
+</ul>
+</li>
+<li>LDA makes more restrictive assumptions about the distributions<ul>
+<li>Efficiency is estimation</li>
+<li>Less robust to outliers</li>
+</ul>
+</li>
+</ul>
+<h2 id="percepton-learning-algorithm">Percepton Learning Algorithm</h2>
+<ul>
+<li>Minimize the distance of missclassified points to the separating hyperplane</li>
+<li>$D(\beta) = - \sum y (x^T \beta)$</li>
+<li>Use SGD to estimate the parameters</li>
+<li>When the data is separable, there are many solutions that exist. The final convergence depends on the initialization.</li>
+<li>When data isn&#39;t separable, there is no convergence.</li>
+</ul>
+<h2 id="maximum-margin-classifiers">Maximum Margin Classifiers</h2>
+<ul>
+<li>Maximize the distance of of points from either class to the hyperplane.</li>
+<li>$L = \max_{\beta, ||\beta|| = 1} M , , \text{subject to} , y_i \times x_i \beta &gt;= M , \forall , i \in N$</li>
+<li>The final parameters can be arbitrarily scaled.</li>
+<li>$L = \max {1 \over 2}||\beta||^2 , , \text{subject to} , y_i \times x_i \beta &gt;= 1 , \forall , i \in N$</li>
+<li>Lagrangian Multiplier</li>
+<li>$L = \max {1 \over 2}||\beta||^2 - \sum \alpha_i (y_i \times x_i \beta) - 1)$</li>
+<li>Taking derivative wrt to $\beta$<ul>
+<li>$\beta = \sum \alpha_i y_i x_i$</li>
+<li>Parameter is a linear combination of points where the constraints are active $\alpha_i &gt; 0$</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

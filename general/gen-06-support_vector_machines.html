@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Vector Machines | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Support Vector Machines</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="support-vector-machines">Support Vector Machines</h1>
+<h2 id="linear-svm">Linear SVM</h2>
+<ul>
+<li>Classification setting</li>
+<li>Find the maximum-margin hyperplane that can separate the data</li>
+<li>Best hyperplane is the one that maximizes the margin<ul>
+<li>Margin the distance of the hyperplane to closest data points from both classes</li>
+<li>Hyperplane: $H : wx +b = 0$</li>
+</ul>
+</li>
+<li>Distance of a point (x) to a hyperplane (h):<ul>
+<li>$d = \frac{|Wx + b|}{||W||}$</li>
+</ul>
+</li>
+<li>Margin is defined by the point closest to the hyperplane<ul>
+<li>$\gamma(W,b) = \min_{x \in D} \frac{|Wx + b|}{||W||^2}$</li>
+<li>Margin is scale invariant</li>
+</ul>
+</li>
+<li>SVM wants to maximize this margin<ul>
+<li>For margin to be maximized, hyperplane must lie right in the middle of the two classes</li>
+<li>Otherwise it can be moved towards data points of the class that is further away and be further increased</li>
+</ul>
+</li>
+<li>Mathematics<ul>
+<li>Binary Classification<ul>
+<li>$y_i \in {+1,-1}$</li>
+</ul>
+</li>
+<li>Need to find a separating hyperplane such that<ul>
+<li>$(Wx_i + b) &gt; 0 ; \forall ; y_i = +1$</li>
+<li>$(Wx_i + b) &lt; 0 ; \forall ; y_i = -1$</li>
+<li>$y_i(Wx_i + b) &gt; 0$</li>
+</ul>
+</li>
+<li>SVM posits that the best hyperplane is the one that maximizes the margin<ul>
+<li>Margin acts as buffer which can lead to better generalization</li>
+</ul>
+</li>
+<li>Objective<ul>
+<li>$\max_{W,b} \gamma(W,b) ; \text{subject to} ; y_i(Wx_i + b) &gt; 0$</li>
+<li>$\max_{W,b} \min_{x \in D} \frac{|Wx + b|}{||W||^2} ; \text{subject to} ; y_i(Wx_i + b) &gt; 0$</li>
+<li>A max-min optimization problem</li>
+</ul>
+</li>
+<li>Simplification<ul>
+<li>The best possible hyperplace is scale invariant</li>
+<li>Add a constraint such that $|Wx +b| = 1$</li>
+</ul>
+</li>
+<li>Updated objective<ul>
+<li>$\max \frac{1}{||W||^2} ; \text{subject to} ; y_i(Wx_i + b) \ge 0 ; ; |Wx +b| = 1$</li>
+<li>$\min ||W||^2 ; \text{subject to} ; y_i(Wx_i + b) \ge 0 ; ; |Wx +b| = 1$</li>
+</ul>
+</li>
+<li>Combining the contraints<ul>
+<li>$y_i(Wx_i + b) \ge 0; ; |Wx +b| = 1 \implies y_i(Wx_i + b) \ge 1$</li>
+<li>Holds true because the objective is trying to minimize W</li>
+</ul>
+</li>
+<li>Final objective<ul>
+<li>$\min ||W||^2 ; \text{subject to} ; y_i(Wx_i + b) \ge 1$\</li>
+</ul>
+</li>
+<li>Quadratic optimization problem<ul>
+<li>Can be solved quickly unlike regression which involves inverting a large matrix</li>
+<li>Gives a unique solution unlike perceptron</li>
+</ul>
+</li>
+<li>At the optimal solution, some training points will lie of the margin<ul>
+<li>$y_i(Wx_i + b) = 1$</li>
+<li>These points are called support vectors</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Soft Constraints<ul>
+<li>What if the optimization problem is infeasible?<ul>
+<li>No solution exists</li>
+</ul>
+</li>
+<li>Add relaxations i.e. allow for some misclassification<ul>
+<li>Original: $y_i(Wx_i + b) \ge 1$</li>
+<li>Relaxed: $y_i(Wx_i + b) \ge 1 - \xi_i ; ; \xi_i &gt; 0$</li>
+<li>$\xi_i = \begin{cases} 1 - y_i(Wx_i + b), &amp; \text{if } y_i(Wx_i + b) &lt; 1\0, &amp; \text{otherwise} \end{cases}$</li>
+<li>Hinge Loss $\xi_i = \max (1 - y_i(Wx_i + b), 0)$</li>
+</ul>
+</li>
+<li>Objective: $\min ||W||^2 + C \sum_i \max (1 - y_i(Wx_i + b), 0)$<ul>
+<li>C is the regularization parameter that calculates trade-off</li>
+<li>High value of C allows for less torelance on errors</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Duality<ul>
+<li>Primal problem is hard to solve</li>
+<li>Convert the problem to a Dual, which is easier to solve and also provides near-optimal solution to primal</li>
+<li>The gap is the optimality that arises in this process is the duality gap</li>
+<li>Lagrangian multipliers determine if strong suality exists</li>
+<li>Convert the above soft-margin SVM to dual via Lagrangian multipliers</li>
+<li>$\sum \alpha_i + \sum\sum \alpha_i \alpha_j y_i y_j x_i^T x_j$</li>
+<li>$\alpha$ is the Lagrangian multiplier</li>
+</ul>
+</li>
+<li>Kernelization<ul>
+<li>Say the points are not separable in lower dimension<ul>
+<li>Transform them via kernels to project them to a higher dimension</li>
+<li>The points may be separable the higher dimension</li>
+<li>Non-linear feature transformation</li>
+<li>Solve non-linear problems via Linear SVM</li>
+</ul>
+</li>
+<li>Polynomial Kernel<ul>
+<li>$K(x_i, x_j) = (x_i^T x_j + c)^d$</li>
+<li>The d regers to the degree of the polynomial</li>
+<li>Example: 2 points in 1-D (a and b) transformerd via second order polynomial kernel<ul>
+<li>$K(a,b) = (ab + 1)^2 = 2ab+ a^2b^2 + 1 = (\sqrt{2a}, a, 1)(\sqrt{2b}, b, 1)$</li>
+</ul>
+</li>
+<li>Calculates similarity between points in higher dimension</li>
+</ul>
+</li>
+<li>RBF Kernel<ul>
+<li>$K(x_i, x_j) = \exp {\gamma |x_i - x_j|^2}$</li>
+<li>The larger the distance between two observations, the less is the similarity</li>
+<li>Radial Kernel determines how much influence each observation has on classifying new data points\</li>
+<li>Transforms points to an infinite dimension space<ul>
+<li>Tayloy Expansion of exponential term shows how RBF is a polynomial function with inifnite dimensions</li>
+</ul>
+</li>
+<li>2 points in 1-D (a and b) transformerd via RBF<ul>
+<li>$K(a,b) = (1, \sqrt{\frac{1}{1!}}a, \sqrt{\frac{1}{2!}}a^2...)(1, \sqrt{\frac{1}{1!}}b, \sqrt{\frac{1}{2!}}b^2...)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Kernel Trick<ul>
+<li>Transforming the original dataset via Kernels and training SVM is expensive</li>
+<li>Convert Dot-products of support vectors to dot-products of mapping functions</li>
+<li>$x_i^T x_j \implies \phi(x_i)^T \phi(x_j)$</li>
+<li>Kernels are chosen in a way that this is feasible</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SVM For Regression<ul>
+<li>Margins should cover all data points (Hard) or most data points (Soft)</li>
+<li>The boundary now lies in the middle of the margins<ul>
+<li>The regression model to estimate the target values</li>
+</ul>
+</li>
+<li>The objective is to minimize the the distance of the points to the boundary</li>
+<li>Hard SVM is sensitive to outliers</li>
+</ul>
+</li>
+</ul>
+<h2 id="kernel-selection">Kernel Selection</h2>
+<ul>
+<li><p>Choosing the right kernel:</p>
+<ul>
+<li>Linear kernel: $K(x_i, x_j) = x_i^T x_j$<ul>
+<li>Efficient for high-dimensional data</li>
+<li>Works well when number of features exceeds number of samples</li>
+<li>Simplest kernel with fewest hyperparameters</li>
+</ul>
+</li>
+<li>Polynomial kernel: $K(x_i, x_j) = (x_i^T x_j + c)^d$<ul>
+<li>Good for normalized training data</li>
+<li>Degree d controls flexibility (higher d = more complex decision boundary)</li>
+<li>Can capture feature interactions</li>
+</ul>
+</li>
+<li>RBF/Gaussian kernel: $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$<ul>
+<li>Most commonly used non-linear kernel</li>
+<li>Works well for most datasets</li>
+<li>Gamma parameter controls influence radius (higher gamma = more complex boundary)</li>
+</ul>
+</li>
+<li>Sigmoid kernel: $K(x_i, x_j) = \tanh(\alpha x_i^T x_j + c)$<ul>
+<li>Similar to neural networks (hyperbolic tangent activation)</li>
+<li>Less commonly used in practice</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Cross-validation should be used to select the optimal kernel and hyperparameters</p>
+</li>
+</ul>
+<h2 id="svm-hyperparameter-tuning">SVM Hyperparameter Tuning</h2>
+<ul>
+<li>C parameter (regularization strength):<ul>
+<li>Controls trade-off between maximizing margin and minimizing training error</li>
+<li>Smaller C: Wider margin, more regularization, potential underfitting</li>
+<li>Larger C: Narrower margin, less regularization, potential overfitting</li>
+</ul>
+</li>
+<li>Gamma parameter (for RBF kernel):<ul>
+<li>Controls influence radius of support vectors</li>
+<li>Smaller gamma: Larger radius, smoother decision boundary</li>
+<li>Larger gamma: Smaller radius, more complex decision boundary</li>
+</ul>
+</li>
+<li>Practical suggestions:<ul>
+<li>Start with RBF kernel, grid search over C and gamma</li>
+<li>Try logarithmic scale for both C and gamma (e.g., 0.001, 0.01, 0.1, 1, 10, 100)</li>
+<li>Use cross-validation to evaluate performance</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

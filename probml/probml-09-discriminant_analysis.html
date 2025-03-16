@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discriminant Analysis | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Discriminant Analysis</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="discriminant-analysis">Discriminant Analysis</h1>
+<ul>
+<li><p>Generative Models specify a way to generate features for each class</p>
+<ul>
+<li>$p(y = c |x, \theta) \propto p(x | y = c, \theta) \times p(y = c)$</li>
+<li>$p(x | y, \theta)$ is the class conditional density</li>
+<li>$p(y)$ is the prior over class labels</li>
+</ul>
+</li>
+<li><p>Discriminative Models estimate the posterior class probability</p>
+<ul>
+<li>$p(y | x, \theta)$</li>
+</ul>
+</li>
+<li><p>Gaussian Discriminant Analysis</p>
+<ul>
+<li>Class Conditional Densities are multivariate Gaussians</li>
+<li>$p(x | y=c, \theta) = N(\mu_c, \Sigma_c)$</li>
+<li>$\log p(y = c | x, \theta )$ will be quadratic in $\mu_c$, $\Sigma_c$ (QDA)</li>
+<li>If the covariance matrices are shared across class labels, the decision boundary will become linear in $\mu_c$ (LDA)</li>
+<li>LDA can be refactored to be similar to logistic regression</li>
+<li>Models are fitted via MLE.<ul>
+<li>$\Sigma_c$ estimates often lead to overfitting</li>
+<li>Tied covariances i.e. LDA solve this problem</li>
+<li>MAP estimation can introduce some regularization</li>
+</ul>
+</li>
+<li>Class assignment is based on nearest centroid based on the estimates of $\mu_c$</li>
+</ul>
+</li>
+<li><p>Naive Bayes Classifiers</p>
+<ul>
+<li>Work on Naive Bayes Assumption</li>
+<li>Features are conditionally independent given the class label<ul>
+<li>$p(\mathbf x | y = c) = \prod p(x_d | y = c)$</li>
+</ul>
+</li>
+<li>The assumption is naive since it will rarely hold true</li>
+<li>$p(y = c | x, \theta) \propto \pi(y = c) \prod p(x_d | y = c, \theta_{dc})$</li>
+<li>Model has very few parameters and is easy to estimate</li>
+<li>The distribution of $p(x_d | y = c)$ is<ul>
+<li>Bernoulli for binary</li>
+<li>Categorical for categorical</li>
+<li>Gaussian for continuous</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Generative Classifiers are better at handing missing data or unlabeled data</p>
+</li>
+<li><p>Discriminative Models give more robust estimates for posterior probabilities</p>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

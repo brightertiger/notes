@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probability (Advanced Topics) | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Probability (Advanced Topics)</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="probability-advanced-topics">Probability (Advanced Topics)</h1>
+<ul>
+<li><p>Covariance measures the degree of linear association</p>
+<ul>
+<li>$\text{COV}[X,Y] = E[(X - E[X])(Y - E[Y])]$</li>
+</ul>
+</li>
+<li><p>Covariance is unscaled measure. Correlation scales covariance between -1, 1.</p>
+<ul>
+<li>$\rho = \frac{\text{COV}[X,Y]}{\sqrt{V(X)} \sqrt{V(Y)}}$</li>
+</ul>
+</li>
+<li><p>Independent variables are uncorrelated. But, vice-versa is not true.</p>
+</li>
+<li><p>Correlation doesn&#39;t imply causation. Can be spurious.</p>
+</li>
+<li><p>Simpson&#39;s Paradox</p>
+<ul>
+<li>Statistical Trend that appears in groups of data can disappear or reverse when the groups are combined.</li>
+</ul>
+</li>
+<li><p>Mixture Models</p>
+<ul>
+<li>Convex combination of simple distributions</li>
+<li>$p(y|\theta) = \sum \pi_k p_k(y)$</li>
+<li>First sample a component and then sample points from the component</li>
+<li>GMM: $p(y) = \sum_K \pi_k \mathcal N(y | \mu_k, \sigma_k)$</li>
+<li>GMMs can be used for unsupervised soft clustering.</li>
+<li>K Means clustering is a special case of GMMs<ul>
+<li>Uniform priors over components</li>
+<li>Spherical Gaussians with identity matrix variance</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Markov Chains</p>
+<ul>
+<li>Chain Rule of probability</li>
+<li>$p(x1,x2,x3) = p(x1) p(x2 | x1) p(x3 | x1, x2)$</li>
+<li>First-order Markov Chain: Future only depends on the current state.</li>
+<li>y(t+1:T) is independent of y(1:t)</li>
+<li>$p(x1,x2,x3) = p(x1) p(x2 | x1) p(x3 | x2)$</li>
+<li>The p(y | y-1) function gives the state transition matrix</li>
+<li>Relaxing these conditions gives bigram and trigram models.</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

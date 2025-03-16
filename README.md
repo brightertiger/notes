@@ -1,13 +1,63 @@
-# Markdown Notes Static Site Generator
+# Machine Learning Notes
 
-A simple static site generator for converting a nested folder of markdown notes into a clean, minimal HTML website. The site features:
+This repository contains my personal notes on various machine learning topics. The notes are organized by subject area and presented as a static website for easy navigation.
 
-- Index page with cards corresponding to each folder
-- Folder pages with links to all notes inside
-- Clean, minimalist black and white theme
-- LaTeX math equation support
-- Mobile-responsive design
-- Google Fonts (Inter) integration
+## Content Areas
+
+- **ESLR**: Notes from "Elements of Statistical Learning" by Hastie, Tibshirani, and Friedman
+- **General ML**: General machine learning concepts, algorithms, and techniques
+- **NLP**: Notes from "Speech and Language Processing" by Jurafsky & Martin
+- **Probability**: Fundamentals of probability for machine learning
+
+## Compiling the Site
+
+The site is generated using a simple Node.js static site generator:
+
+1. Make sure you have Node.js installed
+2. Install dependencies: `npm install`
+3. Run the generator: `node index.js`
+4. Open `index.html` in your browser to view the site
+
+## Adding New Notes
+
+To add new notes:
+
+1. Create a Markdown file in the appropriate subdirectory under `notes/`
+   - Example: `notes/general/gen-12-my-new-topic.md`
+
+2. Use the following format for your notes:
+   ```markdown
+   # Your Note Title
+
+   ## First Section
+   
+   Content here...
+   
+   ## Second Section
+   
+   More content...
+   ```
+
+3. Optionally, add YAML frontmatter at the top:
+   ```markdown
+   ---
+   title: "Custom Title (Optional)"
+   date: "2023-08-01"
+   ---
+   ```
+
+4. Re-run `node index.js` to regenerate the site
+
+The generator will extract the title from either:
+- The frontmatter `title` field
+- The first heading in the document
+- The filename (as a fallback)
+
+## Navigation
+
+- The homepage lists all subject areas
+- Each subject area has an index page listing all notes in that area
+- You can navigate back to the home page from any note
 
 ## Prerequisites
 

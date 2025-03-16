@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Forests | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Random Forests</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="random-forests">Random Forests</h1>
+<h2 id="overview">Overview</h2>
+<ul>
+<li>Decision trees have low bias and high variance</li>
+<li>Bagging or bootstrap aggreagation aims to reduce the variance of these classifiers<ul>
+<li>Average many noisy unbiased models</li>
+</ul>
+</li>
+<li>Variance of mean of B random variables (say prediciton form trees)<ul>
+<li>Individual Variance: $\sigma^2$</li>
+<li>Pairwise Correlation: $\rho$</li>
+<li>$\rho \sigma^2 + {(1 - \rho) \over B} \sigma^2$</li>
+<li>Increase in B, cannot cause the forest to overfit.</li>
+</ul>
+</li>
+<li>For gains, reduce the correlation between trees<ul>
+<li>Random feature subset selection</li>
+<li>Boostrap Sampling</li>
+</ul>
+</li>
+<li>OOB Error<ul>
+<li>Errors on observations not selected in Bootstrap Sampling</li>
+<li>Identical to CV error</li>
+</ul>
+</li>
+</ul>
+<h2 id="variable-importance">Variable Importance</h2>
+<ul>
+<li>At each split:<ul>
+<li>Calculate the improvement in the criterion</li>
+<li>Attribute it to the splitting variable</li>
+<li>Accumatlate over all the trees and splits</li>
+</ul>
+</li>
+<li>Using OOB Sample, Permutation accuracy<ul>
+<li>Pass down OBB samples for a tree, calculate accuracy</li>
+<li>Shuffle the variable j</li>
+<li>Re-calculate accuracy</li>
+<li>Average the difference over all the trees</li>
+</ul>
+</li>
+</ul>
+<h2 id="proximity-plots">Proximity Plots</h2>
+<ul>
+<li>NxN Proximity matrix</li>
+<li>Count of pairs of OOB observations that share the terminal nodes</li>
+<li>Multi-dimensional scaling (optional)</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  

@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistic Regression | My Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- MathJax for LaTeX support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Logistic Regression</h1>
+      
+      <a href="../index.html" class="home-link">← Back to Home</a>
+    </header>
+    <main class="content">
+      <h1 id="logistic-regression">Logistic Regression</h1>
+<ul>
+<li><p>Discriminative classification model </p>
+<ul>
+<li>Estimate $p(y | x, \theta)$</li>
+<li>$y \in {1,2,...,C}$</li>
+</ul>
+</li>
+<li><p>Binary Logisitc Regression</p>
+<ul>
+<li>y is binary {0,1}</li>
+<li>$p(y | x, \theta) = \text{Ber}(y | \sigma(w^Tx + b))$</li>
+<li>$\sigma$ is the sigmoid function</li>
+<li>$p(y = 1 | x, \theta) = \sigma(w^Tx +b)$</li>
+<li>Alternative equivalent notation y is {-1, +1} </li>
+<li>Compact notation:<ul>
+<li>$p(y | x, \theta) = \sigma(y \times (w^tx + b))$ where $y \in {-1, +1}$</li>
+</ul>
+</li>
+<li>If the misclassification cost is same across classes, optimal decision rule<ul>
+<li>predict y = 1 if class 1 is more likely</li>
+<li>$p(y = 1 | x) &gt; p(y = 0 | x)$</li>
+<li>$\log \frac{p(y = 1 |x)}{p(y = 0 | x)} &gt; 0$</li>
+<li>$w^Tx + b &gt; 0$</li>
+<li>$w^Tx + b$ is the linear decision boundary of the classifier</li>
+</ul>
+</li>
+<li>Maximum Likelihood Estimation<ul>
+<li>Minimize the NLL</li>
+<li>$\text{NLL} = - \log \prod \text{Ber}(y| \sigma(w^Tx +b))$</li>
+<li>$\text{NLL} = -\sum y \log(\hat y) = H(y, \hat y)$ i.e. binary cross-entropy</li>
+<li>If compact notation is used <ul>
+<li>$\text{NLL} = \sum \log \sigma (\tilde y (w^Tx+b))$</li>
+<li>$\text{NLL} = \sum \log ( 1 + \exp (\tilde y (w^Tx +b))))$</li>
+</ul>
+</li>
+<li>Optimization:<ul>
+<li>$\Delta \text{NLL} =0$ is the first order condition</li>
+<li>$\Delta \sigma(x) = \sigma(x) \times (1 - \sigma(x))$</li>
+<li>$\Delta NLL = \sum (\hat y - y) x$</li>
+<li>Sum of residuals weighted by inputs</li>
+<li>Hessian is positive definite making the optimization convex</li>
+<li>Minimization of NLL can be achieved by first order methods like SGD</li>
+<li>Second order methods like Newton&#39;s method can result in faster convergence<ul>
+<li>IRLS (iteratively weighted least squares) is the equivalent</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>MAP Estimation<ul>
+<li>MLE estimation leads to overfitting</li>
+<li>Use zero mean Gaussian priors over w</li>
+<li>$p(w) = N(0, \lambda ^{-1} I)$</li>
+<li>$L(w) = NLL(w) + \lambda ||w||^2$</li>
+<li>$\lambda$ is the L2 regularization which penalizes the weights from growing large</li>
+<li>Given the gaussian priors assume zero mean in MAP, it&#39;s important to standardize the input features to make sure they are on the same scale</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Multinomial Logistic Regression assumes categorical distribution instead of Bernoulli</p>
+<ul>
+<li>$p(y=c|x, \theta) = { \exp^{a_c} \over \sum \exp ^a}$</li>
+<li>If features are made class dependent, the model is called maximum entropy classifier<ul>
+<li>Commonly used in NLP</li>
+<li>$p(y=c|w, x) \propto exp(w^T\phi(x,c))$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Hierarchical Classification</p>
+<ul>
+<li>Labels follow a taxonomy</li>
+<li>Label Smearing: Label is propagated to all the parent nodes</li>
+<li>Set up as multi-label classification problem</li>
+</ul>
+</li>
+<li><p>Handling Many Classes</p>
+<ul>
+<li><p>Hierarchical Softmax</p>
+<ul>
+<li>Faster computation of normalization constant in softmax</li>
+<li>Place the output nodes in tree structure with frequent classes sitting on top</li>
+</ul>
+</li>
+<li><p>Class Imbalance</p>
+<ul>
+<li>Long-tail has little effect on loss and model may ignore these classes</li>
+<li>Use sampling startegies</li>
+<li>$p_c = N_c^q / \sum N_c^q$</li>
+<li>Instance based sampling: q = 1</li>
+<li>Class balanced sampling: q = 0</li>
+<li>Square root sampling: q = 0.5</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Robust Logistic Regression</p>
+<ul>
+<li>Robust to outliers</li>
+<li>Mixture Model<ul>
+<li>Smoothen the likelihood with uniform Bernoulli prior</li>
+<li>$p(y | x) = \pi Ber(0.5) + (1 - \pi) Ber(y |x, \theta)$</li>
+</ul>
+</li>
+<li>Bi-tempered Logistic Loss<ul>
+<li>Tempered Cross-Entropy<ul>
+<li>Handles mislabeled outliers away from the decision boundary</li>
+</ul>
+</li>
+<li>Tempered Softmax<ul>
+<li>Handles mislabeled points near the decision boundary</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Probit Approximtion<ul>
+<li>Sigmoid function is similar in shape to Gaussian CDF</li>
+<li>Using it gives the probit approximation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </main>
+    <footer>
+      <p>Generated with Markdown Notes Static Site Generator</p>
+    </footer>
+  </div>
+</body>
+</html>
+  
