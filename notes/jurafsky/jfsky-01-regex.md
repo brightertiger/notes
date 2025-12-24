@@ -1,128 +1,282 @@
-# Regex
+# Regular Expressions and Text Processing
 
-## Regex
+Text processing is the foundation of NLP. Before we can analyze language, we need to handle raw text: finding patterns, breaking text into words, and normalizing variations.
 
--   Language for specifying text search strings
--   Algebraic notation for characterizing a set of strings
--   Basic regular expression
-    -   Match the "word" /word/
-    -   Match the "word" or "Word" /[wW]ord/
-    -   Match single digit /[0-9]/
--   Ranges
-    -   Capital Letters /[A-Z]/
-    -   Lower Case Letters /[a-z]/
-    -   Single Digit /[0-9]/
--   Caret
-    -   Exclusions
-    -   Not an upper case letter /[^A-Z]/
-    -   Not a period /[^.]/
-    -   If caret is not the first character, it's treated as any other character
--   Question Mark
-    -   Preceding character or nothing
-    -   "word" or "words" /words?/
-    -   "colour" or "color" /colou?r/
--   Kleene \*
-    -   Zero or more occurrences
-    -   Zero or more "a" /a\*/
-    -   Zero or more "a"s or "b"s /[ab]\*/
--   Kleene +
-    -   One or more occurrences
-    -   One or more digits /[0-9]+/
--   Wildcard
-    -   Match any single expression
-    -   Any character between "beg" and "n" /beg.n/
--   Anchors
-    -   Start of the line ^
-    -   Lines starting with "the" /^The/
-    -   End of the line $
-    -   Lines ending with period /\.$/
-    -   Word boundary \b /\bthe\b/
--   Grouping
-    -   Disjunction "|"
-        -   Match either cat or dog /cat|dog/
-    -   Parentheses ()
-        -   Match "guppy" or "guppies" /gupp(y|ies)/
--   Example
-    -   /(^|[^a-zA-Z])[tT]he([^a-zA-Z]|$)/
-        -   At the start or a non-alphabetic character
-        -   At the end or non-alphabetic character
-        -   Look for "the" or "The"
--   Operators
-    -   Any digit \d
-    -   Any non-digit \D
-    -   Whitespace \s
-    -   Non-whitespace \S
-    -   Any alphanumeric \w
-    -   Non Alpha-numeric \W
--   Range
-    -   Zero or more \*
-    -   One or more +
-    -   Exactly zero or one ?
-    -   N Occurrences {n}
-    -   N-to-M Occurrences {n,m}
-    -   At least N Occurrences {n,}
-    -   Up to M Occurrences {,m}
+## The Big Picture
 
-## Words
+**The Problem**: Raw text is messy. We need systematic ways to:
+- Find patterns in text
+- Break text into meaningful units (tokens)
+- Handle variations (color vs. colour, ran vs. running)
 
--   Utterance is the spoken correlate of a sentence
--   Disfluency
-    -   Fragments: broken off words
-    -   Fillers or Filled Pauses "um"
--   Lemma: Lexical form of the same word (cats vs cat)
--   Types (V): Number of distinct words
--   Tokens (N): Number of running words
--   Heap's Law: $V = K N^\beta$
+**The Tools**:
+- **Regular expressions**: Powerful pattern matching
+- **Tokenization**: Splitting text into words/subwords
+- **Normalization**: Standardizing text formats
+
+---
+
+## Regular Expressions
+
+### What Are Regular Expressions?
+
+A **regex** is a language for specifying text patterns. Think of it as "find" on steroids.
+
+**Example**: Find all email addresses in a document.
+- Without regex: Write complex code with many if statements
+- With regex: `/[\w.]+@[\w.]+\.\w+/`
+
+### Basic Patterns
+
+| Pattern | Meaning | Example Match |
+|---------|---------|---------------|
+| `/word/` | Exact match | "word" |
+| `/[wW]ord/` | Either character | "word" or "Word" |
+| `/[0-9]/` | Any digit | "0", "5", "9" |
+| `/[a-z]/` | Any lowercase | "a", "m", "z" |
+| `/[A-Z]/` | Any uppercase | "A", "M", "Z" |
+
+### Negation with Caret
+
+`[^...]` means "NOT these characters":
+
+| Pattern | Meaning |
+|---------|---------|
+| `/[^A-Z]/` | Not an uppercase letter |
+| `/[^0-9]/` | Not a digit |
+| `/[^.]/` | Not a period |
+
+**Note**: Caret only means negation when it's the FIRST character inside brackets!
+
+### Quantifiers (How Many?)
+
+| Symbol | Meaning | Example |
+|--------|---------|---------|
+| `?` | Zero or one | `/colou?r/` matches "color" and "colour" |
+| `*` | Zero or more | `/a*/` matches "", "a", "aaa" |
+| `+` | One or more | `/[0-9]+/` matches "1", "42", "12345" |
+| `{n}` | Exactly n | `/a{3}/` matches "aaa" |
+| `{n,m}` | Between n and m | `/a{2,4}/` matches "aa", "aaa", "aaaa" |
+| `{n,}` | At least n | `/a{2,}/` matches "aa", "aaa", ... |
+
+### Wildcards and Anchors
+
+**Wildcard**: `.` matches any single character
+- `/beg.n/` matches "begin", "began", "begun"
+
+**Anchors** (position markers):
+
+| Symbol | Meaning | Example |
+|--------|---------|---------|
+| `^` | Start of line | `/^The/` matches lines starting with "The" |
+| `$` | End of line | `/\.$/` matches lines ending with period |
+| `\b` | Word boundary | `/\bthe\b/` matches "the" but not "there" |
+
+### Grouping and Alternatives
+
+**Disjunction** (`|`): Match either pattern
+- `/cat|dog/` matches "cat" or "dog"
+
+**Parentheses**: Group patterns
+- `/gupp(y|ies)/` matches "guppy" or "guppies"
+
+### Character Classes (Shortcuts)
+
+| Shortcut | Meaning | Equivalent |
+|----------|---------|------------|
+| `\d` | Digit | `[0-9]` |
+| `\D` | Non-digit | `[^0-9]` |
+| `\w` | Word character | `[a-zA-Z0-9_]` |
+| `\W` | Non-word | `[^a-zA-Z0-9_]` |
+| `\s` | Whitespace | `[ \t\n\r]` |
+| `\S` | Non-whitespace | `[^ \t\n\r]` |
+
+### Putting It Together
+
+**Find standalone "the" or "The"**:
+```
+/(^|[^a-zA-Z])[tT]he([^a-zA-Z]|$)/
+```
+
+Breaking it down:
+- `(^|[^a-zA-Z])`: Start of line OR non-letter before
+- `[tT]he`: "the" or "The"
+- `([^a-zA-Z]|$)`: Non-letter after OR end of line
+
+---
+
+## Words and Tokens
+
+### What Is a Word?
+
+Seems simple, but it's surprisingly tricky!
+
+**Challenges**:
+- Contractions: Is "don't" one word or two?
+- Hyphenation: Is "ice-cream" one word or two?
+- Languages without spaces: Chinese, Japanese
+- Multi-word expressions: "New York", "kick the bucket"
+
+### Key Terminology
+
+| Term | Definition | Example |
+|------|------------|---------|
+| **Token** | An instance of a word/symbol | "the cat sat" has 3 tokens |
+| **Type** | A unique word in vocabulary | "the cat sat on the mat" has 5 types |
+| **Lemma** | Base/dictionary form | "runs", "ran", "running" → "run" |
+| **Utterance** | Spoken equivalent of sentence | What you actually say |
+
+### Heap's Law
+
+Vocabulary size grows with corpus size, but sublinearly:
+$$V = K \cdot N^\beta$$
+
+Where:
+- V = vocabulary size (types)
+- N = corpus size (tokens)
+- β ≈ 0.5–0.7, K ≈ 10–100
+
+**Implication**: You'll always encounter new words!
+
+---
 
 ## Text Normalization
 
--   Involves three steps
-    -   Tokenizing Words
-    -   Normalizing word formats
-    -   Segmenting sentences
--   Tokenization
-    -   Breaking up an utterance into tokens
-    -   Penn Treebank Tokenization (standard in many NLP applications)
-    -   NLTK Regex Tokenization (flexible rule-based approach)
-    -   Byte Pair Encoding
-        -   Empirically determine the tokens using data
-        -   Useful in dealing with unseen words (OOV problem)
-        -   Use subword tokens which are arbitrary substrings
-        -   Token Learner: Creates vocabulary out of corpus
-        -   Token Segmentor: Applies token learner on raw test data
-        -   BPE Token Learner
-            -   Starts with individual characters as vocab
-            -   Merges the most frequently occurring pairs and adds them to vocab
-            -   Repeats the count and merge process to create longer substrings
-            -   Continues until target vocab size is reached
-            -   No merging across word boundaries
-        -   BPE Token Parser
-            -   Run the token learner on test data
-            -   Apply merges in the same order in which tokens were created
-            -   First split into individual characters
-            -   Merge the characters based on BPE vocab
+Three main steps:
+1. **Tokenization**: Break into tokens
+2. **Normalization**: Standardize format
+3. **Segmentation**: Find sentence boundaries
+
+### Tokenization Approaches
+
+**Rule-Based** (Penn Treebank):
+- Standard for English NLP
+- Specific rules for punctuation, contractions
+
+**Regex-Based** (NLTK):
+- Flexible, customizable
+- Good for specific domains
+
+**Subword** (BPE):
+- Data-driven
+- Handles unknown words gracefully
+
+### Byte Pair Encoding (BPE)
+
+**The Problem**: What about words we've never seen?
+- Traditional tokenizers fail on "unigoogleable"
+- OOV (out-of-vocabulary) tokens hurt performance
+
+**The Solution**: Learn tokens from data!
+
+**BPE Algorithm**:
+
+1. **Start**: Vocabulary = individual characters
+2. **Count**: Find most frequent adjacent pair
+3. **Merge**: Add merged pair to vocabulary
+4. **Repeat**: Until target vocabulary size reached
+
+**Example**:
+```
+Corpus: "low lower lowest"
+Initial vocab: {l, o, w, e, r, s, t, _}
+
+Step 1: Most frequent pair = "lo" → add "lo"
+Step 2: Most frequent pair = "low" → add "low"
+...
+```
+
+**At test time**: Apply merges in the same order they were learned.
+
+**Benefits**:
+- No unknown words (can always fall back to characters)
+- Common words stay whole
+- Rare words split into meaningful pieces
+
+---
 
 ## Word Normalization
 
--   Putting words and tokens in a standard format
--   Case Folding: Convert everything to lowercase
-    -   Simple but loses information (US vs. us, Apple vs. apple)
--   Lemmatization: Reduce words to roots
-    -   Maps variants to the same base form (am, are, is → be)
-    -   Stemming (removes suffixes like -ing, -ed, etc.)
-    -   Porter Stemming (algorithm for English stemming)
-    -   Typically requires POS information for accuracy
+### Case Folding
+
+Convert to lowercase:
+- "Apple" → "apple"
+- "HELLO" → "hello"
+
+**Trade-off**: Loses information!
+- "US" (country) vs. "us" (pronoun)
+- "Apple" (company) vs. "apple" (fruit)
+
+### Lemmatization
+
+Reduce to base form:
+- "running", "ran", "runs" → "run"
+- "better", "best" → "good"
+
+**Requires**: Understanding of morphology and often part-of-speech.
+
+### Stemming
+
+Cruder approach — just chop suffixes:
+- "running" → "run"
+- "happily" → "happili" (imperfect!)
+
+**Porter Stemmer**: Most common algorithm for English.
+
+---
 
 ## Edit Distance
 
--   Similarity between two strings
--   Minimum number of editing operations needed to transform one string into another
-    -   Insertion, Deletion and Substitution
--   Levenshtein Distance: All three operations have the same cost (typically 1)
--   Dynamic Programming solution:
-    -   Create a matrix D[i,j] representing distance between first i chars of string1 and first j chars of string2
-    -   Initialize: D[i,0] = i, D[0,j] = j
-    -   Fill matrix: D[i,j] = min(D[i-1,j]+1, D[i,j-1]+1, D[i-1,j-1]+cost)
-      - where cost = 0 if string1[i-1] = string2[j-1], otherwise 1
-    -   Final distance is in D[m,n]
--   Viterbi Algorithm is a related DP algorithm used for finding most likely sequence of hidden states 
+### The Problem
+
+How similar are two strings?
+
+**Applications**:
+- Spell checking
+- DNA sequence alignment
+- Plagiarism detection
+
+### Levenshtein Distance
+
+Minimum number of **single-character edits**:
+- **Insert**: cat → ca**t**s
+- **Delete**: cats → cat
+- **Substitute**: cat → c**o**t
+
+### Dynamic Programming Solution
+
+Build a matrix D where D[i,j] = distance between first i chars of string1 and first j chars of string2.
+
+**Initialization**:
+- D[i,0] = i (delete all characters)
+- D[0,j] = j (insert all characters)
+
+**Recurrence**:
+```
+D[i,j] = min(
+    D[i-1,j] + 1,      # deletion
+    D[i,j-1] + 1,      # insertion
+    D[i-1,j-1] + cost  # substitution (cost=0 if match, 1 otherwise)
+)
+```
+
+**Example**: Distance between "kitten" and "sitting"
+- Answer: 3 (k→s, e→i, +g)
+
+---
+
+## Summary
+
+| Concept | Purpose | Key Tool |
+|---------|---------|----------|
+| **Regex** | Find patterns | Pattern language |
+| **Tokenization** | Split text | BPE, rules |
+| **Normalization** | Standardize | Lemmatization, case folding |
+| **Edit Distance** | Measure similarity | Dynamic programming |
+
+### Practical Tips
+
+1. **Always tokenize first** before any NLP task
+2. **BPE** is the modern standard for neural models
+3. **Be careful with normalization** — you might lose important information
+4. **Regex takes practice** — use online testers to experiment!

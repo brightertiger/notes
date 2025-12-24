@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Additive Models | ML Notes</title>
+  <title>Additive Models, Trees, and Related Methods | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items">
             <li class="nav-item"><a href="eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="eslr-09-additive-models.html" class="active">Additive Models</a></li>
-            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="eslr-09-additive-models.html" class="active">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,156 +121,302 @@
             <span>/</span>
             <a href="index.html">ESLR</a>
           </div>
-          <h1 class="page-title">Additive Models</h1>
+          <h1 class="page-title">Additive Models, Trees, and Related Methods</h1>
           <div class="page-meta"><span class="tag">ESLR</span></div>
         </header>
         <article class="content">
-          <h1 id="additive-models">Additive Models</h1>
-<h2 id="generalized-additive-models">Generalized Additive Models</h2>
+          <h1 id="additive-models-trees-and-related-methods">Additive Models, Trees, and Related Methods</h1>
+<p>This chapter introduces flexible methods that can capture non-linear relationships while remaining interpretable. We start with generalized additive models, then dive deep into decision trees — one of the most intuitive and widely-used machine learning methods.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>Linear models are simple and interpretable but can miss important non-linear patterns. At the other extreme, highly flexible methods (like neural networks) can fit anything but are hard to interpret.</p>
+<p><strong>Additive models and trees</strong> offer a middle ground: they capture non-linear relationships while remaining interpretable.</p>
+<hr>
+<h2 id="generalized-additive-models-gams">Generalized Additive Models (GAMs)</h2>
+<h3 id="the-limitation-of-linear-models">The Limitation of Linear Models</h3>
+<p>In linear regression, we model:
+$$E[Y|X] = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p$$</p>
+<p>Each predictor has a simple linear effect. But what if the relationship is curved? What if income affects health differently for low vs. high earners?</p>
+<h3 id="the-gam-solution">The GAM Solution</h3>
+<p>Replace linear terms with <strong>flexible smooth functions</strong>:</p>
+<p>$$E[Y|X] = \alpha + f_1(X_1) + f_2(X_2) + ... + f_p(X_p)$$</p>
+<p>Where each $f_j$ is learned from data — typically a smooth curve like a <strong>spline</strong>.</p>
+<h3 id="more-generally-link-functions">More Generally: Link Functions</h3>
+<p>For non-normal responses (binary, count data), we use a link function:</p>
+<p>$$g[E[Y|X]] = \alpha + f_1(X_1) + f_2(X_2) + ... + f_p(X_p)$$</p>
+<p>Common link functions:</p>
 <ul>
-<li>Linear models fail to capture non-linear trends</li>
-<li>Additive models an alternative<ul>
-<li>$g[\mu(X)] = \alpha + f(X_1) + f(X_2)....$</li>
-<li>$f(x)$ are non-parametric smoothing functions (say cubic splines)</li>
-<li>$\mu(x)$ is the conditional mean</li>
-<li>$g(x)$ is the link functions<ul>
-<li>identity, logit, log-linear etc.\</li>
+<li><strong>Identity</strong> (linear regression): $g(\mu) = \mu$</li>
+<li><strong>Logit</strong> (logistic regression): $g(\mu) = \log(\mu/(1-\mu))$</li>
+<li><strong>Log</strong> (Poisson regression): $g(\mu) = \log(\mu)$</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>Estimation using Penalized Sum Squares (PRSS)</li>
-<li>The coefficients of the regression are replaced with a flexible function (say spline)<ul>
-<li>Allows for modeling non-linear relationships</li>
-</ul>
-</li>
-</ul>
-<h2 id="tree-based-methods">Tree-based Methods</h2>
+<h3 id="interpretability">Interpretability</h3>
+<p><strong>Key advantage</strong>: Each $f_j$ shows exactly how predictor $X_j$ affects the response. You can plot $f_j(X_j)$ and see the relationship!</p>
 <ul>
-<li>Partition the feature space into rectangles and fit a simple model in each partition</li>
-<li>Regression Setting</li>
-<li>$f(X) = \sum c_i I{X \in R_i}$</li>
-<li>$c_m = ave(y_i | X_i \in R_m)$</li>
-<li>Greedy Algorithms to find best splits<ul>
-<li>$R_1 = {X | X_j \le s}; ; R_2 = {X | X_j &gt; s}$\</li>
-<li>$\min_{j,s} \min \sum (y_i - c_i)^2 I{X \in R_i}$</li>
+<li>Is it linear? Curved? Has a threshold?</li>
+<li>The shape is learned from data, not assumed</li>
 </ul>
-</li>
-<li>Tree size is a hyperparameter</li>
-<li>Pruning<ul>
-<li>Option-1<ul>
-<li>Split only if delta is greater than some threshold</li>
-<li>Short Sighted, the node may lead to a better split down the line\</li>
-</ul>
-</li>
-<li>Option 2<ul>
-<li>Grow the tree to full size (say depth 5)</li>
-<li>$N_m$ # of observations in m&#39;th node</li>
-<li>$C_m = \sum y_i / N_m$</li>
-<li>$Q_m = {1 \over N_m }\sum (y_i - C_m)^2$</li>
-<li>Cost-Complexity Pruning</li>
-<li>$C = \sum_T N_m Q_m(T) + \alpha |T|$</li>
-<li>$\alpha$ governs the trade-off, large value leads to smaller trees</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Classification Setting</li>
-<li>$p_{mk} = {1 \over N_m}\sum_{R_m} I{y_i = k}$</li>
-<li>Splitting Criteria<ul>
-<li>Miss-classification Error: $1 - \hat p_{mk}$</li>
-<li>Gini Index: $\sum_K p_{mk}(1 - \hat p_{mk})$<ul>
-<li>Probability of misclassification</li>
-<li>Variance of Binomial Distribution</li>
-</ul>
-</li>
-<li>Cross-Entropy: $- \sum_K p_{mk} \log (p_{mk})$</li>
-<li>Gini Index and Cross Entropy more sensitive to node probabilities</li>
-</ul>
-</li>
-<li>Splitting categorical variable<ul>
-<li>N levels, $2^{N-1} - 1$ possible paritions</li>
-<li>Order the categories by proportion</li>
-<li>Treat the variable as continuous</li>
-</ul>
-</li>
-<li>Missing Values<ul>
-<li>Create a new level within the original corresponding to missing observations</li>
-<li>Create a surrogate variable for missing values<ul>
-<li>Split by non-missing values</li>
-<li>Leverage the correlation between predictors and surrogates to minimize loss of information</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Evaluation<ul>
-<li>$L_{xy} =$ Loss for predicting class x object as k</li>
-<li>$L_{00}, L_{11} = 0$</li>
-<li>$L_{10} =$ False Negative</li>
-<li>$L_{01} =$ False Positive</li>
-<li>Sensitivity:<ul>
-<li>Prediciting disease as disease (Recall)</li>
-<li>TP / TP + FN</li>
-<li>$L_{11} / (L_{11} + L_{10})$</li>
-</ul>
-</li>
-<li>Specificity:<ul>
-<li>Predicting non-disease as non-disease<ul>
-<li>TN / TN + FP</li>
-<li>$L_{00} / (L_{00} + L_{01})$\</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>AUC-ROC<ul>
-<li>How Sensitivity (y) and Specificity (x) vary with thresholds</li>
-<li>Area under ROC Curve is the C-statistic</li>
-<li>Equivalent to Mann-Whitney U Test, Wilcoxin rank-sum test</li>
-<li>Median Difference in prediction scores for two groups</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>MARS<ul>
-<li>High dimension regression</li>
-<li>Piece-wise Linear basis Functions</li>
-<li>Analogous to decision tree splits</li>
-<li>Can handle interactions</li>
-</ul>
-</li>
-</ul>
-<h2 id="prim">PRIM</h2>
+<h3 id="fitting-gams">Fitting GAMs</h3>
+<p>GAMs are fit by minimizing <strong>Penalized Residual Sum of Squares (PRSS)</strong>, which balances fitting the data with keeping functions smooth:</p>
+<p>$$\text{PRSS} = \sum_{i=1}^N \left(y_i - \alpha - \sum_j f_j(x_{ij})\right)^2 + \sum_j \lambda_j \int f_j&#39;&#39;(t)^2 dt$$</p>
+<p>The penalty term punishes &quot;wiggly&quot; functions (large second derivatives).</p>
+<hr>
+<h2 id="decision-trees">Decision Trees</h2>
+<p>Decision trees are perhaps the most intuitive machine learning method. They partition the feature space into regions and fit simple models (often just constants) in each region.</p>
+<h3 id="the-core-idea">The Core Idea</h3>
+<p>Think of playing &quot;20 Questions&quot; with your data:</p>
 <ul>
-<li>Patient Rule Induction Method</li>
-<li>Boxes with high response rates</li>
-<li>Non-tree partitioning structure</li>
-<li>Start with a large box and<ul>
-<li>Peeling: compress the side that gives the largest mean</li>
-<li>Pasting: expand the bix dimensions that gives the largest mean</li>
+<li>&quot;Is income &gt; $50K?&quot; → split data into two groups</li>
+<li>&quot;Is age &gt; 40?&quot; → further split</li>
+<li>Keep splitting until groups are &quot;pure&quot; (mostly one class/similar values)</li>
 </ul>
-</li>
+<p>The result is a tree structure that&#39;s easy to understand and explain.</p>
+<h3 id="regression-trees">Regression Trees</h3>
+<p>For continuous outcomes, we:</p>
+<ol>
+<li><strong>Partition</strong> the feature space into rectangles $R_1, R_2, ..., R_M$</li>
+<li><strong>Fit a constant</strong> in each region: $c_m = \text{average of } y_i \text{ in } R_m$</li>
+</ol>
+<p>The model is:
+$$f(X) = \sum_{m=1}^M c_m \cdot I{X \in R_m}$$</p>
+<p>Where $I{\cdot}$ is the indicator function (1 if true, 0 otherwise).</p>
+<h3 id="how-to-find-the-best-splits">How to Find the Best Splits</h3>
+<p>We use a <strong>greedy algorithm</strong> — at each node, find the split that most reduces error.</p>
+<p>For a split on variable $X_j$ at value $s$:</p>
+<ul>
+<li>Left region: $R_1 = {X | X_j \leq s}$</li>
+<li>Right region: $R_2 = {X | X_j &gt; s}$</li>
 </ul>
+<p>Choose j and s to minimize:
+$$\min_{j,s} \left[\min_{c_1}\sum_{X_i \in R_1}(y_i - c_1)^2 + \min_{c_2}\sum_{X_i \in R_2}(y_i - c_2)^2\right]$$</p>
+<p>The inner minimizations are easy — just take averages in each region!</p>
+<h3 id="classification-trees">Classification Trees</h3>
+<p>For categorical outcomes, each leaf predicts the <strong>most common class</strong> in that region:</p>
+<p>$$\hat{G}_m = \text{majority class in } R_m$$</p>
+<p>The proportion of class k in node m is:
+$$\hat{p}<em>{mk} = \frac{1}{N_m}\sum</em>{i \in R_m} I{y_i = k}$$</p>
+<h3 id="splitting-criteria-for-classification">Splitting Criteria for Classification</h3>
+<p>We need to measure how &quot;impure&quot; a node is. Several options:</p>
+<p><strong>Misclassification Error</strong>: $1 - \max_k \hat{p}_{mk}$</p>
+<ul>
+<li>Simple but not differentiable — hard to optimize</li>
+</ul>
+<p><strong>Gini Index</strong>: $\sum_{k=1}^K \hat{p}<em>{mk}(1 - \hat{p}</em>{mk})$</p>
+<ul>
+<li>Measures probability of misclassifying a randomly chosen element</li>
+<li>Equals variance of Bernoulli distribution when K=2</li>
+<li>Most commonly used</li>
+</ul>
+<p><strong>Cross-Entropy (Deviance)</strong>: $-\sum_{k=1}^K \hat{p}<em>{mk}\log\hat{p}</em>{mk}$</p>
+<ul>
+<li>Information-theoretic measure of impurity</li>
+<li>Similar to Gini in practice</li>
+</ul>
+<p><strong>Note</strong>: Gini and entropy are more sensitive to node purity changes than misclassification error, making them better for tree growing.</p>
+<h3 id="handling-categorical-predictors">Handling Categorical Predictors</h3>
+<p>If variable X has L categories, there are $2^{L-1} - 1$ possible binary splits. This seems exponential, but for classification with 2 classes:</p>
+<p><strong>Trick</strong>: Order categories by proportion of class 1, then treat as ordered. This reduces to checking L-1 splits!</p>
+<h3 id="handling-missing-values">Handling Missing Values</h3>
+<p>Two common approaches:</p>
+<p><strong>1. Missing as a Category</strong>: Create a new category for missing values.</p>
+<p><strong>2. Surrogate Splits</strong>: Find alternative splits that mimic the primary split. At prediction time, if the primary split variable is missing, use the surrogate.</p>
+<p>The surrogate approach leverages correlations between predictors to minimize information loss.</p>
+<hr>
+<h2 id="pruning-controlling-tree-size">Pruning: Controlling Tree Size</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Trees that grow too large:</p>
+<ul>
+<li>Overfit the training data</li>
+<li>Have high variance</li>
+<li>Are harder to interpret</li>
+</ul>
+<h3 id="option-1-stop-early">Option 1: Stop Early</h3>
+<p>Split only if improvement exceeds a threshold.</p>
+<p><strong>Problem</strong>: A bad split now might enable great splits later! This is short-sighted.</p>
+<h3 id="option-2-grow-and-prune-better">Option 2: Grow and Prune (Better!)</h3>
+<ol>
+<li><strong>Grow</strong> a large tree (until leaves have few observations)</li>
+<li><strong>Prune</strong> back to find the best subtree</li>
+</ol>
+<h3 id="cost-complexity-pruning">Cost-Complexity Pruning</h3>
+<p>Define a cost that balances fit and complexity:</p>
+<p>$$C_\alpha(T) = \sum_{m=1}^{|T|} N_m Q_m(T) + \alpha|T|$$</p>
+<p>Where:</p>
+<ul>
+<li>$|T|$ = number of terminal nodes (leaves)</li>
+<li>$Q_m$ = impurity measure for node m (e.g., RSS/N_m for regression)</li>
+<li>$\alpha$ = complexity penalty parameter</li>
+</ul>
+<p><strong>Small α</strong>: Prefer large trees (focus on fit)
+<strong>Large α</strong>: Prefer small trees (focus on simplicity)</p>
+<p><strong>Algorithm</strong>:</p>
+<ol>
+<li>For each α, find the subtree that minimizes $C_\alpha(T)$</li>
+<li>Use cross-validation to select the best α</li>
+</ol>
+<hr>
+<h2 id="evaluating-classification-performance">Evaluating Classification Performance</h2>
+<h3 id="the-confusion-matrix">The Confusion Matrix</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Predicted Positive</th>
+<th>Predicted Negative</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Actual Positive</strong></td>
+<td>True Positive (TP)</td>
+<td>False Negative (FN)</td>
+</tr>
+<tr>
+<td><strong>Actual Negative</strong></td>
+<td>False Positive (FP)</td>
+<td>True Negative (TN)</td>
+</tr>
+</tbody></table>
+<h3 id="key-metrics">Key Metrics</h3>
+<p><strong>Sensitivity (Recall, True Positive Rate)</strong>:
+$$\text{Sensitivity} = \frac{TP}{TP + FN}$$
+&quot;Of all actual positives, what fraction did we catch?&quot;</p>
+<p><strong>Specificity (True Negative Rate)</strong>:
+$$\text{Specificity} = \frac{TN}{TN + FP}$$
+&quot;Of all actual negatives, what fraction did we correctly identify?&quot;</p>
+<p><strong>Precision</strong>:
+$$\text{Precision} = \frac{TP}{TP + FP}$$
+&quot;Of all predicted positives, what fraction are correct?&quot;</p>
+<h3 id="the-roc-curve">The ROC Curve</h3>
+<p>The <strong>Receiver Operating Characteristic (ROC)</strong> curve shows the tradeoff between sensitivity and specificity as you vary the classification threshold.</p>
+<ul>
+<li><strong>X-axis</strong>: 1 - Specificity (False Positive Rate)</li>
+<li><strong>Y-axis</strong>: Sensitivity (True Positive Rate)</li>
+</ul>
+<p><strong>AUC (Area Under the ROC Curve)</strong>:</p>
+<ul>
+<li>AUC = 1: Perfect classifier</li>
+<li>AUC = 0.5: Random guessing</li>
+<li>AUC &gt; 0.7: Generally acceptable</li>
+</ul>
+<p><strong>Interpretation</strong>: AUC is the probability that a randomly chosen positive example ranks higher than a randomly chosen negative example.</p>
+<hr>
+<h2 id="mars-multivariate-adaptive-regression-splines">MARS: Multivariate Adaptive Regression Splines</h2>
+<p>MARS extends tree ideas to regression with smoother, continuous functions.</p>
+<h3 id="the-idea">The Idea</h3>
+<p>Instead of piecewise constant regions, use <strong>piecewise linear basis functions</strong>:</p>
+<p>$$(x - t)<em>+ = \max(0, x-t)$$
+$$(t - x)</em>+ = \max(0, t-x)$$</p>
+<p>These are &quot;hockey stick&quot; functions that are zero until a knot t, then linear.</p>
+<h3 id="mars-model">MARS Model</h3>
+<p>$$f(X) = \beta_0 + \sum_{m=1}^M \beta_m h_m(X)$$</p>
+<p>Where each $h_m$ is a product of basis functions (allowing interactions).</p>
+<h3 id="connection-to-trees">Connection to Trees</h3>
+<p>MARS is like a regression tree with smoother predictions at boundaries. Trees have sharp jumps; MARS transitions smoothly.</p>
+<hr>
+<h2 id="prim-patient-rule-induction-method">PRIM: Patient Rule Induction Method</h2>
+<p>PRIM takes a different approach: find regions (boxes) with unusually high (or low) response values.</p>
+<h3 id="the-algorithm">The Algorithm</h3>
+<ol>
+<li>Start with a box containing all data</li>
+<li><strong>Peeling</strong>: Shrink the box by removing a thin slice from one face, choosing the slice that maximizes mean response</li>
+<li><strong>Pasting</strong>: Try expanding the box if it improves the mean</li>
+<li>Repeat to find multiple boxes</li>
+</ol>
+<h3 id="use-case">Use Case</h3>
+<p>Useful for finding &quot;hot spots&quot; — regions where the response is particularly high. Applications include fraud detection, medical diagnosis, quality control.</p>
+<hr>
 <h2 id="mixture-of-experts">Mixture of Experts</h2>
+<p>This is a probabilistic generalization of decision trees.</p>
+<h3 id="the-idea-1">The Idea</h3>
+<p>Instead of hard splits (left or right), use <strong>soft probabilistic splits</strong>:</p>
 <ul>
-<li>Tree splits are not hard decisions but soft probabilities</li>
-<li>Terminal nodes are called experts<ul>
-<li>A linear model is fit in each terminal node</li>
+<li>Each observation has some probability of going to each child node</li>
+<li>&quot;Gating networks&quot; at internal nodes determine these probabilities</li>
+<li>&quot;Expert&quot; models at leaves make predictions</li>
+<li>Final prediction is a weighted average</li>
 </ul>
-</li>
-<li>Non-terminal nodes are called gating networks</li>
-<li>The decision of experts is combined by gating networks</li>
-<li>Estimation via EM Algorithm</li>
+<h3 id="structure">Structure</h3>
+<p><strong>Gating Networks</strong> (internal nodes):</p>
+<ul>
+<li>Soft decision functions</li>
+<li>Output probabilities for each branch</li>
 </ul>
+<p><strong>Experts</strong> (terminal nodes):</p>
+<ul>
+<li>Fit local models (often linear regression)</li>
+<li>Each expert specializes in a region</li>
+</ul>
+<h3 id="fitting">Fitting</h3>
+<p>Use the <strong>EM algorithm</strong>:</p>
+<ul>
+<li>E-step: Compute responsibilities (how much each expert contributes to each observation)</li>
+<li>M-step: Update expert parameters and gating parameters</li>
+</ul>
+<h3 id="advantages">Advantages</h3>
+<ul>
+<li>Smoother predictions than hard trees</li>
+<li>Naturally provides uncertainty estimates</li>
+<li>Can capture complex interactions</li>
+</ul>
+<hr>
+<h2 id="summary-choosing-a-method">Summary: Choosing a Method</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Best For</th>
+<th>Interpretability</th>
+<th>Flexibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GAM</strong></td>
+<td>Understanding non-linear effects</td>
+<td>High (plot each effect)</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Decision Tree</strong></td>
+<td>Simple rules, categorical outcomes</td>
+<td>Very High</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>MARS</strong></td>
+<td>Regression with interactions</td>
+<td>Medium</td>
+<td>Medium-High</td>
+</tr>
+<tr>
+<td><strong>PRIM</strong></td>
+<td>Finding high-response regions</td>
+<td>High</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Mixture of Experts</strong></td>
+<td>Complex boundaries with uncertainty</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+</tbody></table>
+<h3 id="key-takeaways">Key Takeaways</h3>
+<ol>
+<li><strong>Trees are intuitive</strong>: Easy to explain and visualize</li>
+<li><strong>Pruning is essential</strong>: Unpruned trees overfit badly</li>
+<li><strong>GAMs maintain interpretability</strong>: Each predictor&#39;s effect is visible</li>
+<li><strong>Splitting criteria matter</strong>: Gini/entropy better than misclassification for tree growing</li>
+<li><strong>These methods form building blocks</strong>: Trees are the foundation for Random Forests and Boosting!</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
         <a href="eslr-08-model-selection.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Model Selection</span>
+          <span class="nav-link-title">Model Inference and Averaging</span>
         </a>
         <a href="eslr-10-boosting.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>
-          <span class="nav-link-title">Boosting</span>
+          <span class="nav-link-title">Boosting and Additive Trees</span>
         </a></nav>
       </div>
     </main>

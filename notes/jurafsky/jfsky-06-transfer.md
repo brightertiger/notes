@@ -1,104 +1,274 @@
-# Transfer Learning
+# Transfer Learning and Pre-trained Models
 
--   Contextual Embeddings: Representation of words in context. Same word can have different embeddings based on the context in which it appears.
--   Pretraining: Learning contextual embeddings from vast amounts of text data.
--   Fine-tuning: Taking generic contextual representations and tweaking them to a specific downstream task by using a NN classifier head.
--   Transfer Learning: Pretrain-Finetune paradigm is called transfer learning.
--   Language Models:
-    -   Causal: Left-to-Right transformers
-    -   Bidirectional: Model can see both left and right context
+Transfer learning has revolutionized NLP. Pre-train a large model on massive text data, then fine-tune for specific tasks. This chapter covers BERT and the pre-train/fine-tune paradigm.
 
-# Bidirectional Transformer Models
+## The Big Picture
 
--   Causal transformers are well suited for autoregressive problems like text generation
--   Sequence classification and labeling problems can relax this restriction
--   Bidirectional encoders allow self attention mechanism to cover the entire input sequence
--   Map the input sequence embeddings to output embeddings of the same length with expanded context
--   Self Attention
-    -   $$\text{SA} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
--   BERT Base
-    -   Subword vocabulary of 30K using WordPiece
-    -   Hidden layer size of 768 (12 \* 64)
-    -   12 Layers, 12 attention heads
-    -   110M+ parameters
-    -   Max Sequence length is 512 tokens
--   Size of input layer dictates the complexity of the model
--   Computational time and memory grow quadratically with input sequence length
+**The Old Way**: Train a model from scratch for each task.
+- Requires lots of labeled data
+- Each task starts from zero
 
-## Pre-Training
+**The New Way**: Pre-train → Fine-tune.
+- Pre-train once on huge unlabeled corpus
+- Fine-tune with small labeled dataset per task
+- Transfer linguistic knowledge across tasks
 
--   Fill-in-the-blank or Cloze task approach
--   Predict the "masked" words (Masked Language Modeling - MLM)
--   Use cross-entropy loss over the vocabulary to drive training
--   Self-supervised Learning (creates supervision from unlabeled data)
--   Masked Language Modeling (BERT approach)
-    -   Requires large unannotated text corpus
-    -   Random sample (15%) of tokens is chosen to be masked for learning
-    -   For these 15% tokens:
-        -   80% replaced with [MASK] token
-        -   10% replaced with random word (adds noise, prevents overfitting)
-        -   10% left unchanged (helps model learn bidirectional context)
-    -   Predict original token for each of the masked positions
-    -   Model must use bidirectional context to make accurate predictions
--   Span-based Approaches (e.g., SpanBERT)
-    -   Mask contiguous sequences of tokens rather than individual tokens
-    -   Span length selected from geometric distribution
-    -   Starting location is selected from uniform distribution
-    -   Once the span is selected, all words within it are masked
-    -   Learning objectives:
-        -   Masked Language Modeling (predict masked tokens)
-        -   Span Boundary Objective (SBO): Predict internal span words using only boundary tokens
-    -   Better for tasks requiring span representations (QA, coreference)
--   Next Sentence Prediction (NSP)
-    -   Additional pre-training task in original BERT
-    -   Helps with discourse understanding tasks
-    -   Training data consists of:
-        -   50% actual pairs of adjacent sentences
-        -   50% random sentence pairs (negative examples)
-    -   Model must distinguish true pairs from random pairs
-    -   Later models (RoBERTa, ALBERT) found this less helpful than expected
--   Training Data
-    -   Large diverse text corpora:
-        -   Books corpus (800M words)
-        -   English Wikipedia (2.5B words)
-        -   Additional data in later models (CommonCrawl, etc.)
-    -   Computationally expensive (days/weeks on TPU/GPU clusters)
+---
 
-## Fine-Tuning
+## Key Concepts
 
--   Creation of task-specific models on top of pretrained models leveraging generalizations from self-supervised learning
--   Advantages:
-    -   Requires limited amount of labeled data
-    -   Much faster than training from scratch
-    -   Often better performance than task-specific architectures
--   Methods:
-    -   Full fine-tuning: Update all parameters of pretrained model
-    -   Adapter tuning: Keep most parameters frozen, add small trainable modules
-    -   Prompt tuning: Frame downstream task as a language modeling problem
--   Task-specific modifications:
-    -   Add classification head (typically 1-2 layers)
-    -   Adjust learning rate (typically 2e-5 to 5e-5)
-    -   Train for fewer epochs (2-4 typically sufficient)
--   Sequence Classification
-    -   Add special [CLS] token at beginning of input
-    -   Use [CLS] token's final-layer representation
-    -   Add classification head: linear layer + softmax
-    -   Fine-tune with labeled examples
--   Natural Language Inference (NLI)
-    -   Recognize contradiction, entailment, or neutral relationship between text pairs
-    -   Input format: [CLS] premise [SEP] hypothesis [SEP]
-    -   Use [CLS] representation for classification
--   Sequence Labeling (NER, POS tagging)
-    -   Prediction for each token (token-level classification)
-    -   Add softmax layer over label classes for each token
-    -   Use BIO tagging scheme (Beginning, Inside, Outside)
-    -   WordPiece tokenization creates challenges:
-        -   Training: Expand the labels to all subword tokens
-        -   Evaluation: Use tag assigned to the first subword token
--   Span-based Tasks (QA, extraction)
-    -   For tasks requiring identifying spans in text
-    -   Generate span representations:
-        -   Concatenate [start, end, pooled-span] embeddings
-        -   Or use span boundary representations
-    -   Use regression or classification to predict start and end positions
-    -   SQuAD format: [CLS] question [SEP] context [SEP] 
+### Contextual Embeddings
+
+**Static embeddings** (Word2Vec): Same vector for "bank" regardless of context.
+
+**Contextual embeddings** (BERT): Different vector for "river bank" vs. "bank account".
+
+The same word gets different representations based on surrounding words.
+
+### The Pre-train → Fine-tune Paradigm
+
+```
+[MASSIVE UNLABELED TEXT] → Pre-training → [GENERAL LANGUAGE MODEL]
+                                                    ↓
+[SMALL LABELED DATA] → Fine-tuning → [TASK-SPECIFIC MODEL]
+```
+
+**Pre-training**: Self-supervised learning on vast text (books, Wikipedia, web).
+
+**Fine-tuning**: Supervised learning on task-specific data.
+
+### Language Model Types
+
+| Type | Direction | Example | Best For |
+|------|-----------|---------|----------|
+| **Causal** | Left-to-right | GPT | Generation |
+| **Bidirectional** | Both directions | BERT | Understanding |
+| **Encoder-Decoder** | Both + generation | T5 | Both |
+
+---
+
+## Bidirectional Transformers (BERT)
+
+### Why Bidirectional?
+
+For many tasks, we can see the entire input at once.
+
+**Causal models** (GPT): Can only see left context.
+```
+"The cat sat on the [???]" - what comes next?
+```
+
+**Bidirectional models** (BERT): See full context.
+```
+"The cat sat on the [MASK]" - what's missing?
+```
+
+### BERT Architecture
+
+**Self-attention** across entire sequence:
+$$\text{Attention} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+
+**BERT Base**:
+- Vocabulary: 30K subwords (WordPiece)
+- Hidden size: 768 (12 heads × 64 dims)
+- Layers: 12
+- Parameters: 110M
+- Max sequence: 512 tokens
+
+**Compute note**: Attention is O(n²) in sequence length — limits max length.
+
+---
+
+## Pre-training Objectives
+
+### Masked Language Modeling (MLM)
+
+**The task**: Predict randomly masked tokens.
+
+```
+Input:  The cat [MASK] on the mat
+Target: sat
+```
+
+**Masking strategy** (for 15% of tokens):
+- 80%: Replace with [MASK]
+- 10%: Replace with random word
+- 10%: Keep original
+
+**Why this mix?**
+- [MASK] never appears at fine-tuning → train on real words too
+- Random replacement adds noise, prevents overfitting
+- Keeping some originals helps learn bidirectional context
+
+### Span Masking (SpanBERT)
+
+Mask contiguous spans instead of random tokens.
+
+```
+Input:  The [MASK] [MASK] [MASK] the mat
+Target: cat sat on
+```
+
+**Benefits**:
+- Better for tasks requiring span understanding (QA, NER)
+- Span Boundary Objective: Predict span from boundary tokens
+
+### Next Sentence Prediction (NSP)
+
+**The task**: Are these sentences adjacent in the original text?
+
+```
+[CLS] The cat sat [SEP] It was happy [SEP] → IsNext
+[CLS] The cat sat [SEP] I like pizza [SEP] → NotNext
+```
+
+**Training data**: 50% real pairs, 50% random pairs.
+
+**Note**: Later models (RoBERTa, ALBERT) found NSP less helpful than expected.
+
+---
+
+## Pre-training Data
+
+BERT was trained on:
+- **BooksCorpus**: 800M words
+- **English Wikipedia**: 2.5B words
+
+Later models use more:
+- CommonCrawl (filtered web text)
+- News articles
+- Code repositories
+
+**Compute requirement**: Days to weeks on TPU/GPU clusters.
+
+---
+
+## Fine-tuning
+
+### The Basic Recipe
+
+1. Load pre-trained model
+2. Add task-specific **classification head** (usually 1-2 layers)
+3. Train on labeled data with small learning rate
+
+### Fine-tuning Strategies
+
+| Strategy | What's Updated | Best For |
+|----------|---------------|----------|
+| **Full fine-tuning** | All parameters | Lots of data, maximum performance |
+| **Feature extraction** | Only head | Very small data |
+| **Adapter tuning** | Small inserted modules | Efficient multi-task |
+| **Prompt tuning** | Soft prompts only | Very large models |
+
+### Hyperparameters
+
+**Learning rate**: 2e-5 to 5e-5 (much smaller than training from scratch!)
+
+**Epochs**: 2-4 (often sufficient)
+
+**Batch size**: 16-32
+
+---
+
+## Task-Specific Architectures
+
+### Sequence Classification
+
+**Task**: Classify entire input (sentiment, topic).
+
+```
+Input:  [CLS] I loved this movie [SEP]
+Output: Use [CLS] representation → linear → softmax → class
+```
+
+### Sentence Pair Classification
+
+**Task**: Classify relationship between two texts (NLI, similarity).
+
+```
+Input:  [CLS] Premise text [SEP] Hypothesis text [SEP]
+Output: [CLS] representation → linear → entailment/contradiction/neutral
+```
+
+### Token Classification (NER, POS)
+
+**Task**: Label each token.
+
+```
+Input:  [CLS] John lives in New York [SEP]
+Labels:       B-PER O     O  B-LOC I-LOC
+```
+
+Each token gets its own classification head output.
+
+**WordPiece handling**:
+- Training: Expand labels to all subword tokens
+- Evaluation: Use label of first subword
+
+### Span Prediction (QA)
+
+**Task**: Find answer span in context.
+
+```
+Input:  [CLS] Where is Paris? [SEP] Paris is in France [SEP]
+Output: Predict start position (index 5: "Paris")
+        Predict end position (index 8: "France")
+```
+
+Two classifiers: one for start, one for end position.
+
+---
+
+## Modern Variants
+
+### RoBERTa (Robustly Optimized BERT)
+
+Key changes:
+- Remove NSP objective
+- Larger batches, more data
+- Dynamic masking (different masks each epoch)
+
+### ALBERT (A Lite BERT)
+
+Parameter reduction:
+- Factorized embedding parameters
+- Cross-layer parameter sharing
+- Sentence order prediction instead of NSP
+
+### DistilBERT
+
+Knowledge distillation:
+- 40% smaller, 60% faster
+- 97% of BERT performance
+
+---
+
+## Summary
+
+| Concept | Key Point |
+|---------|-----------|
+| **Contextual embeddings** | Same word → different vectors in different contexts |
+| **Pre-training** | Self-supervised on massive text |
+| **Fine-tuning** | Task-specific with small labeled data |
+| **MLM** | Predict masked tokens (BERT's main objective) |
+| **[CLS] token** | Aggregate representation for classification |
+| **[SEP] token** | Separate segments in input |
+
+### The Revolution
+
+Transfer learning changed NLP:
+
+| Before | After |
+|--------|-------|
+| Train from scratch per task | Pre-train once, fine-tune many times |
+| Need lots of labeled data | Works with small labeled data |
+| Shallow features | Deep contextual understanding |
+| Task-specific architectures | One architecture, many tasks |
+
+### Practical Tips
+
+1. **Start with pre-trained models** — rarely worth training from scratch
+2. **Try multiple learning rates** — this is the most important hyperparameter
+3. **Don't over-fine-tune** — 2-4 epochs is often enough
+4. **Consider model size** — DistilBERT for production, BERT-large for best accuracy
+5. **Domain matters** — SciBERT for science, BioBERT for biomedical, etc.

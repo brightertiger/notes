@@ -1,136 +1,327 @@
-# Sequence Architectures
+# Sequence Architectures: RNNs, LSTMs, and Attention
 
-## Sequence Modeling
+Language is inherently sequential. This chapter covers neural architectures designed to process sequences: from basic RNNs to LSTMs to the attention mechanism that revolutionized NLP.
 
--   FFNNs can't be used because of limited context window
-    -   Languages can have longer dependencies over arbitrary context length
--   Language Models assign conditional probability to the next word
-    -   $P(W_{1:n}) = \prod_{i=1}^{n} P(W_i | W_{1:i-1})$
--   Quality of a language model is assessed by perplexity
-    -   $PP = P(W_{1:n})^{-1/n}$
-    -   Inverse probability that the model assigns to the test sequence normalized by the length
+## The Big Picture
 
-## Recurrent Neural Networks
+**The Problem**: Language has dependencies across arbitrary distances.
+- "The **cat** that I saw yesterday **was** cute" (subject-verb agreement)
+- Standard feedforward networks have fixed input size
 
--   NN architecture that contains a cycle in its network connections
--   The hidden layer output from previous step is linked to the current hidden layer output
--   Predict using current input and previous hidden state
--   Removes the fixed context dependency arising in FFNNs
--   The temporal hidden output can be persisted for infinite steps
--   Inference
-    -   $h_t = g(Uh_{t-1} + Wx_t)$
-    -   $y_t = V(h_t)$
--   Training
-    -   Chain rule for backpropagation
-    -   Output depends on hidden state and hidden state depends on previous time step
-    -   BPTT: backpropagation through time
-    -   In terms of computational graph, the network is "unrolled" for the entire sequence
-    -   For very long sequences, use truncated BPTT
--   RNNs and Language Models
-    -   Predict next word using current word and previous hidden state
-    -   Removes the limited context problem
-    -   Use word embeddings to enhance the model's generalization ability
-    -   $e_t = Ex_t$
-    -   $h_t = g(Uh_{t-1} + We_t)$
-    -   $y_t = V(h_t)$
-    -   Output the probability distribution over the entire vocabulary
-    -   Loss function: Cross entropy, difference between predicted probability and true distribution
-    -   Minimize the error in predicting the next word
-    -   Teacher forcing for training
-        -   In training phase, ignore the model output for predicting the next word
-        -   Use the actual word instead
-    -   Weight tying
-        -   Input embedding lookup and output probability matrix have same dimensions |V|
-        -   Avoid using two different matrices, use the same one instead
--   RNN Tasks
-    -   Sequence Labeling
-        -   NER tasks, POS tagging
-        -   At each step predict the current tag rather than the next word
-        -   Use softmax over tagset with CE loss function
-    -   Sequence Classification
-        -   Classify entire sequences rather than the tokens
-        -   Use hidden state from the last step and pass to FFNN
-        -   Backprop will be used to update the RNN cycle links
-        -   Use pooling to enhance performance
-            -   Element-wise Mean, Max of all intermediate hidden states
-    -   Sequence Generation
-        -   Encoder-decoder architecture
-        -   Autoregressive generation
-        -   Use \<s\> as the first token (BOS) and hidden state from encoder
-        -   Sample form RNN, using output softmax
-        -   Use the embedding from the generated token as next input
-        -   Keep sampling till \</s\> (EOS) token is sampled
--   RNN Architectures
-    -   Stacked RNNs
-        -   Multiple RNNs "stacked together"
-        -   Output from one layer serves as input to another layer
-        -   Differening levels of abstraction across layers
-    -   Bidirectional RNNs
-        -   Many applications have full access to input sequence
-        -   Process the sequence from left-to-right and right-to-left
-        -   Concatenate the output from forward and reversed passes
+**The Solution**: Architectures with **memory** that process sequences step by step.
 
-## LSTM
+**The Evolution**:
+```
+FFNNs → RNNs → LSTMs/GRUs → Attention → Transformers
+(fixed context)  (memory)  (better memory)  (direct connections)
+```
 
--   RNNs are hard to train due to vanishing/exploding gradients
--   Hidden state tends to be fairly local in practice, limiting long-term dependencies
-    -   Vanishing gradients: Signal from far-away timesteps gets lost
-    -   Repeated multiplications in backpropagation step
-    -   Sigmoid derivatives between (0-0.25) and tanh derivatives between (0-1)
-    -   Gradients diminish exponentially over long sequence lengths
--   LSTMs introduce explicit memory management
-    -   Enable network to learn to forget information no longer needed
-    -   Persist information likely needed for decisions yet to come
-    -   Use gating mechanism (through additional parameters) to control the flow of information
--   Architecture
-    -   Memory cell (long-term memory) + hidden state (working memory)
-    -   Three gates control information flow:
-        -   Forget gate: What to remove from cell state
-        -   Input gate: What new information to store
-        -   Output gate: What to output based on cell state
--   Input Gate Logic
-    -   Candidate values: $g_t = \tanh(W_g x_t + U_g h_{t-1} + b_g)$
-    -   Input gate: $i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$
-    -   New information: $j_t = i_t \odot g_t$
--   Forget Gate Logic
-    -   Forget gate: $f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$
-    -   Retained memory: $k_t = f_t \odot c_{t-1}$
--   Cell State Update
-    -   $c_t = j_t + k_t$ (add new information to retained memory)
--   Output Gate Logic
-    -   Output gate: $o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$
-    -   Hidden state: $h_t = o_t \odot \tanh(c_t)$
--   LSTMs maintain two states: cell state (c) for long-term memory and hidden state (h) for output
+---
 
-## Self Attention
+## Why Not Feedforward Networks?
 
--   LSTMs still have limitations:
-    -   Difficult to parallelize (sequential processing)
-    -   Still not fully effective for very long dependencies
--   Transformers - Replace recurrent layers with self-attention layers
--   Self-Attention Mechanism
-    -   Create three projections of each input vector:
-        -   Query (Q): What the token is looking for
-        -   Key (K): What the token offers for matching
-        -   Value (V): The actual information to be aggregated
-    -   Compute attention scores between each token and all other tokens
-    -   Weight values according to attention scores
-    -   Crucial innovation: allows direct connections between any tokens regardless of distance
--   Computation Steps
-    -   Project input sequence X into Q, K, V matrices using learned weight matrices
-        -   $Q = XW^Q$, $K = XW^K$, $V = XW^V$
-    -   Compute attention scores: $S = QK^T$
-    -   Scale to stabilize gradients: $S' = S/\sqrt{d_k}$ where d_k is dimension of keys
-    -   Apply softmax to get attention weights: $A = \text{softmax}(S')$
-    -   Compute weighted values: $Z = AV$
--   Multi-Head Attention
-    -   Multiple parallel attention mechanisms
-    -   Each head can capture different types of relationships
-    -   Concatenate outputs and project back to original dimension
--   Positional Encodings
-    -   Unlike RNNs, self-attention operations are order-invariant
-    -   Add position information to input embeddings
-    -   Using sinusoidal functions: $PE_{(pos,2i)} = \sin(pos/10000^{2i/d})$, $PE_{(pos,2i+1)} = \cos(pos/10000^{2i/d})$
--   BERT Architecture
-    -   Base Model - 12 heads, 12 layers, 64 dimensions, 768 size (12 \* 64)
-    -   Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 \* 64) 
+**Limitation**: Fixed context window.
+
+A bigram FFNN can only see the previous word. But language has long-range dependencies:
+- "The students who did well on the exam **were** happy"
+- Verb agrees with "students", not "exam"
+
+**We need**: Variable-length context.
+
+---
+
+## Recurrent Neural Networks (RNNs)
+
+### The Core Idea
+
+Add a **recurrent connection** — the hidden state from the previous step feeds into the current step.
+
+$$h_t = g(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$
+$$y_t = W_{hy} h_t + b_y$$
+
+**The hidden state $h_t$ acts as memory!**
+
+### Intuition
+
+Think of reading a sentence word by word:
+- You update your understanding as each word arrives
+- Your current understanding depends on what you've read so far
+- That's exactly what $h_t$ does
+
+### Training: Backpropagation Through Time (BPTT)
+
+1. **Unroll** the network across time steps
+2. **Forward pass**: Compute all hidden states and outputs
+3. **Backward pass**: Compute gradients through the unrolled graph
+4. **Update**: Sum gradients for shared weights
+
+**For long sequences**: Use truncated BPTT (limit how far back gradients flow).
+
+### RNN Language Model
+
+$$e_t = E x_t \quad \text{(word embedding)}$$
+$$h_t = g(W_{hh} h_{t-1} + W_{he} e_t)$$
+$$P(w_{t+1}) = \text{softmax}(W_{hy} h_t)$$
+
+**Training**: Teacher forcing — use true previous word, not predicted word.
+
+**Weight tying**: Share parameters between input embedding E and output layer.
+
+---
+
+## RNN Task Variants
+
+### Sequence Labeling (Many-to-Many, aligned)
+
+**Task**: Label each token (NER, POS tagging).
+
+```
+Input:  John  loves  New   York
+Output: B-PER O      B-LOC I-LOC
+```
+
+Predict at each step based on hidden state.
+
+### Sequence Classification (Many-to-One)
+
+**Task**: Classify entire sequence (sentiment analysis).
+
+```
+Input:  This movie was great!
+Output: POSITIVE
+```
+
+Use final hidden state (or pooled states) for classification.
+
+### Sequence Generation (One-to-Many or Many-to-Many)
+
+**Task**: Generate text.
+
+```
+Input:  <BOS>
+Output: The cat sat on the mat <EOS>
+```
+
+Autoregressive: Each output becomes next input.
+
+---
+
+## RNN Architectures
+
+### Stacked RNNs
+
+Multiple RNN layers:
+```
+Layer 3: h3_t = f(h3_{t-1}, h2_t)
+Layer 2: h2_t = f(h2_{t-1}, h1_t)  
+Layer 1: h1_t = f(h1_{t-1}, x_t)
+```
+
+**Benefit**: Different abstraction levels at each layer.
+
+### Bidirectional RNNs
+
+Process sequence both ways:
+- Forward: $\vec{h}_t$ (left to right)
+- Backward: $\overleftarrow{h}_t$ (right to left)
+- Combined: $h_t = [\vec{h}_t; \overleftarrow{h}_t]$
+
+**Benefit**: Each position has access to full context.
+
+**Limitation**: Can't use for autoregressive generation (need future that doesn't exist yet).
+
+---
+
+## The Vanishing Gradient Problem
+
+### The Problem
+
+Gradients shrink exponentially as they flow backward through time:
+
+$$\frac{\partial L}{\partial h_1} = \frac{\partial L}{\partial h_T} \cdot \prod_{t=2}^{T} \frac{\partial h_t}{\partial h_{t-1}}$$
+
+If $\frac{\partial h_t}{\partial h_{t-1}} < 1$ consistently → **vanishing gradients**.
+
+**Consequence**: RNNs struggle to learn long-range dependencies.
+
+### Why It Happens
+
+- Sigmoid derivative: max 0.25
+- Tanh derivative: max 1.0
+- Repeated multiplication through many steps → exponential decay
+
+### Solutions
+
+1. **Gradient clipping** (for exploding gradients)
+2. **Better architectures**: LSTM, GRU
+3. **Skip connections**: Allow gradients to flow directly
+
+---
+
+## LSTM (Long Short-Term Memory)
+
+### The Innovation
+
+Add **explicit memory management** through **gates**.
+
+Two types of state:
+- **Cell state $c_t$**: Long-term memory (conveyor belt)
+- **Hidden state $h_t$**: Working memory / output
+
+### The Three Gates
+
+| Gate | Purpose | Controls |
+|------|---------|----------|
+| **Forget** | What to erase from memory | $f_t$ |
+| **Input** | What new info to add | $i_t$ |
+| **Output** | What to expose as output | $o_t$ |
+
+### LSTM Equations
+
+**Forget gate** (what to keep from old memory):
+$$f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$$
+
+**Input gate** (how much of new info to add):
+$$i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$$
+
+**Candidate values** (new info to potentially add):
+$$\tilde{c}_t = \tanh(W_c x_t + U_c h_{t-1} + b_c)$$
+
+**Cell state update** (the key equation!):
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$
+
+**Output gate** (what to output):
+$$o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$$
+
+**Hidden state**:
+$$h_t = o_t \odot \tanh(c_t)$$
+
+### Why LSTM Works
+
+The cell state update is **additive**:
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$
+
+Gradients can flow through unchanged (when forget gate ≈ 1).
+
+---
+
+## GRU (Gated Recurrent Unit)
+
+Simplified LSTM with fewer parameters:
+- Combines forget and input gates into **update gate**
+- No separate cell state
+
+Often performs comparably to LSTM with less computation.
+
+---
+
+## Attention Mechanism
+
+### The Bottleneck Problem
+
+In encoder-decoder models, all information must pass through a fixed-size vector.
+
+**Problem**: Information gets lost for long sequences.
+
+### The Attention Solution
+
+Let the decoder **look at all encoder states** when making each prediction.
+
+### How Attention Works
+
+For each decoder step:
+
+1. **Score**: Compute similarity between decoder state and each encoder state
+   $$e_{ij} = \text{score}(s_{i-1}, h_j)$$
+
+2. **Normalize**: Convert scores to weights (softmax)
+   $$\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_k \exp(e_{ik})}$$
+
+3. **Combine**: Weighted sum of encoder states
+   $$c_i = \sum_j \alpha_{ij} h_j$$
+
+4. **Use**: Context vector informs prediction
+   $$s_i = f(s_{i-1}, y_{i-1}, c_i)$$
+
+### Scoring Functions
+
+| Type | Formula |
+|------|---------|
+| Dot product | $s^T h$ |
+| Scaled dot product | $\frac{s^T h}{\sqrt{d}}$ |
+| MLP | $v^T \tanh(W_1 s + W_2 h)$ |
+
+### Benefits of Attention
+
+1. **Long-range dependencies**: Direct connections regardless of distance
+2. **Interpretability**: Attention weights show what the model focuses on
+3. **Alignment**: Helpful for translation (which source words map to which target words)
+
+---
+
+## Self-Attention and Transformers
+
+### From Attention to Self-Attention
+
+**Regular attention**: Query from decoder, keys/values from encoder.
+
+**Self-attention**: Query, keys, values all from same sequence.
+
+$$\text{output}_i = \text{Attention}(x_i, (x_1, x_1), (x_2, x_2), ..., (x_n, x_n))$$
+
+Each position attends to all positions in the same sequence.
+
+### Scaled Dot-Product Attention
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+
+Where:
+- Q = queries (what I'm looking for)
+- K = keys (what I offer for matching)
+- V = values (what I actually provide)
+- $\sqrt{d_k}$ scaling prevents softmax saturation
+
+### Multi-Head Attention
+
+Run multiple attention operations in parallel:
+$$\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$$
+$$\text{MultiHead} = \text{Concat}(\text{head}_1, ..., \text{head}_h) W^O$$
+
+**Benefit**: Each head can capture different types of relationships.
+
+### Positional Encoding
+
+Attention is **permutation invariant** — doesn't know word order!
+
+**Solution**: Add position information to embeddings.
+
+**Sinusoidal encoding**:
+$$PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d})$$
+$$PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d})$$
+
+### BERT Architecture
+
+**Base model**:
+- 12 attention heads
+- 12 layers
+- 768 hidden size (12 × 64)
+- 110M parameters
+
+---
+
+## Summary
+
+| Architecture | Memory | Long-range | Parallelizable |
+|--------------|--------|------------|----------------|
+| **RNN** | Hidden state | Limited | No |
+| **LSTM** | Cell + hidden | Better | No |
+| **Attention RNN** | + context | Good | Partially |
+| **Transformer** | Attention only | Excellent | Yes |
+
+### Key Takeaways
+
+1. **RNNs** process sequences with memory but struggle with long dependencies
+2. **LSTMs** use gates to control information flow, solving vanishing gradients
+3. **Attention** provides direct connections between any positions
+4. **Transformers** replace recurrence with pure attention, enabling parallelism
+5. Modern NLP is dominated by **Transformer-based models** (BERT, GPT, etc.)

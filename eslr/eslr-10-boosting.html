@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boosting | ML Notes</title>
+  <title>Boosting and Additive Trees | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items">
             <li class="nav-item"><a href="eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="eslr-10-boosting.html" class="active">Boosting</a></li>
+            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="eslr-10-boosting.html" class="active">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,141 +121,305 @@
             <span>/</span>
             <a href="index.html">ESLR</a>
           </div>
-          <h1 class="page-title">Boosting</h1>
+          <h1 class="page-title">Boosting and Additive Trees</h1>
           <div class="page-meta"><span class="tag">ESLR</span></div>
         </header>
         <article class="content">
-          <h1 id="boosting">Boosting</h1>
-<h2 id="adaboost">AdaBoost</h2>
+          <h1 id="boosting-and-additive-trees">Boosting and Additive Trees</h1>
+<p>Boosting is one of the most powerful and widely-used machine learning techniques. The core idea is simple yet profound: combine many &quot;weak&quot; learners (models that are only slightly better than random guessing) into one strong learner.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>Imagine you&#39;re trying to predict whether a customer will churn. A single simple rule (&quot;customers with low usage churn&quot;) might be 55% accurate. Not impressive! But what if you combine 100 such simple rules, each focusing on different aspects? The combination can be remarkably accurate.</p>
+<p><strong>Boosting</strong> does exactly this — it sequentially builds simple models, each one focusing on the mistakes of the previous ones.</p>
+<hr>
+<h2 id="adaboost-the-original-boosting-algorithm">AdaBoost: The Original Boosting Algorithm</h2>
+<p>AdaBoost (Adaptive Boosting) was one of the first successful boosting algorithms, and it remains one of the most elegant.</p>
+<h3 id="the-setup">The Setup</h3>
 <ul>
-<li>Sequentially apply weak classifiers on modified versions of the data</li>
-<li>Data modifications involve re-weighting the observations<ul>
-<li>Errors from previous round are given more weight</li>
-<li>Focus on hard-to-classify examples</li>
+<li><strong>Goal</strong>: Binary classification with $Y \in {-1, +1}$</li>
+<li><strong>Weak learners</strong>: Simple classifiers $G_m(x)$ (e.g., decision stumps — trees with just one split)</li>
+<li><strong>Final classifier</strong>: Weighted vote of weak learners</li>
 </ul>
-</li>
-<li>$Y \in {-1,+1}$</li>
-<li>$G(x_i) = \text{sign}\left(\sum_{m=1}^M \alpha_m G_m(x_i)\right)$<ul>
-<li>$G_m(.)$ is weak classifier with an accuracy slightly better than random</li>
-<li>$\alpha_m$ is calculated by the boosting algorithm</li>
-<li>Final classifier is weighted vote of weak classifiers</li>
-</ul>
-</li>
-<li>Algorithm<ul>
-<li>Initial weights $w_i = 1/N$</li>
-<li>For m = 1 to M rounds:<ul>
-<li>Fit classifier $G_m(x)$ using weights $w_i$</li>
-<li>Compute Error $err_m = \frac{\sum_{i=1}^N w_i I{y_i \neq G_m(x_i)}}{\sum_{i=1}^N w_i}$</li>
-<li>Compute $\alpha_m = \log\left(\frac{1 - err_m}{err_m}\right)$</li>
-<li>Update weights $w_i \leftarrow w_i \exp(\alpha_m I{y_i \neq G_m(x_i)})$</li>
-<li>Normalize weights so they sum to 1</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Properties<ul>
-<li>Adaptive: focus shifts to harder examples</li>
-<li>Resistant to overfitting (in practice)</li>
-<li>Theoretical error bound: $\prod_m \sqrt{4 \cdot err_m \cdot (1-err_m)}$</li>
-<li>Works well with decision trees as base learners</li>
-</ul>
-</li>
-</ul>
-<h2 id="additive-models">Additive Models</h2>
+<p>$$G(x) = \text{sign}\left(\sum_{m=1}^M \alpha_m G_m(x)\right)$$</p>
+<h3 id="the-algorithm-step-by-step">The Algorithm Step by Step</h3>
+<p><strong>1. Initialize</strong>: Give all observations equal weight
+$$w_i = \frac{1}{N} \quad \text{for } i = 1, 2, ..., N$$</p>
+<p><strong>2. For m = 1 to M rounds:</strong></p>
+<p>   a) <strong>Fit</strong> a weak classifier $G_m(x)$ using weights $w_i$</p>
+<p>   b) <strong>Compute weighted error</strong>:
+   $$\text{err}<em>m = \frac{\sum</em>{i=1}^N w_i \cdot I{y_i \neq G_m(x_i)}}{\sum_{i=1}^N w_i}$$</p>
+<p>   c) <strong>Compute classifier weight</strong>:
+   $$\alpha_m = \log\left(\frac{1 - \text{err}_m}{\text{err}_m}\right)$$</p>
+<p>   d) <strong>Update observation weights</strong>:
+   $$w_i \leftarrow w_i \cdot \exp\left(\alpha_m \cdot I{y_i \neq G_m(x_i)}\right)$$</p>
+<p>   e) <strong>Normalize</strong> weights so they sum to 1</p>
+<p><strong>3. Output</strong>: $G(x) = \text{sign}\left(\sum_{m=1}^M \alpha_m G_m(x)\right)$</p>
+<h3 id="understanding-the-weight-updates">Understanding the Weight Updates</h3>
+<p>The key insight is in step 2d:</p>
 <ul>
-<li>Boosting fits a forward stagewise additive model</li>
-<li>$f(x) = \sum_{m=1}^M \beta_m b(x, \gamma_m)$</li>
-<li>$\min_{\beta_m,\gamma_m} \sum_{i=1}^N L(y_i, \beta_m b(x_i, \gamma_m))$<ul>
-<li>Optimal values of $\beta$ and $\gamma$ can be found iteratively</li>
-<li>$\min_{\beta,\gamma} \sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma))$</li>
-<li>Stagewise: optimize $\beta, \gamma$ given fixed $f_{m-1}$</li>
+<li><strong>Correctly classified points</strong>: Weight stays the same</li>
+<li><strong>Misclassified points</strong>: Weight increases by factor $\exp(\alpha_m)$</li>
 </ul>
-</li>
-<li>L2 Loss Function<ul>
-<li>$\min_{\beta,\gamma} \sum_{i=1}^N (y_i - f_{m-1}(x_i) - \beta b(x_i, \gamma))^2$</li>
-<li>$\min_{\beta,\gamma} \sum_{i=1}^N (r_{im} - \beta b(x_i, \gamma))^2$</li>
-<li>Where $r_{im} = y_i - f_{m-1}(x_i)$ are residuals from previous rounds</li>
-<li>Fit on residuals from previous rounds</li>
-<li>Equivalent to gradient descent in function space with squared error</li>
-<li>Robust Loss Functions for regression<ul>
-<li>Huber Loss<ul>
-<li>L1 penalty for large errors</li>
-<li>L2 penalty for small errors</li>
-<li>Less sensitive to outliers</li>
+<p>Since $\alpha_m$ is larger when $\text{err}_m$ is smaller (i.e., when the classifier is better), good classifiers upweight their mistakes MORE. This forces the next classifier to focus on the hard cases!</p>
+<h3 id="understanding-classifier-weights">Understanding Classifier Weights</h3>
+<p>The weight $\alpha_m = \log\frac{1-\text{err}_m}{\text{err}_m}$ has nice properties:</p>
+<ul>
+<li>$\text{err}_m = 0.5$ (random guessing): $\alpha_m = 0$ (no contribution)</li>
+<li>$\text{err}_m &lt; 0.5$ (better than random): $\alpha_m &gt; 0$ (positive contribution)</li>
+<li>$\text{err}_m$ near 0 (very accurate): $\alpha_m$ is large (strong contribution)</li>
 </ul>
-</li>
+<h3 id="why-adaboost-works-key-properties">Why AdaBoost Works: Key Properties</h3>
+<ol>
+<li><strong>Adaptive</strong>: Each round focuses on previously misclassified points</li>
+<li><strong>Resistant to overfitting</strong>: Empirically works well even with many rounds</li>
+<li><strong>Theoretical guarantee</strong>: Training error decreases exponentially with rounds:
+$$\text{Training error} \leq \prod_{m=1}^M \sqrt{4 \cdot \text{err}_m \cdot (1-\text{err}_m)}$$</li>
+</ol>
+<hr>
+<h2 id="forward-stagewise-additive-modeling">Forward Stagewise Additive Modeling</h2>
+<p>AdaBoost can be understood as a special case of a general framework called <strong>forward stagewise additive modeling</strong>.</p>
+<h3 id="the-general-framework">The General Framework</h3>
+<p>We want to build a model as a sum of basis functions:
+$$f(x) = \sum_{m=1}^M \beta_m b(x; \gamma_m)$$</p>
+<p>Where:</p>
+<ul>
+<li>$b(x; \gamma)$ is a basis function parameterized by $\gamma$</li>
+<li>$\beta_m$ is the coefficient for the m-th term</li>
 </ul>
-</li>
+<h3 id="the-stagewise-algorithm">The Stagewise Algorithm</h3>
+<p>Instead of optimizing all parameters at once (hard!), we build the model <strong>greedily</strong>:</p>
+<p>For m = 1 to M:</p>
+<ol>
+<li>Fix previous terms $f_{m-1}(x)$</li>
+<li>Find new $\beta_m, \gamma_m$ to minimize:
+$$\sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \beta_m b(x_i; \gamma_m))$$</li>
+<li>Update: $f_m(x) = f_{m-1}(x) + \beta_m b(x_i; \gamma_m)$</li>
+</ol>
+<h3 id="l2-loss-fitting-residuals">L2 Loss: Fitting Residuals</h3>
+<p>For squared error loss $L(y, f) = (y - f)^2$:</p>
+<p>$$\min_{\beta,\gamma} \sum_{i=1}^N (y_i - f_{m-1}(x_i) - \beta b(x_i; \gamma))^2$$</p>
+<p>Let $r_{im} = y_i - f_{m-1}(x_i)$ be the <strong>residual</strong> from previous rounds. Then:</p>
+<p>$$\min_{\beta,\gamma} \sum_{i=1}^N (r_{im} - \beta b(x_i; \gamma))^2$$</p>
+<p><strong>Insight</strong>: With squared error, each round fits the <strong>residuals</strong> from the previous round!</p>
+<h3 id="robust-loss-functions">Robust Loss Functions</h3>
+<p>Squared error is sensitive to outliers. Alternatives:</p>
+<p><strong>Huber Loss</strong>:
+$$L(y, f) = \begin{cases} 
+\frac{1}{2}(y-f)^2 &amp; \text{if } |y-f| \leq \delta \
+\delta|y-f| - \frac{1}{2}\delta^2 &amp; \text{otherwise}
+\end{cases}$$</p>
+<ul>
+<li>Quadratic for small errors (smooth optimization)</li>
+<li>Linear for large errors (robust to outliers)</li>
 </ul>
-</li>
-<li>Exponential Loss<ul>
-<li>$L(y, f(x)) = \exp(-y f(x))$</li>
-<li>Equivalent to using deviance</li>
-<li>The optimal $f$ that minimizes this loss is $\frac{1}{2}\log\frac{P(Y=1|X=x)}{P(Y=-1|X=x)}$</li>
-<li>Hence justified to use the sign of $f(x)$ for prediction</li>
-<li>$\min_{\beta,G} \sum_{i=1}^N \exp(-y_i(f_{m-1}(x_i) + \beta G(x_i)))$</li>
-<li>$\min_{\beta,G} \sum_{i=1}^N w_i^{(m)} \exp(-y_i \beta G(x_i))$</li>
-<li>$\min_{\beta,G} \exp(-\beta) \sum_{y_i=G(x_i)} w_i^{(m)} + \exp(\beta) \sum_{y_i\neq G(x_i)} w_i^{(m)}$</li>
-<li>Optimal $\beta = \frac{1}{2}\log\frac{1-err_m}{err_m}$</li>
-<li>AdaBoost is equivalent to forward stagewise additive modeling with exponential loss</li>
-</ul>
-</li>
-</ul>
+<h3 id="exponential-loss-back-to-adaboost">Exponential Loss: Back to AdaBoost</h3>
+<p>For exponential loss $L(y, f) = \exp(-y \cdot f)$:</p>
+<p>$$\min_{\beta,G} \sum_{i=1}^N \exp(-y_i(f_{m-1}(x_i) + \beta G(x_i)))$$</p>
+<p>Let $w_i^{(m)} = \exp(-y_i f_{m-1}(x_i))$. Then:</p>
+<p>$$\min_{\beta,G} \sum_{i=1}^N w_i^{(m)} \exp(-y_i \beta G(x_i))$$</p>
+<p>Solving this optimization gives exactly the AdaBoost update rules!</p>
+<h3 id="why-exponential-loss">Why Exponential Loss?</h3>
+<p>The population minimizer of exponential loss is:
+$$f^*(x) = \frac{1}{2}\log\frac{P(Y=1|X=x)}{P(Y=-1|X=x)}$$</p>
+<p>This is half the log-odds! So $\text{sign}(f(x))$ gives the Bayes optimal classifier.</p>
+<hr>
 <h2 id="gradient-boosting">Gradient Boosting</h2>
+<p>Gradient boosting generalizes boosting to any differentiable loss function by viewing the problem as <strong>gradient descent in function space</strong>.</p>
+<h3 id="the-key-insight">The Key Insight</h3>
+<p>Think of the fitted values $\mathbf{f} = [f(x_1), f(x_2), ..., f(x_N)]$ as parameters we&#39;re optimizing.</p>
+<p>To minimize $L(\mathbf{f}) = \sum_{i=1}^N L(y_i, f(x_i))$:</p>
 <ul>
-<li>Gradient Descent in function space</li>
-<li>Minimize $L(f) = \sum L(y_i, f(x_i))$</li>
-<li>$\arg \min L(\mathbf f); ; \mathbf f = {f(x_1), f(x_2)....}$</li>
-<li>Additive Models $ \mathbf f = \sum_m h_m$</li>
-<li>Steepest Descent $h_m = -\rho_m g_m$<ul>
-<li>$g_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}|<em>{f=f</em>{m-1}}$</li>
-<li>Negative gradient of loss function</li>
+<li>Compute the gradient: $g_i = \frac{\partial L(y_i, f)}{\partial f}\bigg|<em>{f=f</em>{m-1}(x_i)}$</li>
+<li>Update: $\mathbf{f}<em>{new} = \mathbf{f}</em>{old} - \rho \cdot \mathbf{g}$</li>
 </ul>
-</li>
-<li>Algorithm:<ol>
-<li>Initialize $f_0(x) = \arg\min_{\gamma}\sum_{i=1}^N L(y_i, \gamma)$</li>
-<li>For m = 1 to M:<ul>
-<li>Compute negative gradient: $r_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}|<em>{f=f</em>{m-1}}$</li>
-<li>Fit a base learner (e.g., regression tree) to $r_{im}$</li>
-<li>Line search for optimal step size: $\rho_m = \arg\min_{\rho}\sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \rho h_m(x_i))$</li>
+<h3 id="the-problem">The Problem</h3>
+<p>We can compute optimal $f$ values for training points, but we need to generalize to new points!</p>
+<h3 id="the-solution-fit-a-model-to-the-gradient">The Solution: Fit a Model to the Gradient</h3>
+<p>Instead of using the gradient directly, we <strong>fit a base learner to approximate the negative gradient</strong>:</p>
+<ol>
+<li>Compute negative gradient (pseudo-residuals):
+$$r_{im} = -\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}\bigg|<em>{f=f</em>{m-1}}$$</li>
+<li>Fit a base learner $h_m(x)$ to the pseudo-residuals</li>
+<li>Find optimal step size: $\rho_m = \arg\min_\rho \sum_i L(y_i, f_{m-1}(x_i) + \rho h_m(x_i))$</li>
 <li>Update: $f_m(x) = f_{m-1}(x) + \rho_m h_m(x)$</li>
+</ol>
+<h3 id="gradients-for-common-loss-functions">Gradients for Common Loss Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Loss</th>
+<th>Formula</th>
+<th>Negative Gradient (Pseudo-residual)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>L2 (Squared)</strong></td>
+<td>$(y-f)^2$</td>
+<td>$y_i - f(x_i)$ (ordinary residual)</td>
+</tr>
+<tr>
+<td><strong>L1 (Absolute)</strong></td>
+<td>$</td>
+<td>y-f</td>
+</tr>
+<tr>
+<td><strong>Deviance (Classification)</strong></td>
+<td>$-y\log p - (1-y)\log(1-p)$</td>
+<td>$y_i - p(x_i)$</td>
+</tr>
+<tr>
+<td><strong>Huber</strong></td>
+<td>Piecewise</td>
+<td>Trimmed residual</td>
+</tr>
+</tbody></table>
+<h3 id="gradient-boosting-with-trees">Gradient Boosting with Trees</h3>
+<p>The most common base learner is a <strong>regression tree</strong>. This combination is called <strong>Gradient Boosted Trees (GBT)</strong> or <strong>Gradient Boosted Decision Trees (GBDT)</strong>.</p>
+<p><strong>Algorithm</strong>:</p>
+<ol>
+<li>Initialize $f_0(x) = \arg\min_\gamma \sum_i L(y_i, \gamma)$</li>
+<li>For m = 1 to M:<ul>
+<li>Compute pseudo-residuals: $r_{im} = -\frac{\partial L}{\partial f(x_i)}|<em>{f</em>{m-1}}$</li>
+<li>Fit tree $h_m$ to pseudo-residuals</li>
+<li>For each leaf j, compute optimal value: $\gamma_{jm} = \arg\min_\gamma \sum_{x_i \in R_j} L(y_i, f_{m-1}(x_i) + \gamma)$</li>
+<li>Update: $f_m(x) = f_{m-1}(x) + \nu \sum_j \gamma_{jm} I(x \in R_{jm})$</li>
 </ul>
 </li>
 </ol>
-</li>
-<li>Line Search for optimal step size<ul>
-<li>$\rho_m = \arg \min_\rho L(f_{m-1} - \rho g_m)$</li>
-<li>Can be solved analytically for some loss functions</li>
-<li>Numerical optimization for others</li>
+<p>The parameter $\nu$ is called the <strong>learning rate</strong> or <strong>shrinkage parameter</strong>.</p>
+<hr>
+<h2 id="modern-implementations">Modern Implementations</h2>
+<p>Gradient boosting has evolved into several highly-optimized implementations:</p>
+<h3 id="xgboost-extreme-gradient-boosting">XGBoost (Extreme Gradient Boosting)</h3>
+<ul>
+<li>Uses second-order Taylor approximation for faster convergence</li>
+<li>Built-in regularization on tree complexity</li>
+<li>Handles missing values automatically</li>
+<li>Parallel tree construction</li>
+<li>Very popular in competitions!</li>
 </ul>
-</li>
-<li>Gradients for common loss functions<ul>
-<li>L2 Loss: Residual $y_i - f(x_i)$</li>
-<li>L1 Loss: Sign of Residual $\text{sign}(y_i - f(x_i))$</li>
-<li>Classification / Deviance: $y_i - p(x_i)$</li>
-<li>Huber: Combination of L1 and L2 depending on residual magnitude</li>
+<h3 id="lightgbm">LightGBM</h3>
+<ul>
+<li><strong>Gradient-based One-Side Sampling (GOSS)</strong>: Focus on high-gradient (hard) examples</li>
+<li><strong>Exclusive Feature Bundling (EFB)</strong>: Combine sparse features</li>
+<li>Leaf-wise tree growth (can be faster but risks overfitting)</li>
 </ul>
-</li>
-<li>Popular implementations<ul>
-<li>XGBoost: Optimized implementation with additional regularization</li>
-<li>LightGBM: Gradient-based One-Side Sampling (GOSS) for efficiency</li>
-<li>CatBoost: Better handling of categorical variables</li>
+<h3 id="catboost">CatBoost</h3>
+<ul>
+<li>Superior handling of categorical features (ordered boosting)</li>
+<li>Reduces target leakage</li>
+<li>Often requires less tuning</li>
 </ul>
-</li>
-<li>Regularization techniques<ul>
-<li>Shrinkage: Multiply each update by learning rate η (0 &lt; η &lt; 1)</li>
-<li>Subsampling: Use random subset of training data for each iteration</li>
-<li>Early stopping: Stop when validation performance degrades</li>
-<li>Tree constraints: Limit depth, minimum samples per leaf, etc.</li>
+<hr>
+<h2 id="regularization-and-tuning">Regularization and Tuning</h2>
+<p>Gradient boosting can overfit! Key regularization techniques:</p>
+<h3 id="1-shrinkage-learning-rate">1. Shrinkage (Learning Rate)</h3>
+<p>Scale each update by $\nu \in (0, 1)$:
+$$f_m(x) = f_{m-1}(x) + \nu \cdot h_m(x)$$</p>
+<p><strong>Smaller $\nu$</strong>:</p>
+<ul>
+<li>Requires more trees (more iterations)</li>
+<li>But generalizes better!</li>
+<li>Typical values: 0.01 to 0.1</li>
 </ul>
-</li>
+<h3 id="2-subsampling">2. Subsampling</h3>
+<p>Train each tree on a random subset of the training data:</p>
+<ul>
+<li>Reduces variance</li>
+<li>Speeds up training</li>
+<li>Typical values: 50-80% of data</li>
 </ul>
+<h3 id="3-early-stopping">3. Early Stopping</h3>
+<p>Monitor performance on a validation set. Stop when validation error stops improving:</p>
+<ul>
+<li>Prevents overfitting</li>
+<li>Saves computation</li>
+<li>Most practical stopping criterion</li>
+</ul>
+<h3 id="4-tree-constraints">4. Tree Constraints</h3>
+<p>Limit tree complexity:</p>
+<ul>
+<li><strong>Max depth</strong>: Typically 3-8</li>
+<li><strong>Min samples per leaf</strong>: Prevents tiny leaves</li>
+<li><strong>Max leaves</strong>: Direct control on complexity</li>
+</ul>
+<hr>
+<h2 id="adaboost-vs-gradient-boosting">AdaBoost vs. Gradient Boosting</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>AdaBoost</th>
+<th>Gradient Boosting</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Loss</strong></td>
+<td>Exponential only</td>
+<td>Any differentiable</td>
+</tr>
+<tr>
+<td><strong>Weight update</strong></td>
+<td>Reweight observations</td>
+<td>Fit pseudo-residuals</td>
+</tr>
+<tr>
+<td><strong>Robustness</strong></td>
+<td>Sensitive to outliers</td>
+<td>Can use robust losses</td>
+</tr>
+<tr>
+<td><strong>Flexibility</strong></td>
+<td>Classification focus</td>
+<td>Regression and classification</td>
+</tr>
+<tr>
+<td><strong>Historical</strong></td>
+<td>First boosting algorithm</td>
+<td>Modern standard</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="summary">Summary</h2>
+<h3 id="key-concepts">Key Concepts</h3>
+<ol>
+<li><p><strong>Weak learners + boosting = strong learner</strong>: The magic of combining simple models</p>
+</li>
+<li><p><strong>Sequential focusing</strong>: Each round corrects previous mistakes</p>
+</li>
+<li><p><strong>Gradient descent in function space</strong>: Gradient boosting&#39;s unifying principle</p>
+</li>
+<li><p><strong>Regularization is crucial</strong>: Learning rate, subsampling, early stopping</p>
+</li>
+<li><p><strong>Trees are the workhorses</strong>: Gradient boosted trees dominate tabular data</p>
+</li>
+</ol>
+<h3 id="when-to-use-boosting">When to Use Boosting</h3>
+<p><strong>Great for</strong>:</p>
+<ul>
+<li>Tabular data</li>
+<li>When you need maximum accuracy</li>
+<li>When you can tune hyperparameters</li>
+</ul>
+<p><strong>Not ideal for</strong>:</p>
+<ul>
+<li>When interpretability is paramount</li>
+<li>Very small datasets</li>
+<li>When training time is extremely limited</li>
+</ul>
+<h3 id="practical-tips">Practical Tips</h3>
+<ol>
+<li>Start with a small learning rate (0.01-0.1)</li>
+<li>Use early stopping based on validation error</li>
+<li>Tune max_depth (3-8) and n_estimators together</li>
+<li>Consider subsampling for large datasets</li>
+<li>Try XGBoost, LightGBM, or CatBoost — they&#39;re all excellent!</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
         <a href="eslr-09-additive-models.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Additive Models</span>
+          <span class="nav-link-title">Additive Models, Trees, and Related Methods</span>
         </a>
         <a href="eslr-15-random-forest.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>

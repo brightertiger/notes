@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Model Selection | ML Notes</title>
+  <title>Model Inference and Averaging | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items">
             <li class="nav-item"><a href="eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="eslr-08-model-selection.html" class="active">Model Selection</a></li>
-            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="eslr-08-model-selection.html" class="active">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,274 +121,331 @@
             <span>/</span>
             <a href="index.html">ESLR</a>
           </div>
-          <h1 class="page-title">Model Selection</h1>
+          <h1 class="page-title">Model Inference and Averaging</h1>
           <div class="page-meta"><span class="tag">ESLR</span></div>
         </header>
         <article class="content">
-          <h1 id="model-selection">Model Selection</h1>
-<h2 id="maximum-likelihood">Maximum Likelihood</h2>
+          <h1 id="model-inference-and-averaging">Model Inference and Averaging</h1>
+<p>This chapter covers the statistical foundations of model fitting and methods for combining multiple models. We&#39;ll explore Maximum Likelihood Estimation, Bayesian methods, the EM algorithm, and Markov Chain Monte Carlo (MCMC) — tools that underpin much of modern machine learning.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>So far we&#39;ve focused on finding the &quot;best&quot; model. But we haven&#39;t asked:</p>
 <ul>
-<li>Maximum Likelihood Inference<ul>
-<li>Parametric Model<ul>
-<li>Random variable $z_i \sim g_\theta(z)$</li>
-<li>Unknown Parameters $\theta = (\mu, \sigma^2)$</li>
+<li><strong>How confident are we</strong> in our parameter estimates?</li>
+<li><strong>What if the data came from a mixture</strong> of underlying processes?</li>
+<li><strong>Can we combine multiple models</strong> for better predictions?</li>
 </ul>
-</li>
-<li>Likelihood Function<ul>
-<li>$L(\theta, Z) = \prod g_\theta(z_i)$</li>
-<li>Probability of observed data under the model $g_\theta$</li>
-<li>Usually work with log-likelihood: $\ell(\theta, Z) = \sum \log g_\theta(z_i)$</li>
-</ul>
-</li>
-<li>Maximize the Likelihood function<ul>
-<li>Select the parameters $\theta$ such that the probability of observed data is maximized under the model</li>
-<li>For many distributions, has closed-form solution</li>
-</ul>
-</li>
-<li>Score Function $\frac{\partial L}{\partial \theta}$<ul>
-<li>Vector of partial derivatives of log-likelihood</li>
-<li>At MLE: $S(\hat{\theta}) = 0$</li>
-</ul>
-</li>
-<li>Information Matrix $I(\theta) = -E\left[\frac{\partial^2 \log L}{\partial \theta^2}\right]$<ul>
-<li>Expected curvature of log-likelihood</li>
-<li>Measures information data contains about parameters</li>
-</ul>
-</li>
-<li>Fisher Information $i(\theta) = I(\theta)_{\hat \theta}$<ul>
-<li>Evaluated at the MLE</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Sampling Distribution of MLE has limiting normal distribution<ul>
-<li>$\hat\theta \sim N(\theta, I(\theta)^{-1})$</li>
-<li>Asymptotic result (as N → ∞)</li>
-<li>Allows construction of confidence intervals and hypothesis tests</li>
-</ul>
-</li>
-<li>OLS estimates are equivalent to MLE estimates for Linear Regression with Gaussian errors<ul>
-<li>$\text{Var}(\hat \beta) = \sigma^2 / S_{xx}$</li>
-<li>$\text{Var}(\hat y_i) = \sigma^2 X_i^T (X^TX)^{-1} X_i$</li>
-<li>For non-Gaussian errors, OLS still gives unbiased estimates but may not be efficient</li>
-</ul>
-</li>
-</ul>
-<h2 id="bootstrap">Bootstrap</h2>
+<p>This chapter provides the statistical machinery to answer these questions.</p>
+<hr>
+<h2 id="maximum-likelihood-estimation-mle">Maximum Likelihood Estimation (MLE)</h2>
+<p>MLE is the most widely used approach for fitting statistical models. The intuition is simple: choose parameters that make the observed data most likely.</p>
+<h3 id="the-setup">The Setup</h3>
+<p>We have:</p>
 <ul>
-<li>Bootstrap assesses uncertainty by sampling from training data<ul>
-<li>Estimate different models using bootstrap datasets</li>
-<li>Calculate the variance of estimates for ith observation from these models</li>
-<li>Provides empirical sampling distribution when theoretical one is unavailable</li>
+<li>Data: $Z = {z_1, z_2, ..., z_N}$</li>
+<li>Parametric model: $z_i \sim g_\theta(z)$</li>
+<li>Unknown parameters: $\theta$ (could be $\mu$, $\sigma^2$, etc.)</li>
 </ul>
-</li>
-<li>Non-Parametric Bootstrap<ul>
-<li>Uses raw data for sampling, model free</li>
-<li>Makes minimal assumptions about data distribution</li>
-<li>Approaches:<ul>
-<li>Case resampling: Sample observations with replacement</li>
-<li>Residual resampling: Resample residuals and add to fitted values</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Parametric Bootstrap<ul>
-<li>Simulate new target variable by adding gaussian noise to predicted values from model</li>
-<li>Predictions estimated from this sampling will follow Gaussian distribution</li>
-<li>Assumes error distribution is correctly specified</li>
-</ul>
-</li>
-<li>Computational alternative to MLE<ul>
-<li>No formulae are available</li>
-<li>Especially useful for complex models or statistics</li>
-</ul>
-</li>
-<li>Bootstrap mean is equivalent to posterior average in Bayesian inference<ul>
-<li>Under certain conditions, has Bayesian interpretation</li>
-</ul>
-</li>
-<li>Bagging averages predictions over collection of bootstrap samples<ul>
-<li>Reduces variance of estimates</li>
-<li>Bagging often decreases mean-squared error</li>
-<li>Most effective for high-variance, low-bias models (like decision trees)</li>
-</ul>
-</li>
-<li>Bootstrap confidence intervals<ul>
-<li>Percentile method: Use empirical quantiles from bootstrap distribution</li>
-<li>BCa method: Bias-corrected and accelerated, adjusts for bias and skewness</li>
-</ul>
-</li>
-</ul>
-<h2 id="bayesian-methods">Bayesian Methods</h2>
-<ul>
-<li>Assume a prior distribution over unknown parameters<ul>
-<li>$P(\theta)$</li>
-<li>Encodes initial beliefs about parameters before seeing data</li>
-<li>Types:<ul>
-<li>Informative priors: strong beliefs about parameters</li>
-<li>Non-informative priors: minimal assumptions (e.g., uniform)</li>
-<li>Conjugate priors: result in posterior of same family as prior</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Sampling Distribution of data given the parameters<ul>
-<li>$P(Z | \theta)$</li>
-<li>Likelihood function from frequentist approach</li>
-</ul>
-</li>
-<li>Posterior Distribution<ul>
-<li>Updated knowledge of parameters after seeing the data</li>
-<li>$P(\theta | Z) \propto P(Z | \theta) \times P(\theta)$</li>
-<li>Full distribution rather than point estimate</li>
-<li>Permits probabilistic statements about parameters</li>
-</ul>
-</li>
-<li>Predictive Distribution<ul>
-<li>Predicting values of new unseen observations</li>
-<li>$P(z | Z) = \int P(z | \theta) P(\theta | Z) d\theta$</li>
-<li>Integrates over all possible parameter values, weighted by posterior</li>
-<li>Accounts for parameter uncertainty unlike plug-in estimates</li>
-</ul>
-</li>
-<li>MAP Estimate<ul>
-<li>Maximum a Posterior, point estimate of unknown parameters</li>
-<li>Select the parameters that maximize posterior density function</li>
-<li>$\hat \theta = \arg \max P(\theta | Z)$</li>
-<li>Compromise between MLE and fully Bayesian approach</li>
-</ul>
-</li>
-<li>MAP differs from frequentist approaches (like MLE) in its use of prior distribution<ul>
-<li>Prior Distribution acts as regularization</li>
-<li>MAP for linear regression with Gaussian priors yields Ridge Regression</li>
-<li>MAP for linear regression with Laplace priors yields Lasso Regression</li>
-</ul>
-</li>
-<li>Hierarchical Bayesian models<ul>
-<li>Place priors on hyperparameters</li>
-<li>Allows borrowing strength across groups</li>
-<li>Naturally handles multilevel/grouped data</li>
-</ul>
-</li>
-</ul>
-<h2 id="em-algorithm">EM Algorithm</h2>
-<ul>
-<li>Simplifies difficult MLE problems involving latent variables</li>
-<li>Applications:<ul>
-<li>Missing data</li>
-<li>Mixture models</li>
-<li>Latent variable models</li>
-<li>Hidden Markov models</li>
-</ul>
-</li>
-<li>Bimodal Data Distribution<ul>
-<li>$Y_1 \sim N(\mu_1, \sigma^2_1)$</li>
-<li>$Y_2 \sim N(\mu_2, \sigma^2_2)$</li>
-<li>$Y = \Delta Y_1 + (1 - \Delta) Y_2$<ul>
-<li>$\Delta \in {0,1}$</li>
-<li>$P(\Delta = 1) = \pi$</li>
-</ul>
-</li>
-<li>Density function of Y<ul>
-<li>$g_Y(y) = (1 - \pi) \phi_1(y) + \pi \phi_2(y)$</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Direct maximization of likelihood difficult<ul>
-<li>Sum operation inside log</li>
-<li>$\log L(\theta) = \sum_{i=1}^N \log[(1-\pi)\phi_1(y_i) + \pi\phi_2(y_i)]$</li>
-</ul>
-</li>
-<li>Responsibility<ul>
-<li>$\Delta_i$ is latent for a given observation</li>
-<li>$\gamma_i(\theta) = P(\Delta_i = 1 | y_i, \theta)$</li>
-<li>Soft Assignments</li>
-<li>Posterior probability of component membership</li>
-</ul>
-</li>
-<li>EM Algorithm<ul>
-<li>Take Initial Guesses for parameters<ul>
-<li>Sample Mean, Sample Variances, Proportion</li>
-<li>Can use K-means or random initialization</li>
-</ul>
-</li>
-<li>Expectation Step: Compute the responsibility<ul>
-<li>$\hat \gamma_i = \frac{\hat \pi \phi_2(y_i)}{(1 - \hat \pi) \phi_1(y_i) + \hat \pi \phi_2(y_i)}$</li>
-<li>Calculate expected value of log-likelihood with respect to latent variables</li>
-</ul>
-</li>
-<li>Maximization Step: Compute the weighted means and variances, and mixing probability<ul>
-<li>$\mu_1 = \frac{\sum (1 - \hat \gamma_i) y_i}{\sum (1 - \hat \gamma_i)}$</li>
-<li>$\mu_2 = \frac{\sum \hat \gamma_i y_i}{\sum \hat \gamma_i}$</li>
-<li>$\hat \pi = \frac{\sum \gamma_i}{N}$</li>
-<li>Maximize the expected log-likelihood from E-step</li>
-</ul>
-</li>
-<li>Iterate until convergence</li>
-<li>Properties:<ul>
-<li>Monotonic likelihood increase</li>
-<li>Convergence to local maximum guaranteed</li>
-<li>Multiple restarts may be needed to find global maximum</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="mcmc">MCMC</h2>
-<ul>
-<li>Given a set of random variables $U_1, U_2, U_3...$<ul>
-<li>Sampling from joint distribution is difficult</li>
-<li>Sampling from conditional distribution is easy</li>
-<li>For example bayesian inference<ul>
-<li>Joint distribution $P(Z, \theta)$</li>
-<li>Conditional Distribution $P(Z | \theta)$</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Gibbs Sampling<ul>
-<li>Take Some initial values of RVs $U^0_k$</li>
-<li>Draw from conditional Distribution<ul>
-<li>$P(U_1 | U_2^{(t)}, U_3^{(t)},..., U_K^{(t)})$</li>
-<li>$P(U_2 | U_1^{(t+1)}, U_3^{(t)},..., U_K^{(t)})$</li>
-<li>And so on, updating each variable in turn</li>
-</ul>
-</li>
-<li>Continue until the joint distribution doesn&#39;t change</li>
-<li>Markov Chain whose stationary distribution is the true joint distribution</li>
-<li>Markov Chain Monte Carlo</li>
-</ul>
-</li>
-<li>Metropolis-Hastings Algorithm<ul>
-<li>More general MCMC approach than Gibbs sampling</li>
-<li>Steps:<ol>
-<li>Generate proposal $\theta^* \sim q(\theta^*|\theta^{(t)})$</li>
-<li>Calculate acceptance ratio $r = \min\left(1, \frac{p(\theta^*|Z)q(\theta^{(t)}|\theta^*)}{p(\theta^{(t)}|Z)q(\theta^*|\theta^{(t)})}\right)$</li>
-<li>Accept proposal with probability r</li>
+<h3 id="the-likelihood-function">The Likelihood Function</h3>
+<p>The likelihood is the probability of observing our data, viewed as a function of the parameters:</p>
+<p>$$L(\theta; Z) = \prod_{i=1}^N g_\theta(z_i)$$</p>
+<p><strong>Key insight</strong>: The likelihood treats the data as fixed and varies the parameters. It answers: &quot;For different values of θ, how probable was it to see exactly this data?&quot;</p>
+<h3 id="log-likelihood">Log-Likelihood</h3>
+<p>Products are numerically unstable, so we usually work with the log-likelihood:</p>
+<p>$$\ell(\theta; Z) = \sum_{i=1}^N \log g_\theta(z_i)$$</p>
+<p>Taking logs turns products into sums — much easier to optimize!</p>
+<h3 id="finding-the-mle">Finding the MLE</h3>
+<p>The maximum likelihood estimate $\hat{\theta}$ maximizes $L(\theta)$ (equivalently, $\ell(\theta)$):</p>
+<p>$$\hat{\theta} = \arg\max_\theta \ell(\theta; Z)$$</p>
+<p>For many distributions (Normal, Binomial, etc.), we can solve this analytically by:</p>
+<ol>
+<li>Taking the derivative (the <strong>score function</strong>): $S(\theta) = \frac{\partial \ell}{\partial \theta}$</li>
+<li>Setting it to zero: $S(\hat{\theta}) = 0$</li>
+<li>Solving for $\hat{\theta}$</li>
 </ol>
-</li>
-<li>Special cases include random walk and independent proposals</li>
+<h3 id="the-information-matrix">The Information Matrix</h3>
+<p>How curved is the log-likelihood around the maximum? This tells us how &quot;sharp&quot; or &quot;flat&quot; the peak is — sharper = more confident in our estimate.</p>
+<p>The <strong>Information Matrix</strong> captures this curvature:</p>
+<p>$$I(\theta) = -E\left[\frac{\partial^2 \ell}{\partial \theta^2}\right]$$</p>
+<p><strong>Fisher Information</strong> is this evaluated at the MLE: $i(\theta) = I(\theta)|_{\hat{\theta}}$</p>
+<h3 id="sampling-distribution-of-the-mle">Sampling Distribution of the MLE</h3>
+<p>Under regularity conditions, as N → ∞:</p>
+<p>$$\hat{\theta} \sim N(\theta, I(\theta)^{-1})$$</p>
+<p><strong>What this means</strong>:</p>
+<ul>
+<li>The MLE is asymptotically unbiased (centered on truth)</li>
+<li>Its variance is the inverse of the information matrix</li>
+<li>We can construct confidence intervals and hypothesis tests!</li>
+</ul>
+<h3 id="example-linear-regression">Example: Linear Regression</h3>
+<p>For linear regression with Gaussian errors, OLS gives the MLE:</p>
+<p>$$\text{Var}(\hat{\beta}) = \sigma^2(X^TX)^{-1}$$
+$$\text{Var}(\hat{y}_i) = \sigma^2 X_i^T(X^TX)^{-1}X_i$$</p>
+<p>For non-Gaussian errors, OLS is still unbiased but may not be the most efficient estimator.</p>
+<hr>
+<h2 id="bootstrap">Bootstrap</h2>
+<p>The bootstrap is a powerful resampling technique that provides uncertainty estimates when theoretical formulas don&#39;t exist (or are too complex).</p>
+<h3 id="the-core-idea">The Core Idea</h3>
+<p>Pretend your training data IS the population. Resample from it with replacement to simulate &quot;new datasets.&quot; The variation across these resampled datasets estimates uncertainty.</p>
+<h3 id="non-parametric-bootstrap">Non-Parametric Bootstrap</h3>
+<ol>
+<li>Sample N observations <strong>with replacement</strong> from your data</li>
+<li>Fit your model to this bootstrap sample</li>
+<li>Repeat B times (typically B = 100-1000)</li>
+<li>The distribution of estimates approximates the sampling distribution</li>
+</ol>
+<p><strong>Common approaches</strong>:</p>
+<ul>
+<li><strong>Case resampling</strong>: Sample entire (X, Y) pairs with replacement</li>
+<li><strong>Residual resampling</strong>: Fit model, resample residuals, add to fitted values</li>
+</ul>
+<h3 id="parametric-bootstrap">Parametric Bootstrap</h3>
+<ol>
+<li>Fit model to original data</li>
+<li>Simulate new data from the fitted model (add Gaussian noise to predictions)</li>
+<li>Refit model to simulated data</li>
+<li>Repeat and analyze distribution</li>
+</ol>
+<p>This assumes you know the correct error distribution (often Gaussian).</p>
+<h3 id="why-bootstrap-works">Why Bootstrap Works</h3>
+<p>Under certain conditions, the bootstrap distribution of $\hat{\theta}^* - \hat{\theta}$ (difference between bootstrap and original estimate) approximates the true sampling distribution of $\hat{\theta} - \theta$.</p>
+<h3 id="bootstrap-confidence-intervals">Bootstrap Confidence Intervals</h3>
+<p><strong>Percentile Method</strong>: Use the 2.5th and 97.5th percentiles of bootstrap estimates as a 95% CI.</p>
+<p><strong>BCa Method</strong> (Bias-Corrected and Accelerated): Adjusts for bias and skewness — more accurate but more complex.</p>
+<h3 id="connection-to-bayesian-inference">Connection to Bayesian Inference</h3>
+<p>There&#39;s a remarkable connection: under certain priors, the bootstrap distribution approximates the Bayesian posterior distribution!</p>
+<h3 id="bagging-bootstrap-for-prediction">Bagging: Bootstrap for Prediction</h3>
+<p><strong>Bagging</strong> (Bootstrap Aggregating) averages predictions across bootstrap samples:</p>
+<ol>
+<li>Generate B bootstrap samples</li>
+<li>Fit a model to each</li>
+<li>Average predictions (regression) or vote (classification)</li>
+</ol>
+<p><strong>Why it helps</strong>: Reduces variance, especially for unstable models like decision trees.</p>
+<hr>
+<h2 id="bayesian-methods">Bayesian Methods</h2>
+<p>Bayesian inference takes a fundamentally different view: parameters are random variables with their own probability distributions.</p>
+<h3 id="prior-likelihood-posterior">Prior, Likelihood, Posterior</h3>
+<p><strong>Prior</strong> $P(\theta)$</p>
+<ul>
+<li>What we believe about parameters BEFORE seeing data</li>
+<li>Encodes prior knowledge or assumptions</li>
+</ul>
+<p><strong>Likelihood</strong> $P(Z|\theta)$</p>
+<ul>
+<li>Probability of the data given parameters</li>
+<li>Same as in MLE</li>
+</ul>
+<p><strong>Posterior</strong> $P(\theta|Z)$</p>
+<ul>
+<li>Updated beliefs AFTER seeing data</li>
+<li>This is what we want!</li>
+</ul>
+<p><strong>Bayes&#39; Theorem</strong>:
+$$P(\theta|Z) \propto P(Z|\theta) \times P(\theta)$$</p>
+<p>&quot;Posterior is proportional to Likelihood times Prior&quot;</p>
+<h3 id="types-of-priors">Types of Priors</h3>
+<p><strong>Informative Priors</strong>: Strong beliefs based on domain knowledge</p>
+<ul>
+<li>Example: &quot;The coefficient is probably between 0 and 1&quot;</li>
+</ul>
+<p><strong>Non-informative Priors</strong>: Minimal assumptions</p>
+<ul>
+<li>Example: Uniform distribution over all possible values</li>
+<li>Let the data speak!</li>
+</ul>
+<p><strong>Conjugate Priors</strong>: Mathematical convenience — the posterior has the same form as the prior</p>
+<ul>
+<li>Example: Gaussian prior + Gaussian likelihood → Gaussian posterior</li>
+</ul>
+<h3 id="the-posterior-distribution">The Posterior Distribution</h3>
+<p>Unlike MLE (which gives a single point estimate), Bayesian inference gives a <strong>full distribution</strong> over parameters. This lets us:</p>
+<ul>
+<li>Quantify uncertainty directly</li>
+<li>Make probabilistic statements (&quot;there&#39;s a 95% probability that β is between 0.3 and 0.7&quot;)</li>
+<li>Incorporate prior knowledge naturally</li>
+</ul>
+<h3 id="predictive-distribution">Predictive Distribution</h3>
+<p>To predict a new observation, we don&#39;t just plug in a single parameter value. We integrate over all possible values:</p>
+<p>$$P(z_{\text{new}}|Z) = \int P(z_{\text{new}}|\theta) P(\theta|Z) d\theta$$</p>
+<p>This <strong>accounts for parameter uncertainty</strong> — predictions are more honest about what we don&#39;t know.</p>
+<h3 id="map-estimation">MAP Estimation</h3>
+<p><strong>Maximum A Posteriori (MAP)</strong> is a compromise: find the single most probable parameter value under the posterior.</p>
+<p>$$\hat{\theta}^{MAP} = \arg\max_\theta P(\theta|Z) = \arg\max_\theta [P(Z|\theta) \cdot P(\theta)]$$</p>
+<p>Or equivalently:
+$$\hat{\theta}^{MAP} = \arg\max_\theta [\log P(Z|\theta) + \log P(\theta)]$$</p>
+<p><strong>Key insight</strong>: MAP = MLE + regularization penalty from the prior!</p>
+<ul>
+<li><strong>Gaussian prior</strong> → L2 penalty → Ridge Regression</li>
+<li><strong>Laplace prior</strong> → L1 penalty → Lasso Regression</li>
+</ul>
+<h3 id="hierarchical-bayesian-models">Hierarchical Bayesian Models</h3>
+<p>Sometimes we have grouped data (e.g., students within schools). <strong>Hierarchical models</strong> place priors on hyperparameters, allowing &quot;borrowing strength&quot; across groups.</p>
+<p>Example: Estimating school-level effects</p>
+<ul>
+<li>Each school has its own mean μ_k</li>
+<li>But the μ_k&#39;s come from a common distribution N(μ, τ²)</li>
+<li>We estimate μ and τ² from all schools together</li>
+</ul>
+<p>This naturally handles the bias-variance tradeoff across groups!</p>
+<hr>
+<h2 id="the-em-algorithm">The EM Algorithm</h2>
+<p>The <strong>Expectation-Maximization (EM)</strong> algorithm is an elegant solution for maximum likelihood when data is &quot;incomplete&quot; — either literally missing or involving latent (hidden) variables.</p>
+<h3 id="motivating-example-gaussian-mixture-models">Motivating Example: Gaussian Mixture Models</h3>
+<p>Suppose your data comes from a mixture of two Gaussians:</p>
+<ul>
+<li>Component 1: $N(\mu_1, \sigma^2_1)$ with probability $\pi$</li>
+<li>Component 2: $N(\mu_2, \sigma^2_2)$ with probability $1-\pi$</li>
+</ul>
+<p>The density is:
+$$g(y) = (1-\pi)\phi_1(y) + \pi\phi_2(y)$$</p>
+<h3 id="the-problem-with-direct-mle">The Problem with Direct MLE</h3>
+<p>The log-likelihood is:
+$$\ell(\theta) = \sum_{i=1}^N \log[(1-\pi)\phi_1(y_i) + \pi\phi_2(y_i)]$$</p>
+<p>The sum is INSIDE the log — no nice closed-form solution!</p>
+<h3 id="the-latent-variable-perspective">The Latent Variable Perspective</h3>
+<p>Imagine we knew which component each observation came from (a latent indicator $\Delta_i \in {0,1}$). Then MLE would be easy!</p>
+<p><strong>The EM insight</strong>: We don&#39;t know $\Delta_i$, but we can compute its expected value given current parameter estimates.</p>
+<h3 id="the-algorithm">The Algorithm</h3>
+<p><strong>1. Initialize</strong>: Start with guesses for all parameters (e.g., sample means and variances)</p>
+<p><strong>2. E-Step (Expectation)</strong>: Compute &quot;soft&quot; assignments — the probability each point belongs to each component:</p>
+<p>$$\gamma_i = P(\Delta_i = 1|y_i, \theta) = \frac{\hat{\pi}\phi_2(y_i)}{(1-\hat{\pi})\phi_1(y_i) + \hat{\pi}\phi_2(y_i)}$$</p>
+<p>This is called the <strong>responsibility</strong> — how responsible is component 2 for observation i?</p>
+<p><strong>3. M-Step (Maximization)</strong>: Update parameters using weighted averages:</p>
+<p>$$\hat{\mu}_1 = \frac{\sum(1-\gamma_i)y_i}{\sum(1-\gamma_i)}$$
+$$\hat{\mu}_2 = \frac{\sum\gamma_i y_i}{\sum\gamma_i}$$
+$$\hat{\pi} = \frac{\sum\gamma_i}{N}$$</p>
+<p><strong>4. Repeat</strong> until convergence (parameters stop changing).</p>
+<h3 id="key-properties-of-em">Key Properties of EM</h3>
+<ol>
+<li><strong>Monotonic</strong>: Each iteration increases the likelihood (never goes down)</li>
+<li><strong>Converges</strong>: Always reaches a fixed point</li>
+<li><strong>Local optima</strong>: May not find the global maximum — try multiple initializations!</li>
+<li><strong>Slow near convergence</strong>: Can take many iterations to converge precisely</li>
+</ol>
+<h3 id="applications-of-em">Applications of EM</h3>
+<ul>
+<li><strong>Mixture models</strong>: Clustering with soft assignments</li>
+<li><strong>Missing data</strong>: Impute missing values, then estimate</li>
+<li><strong>Hidden Markov Models</strong>: Speech recognition, genomics</li>
+<li><strong>Factor analysis</strong>: Latent variable models</li>
+</ul>
+<hr>
+<h2 id="markov-chain-monte-carlo-mcmc">Markov Chain Monte Carlo (MCMC)</h2>
+<p>When posteriors are too complex for closed-form solutions, MCMC provides a way to <strong>sample</strong> from them numerically.</p>
+<h3 id="the-challenge">The Challenge</h3>
+<p>In Bayesian inference, we need:
+$$P(\theta|Z) = \frac{P(Z|\theta)P(\theta)}{P(Z)}$$</p>
+<p>But the denominator $P(Z) = \int P(Z|\theta)P(\theta)d\theta$ is often intractable!</p>
+<h3 id="the-mcmc-idea">The MCMC Idea</h3>
+<p>Instead of computing the posterior exactly, generate <strong>samples</strong> from it. With enough samples, we can estimate anything we want (means, quantiles, etc.).</p>
+<h3 id="gibbs-sampling">Gibbs Sampling</h3>
+<p>When you have multiple parameters and can sample from <strong>conditional distributions</strong> (one parameter at a time, given all others):</p>
+<ol>
+<li>Initialize all parameters: $\theta^{(0)} = (\theta_1^{(0)}, \theta_2^{(0)}, ..., \theta_K^{(0)})$</li>
+<li>For each iteration t:<ul>
+<li>Sample $\theta_1^{(t+1)} \sim P(\theta_1|\theta_2^{(t)}, \theta_3^{(t)}, ..., \theta_K^{(t)}, Z)$</li>
+<li>Sample $\theta_2^{(t+1)} \sim P(\theta_2|\theta_1^{(t+1)}, \theta_3^{(t)}, ..., \theta_K^{(t)}, Z)$</li>
+<li>...and so on for all parameters</li>
 </ul>
 </li>
-<li>Practical considerations<ul>
-<li>Burn-in period: discard initial samples</li>
-<li>Thinning: use every kth sample to reduce autocorrelation</li>
-<li>Convergence diagnostics: trace plots, Gelman-Rubin statistic</li>
+<li>After a burn-in period, keep the samples</li>
+</ol>
+<p><strong>Key property</strong>: The sequence of samples forms a Markov chain whose stationary distribution is the true joint posterior!</p>
+<h3 id="metropolis-hastings-algorithm">Metropolis-Hastings Algorithm</h3>
+<p>A more general MCMC approach:</p>
+<ol>
+<li><strong>Propose</strong> a new value: $\theta^* \sim q(\theta^*|\theta^{(t)})$</li>
+<li><strong>Compute</strong> acceptance ratio:
+$$r = \min\left(1, \frac{P(\theta^*|Z) \cdot q(\theta^{(t)}|\theta^*)}{P(\theta^{(t)}|Z) \cdot q(\theta^*|\theta^{(t)})}\right)$$</li>
+<li><strong>Accept</strong> $\theta^*$ with probability r; otherwise keep $\theta^{(t)}$</li>
+</ol>
+<p><strong>Special cases</strong>:</p>
+<ul>
+<li>Random walk proposals: $q(\theta^*|\theta) = N(\theta, \sigma^2)$</li>
+<li>Independent proposals: $q(\theta^*|\theta) = g(\theta^*)$</li>
 </ul>
-</li>
-<li>Gibbs Sampling is related to EM algorithm<ul>
-<li>Generate $\Delta_i \in {0,1}$ using $p(\Delta_i = 1) = \gamma_i (\theta)$</li>
-<li>Calculate the means and variances<ul>
-<li>$\mu_1 = \frac{\sum (1 - \Delta_i) y_i}{\sum (1 - \Delta_i)}$</li>
-<li>$\mu_2 = \frac{\sum \Delta_i y_i}{\sum \Delta_i}$</li>
+<h3 id="practical-considerations">Practical Considerations</h3>
+<p><strong>Burn-in</strong>: Discard early samples (they depend on initialization)</p>
+<p><strong>Thinning</strong>: Keep every k-th sample to reduce autocorrelation</p>
+<p><strong>Convergence diagnostics</strong>:</p>
+<ul>
+<li>Trace plots: Should look like &quot;noise&quot; around a stable value</li>
+<li>Gelman-Rubin statistic: Compare multiple chains</li>
 </ul>
-</li>
-<li>Keep repeating until the joint distribution doesn&#39;t change</li>
-<li>EM finds mode of posterior, MCMC explores full posterior distribution</li>
-</ul>
-</li>
-</ul>
+<h3 id="em-vs-mcmc">EM vs. MCMC</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>EM</th>
+<th>MCMC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Output</td>
+<td>Point estimate (mode)</td>
+<td>Samples from full posterior</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Usually faster</td>
+<td>Can be slow</td>
+</tr>
+<tr>
+<td>Uncertainty</td>
+<td>Limited</td>
+<td>Full posterior available</td>
+</tr>
+<tr>
+<td>Local optima</td>
+<td>Can get stuck</td>
+<td>Explores full space</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="summary-choosing-an-inference-method">Summary: Choosing an Inference Method</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>When to Use</th>
+<th>What You Get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>MLE</strong></td>
+<td>Large samples, well-specified model</td>
+<td>Point estimate + asymptotic inference</td>
+</tr>
+<tr>
+<td><strong>Bootstrap</strong></td>
+<td>Unknown distribution, complex statistics</td>
+<td>Empirical confidence intervals</td>
+</tr>
+<tr>
+<td><strong>Bayesian + MCMC</strong></td>
+<td>Prior knowledge, need full uncertainty</td>
+<td>Full posterior distribution</td>
+</tr>
+<tr>
+<td><strong>EM</strong></td>
+<td>Latent variables, mixture models</td>
+<td>MLE for incomplete data</td>
+</tr>
+<tr>
+<td><strong>MAP</strong></td>
+<td>Want regularization with Bayesian interpretation</td>
+<td>Regularized point estimate</td>
+</tr>
+</tbody></table>
+<h3 id="key-takeaways">Key Takeaways</h3>
+<ol>
+<li><strong>MLE is the workhorse</strong>: Simple, interpretable, asymptotically optimal</li>
+<li><strong>Bootstrap is versatile</strong>: Works when theory fails</li>
+<li><strong>Bayesian methods quantify uncertainty</strong>: But require prior choices</li>
+<li><strong>EM handles hidden structure</strong>: Essential for clustering and missing data</li>
+<li><strong>MCMC explores complex posteriors</strong>: Powerful but computationally intensive</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
@@ -398,7 +455,7 @@
         </a>
         <a href="eslr-09-additive-models.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>
-          <span class="nav-link-title">Additive Models</span>
+          <span class="nav-link-title">Additive Models, Trees, and Related Methods</span>
         </a></nav>
       </div>
     </main>

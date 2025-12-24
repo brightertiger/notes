@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regression | ML Notes</title>
+  <title>Linear Regression | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items">
             <li class="nav-item"><a href="eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="eslr-01-regression.html" class="active">Regression</a></li>
+            <li class="nav-item"><a href="eslr-01-regression.html" class="active">Linear Regression</a></li>
             <li class="nav-item"><a href="eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,171 +121,262 @@
             <span>/</span>
             <a href="index.html">ESLR</a>
           </div>
-          <h1 class="page-title">Regression</h1>
+          <h1 class="page-title">Linear Regression</h1>
           <div class="page-meta"><span class="tag">ESLR</span></div>
         </header>
         <article class="content">
-          <h1 id="regression">Regression</h1>
-<h2 id="derivation">Derivation</h2>
+          <h1 id="linear-regression">Linear Regression</h1>
+<p>Linear regression is one of the most fundamental tools in statistics and machine learning. It models the relationship between a continuous response variable and one or more predictor variables. Despite its simplicity, it forms the foundation for understanding more complex methods.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p>Imagine you want to predict house prices based on features like square footage, number of bedrooms, and location. Linear regression assumes that the price is approximately a weighted sum of these features, plus some random noise.</p>
+<p><strong>Key Insight</strong>: Linear regression finds the &quot;best&quot; weights (coefficients) that minimize the difference between predicted and actual values.</p>
+<hr>
+<h2 id="model-formulation">Model Formulation</h2>
+<h3 id="the-linear-model">The Linear Model</h3>
+<p>We assume the response variable Y relates to predictors X through:</p>
+<p>$$y = X\beta + \epsilon$$</p>
+<p>Where:</p>
 <ul>
-<li>$y = X\beta + \epsilon$<ul>
-<li>$\epsilon \sim N(0, \sigma^2I)$</li>
+<li><strong>y</strong>: Vector of observed outcomes (e.g., house prices)</li>
+<li><strong>X</strong>: Matrix of predictor values (each row is one observation, each column is one feature)</li>
+<li><strong>β</strong>: Coefficients we want to estimate (the &quot;weights&quot;)</li>
+<li><strong>ε</strong>: Random error term, assumed to follow $\epsilon \sim N(0, \sigma^2I)$</li>
 </ul>
-</li>
-<li>Linear Function Approximation<ul>
-<li>$E(Y|X) = f(X) = \beta_0 + \sum_{j=1}^p \beta_j x_j$</li>
-<li>Model is linear in parameters</li>
-<li>Coefficient $\beta_j$ represents the expected change in response for a one-unit change in $x_j$, holding other predictors constant</li>
-</ul>
-</li>
-<li>Minimize Residual Sum of Squares<ul>
-<li>$RSS = \sum (y_i - f(x_i))^2 = (y - X\beta)^T(y - X\beta)$</li>
-</ul>
-</li>
-<li>Optimal value of beta:<ul>
-<li>$\frac{\partial RSS}{\partial \beta} = 0$</li>
-<li>$\hat \beta = (X^T X)^{-1}(X^Ty)$</li>
-<li>$\hat y = X \hat \beta = (X(X^T X)^{-1}X^T)y = H y$<ul>
-<li>H is the projection or Hat matrix</li>
-<li>$H_{ii}$ are leverage values indicating influence of each observation</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="sampling-distribution-of-beta">Sampling Distribution of $\beta$</h2>
+<p>The assumption of Gaussian errors is important — it means errors are symmetric around zero, with most errors being small and large errors being rare.</p>
+<h3 id="linear-function-approximation">Linear Function Approximation</h3>
+<p>We&#39;re approximating the conditional expectation:</p>
+<p>$$E(Y|X) = f(X) = \beta_0 + \sum_{j=1}^p \beta_j x_j$$</p>
+<p><strong>Interpretation of coefficients</strong>: $\beta_j$ represents the expected change in Y for a one-unit increase in $x_j$, <em>holding all other predictors constant</em>. This &quot;holding constant&quot; interpretation is crucial and often misunderstood!</p>
+<p><strong>Note</strong>: The model is &quot;linear&quot; in the <em>parameters</em> (β), not necessarily in the predictors. You can include $x^2$, $\log(x)$, or interactions — the model is still &quot;linear&quot; because coefficients enter linearly.</p>
+<hr>
+<h2 id="finding-the-best-coefficients">Finding the Best Coefficients</h2>
+<h3 id="least-squares-the-objective">Least Squares: The Objective</h3>
+<p>We want coefficients that make our predictions as close as possible to the actual values. We measure &quot;closeness&quot; using the Residual Sum of Squares (RSS):</p>
+<p>$$RSS = \sum_{i=1}^{N} (y_i - \hat{y}<em>i)^2 = \sum</em>{i=1}^{N} (y_i - f(x_i))^2 = (y - X\beta)^T(y - X\beta)$$</p>
+<p><strong>Why squared errors?</strong> Squaring penalizes large errors more heavily, gives a smooth (differentiable) objective function, and leads to elegant closed-form solutions.</p>
+<h3 id="deriving-the-solution">Deriving the Solution</h3>
+<p>To minimize RSS, we take the derivative with respect to β and set it to zero:</p>
+<p>$$\frac{\partial RSS}{\partial \beta} = -2X^T(y - X\beta) = 0$$</p>
+<p>Solving for β gives us the famous <strong>Normal Equations</strong>:</p>
+<p>$$\hat{\beta} = (X^TX)^{-1}X^Ty$$</p>
+<p>This is the Ordinary Least Squares (OLS) estimator.</p>
+<h3 id="predicted-values-and-the-hat-matrix">Predicted Values and the Hat Matrix</h3>
+<p>The fitted values are:</p>
+<p>$$\hat{y} = X\hat{\beta} = X(X^TX)^{-1}X^Ty = Hy$$</p>
+<p>Where <strong>H</strong> is called the <strong>Hat Matrix</strong> or projection matrix:</p>
 <ul>
-<li>Deviations around the conditional mean are Gaussian</li>
-<li>$Var(\hat \beta) = (X^T X)^{-1} \sigma^2$</li>
-<li>Estimate of Sigma can be done by looking at sample variance</li>
-<li>$\hat \sigma^2 = \frac{1}{N-p-1} \sum (y_i - \hat y_i)^2$</li>
-<li>$\hat \beta \sim N(\beta, (X^T X)^{-1} \sigma^2)$</li>
+<li>H &quot;puts the hat&quot; on y (transforms y into $\hat{y}$)</li>
+<li>The diagonal elements $H_{ii}$ are called <strong>leverage values</strong></li>
+<li>High leverage points have outsized influence on the fit</li>
+<li>Leverage values range from 1/N to 1, with average p/N</li>
 </ul>
-<h2 id="statistical-significance">Statistical Significance</h2>
+<hr>
+<h2 id="understanding-uncertainty">Understanding Uncertainty</h2>
+<h3 id="sampling-distribution-of-β">Sampling Distribution of β</h3>
+<p>If we collected new data and re-estimated β, we&#39;d get slightly different values. The sampling distribution tells us about this variability:</p>
+<p>$$\hat{\beta} \sim N(\beta, (X^TX)^{-1}\sigma^2)$$</p>
+<p><strong>What this means</strong>: Our estimated coefficients follow a normal distribution centered on the true coefficients (unbiased!), with a variance that depends on:</p>
 <ul>
-<li>$Z_i = \frac{\hat\beta_i}{SE_i} = \frac{\hat\beta_i}{\hat \sigma \sqrt{v_i}}$<ul>
-<li>$v_i$ is the $i$-th diagonal element of $(X^T X)^{-1}$</li>
-<li>Under null hypothesis $H_0: \beta_i = 0$, $Z_i \sim t_{N-p-1}$</li>
+<li>The noise level σ² (more noise = more uncertainty)</li>
+<li>The structure of the predictors $(X^TX)^{-1}$</li>
 </ul>
-</li>
-<li>Testing significance for a group of parameters<ul>
-<li>Say categorical variables with all k variables</li>
-<li>$F = \frac{(RSS_0 - RSS_1)/(p_1-p_0)}{RSS_1 / (N - p_1-1)}$</li>
-<li>$RSS_0$ is from restricted model, $RSS_1$ from full model</li>
-<li>$p_0$ and $p_1$ are the number of parameters in each model</li>
-<li>Under $H_0$, $F \sim F_{p_1-p_0, N-p_1-1}$</li>
+<h3 id="estimating-the-noise-level">Estimating the Noise Level</h3>
+<p>Since σ² is unknown, we estimate it from the data:</p>
+<p>$$\hat{\sigma}^2 = \frac{1}{N-p-1}\sum_{i=1}^{N}(y_i - \hat{y}_i)^2 = \frac{RSS}{N-p-1}$$</p>
+<p><strong>Why N-p-1?</strong> We lose one degree of freedom for each parameter we estimate (p slopes + 1 intercept), leaving N-p-1 degrees of freedom.</p>
+<hr>
+<h2 id="testing-statistical-significance">Testing Statistical Significance</h2>
+<h3 id="is-a-coefficient-different-from-zero">Is a Coefficient Different from Zero?</h3>
+<p>For each coefficient, we can test whether it&#39;s significantly different from zero using a t-test:</p>
+<p>$$Z_j = \frac{\hat{\beta}_j}{\text{SE}(\hat{\beta}_j)} = \frac{\hat{\beta}_j}{\hat{\sigma}\sqrt{v_j}}$$</p>
+<p>Where $v_j$ is the j-th diagonal element of $(X^TX)^{-1}$.</p>
+<p><strong>Under the null hypothesis</strong> $H_0: \beta_j = 0$, this statistic follows a t-distribution with N-p-1 degrees of freedom.</p>
+<p><strong>Practical interpretation</strong>: A large |Z| (typically &gt; 2) suggests the coefficient is statistically significant, meaning we have evidence that the predictor matters for predicting Y.</p>
+<h3 id="testing-groups-of-coefficients">Testing Groups of Coefficients</h3>
+<p>Sometimes we want to test whether a group of coefficients (e.g., all levels of a categorical variable) are jointly zero. We use the F-test:</p>
+<p>$$F = \frac{(RSS_0 - RSS_1)/(p_1 - p_0)}{RSS_1/(N - p_1 - 1)}$$</p>
+<p>Where:</p>
+<ul>
+<li>$RSS_0$ = RSS from the restricted model (without the group)</li>
+<li>$RSS_1$ = RSS from the full model (with the group)</li>
+<li>$p_0$, $p_1$ = number of parameters in each model</li>
 </ul>
-</li>
-</ul>
+<p>Under the null hypothesis, $F \sim F_{p_1-p_0, N-p_1-1}$.</p>
+<hr>
 <h2 id="gauss-markov-theorem">Gauss-Markov Theorem</h2>
-<ul>
-<li>Among all unbiased estimators, the least square estimates have lowest variance</li>
-<li>$E[(Y_0 - \hat Y_0)^2] = \sigma^2 + MSE(\hat f(X_0))$</li>
-<li>Assumptions required:<ul>
-<li>Linearity of the true relationship</li>
-<li>Independence of errors</li>
-<li>Homoscedasticity (constant error variance)</li>
-<li>No perfect multicollinearity</li>
-</ul>
-</li>
-</ul>
+<p>This is one of the most important theoretical results in linear regression:</p>
+<p><strong>Statement</strong>: Among all <em>linear, unbiased</em> estimators, OLS has the <em>smallest variance</em>.</p>
+<p>This is why OLS is called <strong>BLUE</strong> (Best Linear Unbiased Estimator).</p>
+<h3 id="expected-prediction-error">Expected Prediction Error</h3>
+<p>When predicting a new observation:</p>
+<p>$$E[(Y_0 - \hat{Y}_0)^2] = \sigma^2 + \text{MSE}(\hat{f}(X_0))$$</p>
+<p>The prediction error has two components:</p>
+<ol>
+<li><strong>Irreducible error</strong> (σ²): randomness we can&#39;t eliminate</li>
+<li><strong>Estimation error</strong> (MSE): uncertainty from estimating f</li>
+</ol>
+<h3 id="assumptions-required">Assumptions Required</h3>
+<p>The Gauss-Markov theorem relies on these assumptions:</p>
+<ol>
+<li><strong>Linearity</strong>: The true relationship is linear</li>
+<li><strong>Independence</strong>: Errors are independent across observations</li>
+<li><strong>Homoscedasticity</strong>: Error variance is constant (not changing with X)</li>
+<li><strong>No perfect multicollinearity</strong>: Predictors aren&#39;t perfectly correlated</li>
+</ol>
+<p><strong>Important</strong>: Gauss-Markov says OLS is best among unbiased estimators. But sometimes a <em>biased</em> estimator with lower variance gives better predictions (see Shrinkage Methods below).</p>
+<hr>
 <h2 id="subset-selection">Subset Selection</h2>
-<ul>
-<li>Select only a few variables for better interpretability</li>
-<li>Best subset selection of size K is the one that yields minimum RSS</li>
-<li>Forward Selection<ul>
-<li>Sequentially add one variable that most improves the fit</li>
-<li>QR decomposition / successive orthogonalization to look at correlation</li>
-<li>Computationally efficient but may miss optimal subset</li>
-</ul>
-</li>
-<li>Backward Selection<ul>
-<li>Sequentially delete the variable that has least impact on the fit</li>
-<li>Z Score</li>
-<li>Requires starting with all variables (can&#39;t be used when N &lt; p)</li>
-</ul>
-</li>
-<li>Hybrid Stepwise Selection<ul>
-<li>Consider both forward and backward moves at each step</li>
-<li>AIC for weighting the choices</li>
-<li>Better exploration of the model space</li>
-</ul>
-</li>
-<li>Forward Stagewise Selection<ul>
-<li>Add the variable most correlated with current residual</li>
-<li>Don&#39;t re-adjust the coefficients of the existing variables</li>
-<li>Similar to gradient descent in function space</li>
-</ul>
-</li>
-</ul>
+<p>When you have many predictors, some may be irrelevant. Including them adds noise and hurts interpretability. Subset selection methods help identify the most important predictors.</p>
+<h3 id="best-subset-selection">Best Subset Selection</h3>
+<p>Idea: For each subset size k, find the k variables that minimize RSS. Choose the best k using cross-validation or information criteria.</p>
+<p><strong>Problem</strong>: With p predictors, there are $2^p$ possible subsets — computationally infeasible for large p.</p>
+<h3 id="forward-selection">Forward Selection</h3>
+<p>Start with no predictors and iteratively add the one that most improves the fit:</p>
+<ol>
+<li>Start with intercept only</li>
+<li>For each remaining predictor, compute RSS if added</li>
+<li>Add the predictor that reduces RSS the most</li>
+<li>Repeat until stopping criterion (e.g., no significant improvement)</li>
+</ol>
+<p><strong>Pros</strong>: Computationally efficient (O(p²) instead of O(2^p))
+<strong>Cons</strong>: May miss the optimal subset (greedy algorithm)</p>
+<p><strong>Technical note</strong>: QR decomposition or successive orthogonalization can efficiently compute which variable to add next.</p>
+<h3 id="backward-selection">Backward Selection</h3>
+<p>Start with all predictors and iteratively remove the least important:</p>
+<ol>
+<li>Start with all p predictors</li>
+<li>Compute the t-statistic for each coefficient</li>
+<li>Remove the predictor with smallest |t| (least significant)</li>
+<li>Repeat until stopping criterion</li>
+</ol>
+<p><strong>Pros</strong>: Considers all variables initially, captures interactions
+<strong>Cons</strong>: Requires N &gt; p (can&#39;t start with all variables if you have more variables than observations)</p>
+<h3 id="hybrid-stepwise-selection">Hybrid Stepwise Selection</h3>
+<p>At each step, consider both adding and removing variables. Use criteria like AIC to guide decisions. This explores the model space more thoroughly than pure forward or backward selection.</p>
+<h3 id="forward-stagewise-selection">Forward Stagewise Selection</h3>
+<p>A more gradual approach:</p>
+<ol>
+<li>Start with all coefficients at zero</li>
+<li>Find the variable most correlated with the current residuals</li>
+<li>Add a <em>small</em> amount of that variable&#39;s coefficient (don&#39;t fully optimize)</li>
+<li>Repeat</li>
+</ol>
+<p>This is similar to gradient descent in function space and connects to boosting methods discussed later.</p>
+<hr>
 <h2 id="shrinkage-methods">Shrinkage Methods</h2>
+<p>Subset selection is &quot;all or nothing&quot; — a variable is either in or out. Shrinkage methods take a softer approach: they keep all variables but <em>shrink</em> coefficients toward zero.</p>
+<p><strong>Key insight</strong>: Accepting a small amount of bias in exchange for reduced variance often improves prediction accuracy.</p>
+<h3 id="ridge-regression">Ridge Regression</h3>
+<p>Ridge regression adds a penalty on the size of coefficients:</p>
+<p>$$\hat{\beta}^{\text{ridge}} = \arg\min_\beta \left[ (y - X\beta)^T(y - X\beta) + \lambda\sum_{j=1}^p\beta_j^2 \right]$$</p>
+<p>Equivalently, it&#39;s a constrained optimization:</p>
+<p>$$\hat{\beta}^{\text{ridge}} = \arg\min_\beta (y - X\beta)^T(y - X\beta) \quad \text{subject to} \quad \sum\beta_j^2 \le t$$</p>
+<p>Here:</p>
 <ul>
-<li>Shrinkage methods result in biased estimators but a large reduction in variance</li>
-<li>More continuous and don&#39;t suffer from high variability</li>
-<li>Ridge Regression<ul>
-<li>Impose a penalty on the size of the coefficients</li>
-<li>$\hat \beta^{\text{ridge}} = \arg \min (y - X \beta)^T(y - X \beta) + \lambda \sum \beta^2$</li>
-<li>$\hat \beta^{\text{ridge}} = \arg \min (y - X \beta)^T(y - X \beta) ; \text{subject to} \sum \beta^2 \le t$</li>
-<li>t is the budget</li>
-<li>In case of correlated variables, coefficients are poorly determined</li>
-<li>A large positive coefficient of a variable is canceled by a large negative coefficient of the correlated variable</li>
-<li>Solution not invariant to scaling. Standardize the inputs and don&#39;t impose penalty on intercept</li>
-<li>$\hat \beta^{\text{ridge}} = (X^T X + \lambda I)^{-1}(X^Ty)$</li>
-<li>In case of correlated predictors, the original $(X^T X)$ wasn&#39;t full rank. But by adding noise to diagonal elements, the matrix can now be inverted.</li>
-<li>Eigenvalue decomposition: $X^TX = U D U^T$</li>
-<li>Ridge coefficients: $\hat{\beta}^{ridge} = \sum_{j=1}^p \frac{d_j}{d_j + \lambda} u_j^T y \cdot u_j$</li>
-<li>As $\lambda$ increases, coefficients shrink toward zero but not exactly zero</li>
-<li>In case of orthonormal inputs (PCA), the ridge coefficients are scaled versions of the original least-square estimates.</li>
-<li>$\lambda$ controls the degrees of freedom. A large value results in effectively dropping the variables.</li>
+<li><strong>λ</strong> (or equivalently, <strong>t</strong>) controls the strength of the penalty</li>
+<li>λ = 0 gives ordinary OLS</li>
+<li>λ → ∞ shrinks all coefficients toward zero</li>
 </ul>
-</li>
-<li>Lasso Regression<ul>
-<li>$\hat \beta^{\text{lasso}} = \arg \min (y - X \beta)^T(y - X \beta) + \lambda \sum |\beta|$</li>
-<li>Non-linear optimization</li>
-<li>A heavy restriction on budget makes some coefficients exactly zero</li>
-<li>Continuous subset selection</li>
-<li>Comparison between Ridge and Lasso<ul>
-<li>Ridge represents a disk $\beta_1^2 + \beta_2^2 &lt;= t$</li>
-<li>Lasso represents a rhombus $|\beta_1| + |\beta_2| &lt;= t$</li>
-<li>At optimal value, the estimated parameters can be exactly zero (corner solutions)</li>
-<li>Bayesian MAP estimates with different priors<ul>
-<li>Lasso has Laplace Prior ($p(\beta) \propto e^{-\alpha|\beta|}$)</li>
-<li>Ridge has Gaussian Prior ($p(\beta) \propto e^{-\alpha\beta^2/2}$)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Elastic Net<ul>
-<li>$\lambda \sum \alpha \beta^2 + (1 - \alpha) |\beta|$</li>
-<li>Variable selection like Lasso</li>
-<li>Shrinking coefficients like Ridge</li>
-<li>Better handles groups of correlated predictors</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="partial-least-squares">Partial Least Squares</h2>
+<p><strong>Closed-form solution</strong>:</p>
+<p>$$\hat{\beta}^{\text{ridge}} = (X^TX + \lambda I)^{-1}X^Ty$$</p>
+<p><strong>Why does Ridge help with correlated predictors?</strong></p>
+<p>When predictors are correlated, $(X^TX)$ is nearly singular (not full rank). This makes OLS coefficients unstable — small changes in data cause huge changes in coefficients. Adding λI to the diagonal &quot;regularizes&quot; the matrix, making inversion stable.</p>
+<p><strong>Geometric interpretation using eigenvalue decomposition</strong>:</p>
+<p>$X^TX = UDU^T$ where D is diagonal with eigenvalues $d_1, ..., d_p$</p>
+<p>Ridge coefficients become: $\hat{\beta}^{\text{ridge}} = \sum_{j=1}^p \frac{d_j}{d_j + \lambda} u_j^T y \cdot u_j$</p>
+<p>The term $\frac{d_j}{d_j + \lambda}$ shrinks coefficients most in directions with small eigenvalues (high collinearity).</p>
+<p><strong>Important</strong>: Ridge regression is NOT scale invariant — you must standardize predictors before applying it. Don&#39;t penalize the intercept.</p>
+<h3 id="lasso-regression">Lasso Regression</h3>
+<p>Lasso uses an L1 penalty instead of L2:</p>
+<p>$$\hat{\beta}^{\text{lasso}} = \arg\min_\beta \left[ (y - X\beta)^T(y - X\beta) + \lambda\sum_{j=1}^p|\beta_j| \right]$$</p>
+<p><strong>Key difference from Ridge</strong>: Lasso can shrink coefficients exactly to zero, performing automatic variable selection!</p>
+<p><strong>Why does L1 give sparsity?</strong></p>
+<p>Geometrically:</p>
 <ul>
-<li>Alternative approach to PCA to deal with correlated features</li>
-<li>Supervised transformation</li>
-<li>Principal component regression seeks directions that have high variance</li>
-<li>Partial Least Square seeks direction with high variance and high correlation with response</li>
-<li>Derive new features by linear combination of raw variables re-weighted by the correlation</li>
-<li>Algorithm:<ol>
-<li>Standardize X and y</li>
-<li>For m = 1,2,...M:<ul>
-<li>Compute weight vector $w_m \propto X^T_{m-1}y$</li>
-<li>Create score vector $z_m = X_{m-1}w_m$</li>
+<li>Ridge constraint region: a disk/sphere ($\beta_1^2 + \beta_2^2 \le t$)</li>
+<li>Lasso constraint region: a diamond/rhombus ($|\beta_1| + |\beta_2| \le t$)</li>
+</ul>
+<p>The diamond has corners on the axes. The optimal solution often hits a corner, setting some coefficients exactly to zero.</p>
+<p><strong>Bayesian interpretation</strong>:</p>
+<ul>
+<li>Lasso = MAP estimation with Laplace prior: $p(\beta) \propto e^{-\alpha|\beta|}$</li>
+<li>Ridge = MAP estimation with Gaussian prior: $p(\beta) \propto e^{-\alpha\beta^2/2}$</li>
+</ul>
+<p>The Laplace prior has heavier tails and more mass at zero, encouraging sparsity.</p>
+<p><strong>Computation</strong>: Unlike Ridge, Lasso requires iterative optimization (coordinate descent is popular).</p>
+<h3 id="elastic-net">Elastic Net</h3>
+<p>Elastic Net combines L1 and L2 penalties:</p>
+<p>$$\text{Penalty} = \lambda\left[\alpha\sum|\beta_j| + (1-\alpha)\sum\beta_j^2\right]$$</p>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Variable selection like Lasso (from L1)</li>
+<li>Stability with correlated predictors like Ridge (from L2)</li>
+<li>Better handles groups of correlated predictors (selects groups together)</li>
+</ul>
+<hr>
+<h2 id="partial-least-squares-pls">Partial Least Squares (PLS)</h2>
+<p>When predictors are highly correlated, both OLS and Ridge can struggle. PLS offers an alternative approach by constructing new features that capture both high variance AND high correlation with the response.</p>
+<h3 id="comparing-to-principal-component-regression-pcr">Comparing to Principal Component Regression (PCR)</h3>
+<ul>
+<li><strong>PCR</strong>: First does PCA on X (ignoring Y), then regresses Y on the top principal components</li>
+<li><strong>PLS</strong>: Finds directions in X that have both high variance AND high correlation with Y (supervised)</li>
+</ul>
+<h3 id="pls-algorithm">PLS Algorithm</h3>
+<ol>
+<li>Standardize X and y (zero mean, unit variance)</li>
+<li>For m = 1, 2, ..., M components:<ul>
+<li>Compute weight vector: $w_m \propto X_{m-1}^T y$ (direction most correlated with response)</li>
+<li>Create score: $z_m = X_{m-1} w_m$</li>
 <li>Regress y on $z_m$ to get coefficient $\hat{\phi}_m$</li>
 <li>Regress each column of $X_{m-1}$ on $z_m$ to get loadings $\hat{p}_m$</li>
-<li>Orthogonalize: $X_m = X_{m-1} - z_m\hat{p}_m^T$</li>
+<li>Orthogonalize: $X_m = X_{m-1} - z_m \hat{p}_m^T$ (remove what&#39;s explained)</li>
 </ul>
 </li>
 <li>Final prediction: $\hat{y} = \bar{y} + \sum_{m=1}^M \hat{\phi}_m z_m$</li>
 </ol>
-</li>
-</ul>
+<p><strong>When to use PLS</strong>: High-dimensional data with many correlated predictors (common in chemometrics, genomics).</p>
+<hr>
+<h2 id="summary-choosing-a-method">Summary: Choosing a Method</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Best For</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OLS</td>
+<td>Low-dimensional, well-behaved data</td>
+<td>Unbiased, interpretable</td>
+<td>Poor with collinearity or p &gt; N</td>
+</tr>
+<tr>
+<td>Ridge</td>
+<td>Collinear predictors</td>
+<td>Stable, works when p &gt; N</td>
+<td>Keeps all variables</td>
+</tr>
+<tr>
+<td>Lasso</td>
+<td>Sparse signals</td>
+<td>Automatic variable selection</td>
+<td>Can be unstable with correlated predictors</td>
+</tr>
+<tr>
+<td>Elastic Net</td>
+<td>Correlated groups of predictors</td>
+<td>Best of both worlds</td>
+<td>Extra tuning parameter</td>
+</tr>
+<tr>
+<td>PLS</td>
+<td>High-dimensional, many correlated predictors</td>
+<td>Dimension reduction + prediction</td>
+<td>Less interpretable</td>
+</tr>
+</tbody></table>
 
         </article>
         <nav class="page-navigation">

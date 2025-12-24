@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trees | ML Notes</title>
+  <title>Decision Trees and Ensembles | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items collapsed">
             <li class="nav-item"><a href="../eslr/eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="../eslr/eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="../eslr/eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="../eslr/eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="../eslr/eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items">
-            <li class="nav-item"><a href="probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="probml-18-trees.html" class="active">Trees</a></li>
-            <li class="nav-item"><a href="probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="probml-18-trees.html" class="active">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,251 +121,301 @@
             <span>/</span>
             <a href="index.html">ProbML</a>
           </div>
-          <h1 class="page-title">Trees</h1>
+          <h1 class="page-title">Decision Trees and Ensembles</h1>
           <div class="page-meta"><span class="tag">ProbML</span></div>
         </header>
         <article class="content">
-          <h1 id="trees">Trees</h1>
+          <h1 id="decision-trees-and-ensembles">Decision Trees and Ensembles</h1>
+<p>Decision trees are intuitive models that partition the feature space into regions. While single trees are prone to overfitting, ensemble methods (Random Forests, Boosting) combine many trees for powerful, robust predictions.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p><strong>Trees</strong>: Recursively partition space with simple rules.</p>
 <ul>
-<li><p>Recursively partition the input space and define a local model in the resulting region of the input space</p>
+<li>Highly interpretable</li>
+<li>But high variance (unstable)</li>
+</ul>
+<p><strong>Ensembles</strong>: Combine many trees.</p>
 <ul>
-<li>Node i</li>
-<li>Feature dimension d_i is compared to threshold t_i<ul>
-<li>$R_i = {x : x_{d_1} \leq t_1, x_{d_2} \leq t_2, \ldots}$</li>
-<li>Axis parallel splits</li>
+<li>Random Forests: Reduce variance through averaging</li>
+<li>Boosting: Reduce bias through sequential correction</li>
 </ul>
-</li>
-<li>At leaf node, model specifies the predicted output for any input that falls in the region<ul>
-<li>$w_1 = \frac{\sum_{n} y_n I{x_n \in R_1}}{\sum_{n} I{x_n \in R_1}}$</li>
-</ul>
-</li>
-<li>Tree structure can be represented as<ul>
-<li>$f(x, \theta) = \sum_j w_j I{x \in R_j}$ </li>
-<li>where j denotes a leaf node</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Model Fitting</p>
+<hr>
+<h2 id="decision-tree-structure">Decision Tree Structure</h2>
+<h3 id="the-model">The Model</h3>
+<p>$$f(x) = \sum_{j=1}^{J} w_j \cdot I{x \in R_j}$$</p>
+<p>Where:</p>
 <ul>
-<li>$L(\theta) = \sum_J \sum_{i \in R_j} (y_i, w_j)$</li>
-<li>The tree structure is non-differentiable</li>
-<li>Greedy approach to grow the tree</li>
-<li>C4.5, ID3 etc.</li>
-<li>Finding the split<ul>
-<li>$L(\theta) = {|D_l \over |D|} c_l + {|D_r \over |D|} c_r$</li>
-<li>Find the split such that the new weighted overall cost after splitting is minimized</li>
-<li>Looks for binary splits because of data fragmentation</li>
+<li>$R_j$ are disjoint regions (leaves)</li>
+<li>$w_j$ is the prediction for region j</li>
+<li>I{} is indicator function</li>
 </ul>
-</li>
-<li>Determining the cost<ul>
-<li>Regression: Mean Squared Error</li>
-<li>Classification:<ul>
-<li>Gini Index: $\sum \pi_ic (1 - \pi_ic)$</li>
-<li>$\pi_ic$ probability that the observation i belongs to class c </li>
-<li>$1 - \pi_ic$ probability of misclassification</li>
-<li>Entropy: $\sum \pi_{ic} \log \pi_{ic}$</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Regularization<ul>
-<li>Approach 1: Stop growing the tree according to some heuristic<ul>
-<li>Example: Tree reaches some maximum depth</li>
-</ul>
-</li>
-<li>Approach 2: Grow the tree to its maximum possible depth and prune it back</li>
-</ul>
-</li>
-<li>Handling missing features<ul>
-<li>Categorical: Consider missing value as a new category</li>
-<li>Continuous: Surrogate splits<ul>
-<li>Look for variables that are most correlated to the feature used for split</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Advantages of Trees<ul>
-<li>Easy to interpret</li>
-<li>Minimal data preprocessing is required</li>
-<li>Robust to outliers</li>
-</ul>
-</li>
-<li>Disadvantages of Trees<ul>
-<li>Easily overfit</li>
-<li>Perform poorly on distributional shifts</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Ensemble Learning</p>
+<h3 id="building-a-tree">Building a Tree</h3>
+<p>At each node i:</p>
+<ol>
+<li>Select a feature $d_i$</li>
+<li>Select a threshold $t_i$</li>
+<li>Split: left if $x_{d_i} \leq t_i$, right otherwise</li>
+</ol>
+<p><strong>Result</strong>: Axis-parallel partitions of the feature space.</p>
+<h3 id="leaf-predictions">Leaf Predictions</h3>
+<p><strong>Regression</strong>: Average of training labels in region
+$$w_j = \frac{\sum_{n: x_n \in R_j} y_n}{\sum_{n: x_n \in R_j} 1}$$</p>
+<p><strong>Classification</strong>: Majority vote or probability distribution</p>
+<hr>
+<h2 id="finding-optimal-splits">Finding Optimal Splits</h2>
+<h3 id="the-greedy-algorithm">The Greedy Algorithm</h3>
+<p>Tree optimization is NP-hard. We use a greedy approach:</p>
+<p>At each node, find the best split by minimizing:
+$$L = \frac{|D_L|}{|D|} C_L + \frac{|D_R|}{|D|} C_R$$</p>
+<p>Where C is the cost (impurity) and D is the data reaching that node.</p>
+<h3 id="splitting-criteria">Splitting Criteria</h3>
+<p><strong>For Regression (MSE)</strong>:
+$$C = \frac{1}{|D|}\sum_{i \in D}(y_i - \bar{y})^2$$</p>
+<p><strong>For Classification</strong>:</p>
+<p><em>Gini Index</em>:
+$$C = \sum_{c=1}^C \hat{p}_c(1 - \hat{p}_c)$$
+Probability of misclassifying a randomly chosen element.</p>
+<p><em>Cross-Entropy</em>:
+$$C = -\sum_{c=1}^C \hat{p}_c \log \hat{p}_c$$
+Information-theoretic measure of impurity.</p>
+<h3 id="why-binary-splits">Why Binary Splits?</h3>
 <ul>
-<li>Decision Trees are high variance estimators</li>
-<li>Average multiple models to reduce variance</li>
-<li>$f(y| x) = {1 \over M} \sum f_m (y | x)$</li>
-<li>In case of classification, take majority voting<ul>
-<li>$p = Pr(S &gt; M/2) = 1 - \text{Bin}(M, M/2, \theta)$</li>
-<li>Bin(.) if the CDF of the binomial distribution</li>
-<li>If the errors of the models are uncorrelated, the averaging of classifiers can boost the performance</li>
+<li>More splits = more data fragmentation</li>
+<li>Binary splits are sufficient (can always split further)</li>
+<li>Simpler to optimize</li>
 </ul>
-</li>
-<li>Stacking<ul>
-<li>Stacked Generalization</li>
-<li>Weighted Average of the models</li>
-<li>$f(y| x) = {1 \over M} \sum w_m f_m (y | x)$</li>
-<li>Weights have to be learned on unseen data</li>
-<li>Stacking is different from Bayes averaging<ul>
-<li>Weights need not add up to 1</li>
-<li>Only a subset of hypothesis space considered in stacking</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Bagging</p>
+<hr>
+<h2 id="regularization-preventing-overfitting">Regularization (Preventing Overfitting)</h2>
+<h3 id="option-1-early-stopping">Option 1: Early Stopping</h3>
+<p>Stop growing when:</p>
 <ul>
-<li>Bootstrap aggregation</li>
-<li>Sampling with replacement<ul>
-<li>Start with N data points</li>
-<li>Sample with replacement till N points are sampled</li>
-<li>Probability that a point is never selected<ul>
-<li>$(1 - {1 \over N})^N$</li>
-<li>As N → $\infty$, the value is roughly 1/e (37% approx)</li>
+<li>Maximum depth reached</li>
+<li>Minimum samples per leaf</li>
+<li>Improvement below threshold</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>Build different estimators of these sampled datasets</li>
-<li>Model doesn&#39;t overly rely on any single data point</li>
-<li>Evaluate the performance on the 37% excluded data points<ul>
-<li>OOB (out of bag error)</li>
-</ul>
-</li>
-<li>Performance boost relies on de-correlation between various models<ul>
-<li>Reduce the variance is predictions</li>
-<li>The bias remains put</li>
-<li>$V = \rho \sigma ^ 2 + {(1 - \rho) \over B} \sigma ^2$</li>
-<li>If the trees are IID, correlation is 0, and variance is 1/B</li>
-</ul>
-</li>
-<li>Random Forests<ul>
-<li>De-correlate the trees further by randomizing the splits</li>
-<li>A random subset of features chosen for split at each node</li>
-<li>Extra Trees: Further randomization by selecting subset of thresholds</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Boosting</p>
+<p><strong>Problem</strong>: May stop too early (miss good splits downstream).</p>
+<h3 id="option-2-grow-and-prune">Option 2: Grow and Prune</h3>
+<ol>
+<li>Grow full tree (until pure leaves or minimum samples)</li>
+<li>Prune back using cost-complexity criterion:</li>
+</ol>
+<p>$$C_\alpha(T) = \sum_{j=1}^{|T|} N_j \cdot C_j + \alpha |T|$$</p>
+<p>Where $|T|$ is number of leaves and α is complexity penalty.</p>
+<p>Use cross-validation to select optimal α.</p>
+<h3 id="handling-missing-features">Handling Missing Features</h3>
+<p><strong>Categorical</strong>: Treat &quot;missing&quot; as new category.</p>
+<p><strong>Continuous</strong>: Use surrogate splits — find alternative splits that best mimic the primary split.</p>
+<hr>
+<h2 id="pros-and-cons-of-trees">Pros and Cons of Trees</h2>
+<h3 id="advantages">Advantages</h3>
 <ul>
-<li>Sequentially fitting additive models<ul>
-<li>In the first round, use original data</li>
-<li>In the subsequent rounds, weight data samples based on the errors<ul>
-<li>Misclassified examples get more weight</li>
+<li><strong>Interpretable</strong>: Easy to visualize and explain</li>
+<li><strong>Minimal preprocessing</strong>: Handles mixed types, no normalization needed</li>
+<li><strong>Fast</strong>: Prediction is O(log nodes)</li>
+<li><strong>Robust to outliers</strong>: Splits don&#39;t depend on magnitudes</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>Even if each single classifier is a weak learner, the above procedure makes the ensemble a strong classifier</li>
-<li>Boosting reduces the bias of the individual weak learners to result in an overall strong classifier</li>
-<li>Forward Stage-wise Additive Modeling<ul>
-<li>$F_m(x) = F_{m-1}(x) + \beta_m f_m(x; \theta_m)$</li>
-<li>$\beta_m, \theta_m$ are chosen to minimize the loss.</li>
-<li>Add new models that address the residual error $r_i = (y_i - F_{m-1}(x_i))$</li>
-<li>AdaBoost<ul>
-<li>Classification with exponential loss: $L(y, F(x)) = exp(-yF(x))$</li>
-<li>$y \in {-1, +1}$</li>
-<li>Output of tree has to be {-1, +1} in each region</li>
-<li>Each round m, the optimization is simplified to finding the best classifier fit to the weighted training data.</li>
-<li>$\theta_m = \arg\min \sum w_i^{(m)} I {y_i \ne f_m(x_i; \theta)}$</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Gradient Boosting<ul>
-<li>Fit the entire model in forward stagewise manner</li>
-<li>$F_m(x) = F_{m-1}(x) + \beta_m f_m(x; \theta_m)$</li>
-<li>Expand this as a Taylor series around $F_{m-1}(x)$</li>
-<li>$L(y, F_m(x)) = L(y, F_{m-1}(x)) + g_m(x) + \beta_m f_m(x) + O(\beta_m^2)$</li>
-<li>Neglect higher order terms</li>
-<li>Minimize the loss</li>
-<li>$f_m(x) = - g_m(x)$</li>
-<li>$g_m(x) = {\delta L(y, F(x)) \over \delta F(x)}|<em>{F(x) = F</em>{m-1}(x)}$</li>
-<li>The new predictor is trained to approximate the negative gradient of the loss</li>
-</ul>
-</li>
-<li>In the current form, the optimization is limited to the set of training points</li>
-<li>Need a function that can generalize</li>
-<li>Train a weak learner that can approximate the negative gradient signal<ul>
-<li>$F_m = \arg\min \sum (-g_m -F(x_i))^2$</li>
-<li>Use a shrinkage factor for regularization</li>
-</ul>
-</li>
-<li>Stochastic Gradient Boosting<ul>
-<li>Data Subsampling for faster computation and better generalization</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>XGBoost</p>
+<h3 id="disadvantages">Disadvantages</h3>
 <ul>
-<li>Extreme Gradient Boosting</li>
-<li>Add regularization to the objective</li>
-<li>$L(f) = \sum l(y_i, f(x_i)) + \Omega(f)$</li>
-<li>$\Omega(f) = \gamma J + {1 \over 2} \lambda \sum w_j^2$</li>
-<li>Consider the forward stage wise additive modeling</li>
-<li>$L_m(f) = \sum l(y_i, f_{m-1}(x_i) + F(x_i)) + \Omega(f)$</li>
-<li>Use Taylor&#39;s approximation on F(x)</li>
-<li>$L_m(f) = \sum l(y_i, f_{m-1}(x_i)) + g_{im} F_m(x_i) + {1 \over 2} h_{im} F_m(x_i)^2) + \Omega(f)$<ul>
-<li>g is the gradient and h is the hessian</li>
+<li><strong>High variance</strong>: Small data changes → different tree</li>
+<li><strong>Axis-aligned only</strong>: Can&#39;t capture diagonal boundaries efficiently</li>
+<li><strong>Prone to overfitting</strong>: Without regularization</li>
 </ul>
-</li>
-<li>Dropping the constant terms and using a decision tree form of F</li>
-<li>$F(x_{ij}) = w_{j}$</li>
-<li>$L_m = \sum_j (\sum_{i \in I_j} g_{im}w_j) + (\sum_{i \in I_j} h_{im} w_j^2) + \gamma J + {1 \over 2} \lambda \sum w_j^2$ </li>
-<li>Solution to the Quadratic Equation:<ul>
-<li>$G_{jm} = \sum_{i \in I_j} g_{im}$</li>
-<li>$H_{jm} = \sum_{i \in I_j} h_{im}$</li>
-<li>$w^* = {- G \over H + \lambda}$</li>
-<li>$L(w^*) = - {1 \over 2} \sum_J {G^2_{jm} \over H_{jm} + \lambda} + \gamma J$</li>
-</ul>
-</li>
-<li>Condition for Splitting the node:<ul>
-<li>$\text{gain} = [{G^2_L \over H_L + \lambda} + {G^2_R \over H_R + \lambda} - {G^2_L + G^2_R \over H_R + H_L + \lambda}] - \gamma$</li>
-<li>Gamma acts as regularization</li>
-<li>Tree wont split if the gain from split is less than gamma</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Feature Importance</p>
+<hr>
+<h2 id="ensemble-learning">Ensemble Learning</h2>
+<h3 id="the-core-idea">The Core Idea</h3>
+<p>Combine multiple models to reduce errors.</p>
+<p><strong>Regression</strong>: Average predictions
+$$\hat{y} = \frac{1}{M}\sum_{m=1}^M f_m(x)$$</p>
+<p><strong>Classification</strong>: Majority vote or average probabilities</p>
+<h3 id="why-ensembles-work">Why Ensembles Work</h3>
+<p>For M independent classifiers each with accuracy p &gt; 0.5:
+$$P(\text{majority correct}) = \sum_{k &gt; M/2} \binom{M}{k} p^k (1-p)^{M-k}$$</p>
+<p>As M → ∞, this probability → 1!</p>
+<p><strong>Key requirement</strong>: Classifiers must be diverse (uncorrelated errors).</p>
+<h3 id="stacking">Stacking</h3>
+<p>Learn weights for combining models:
+$$\hat{y} = \sum_m w_m f_m(x)$$</p>
+<p>Train weights on held-out data to avoid overfitting.</p>
+<hr>
+<h2 id="bagging-bootstrap-aggregating">Bagging (Bootstrap Aggregating)</h2>
+<h3 id="algorithm">Algorithm</h3>
+<ol>
+<li>Create B bootstrap samples (sample with replacement)</li>
+<li>Train a tree on each bootstrap sample</li>
+<li>Average predictions (regression) or vote (classification)</li>
+</ol>
+<h3 id="key-properties">Key Properties</h3>
 <ul>
-<li>$R_k(T) = \sum_J G_j  I(v_j = k)$</li>
-<li>G is the gain in accuracy / reduction in cost</li>
-<li>I(.) returns 1 if node uses the feature</li>
-<li>Average the value of R over the ensemble of trees</li>
-<li>Normalize the values </li>
-<li>Biased towards features with large number of levels</li>
-</ul>
+<li><p>Each bootstrap sample contains ~63% of unique points:
+$$P(\text{included}) = 1 - (1 - 1/N)^N \approx 1 - 1/e \approx 0.632$$</p>
 </li>
-<li><p>Partial Dependency Plot</p>
+<li><p><strong>OOB Error</strong>: Evaluate each tree on its out-of-bag samples (free cross-validation!)</p>
+</li>
+</ul>
+<h3 id="variance-reduction">Variance Reduction</h3>
+<p>$$\text{Var}(\bar{f}) = \rho\sigma^2 + \frac{1-\rho}{B}\sigma^2$$</p>
+<p>Where ρ is correlation between trees.</p>
 <ul>
-<li>Assess the impact of a feature on output</li>
-<li>Marginalize all other features except k</li>
+<li>More trees (larger B) → second term vanishes</li>
+<li>Less correlation (smaller ρ) → first term shrinks</li>
+</ul>
+<hr>
+<h2 id="random-forests">Random Forests</h2>
+<h3 id="beyond-bagging">Beyond Bagging</h3>
+<p>Bagging helps, but trees from similar data are correlated.</p>
+<p><strong>Random Forest innovation</strong>: Add randomness to splits.</p>
+<p>At each split:</p>
+<ol>
+<li>Randomly select m features (typically $m = \sqrt{p}$ for classification, $m = p/3$ for regression)</li>
+<li>Find best split among only those m features</li>
+</ol>
+<h3 id="why-it-works">Why It Works</h3>
+<ul>
+<li>Forces trees to use different features</li>
+<li>Reduces correlation between trees</li>
+<li>Combined with bagging → powerful ensemble</li>
+</ul>
+<h3 id="extra-trees">Extra Trees</h3>
+<p>Even more randomness:</p>
+<ul>
+<li>Random feature subset (like RF)</li>
+<li>Random threshold selection (not optimized)</li>
+<li>Faster training, often similar performance</li>
+</ul>
+<hr>
+<h2 id="boosting">Boosting</h2>
+<h3 id="the-key-idea">The Key Idea</h3>
+<p>Sequentially fit weak learners, each focusing on previous mistakes.</p>
+<p>$$F_m(x) = F_{m-1}(x) + \beta_m f_m(x)$$</p>
+<p><strong>Boosting reduces bias</strong> (unlike bagging which reduces variance).</p>
+<h3 id="adaboost">AdaBoost</h3>
+<p>For classification with exponential loss:
+$$L(y, F) = \exp(-yF(x)), \quad y \in {-1, +1}$$</p>
+<p><strong>Algorithm</strong>:</p>
+<ol>
+<li>Initialize equal weights on examples</li>
+<li>For each round:<ul>
+<li>Train weak learner on weighted examples</li>
+<li>Increase weights on misclassified examples</li>
+<li>Compute learner weight based on accuracy</li>
 </ul>
 </li>
+</ol>
+<h3 id="gradient-boosting">Gradient Boosting</h3>
+<p>Generalize to any differentiable loss:</p>
+<ol>
+<li>Initialize: $F_0 = \arg\min_\gamma \sum L(y_i, \gamma)$</li>
+<li>For m = 1 to M:<ul>
+<li>Compute pseudo-residuals: $r_i = -\frac{\partial L(y_i, F)}{\partial F}|<em>{F</em>{m-1}}$</li>
+<li>Fit weak learner to pseudo-residuals</li>
+<li>Line search for step size</li>
+<li>Update: $F_m = F_{m-1} + \eta \cdot f_m$</li>
 </ul>
+</li>
+</ol>
+<p><strong>For MSE loss</strong>: Pseudo-residuals = actual residuals!</p>
+<p><strong>Regularization via shrinkage</strong>: Small learning rate η (0.01-0.1) + more trees.</p>
+<h3 id="stochastic-gradient-boosting">Stochastic Gradient Boosting</h3>
+<p>Subsample data at each round:</p>
+<ul>
+<li>Faster training</li>
+<li>Better generalization (regularization effect)</li>
+</ul>
+<hr>
+<h2 id="xgboost">XGBoost</h2>
+<h3 id="innovations">Innovations</h3>
+<ol>
+<li><p><strong>Regularized objective</strong>:
+$$L = \sum L(y_i, F(x_i)) + \gamma J + \frac{\lambda}{2}\sum w_j^2$$</p>
+</li>
+<li><p><strong>Second-order approximation</strong> (use Hessian):
+$$L \approx \sum [g_i F(x_i) + \frac{1}{2}h_i F(x_i)^2] + \text{regularization}$$</p>
+</li>
+<li><p><strong>Optimal leaf weights</strong>:
+$$w_j^* = -\frac{G_j}{H_j + \lambda}$$</p>
+</li>
+</ol>
+<p>Where $G_j = \sum_{i \in j} g_i$ and $H_j = \sum_{i \in j} h_i$.</p>
+<ol start="4">
+<li><strong>Split gain</strong>:
+$$\text{Gain} = \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L+G_R)^2}{H_L+H_R+\lambda} - \gamma$$</li>
+</ol>
+<p>γ acts as regularization — won&#39;t split unless gain exceeds γ.</p>
+<hr>
+<h2 id="feature-importance">Feature Importance</h2>
+<h3 id="mean-decrease-in-impurity">Mean Decrease in Impurity</h3>
+<p>Sum the impurity decrease at all splits using feature k:
+$$R_k = \sum_{\text{nodes using } k} \Delta \text{impurity}$$</p>
+<p>Average across all trees.</p>
+<p><strong>Caveat</strong>: Biased toward high-cardinality features.</p>
+<h3 id="permutation-importance">Permutation Importance</h3>
+<ol>
+<li>Compute baseline accuracy</li>
+<li>For each feature k:<ul>
+<li>Permute (shuffle) feature k&#39;s values</li>
+<li>Compute accuracy drop</li>
+</ul>
+</li>
+<li>Importance = accuracy drop</li>
+</ol>
+<p>More reliable but slower.</p>
+<h3 id="partial-dependence-plots">Partial Dependence Plots</h3>
+<p>Visualize effect of feature on prediction:
+$$\bar{f}<em>k(x_k) = \frac{1}{N}\sum</em>{i=1}^N f(x_k, x_{i,-k})$$</p>
+<p>Average over all other features.</p>
+<hr>
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Reduces</th>
+<th>Training</th>
+<th>Key Hyperparameters</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Single Tree</strong></td>
+<td>—</td>
+<td>Fast</td>
+<td>max_depth, min_samples</td>
+</tr>
+<tr>
+<td><strong>Bagging</strong></td>
+<td>Variance</td>
+<td>Parallel</td>
+<td>n_estimators</td>
+</tr>
+<tr>
+<td><strong>Random Forest</strong></td>
+<td>Variance</td>
+<td>Parallel</td>
+<td>n_estimators, max_features</td>
+</tr>
+<tr>
+<td><strong>Boosting</strong></td>
+<td>Bias</td>
+<td>Sequential</td>
+<td>n_estimators, learning_rate, max_depth</td>
+</tr>
+</tbody></table>
+<h3 id="practical-recommendations">Practical Recommendations</h3>
+<ol>
+<li><strong>Start with Random Forest</strong>: Works well with minimal tuning</li>
+<li><strong>Try XGBoost/LightGBM</strong>: Often best for tabular data</li>
+<li><strong>Tune carefully</strong>: Learning rate and n_estimators together</li>
+<li><strong>Early stopping</strong>: Monitor validation error</li>
+<li><strong>Feature importance</strong>: Helps interpretability</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
         <a href="probml-16-exemplar.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Exemplar Methods</span>
+          <span class="nav-link-title">Exemplar-Based Methods</span>
         </a>
         <a href="probml-19-ssl.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>
-          <span class="nav-link-title">SSL</span>
+          <span class="nav-link-title">Self-Supervised and Semi-Supervised Learning</span>
         </a></nav>
       </div>
     </main>

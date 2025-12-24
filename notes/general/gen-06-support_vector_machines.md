@@ -1,134 +1,240 @@
 # Support Vector Machines
 
+Support Vector Machines (SVMs) are powerful classifiers based on a beautifully geometric idea: find the hyperplane that separates classes with the **maximum margin**. This margin acts as a "safety buffer" that often leads to excellent generalization.
+
 ## Linear SVM
 
--   Classification setting
--   Find the maximum-margin hyperplane that can separate the data
--   Best hyperplane is the one that maximizes the margin
-    -   Margin the distance of the hyperplane to closest data points from both classes
-    -   Hyperplane: $H : wx +b = 0$
--   Distance of a point (x) to a hyperplane (h):
-    -   $d = \frac{|Wx + b|}{||W||}$
--   Margin is defined by the point closest to the hyperplane
-    -   $\gamma(W,b) = \min_{x \in D} \frac{|Wx + b|}{||W||}$
-    -   Margin is scale invariant
--   SVM wants to maximize this margin
-    -   For margin to be maximized, hyperplane must lie right in the middle of the two classes
-    -   Otherwise it can be moved towards data points of the class that is further away and be further increased
--   Mathematics
-    -   Binary Classification
-        -   $y_i \in \{+1,-1\}$
-    -   Need to find a separating hyperplane such that
-        -   $(Wx_i + b) > 0 \; \forall \; y_i = +1$
-        -   $(Wx_i + b) < 0 \; \forall \; y_i = -1$
-        -   $y_i(Wx_i + b) > 0$
-    -   SVM posits that the best hyperplane is the one that maximizes the margin
-        -   Margin acts as buffer which can lead to better generalization
-    -   Objective
-        -   $\max_{W,b} \gamma(W,b) \; \text{subject to} \; y_i(Wx_i + b) > 0$
-        -   $\max_{W,b} \min_{x \in D} \frac{|Wx + b|}{||W||} \; \text{subject to} \; y_i(Wx_i + b) > 0$
-        -   A max-min optimization problem
-    -   Simplification
-        -   The best possible hyperplace is scale invariant
-        -   Add a constraint such that $|Wx +b| = 1$
-    -   Updated objective
-        -   $\max \frac{1}{||W||} \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
-        -   $\min ||W|| \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
-        -   Equivalently: $\min \frac{1}{2}||W||^2$ (for mathematical convenience)
-    -   Combining the contraints
-        -   $y_i(Wx_i + b) \ge 0\; ; |Wx +b| = 1 \implies y_i(Wx_i + b) \ge 1$
-        -   Holds true because the objective is trying to minimize W
-    -   Final objective
-        -   $\min ||W||^2 \; \text{subject to} \; y_i(Wx_i + b) \ge 1$\
-    -   Quadratic optimization problem
-        -   Can be solved quickly unlike regression which involves inverting a large matrix
-        -   Gives a unique solution unlike perceptron
-    -   At the optimal solution, some training points will lie of the margin
-        -   $y_i(Wx_i + b) = 1$
-        -   These points are called support vectors
--   Soft Constraints
-    -   What if the optimization problem is infeasible?
-        -   No solution exists
-    -   Add relaxations i.e. allow for some misclassification
-        -   Original: $y_i(Wx_i + b) \ge 1$
-        -   Relaxed: $y_i(Wx_i + b) \ge 1 - \xi_i \; ; \xi_i > 0$
-        -   $\xi_i = \begin{cases} 1 - y_i(Wx_i + b), & \text{if } y_i(Wx_i + b) < 1\\0, & \text{otherwise} \end{cases}$
-        -   Hinge Loss $\xi_i = \max (1 - y_i(Wx_i + b), 0)$
-    -   Objective: $\min ||W||^2 + C \sum_i \max (1 - y_i(Wx_i + b), 0)$
-        -   C is the regularization parameter that calculates trade-off
-        -   High value of C allows for less torelance on errors
--   Duality
-    -   Primal problem is hard to solve
-    -   Convert the problem to a Dual, which is easier to solve and also provides near-optimal solution to primal
-    -   The gap is the optimality that arises in this process is the duality gap
-    -   Lagrangian multipliers determine if strong suality exists
-    -   Convert the above soft-margin SVM to dual via Lagrangian multipliers
-    -   $\sum \alpha_i + \sum\sum \alpha_i \alpha_j y_i y_j x_i^T x_j$
-    -   $\alpha$ is the Lagrangian multiplier
--   Kernelization
-    -   Say the points are not separable in lower dimension
-        -   Transform them via kernels to project them to a higher dimension
-        -   The points may be separable the higher dimension
-        -   Non-linear feature transformation
-        -   Solve non-linear problems via Linear SVM
-    -   Polynomial Kernel
-        -   $K(x_i, x_j) = (x_i^T x_j + c)^d$
-        -   The d refers to the degree of the polynomial
-        -   Example: 2 points in 1-D (a and b) transformerd via second order polynomial kernel
-            -   $K(a,b) = (ab + 1)^2 = 2ab+ a^2b^2 + 1 = (\sqrt{2a}, a, 1)(\sqrt{2b}, b, 1)$
-        -   Calculates similarity between points in higher dimension
-    -   RBF Kernel
-        -   $K(x_i, x_j) = \exp \{-\gamma ||x_i - x_j||^2\}$
-        -   The larger the distance between two observations, the less is the similarity
-        -   Radial Kernel determines how much influence each observation has on classifying new data points\
-        -   Transforms points to an infinite dimension space
-            -   Taylor Expansion of exponential term shows how RBF is a polynomial function with infinite dimensions
-        -   2 points in 1-D (a and b) transformerd via RBF
-            -   $K(a,b) = (1, \sqrt{\frac{1}{1!}}a, \sqrt{\frac{1}{2!}}a^2...)(1, \sqrt{\frac{1}{1!}}b, \sqrt{\frac{1}{2!}}b^2...)$
-    -   Kernel Trick
-        -   Transforming the original dataset via Kernels and training SVM is expensive
-        -   Convert Dot-products of support vectors to dot-products of mapping functions
-        -   $x_i^T x_j \implies \phi(x_i)^T \phi(x_j)$
-        -   Kernels are chosen in a way that this is feasible
--   SVM For Regression
-    -   Margins should cover all data points (Hard) or most data points (Soft)
-    -   The boundary now lies in the middle of the margins
-        -   The regression model to estimate the target values
-    -   The objective is to minimize the the distance of the points to the boundary
-    -   Hard SVM is sensitive to outliers 
+**The Core Question**: Given labeled data, what's the "best" hyperplane to separate the classes?
+
+**The SVM Answer**: The best hyperplane is the one that maximizes the distance to the nearest points from each class. These nearest points are called **support vectors** because they "support" (define) the margin.
+
+**Why Maximize the Margin?**:
+- Think of the margin as a "no man's land" between classes
+- Larger margin → more room for error on new data
+- Intuitively, a decision boundary right at the edge of your training data is fragile
+- A boundary with wide margins should generalize better
+
+**Hyperplane Basics**:
+- A hyperplane in $d$ dimensions: $H: \mathbf{w} \cdot \mathbf{x} + b = 0$
+- $\mathbf{w}$ = normal vector (perpendicular to the hyperplane)
+- $b$ = offset (distance from origin)
+- Points with $\mathbf{w} \cdot \mathbf{x} + b > 0$ are on one side; $< 0$ on the other
+
+**Distance from Point to Hyperplane**:
+$$d = \frac{|\mathbf{w} \cdot \mathbf{x} + b|}{||\mathbf{w}||}$$
+
+This is just the projection of the point onto the normal vector, normalized by the length of $\mathbf{w}$.
+
+**The Margin**:
+$$\gamma(\mathbf{w}, b) = \min_{x \in D} \frac{|\mathbf{w} \cdot \mathbf{x} + b|}{||\mathbf{w}||}$$
+
+The margin is the distance to the *closest* point. It's scale-invariant: multiplying $\mathbf{w}$ and $b$ by any constant doesn't change the hyperplane or its margin.
+
+**The Optimization Problem**:
+
+For binary classification with $y_i \in \{+1, -1\}$:
+- We need: $y_i(\mathbf{w} \cdot \mathbf{x}_i + b) > 0$ for all points (correct classification)
+- We want: Maximize the margin
+
+**Original Formulation**:
+$$\max_{\mathbf{w}, b} \min_{x \in D} \frac{|\mathbf{w} \cdot \mathbf{x} + b|}{||\mathbf{w}||} \quad \text{subject to} \quad y_i(\mathbf{w} \cdot \mathbf{x}_i + b) > 0$$
+
+This is a max-min problem—tricky to solve directly.
+
+**Clever Simplification**:
+Since the hyperplane is scale-invariant, we can choose any scale. Let's fix:
+$$|\mathbf{w} \cdot \mathbf{x} + b| = 1 \quad \text{for the points closest to the hyperplane}$$
+
+Now the margin becomes $\frac{1}{||\mathbf{w}||}$, and maximizing margin = minimizing $||\mathbf{w}||$.
+
+**Final SVM Objective** (Hard Margin):
+$$\min \frac{1}{2}||\mathbf{w}||^2 \quad \text{subject to} \quad y_i(\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 \quad \forall i$$
+
+**Why $\frac{1}{2}||\mathbf{w}||^2$?**:
+- Equivalent to minimizing $||\mathbf{w}||$ (squared is easier mathematically)
+- The $\frac{1}{2}$ makes derivatives cleaner
+
+**This is a Quadratic Programming (QP) problem**:
+- Quadratic objective, linear constraints
+- Efficient solvers exist
+- Unique global solution (unlike perceptron, which finds any separating hyperplane)
+
+**Support Vectors**: At the optimal solution, some points satisfy $y_i(\mathbf{w} \cdot \mathbf{x}_i + b) = 1$ exactly. These are the support vectors—they lie on the margin boundary and fully determine the solution.
+
+## Soft Margin SVM
+
+**The Problem**: What if data isn't perfectly separable?
+
+**Hard margin SVM fails if**:
+- Classes overlap
+- There are outliers
+- Data is noisy
+
+**The Solution**: Allow some misclassifications, but penalize them.
+
+**Slack Variables** ($\xi_i$):
+- Original constraint: $y_i(\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1$
+- Relaxed constraint: $y_i(\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i$ where $\xi_i \geq 0$
+
+**What $\xi_i$ Represents**:
+- $\xi_i = 0$: Point correctly classified and outside margin
+- $0 < \xi_i < 1$: Point correctly classified but inside margin
+- $\xi_i = 1$: Point exactly on the decision boundary
+- $\xi_i > 1$: Point misclassified
+
+**Soft Margin Objective**:
+$$\min \frac{1}{2}||\mathbf{w}||^2 + C \sum_i \xi_i \quad \text{subject to} \quad y_i(\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0$$
+
+**The Hinge Loss**:
+$$\xi_i = \max(1 - y_i(\mathbf{w} \cdot \mathbf{x}_i + b), 0)$$
+
+This is the famous **hinge loss**—zero for points outside the margin, linear penalty for points inside or misclassified.
+
+**The C Parameter**:
+- High $C$: Little tolerance for errors → narrow margin, risk of overfitting
+- Low $C$: More tolerance for errors → wide margin, risk of underfitting
+- $C = \infty$: Hard margin SVM
+
+## Duality
+
+**The Primal Problem** (what we wrote above) can be hard to solve directly. Converting to the **dual problem** has advantages:
+- Often easier to solve
+- Reveals the kernel trick
+
+**Lagrangian Formulation**:
+Introduce Lagrange multipliers $\alpha_i$ for each constraint:
+$$L = \frac{1}{2}||\mathbf{w}||^2 - \sum_i \alpha_i [y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1]$$
+
+**The Dual Problem** (after taking derivatives):
+$$\max_\alpha \sum_i \alpha_i - \frac{1}{2}\sum_i \sum_j \alpha_i \alpha_j y_i y_j (\mathbf{x}_i^T \mathbf{x}_j)$$
+$$\text{subject to} \quad \alpha_i \geq 0, \quad \sum_i \alpha_i y_i = 0$$
+
+**Key Insight**: The data only appears as dot products $\mathbf{x}_i^T \mathbf{x}_j$!
+
+**Support Vectors and $\alpha_i$**:
+- If $\alpha_i = 0$: Point is not a support vector (doesn't affect solution)
+- If $\alpha_i > 0$: Point is a support vector
+
+Most $\alpha_i$ are zero → the solution depends only on support vectors.
+
+## Kernelization
+
+**The Problem**: What if data isn't linearly separable in the original space?
+
+**The Solution**: Map data to a higher-dimensional space where it might be linearly separable.
+
+**Feature Mapping**:
+- Original data: $\mathbf{x}$
+- Mapped data: $\phi(\mathbf{x})$ in higher (possibly infinite) dimension
+- Find a hyperplane in this new space
+
+**The Kernel Trick**:
+Remember, the dual problem only uses dot products $\mathbf{x}_i^T \mathbf{x}_j$.
+
+If we work in the mapped space, we need $\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$.
+
+**Key insight**: We can define a **kernel function** $K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$ that computes this dot product *without ever explicitly computing $\phi$*.
+
+**Common Kernels**:
+
+**Polynomial Kernel**:
+$$K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + c)^d$$
+
+Example: 1D points $a$ and $b$, degree 2:
+- $K(a, b) = (ab + 1)^2 = a^2b^2 + 2ab + 1$
+- This equals $\phi(a)^T \phi(b)$ where $\phi(x) = (x^2, \sqrt{2}x, 1)$
+
+The kernel implicitly maps to a 3D space!
+
+**RBF (Gaussian) Kernel**:
+$$K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\gamma ||\mathbf{x}_i - \mathbf{x}_j||^2\right)$$
+
+Properties:
+- Similarity decreases exponentially with distance
+- Maps to **infinite-dimensional** space (via Taylor expansion of exponential)
+- Very flexible—can fit complex boundaries
+- $\gamma$ controls the "reach" of each training point
+
+**Why Kernels are Powerful**:
+1. Compute high-dimensional dot products efficiently
+2. Don't need to explicitly represent the high-dimensional vectors
+3. Can work in infinite-dimensional spaces (RBF)
+4. Turn linear methods into non-linear methods
+
+## SVM for Regression (SVR)
+
+**The Twist**: Instead of maximizing margin between classes, we define a "tube" around the regression line and minimize points outside it.
+
+**$\epsilon$-Insensitive Loss**:
+- No penalty if prediction is within $\epsilon$ of true value
+- Linear penalty for points outside the tube
+
+**Formulation**:
+$$\min \frac{1}{2}||\mathbf{w}||^2 + C\sum_i (\xi_i + \xi_i^*)$$
+
+Subject to:
+- $y_i - (\mathbf{w} \cdot \mathbf{x}_i + b) \leq \epsilon + \xi_i$
+- $(\mathbf{w} \cdot \mathbf{x}_i + b) - y_i \leq \epsilon + \xi_i^*$
+- $\xi_i, \xi_i^* \geq 0$
+
+**Intuition**:
+- The regression line lies in the middle of the tube
+- Points inside the tube (within $\epsilon$) don't contribute to the solution
+- Only points outside the tube become support vectors
 
 ## Kernel Selection
 
--   Choosing the right kernel:
-    -   Linear kernel: $K(x_i, x_j) = x_i^T x_j$
-        -   Efficient for high-dimensional data
-        -   Works well when number of features exceeds number of samples
-        -   Simplest kernel with fewest hyperparameters
-    -   Polynomial kernel: $K(x_i, x_j) = (x_i^T x_j + c)^d$
-        -   Good for normalized training data
-        -   Degree d controls flexibility (higher d = more complex decision boundary)
-        -   Can capture feature interactions
-    -   RBF/Gaussian kernel: $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$
-        -   Most commonly used non-linear kernel
-        -   Works well for most datasets
-        -   Gamma parameter controls influence radius (higher gamma = more complex boundary)
-    -   Sigmoid kernel: $K(x_i, x_j) = \tanh(\alpha x_i^T x_j + c)$
-        -   Similar to neural networks (hyperbolic tangent activation)
-        -   Less commonly used in practice
+**Linear Kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j$
+- Fastest, most interpretable
+- Best when: Many features relative to samples (text classification)
+- No hyperparameters beyond $C$
 
--   Cross-validation should be used to select the optimal kernel and hyperparameters
+**Polynomial Kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + c)^d$
+- Captures feature interactions
+- Higher $d$ = more complex boundaries
+- Parameters: degree $d$, coefficient $c$
+
+**RBF Kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma ||\mathbf{x}_i - \mathbf{x}_j||^2)$
+- Most versatile, usually a good default
+- Higher $\gamma$ = tighter fit around training points
+- Parameters: $\gamma$ (often $\gamma = 1/(2\sigma^2)$)
+
+**Sigmoid Kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = \tanh(\alpha \mathbf{x}_i^T \mathbf{x}_j + c)$
+- Similar to neural network activation
+- Less commonly used; can have convergence issues
+
+**Rule of Thumb**:
+1. Start with RBF (most flexible)
+2. If that works well, try linear (faster, more interpretable)
+3. Use cross-validation to select kernel and hyperparameters
 
 ## SVM Hyperparameter Tuning
 
--   C parameter (regularization strength):
-    -   Controls trade-off between maximizing margin and minimizing training error
-    -   Smaller C: Wider margin, more regularization, potential underfitting
-    -   Larger C: Narrower margin, less regularization, potential overfitting
--   Gamma parameter (for RBF kernel):
-    -   Controls influence radius of support vectors
-    -   Smaller gamma: Larger radius, smoother decision boundary
-    -   Larger gamma: Smaller radius, more complex decision boundary
--   Practical suggestions:
-    -   Start with RBF kernel, grid search over C and gamma
-    -   Try logarithmic scale for both C and gamma (e.g., 0.001, 0.01, 0.1, 1, 10, 100)
-    -   Use cross-validation to evaluate performance 
+**The C Parameter**:
+- Trade-off: margin width vs. training accuracy
+- Low $C$: Wide margin, more misclassifications allowed, simpler model
+- High $C$: Narrow margin, few misclassifications, complex model (may overfit)
+
+**The $\gamma$ Parameter** (RBF kernel):
+- Controls influence radius of each support vector
+- Low $\gamma$: Large radius, smoother boundary, points influence far away
+- High $\gamma$: Small radius, complex boundary, points only influence locally
+
+**The Trade-off**:
+
+| | Low $C$ | High $C$ |
+|---|---------|----------|
+| **Low $\gamma$** | Very smooth (underfit) | Smooth but fits training well |
+| **High $\gamma$** | Wiggly but regularized | Very complex (overfit) |
+
+**Tuning Strategy**:
+1. Grid search over $C$ and $\gamma$ on logarithmic scale
+2. Example: $C \in \{0.001, 0.01, 0.1, 1, 10, 100, 1000\}$
+3. Example: $\gamma \in \{0.001, 0.01, 0.1, 1, 10\}$
+4. Use cross-validation to evaluate each combination
+5. Select combination with best validation performance
+
+**Practical Tips**:
+- Scale your features! SVMs are sensitive to feature scales
+- RBF kernel with well-tuned $C$ and $\gamma$ is often competitive with more complex methods
+- For large datasets, consider linear SVM (much faster) or approximations

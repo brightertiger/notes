@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sequence Architectures | ML Notes</title>
+  <title>Sequence Architectures: RNNs, LSTMs, and Attention | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items collapsed">
             <li class="nav-item"><a href="../eslr/eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="../eslr/eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="../eslr/eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="../eslr/eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="../eslr/eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items">
-            <li class="nav-item"><a href="jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="jfsky-04-sequence.html" class="active">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="jfsky-04-sequence.html" class="active">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,216 +121,311 @@
             <span>/</span>
             <a href="index.html">Jurafsky</a>
           </div>
-          <h1 class="page-title">Sequence Architectures</h1>
+          <h1 class="page-title">Sequence Architectures: RNNs, LSTMs, and Attention</h1>
           <div class="page-meta"><span class="tag">Jurafsky</span></div>
         </header>
         <article class="content">
-          <h1 id="sequence-architectures">Sequence Architectures</h1>
-<h2 id="sequence-modeling">Sequence Modeling</h2>
+          <h1 id="sequence-architectures-rnns-lstms-and-attention">Sequence Architectures: RNNs, LSTMs, and Attention</h1>
+<p>Language is inherently sequential. This chapter covers neural architectures designed to process sequences: from basic RNNs to LSTMs to the attention mechanism that revolutionized NLP.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p><strong>The Problem</strong>: Language has dependencies across arbitrary distances.</p>
 <ul>
-<li>FFNNs can&#39;t be used because of limited context window<ul>
-<li>Languages can have longer dependencies over arbitrary context length</li>
+<li>&quot;The <strong>cat</strong> that I saw yesterday <strong>was</strong> cute&quot; (subject-verb agreement)</li>
+<li>Standard feedforward networks have fixed input size</li>
 </ul>
-</li>
-<li>Language Models assign conditional probability to the next word<ul>
-<li>$P(W_{1:n}) = \prod_{i=1}^{n} P(W_i | W_{1:i-1})$</li>
-</ul>
-</li>
-<li>Quality of a language model is assessed by perplexity<ul>
-<li>$PP = P(W_{1:n})^{-1/n}$</li>
-<li>Inverse probability that the model assigns to the test sequence normalized by the length</li>
-</ul>
-</li>
-</ul>
-<h2 id="recurrent-neural-networks">Recurrent Neural Networks</h2>
+<p><strong>The Solution</strong>: Architectures with <strong>memory</strong> that process sequences step by step.</p>
+<p><strong>The Evolution</strong>:</p>
+<pre><code>FFNNs → RNNs → LSTMs/GRUs → Attention → Transformers
+(fixed context)  (memory)  (better memory)  (direct connections)
+</code></pre>
+<hr>
+<h2 id="why-not-feedforward-networks">Why Not Feedforward Networks?</h2>
+<p><strong>Limitation</strong>: Fixed context window.</p>
+<p>A bigram FFNN can only see the previous word. But language has long-range dependencies:</p>
 <ul>
-<li>NN architecture that contains a cycle in its network connections</li>
-<li>The hidden layer output from previous step is linked to the current hidden layer output</li>
-<li>Predict using current input and previous hidden state</li>
-<li>Removes the fixed context dependency arising in FFNNs</li>
-<li>The temporal hidden output can be persisted for infinite steps</li>
-<li>Inference<ul>
-<li>$h_t = g(Uh_{t-1} + Wx_t)$</li>
-<li>$y_t = V(h_t)$</li>
+<li>&quot;The students who did well on the exam <strong>were</strong> happy&quot;</li>
+<li>Verb agrees with &quot;students&quot;, not &quot;exam&quot;</li>
 </ul>
-</li>
-<li>Training<ul>
-<li>Chain rule for backpropagation</li>
-<li>Output depends on hidden state and hidden state depends on previous time step</li>
-<li>BPTT: backpropagation through time</li>
-<li>In terms of computational graph, the network is &quot;unrolled&quot; for the entire sequence</li>
-<li>For very long sequences, use truncated BPTT</li>
-</ul>
-</li>
-<li>RNNs and Language Models<ul>
-<li>Predict next word using current word and previous hidden state</li>
-<li>Removes the limited context problem</li>
-<li>Use word embeddings to enhance the model&#39;s generalization ability</li>
-<li>$e_t = Ex_t$</li>
-<li>$h_t = g(Uh_{t-1} + We_t)$</li>
-<li>$y_t = V(h_t)$</li>
-<li>Output the probability distribution over the entire vocabulary</li>
-<li>Loss function: Cross entropy, difference between predicted probability and true distribution</li>
-<li>Minimize the error in predicting the next word</li>
-<li>Teacher forcing for training<ul>
-<li>In training phase, ignore the model output for predicting the next word</li>
-<li>Use the actual word instead</li>
-</ul>
-</li>
-<li>Weight tying<ul>
-<li>Input embedding lookup and output probability matrix have same dimensions |V|</li>
-<li>Avoid using two different matrices, use the same one instead</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>RNN Tasks<ul>
-<li>Sequence Labeling<ul>
-<li>NER tasks, POS tagging</li>
-<li>At each step predict the current tag rather than the next word</li>
-<li>Use softmax over tagset with CE loss function</li>
-</ul>
-</li>
-<li>Sequence Classification<ul>
-<li>Classify entire sequences rather than the tokens</li>
-<li>Use hidden state from the last step and pass to FFNN</li>
-<li>Backprop will be used to update the RNN cycle links</li>
-<li>Use pooling to enhance performance<ul>
-<li>Element-wise Mean, Max of all intermediate hidden states</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Sequence Generation<ul>
-<li>Encoder-decoder architecture</li>
-<li>Autoregressive generation</li>
-<li>Use &lt;s&gt; as the first token (BOS) and hidden state from encoder</li>
-<li>Sample form RNN, using output softmax</li>
-<li>Use the embedding from the generated token as next input</li>
-<li>Keep sampling till &lt;/s&gt; (EOS) token is sampled</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>RNN Architectures<ul>
-<li>Stacked RNNs<ul>
-<li>Multiple RNNs &quot;stacked together&quot;</li>
-<li>Output from one layer serves as input to another layer</li>
-<li>Differening levels of abstraction across layers</li>
-</ul>
-</li>
-<li>Bidirectional RNNs<ul>
-<li>Many applications have full access to input sequence</li>
-<li>Process the sequence from left-to-right and right-to-left</li>
-<li>Concatenate the output from forward and reversed passes</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="lstm">LSTM</h2>
+<p><strong>We need</strong>: Variable-length context.</p>
+<hr>
+<h2 id="recurrent-neural-networks-rnns">Recurrent Neural Networks (RNNs)</h2>
+<h3 id="the-core-idea">The Core Idea</h3>
+<p>Add a <strong>recurrent connection</strong> — the hidden state from the previous step feeds into the current step.</p>
+<p>$$h_t = g(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$
+$$y_t = W_{hy} h_t + b_y$$</p>
+<p><strong>The hidden state $h_t$ acts as memory!</strong></p>
+<h3 id="intuition">Intuition</h3>
+<p>Think of reading a sentence word by word:</p>
 <ul>
-<li>RNNs are hard to train due to vanishing/exploding gradients</li>
-<li>Hidden state tends to be fairly local in practice, limiting long-term dependencies<ul>
-<li>Vanishing gradients: Signal from far-away timesteps gets lost</li>
-<li>Repeated multiplications in backpropagation step</li>
-<li>Sigmoid derivatives between (0-0.25) and tanh derivatives between (0-1)</li>
-<li>Gradients diminish exponentially over long sequence lengths</li>
+<li>You update your understanding as each word arrives</li>
+<li>Your current understanding depends on what you&#39;ve read so far</li>
+<li>That&#39;s exactly what $h_t$ does</li>
 </ul>
-</li>
-<li>LSTMs introduce explicit memory management<ul>
-<li>Enable network to learn to forget information no longer needed</li>
-<li>Persist information likely needed for decisions yet to come</li>
-<li>Use gating mechanism (through additional parameters) to control the flow of information</li>
-</ul>
-</li>
-<li>Architecture<ul>
-<li>Memory cell (long-term memory) + hidden state (working memory)</li>
-<li>Three gates control information flow:<ul>
-<li>Forget gate: What to remove from cell state</li>
-<li>Input gate: What new information to store</li>
-<li>Output gate: What to output based on cell state</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Input Gate Logic<ul>
-<li>Candidate values: $g_t = \tanh(W_g x_t + U_g h_{t-1} + b_g)$</li>
-<li>Input gate: $i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$</li>
-<li>New information: $j_t = i_t \odot g_t$</li>
-</ul>
-</li>
-<li>Forget Gate Logic<ul>
-<li>Forget gate: $f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$</li>
-<li>Retained memory: $k_t = f_t \odot c_{t-1}$</li>
-</ul>
-</li>
-<li>Cell State Update<ul>
-<li>$c_t = j_t + k_t$ (add new information to retained memory)</li>
-</ul>
-</li>
-<li>Output Gate Logic<ul>
-<li>Output gate: $o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$</li>
-<li>Hidden state: $h_t = o_t \odot \tanh(c_t)$</li>
-</ul>
-</li>
-<li>LSTMs maintain two states: cell state (c) for long-term memory and hidden state (h) for output</li>
-</ul>
-<h2 id="self-attention">Self Attention</h2>
+<h3 id="training-backpropagation-through-time-bptt">Training: Backpropagation Through Time (BPTT)</h3>
+<ol>
+<li><strong>Unroll</strong> the network across time steps</li>
+<li><strong>Forward pass</strong>: Compute all hidden states and outputs</li>
+<li><strong>Backward pass</strong>: Compute gradients through the unrolled graph</li>
+<li><strong>Update</strong>: Sum gradients for shared weights</li>
+</ol>
+<p><strong>For long sequences</strong>: Use truncated BPTT (limit how far back gradients flow).</p>
+<h3 id="rnn-language-model">RNN Language Model</h3>
+<p>$$e_t = E x_t \quad \text{(word embedding)}$$
+$$h_t = g(W_{hh} h_{t-1} + W_{he} e_t)$$
+$$P(w_{t+1}) = \text{softmax}(W_{hy} h_t)$$</p>
+<p><strong>Training</strong>: Teacher forcing — use true previous word, not predicted word.</p>
+<p><strong>Weight tying</strong>: Share parameters between input embedding E and output layer.</p>
+<hr>
+<h2 id="rnn-task-variants">RNN Task Variants</h2>
+<h3 id="sequence-labeling-many-to-many-aligned">Sequence Labeling (Many-to-Many, aligned)</h3>
+<p><strong>Task</strong>: Label each token (NER, POS tagging).</p>
+<pre><code>Input:  John  loves  New   York
+Output: B-PER O      B-LOC I-LOC
+</code></pre>
+<p>Predict at each step based on hidden state.</p>
+<h3 id="sequence-classification-many-to-one">Sequence Classification (Many-to-One)</h3>
+<p><strong>Task</strong>: Classify entire sequence (sentiment analysis).</p>
+<pre><code>Input:  This movie was great!
+Output: POSITIVE
+</code></pre>
+<p>Use final hidden state (or pooled states) for classification.</p>
+<h3 id="sequence-generation-one-to-many-or-many-to-many">Sequence Generation (One-to-Many or Many-to-Many)</h3>
+<p><strong>Task</strong>: Generate text.</p>
+<pre><code>Input:  &lt;BOS&gt;
+Output: The cat sat on the mat &lt;EOS&gt;
+</code></pre>
+<p>Autoregressive: Each output becomes next input.</p>
+<hr>
+<h2 id="rnn-architectures">RNN Architectures</h2>
+<h3 id="stacked-rnns">Stacked RNNs</h3>
+<p>Multiple RNN layers:</p>
+<pre><code>Layer 3: h3_t = f(h3_{t-1}, h2_t)
+Layer 2: h2_t = f(h2_{t-1}, h1_t)  
+Layer 1: h1_t = f(h1_{t-1}, x_t)
+</code></pre>
+<p><strong>Benefit</strong>: Different abstraction levels at each layer.</p>
+<h3 id="bidirectional-rnns">Bidirectional RNNs</h3>
+<p>Process sequence both ways:</p>
 <ul>
-<li>LSTMs still have limitations:<ul>
-<li>Difficult to parallelize (sequential processing)</li>
-<li>Still not fully effective for very long dependencies</li>
+<li>Forward: $\vec{h}_t$ (left to right)</li>
+<li>Backward: $\overleftarrow{h}_t$ (right to left)</li>
+<li>Combined: $h_t = [\vec{h}_t; \overleftarrow{h}_t]$</li>
 </ul>
+<p><strong>Benefit</strong>: Each position has access to full context.</p>
+<p><strong>Limitation</strong>: Can&#39;t use for autoregressive generation (need future that doesn&#39;t exist yet).</p>
+<hr>
+<h2 id="the-vanishing-gradient-problem">The Vanishing Gradient Problem</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Gradients shrink exponentially as they flow backward through time:</p>
+<p>$$\frac{\partial L}{\partial h_1} = \frac{\partial L}{\partial h_T} \cdot \prod_{t=2}^{T} \frac{\partial h_t}{\partial h_{t-1}}$$</p>
+<p>If $\frac{\partial h_t}{\partial h_{t-1}} &lt; 1$ consistently → <strong>vanishing gradients</strong>.</p>
+<p><strong>Consequence</strong>: RNNs struggle to learn long-range dependencies.</p>
+<h3 id="why-it-happens">Why It Happens</h3>
+<ul>
+<li>Sigmoid derivative: max 0.25</li>
+<li>Tanh derivative: max 1.0</li>
+<li>Repeated multiplication through many steps → exponential decay</li>
+</ul>
+<h3 id="solutions">Solutions</h3>
+<ol>
+<li><strong>Gradient clipping</strong> (for exploding gradients)</li>
+<li><strong>Better architectures</strong>: LSTM, GRU</li>
+<li><strong>Skip connections</strong>: Allow gradients to flow directly</li>
+</ol>
+<hr>
+<h2 id="lstm-long-short-term-memory">LSTM (Long Short-Term Memory)</h2>
+<h3 id="the-innovation">The Innovation</h3>
+<p>Add <strong>explicit memory management</strong> through <strong>gates</strong>.</p>
+<p>Two types of state:</p>
+<ul>
+<li><strong>Cell state $c_t$</strong>: Long-term memory (conveyor belt)</li>
+<li><strong>Hidden state $h_t$</strong>: Working memory / output</li>
+</ul>
+<h3 id="the-three-gates">The Three Gates</h3>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Purpose</th>
+<th>Controls</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Forget</strong></td>
+<td>What to erase from memory</td>
+<td>$f_t$</td>
+</tr>
+<tr>
+<td><strong>Input</strong></td>
+<td>What new info to add</td>
+<td>$i_t$</td>
+</tr>
+<tr>
+<td><strong>Output</strong></td>
+<td>What to expose as output</td>
+<td>$o_t$</td>
+</tr>
+</tbody></table>
+<h3 id="lstm-equations">LSTM Equations</h3>
+<p><strong>Forget gate</strong> (what to keep from old memory):
+$$f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)$$</p>
+<p><strong>Input gate</strong> (how much of new info to add):
+$$i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)$$</p>
+<p><strong>Candidate values</strong> (new info to potentially add):
+$$\tilde{c}<em>t = \tanh(W_c x_t + U_c h</em>{t-1} + b_c)$$</p>
+<p><strong>Cell state update</strong> (the key equation!):
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$</p>
+<p><strong>Output gate</strong> (what to output):
+$$o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)$$</p>
+<p><strong>Hidden state</strong>:
+$$h_t = o_t \odot \tanh(c_t)$$</p>
+<h3 id="why-lstm-works">Why LSTM Works</h3>
+<p>The cell state update is <strong>additive</strong>:
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$</p>
+<p>Gradients can flow through unchanged (when forget gate ≈ 1).</p>
+<hr>
+<h2 id="gru-gated-recurrent-unit">GRU (Gated Recurrent Unit)</h2>
+<p>Simplified LSTM with fewer parameters:</p>
+<ul>
+<li>Combines forget and input gates into <strong>update gate</strong></li>
+<li>No separate cell state</li>
+</ul>
+<p>Often performs comparably to LSTM with less computation.</p>
+<hr>
+<h2 id="attention-mechanism">Attention Mechanism</h2>
+<h3 id="the-bottleneck-problem">The Bottleneck Problem</h3>
+<p>In encoder-decoder models, all information must pass through a fixed-size vector.</p>
+<p><strong>Problem</strong>: Information gets lost for long sequences.</p>
+<h3 id="the-attention-solution">The Attention Solution</h3>
+<p>Let the decoder <strong>look at all encoder states</strong> when making each prediction.</p>
+<h3 id="how-attention-works">How Attention Works</h3>
+<p>For each decoder step:</p>
+<ol>
+<li><p><strong>Score</strong>: Compute similarity between decoder state and each encoder state
+$$e_{ij} = \text{score}(s_{i-1}, h_j)$$</p>
 </li>
-<li>Transformers - Replace recurrent layers with self-attention layers</li>
-<li>Self-Attention Mechanism<ul>
-<li>Create three projections of each input vector:<ul>
-<li>Query (Q): What the token is looking for</li>
-<li>Key (K): What the token offers for matching</li>
-<li>Value (V): The actual information to be aggregated</li>
-</ul>
+<li><p><strong>Normalize</strong>: Convert scores to weights (softmax)
+$$\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_k \exp(e_{ik})}$$</p>
 </li>
-<li>Compute attention scores between each token and all other tokens</li>
-<li>Weight values according to attention scores</li>
-<li>Crucial innovation: allows direct connections between any tokens regardless of distance</li>
-</ul>
+<li><p><strong>Combine</strong>: Weighted sum of encoder states
+$$c_i = \sum_j \alpha_{ij} h_j$$</p>
 </li>
-<li>Computation Steps<ul>
-<li>Project input sequence X into Q, K, V matrices using learned weight matrices<ul>
-<li>$Q = XW^Q$, $K = XW^K$, $V = XW^V$</li>
-</ul>
+<li><p><strong>Use</strong>: Context vector informs prediction
+$$s_i = f(s_{i-1}, y_{i-1}, c_i)$$</p>
 </li>
-<li>Compute attention scores: $S = QK^T$</li>
-<li>Scale to stabilize gradients: $S&#39; = S/\sqrt{d_k}$ where d_k is dimension of keys</li>
-<li>Apply softmax to get attention weights: $A = \text{softmax}(S&#39;)$</li>
-<li>Compute weighted values: $Z = AV$</li>
+</ol>
+<h3 id="scoring-functions">Scoring Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dot product</td>
+<td>$s^T h$</td>
+</tr>
+<tr>
+<td>Scaled dot product</td>
+<td>$\frac{s^T h}{\sqrt{d}}$</td>
+</tr>
+<tr>
+<td>MLP</td>
+<td>$v^T \tanh(W_1 s + W_2 h)$</td>
+</tr>
+</tbody></table>
+<h3 id="benefits-of-attention">Benefits of Attention</h3>
+<ol>
+<li><strong>Long-range dependencies</strong>: Direct connections regardless of distance</li>
+<li><strong>Interpretability</strong>: Attention weights show what the model focuses on</li>
+<li><strong>Alignment</strong>: Helpful for translation (which source words map to which target words)</li>
+</ol>
+<hr>
+<h2 id="self-attention-and-transformers">Self-Attention and Transformers</h2>
+<h3 id="from-attention-to-self-attention">From Attention to Self-Attention</h3>
+<p><strong>Regular attention</strong>: Query from decoder, keys/values from encoder.</p>
+<p><strong>Self-attention</strong>: Query, keys, values all from same sequence.</p>
+<p>$$\text{output}_i = \text{Attention}(x_i, (x_1, x_1), (x_2, x_2), ..., (x_n, x_n))$$</p>
+<p>Each position attends to all positions in the same sequence.</p>
+<h3 id="scaled-dot-product-attention">Scaled Dot-Product Attention</h3>
+<p>$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$</p>
+<p>Where:</p>
+<ul>
+<li>Q = queries (what I&#39;m looking for)</li>
+<li>K = keys (what I offer for matching)</li>
+<li>V = values (what I actually provide)</li>
+<li>$\sqrt{d_k}$ scaling prevents softmax saturation</li>
 </ul>
-</li>
-<li>Multi-Head Attention<ul>
-<li>Multiple parallel attention mechanisms</li>
-<li>Each head can capture different types of relationships</li>
-<li>Concatenate outputs and project back to original dimension</li>
+<h3 id="multi-head-attention">Multi-Head Attention</h3>
+<p>Run multiple attention operations in parallel:
+$$\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$$
+$$\text{MultiHead} = \text{Concat}(\text{head}_1, ..., \text{head}_h) W^O$$</p>
+<p><strong>Benefit</strong>: Each head can capture different types of relationships.</p>
+<h3 id="positional-encoding">Positional Encoding</h3>
+<p>Attention is <strong>permutation invariant</strong> — doesn&#39;t know word order!</p>
+<p><strong>Solution</strong>: Add position information to embeddings.</p>
+<p><strong>Sinusoidal encoding</strong>:
+$$PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d})$$
+$$PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d})$$</p>
+<h3 id="bert-architecture">BERT Architecture</h3>
+<p><strong>Base model</strong>:</p>
+<ul>
+<li>12 attention heads</li>
+<li>12 layers</li>
+<li>768 hidden size (12 × 64)</li>
+<li>110M parameters</li>
 </ul>
-</li>
-<li>Positional Encodings<ul>
-<li>Unlike RNNs, self-attention operations are order-invariant</li>
-<li>Add position information to input embeddings</li>
-<li>Using sinusoidal functions: $PE_{(pos,2i)} = \sin(pos/10000^{2i/d})$, $PE_{(pos,2i+1)} = \cos(pos/10000^{2i/d})$</li>
-</ul>
-</li>
-<li>BERT Architecture<ul>
-<li>Base Model - 12 heads, 12 layers, 64 dimensions, 768 size (12 * 64)</li>
-<li>Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 * 64)</li>
-</ul>
-</li>
-</ul>
+<hr>
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Architecture</th>
+<th>Memory</th>
+<th>Long-range</th>
+<th>Parallelizable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>RNN</strong></td>
+<td>Hidden state</td>
+<td>Limited</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>LSTM</strong></td>
+<td>Cell + hidden</td>
+<td>Better</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Attention RNN</strong></td>
+<td>+ context</td>
+<td>Good</td>
+<td>Partially</td>
+</tr>
+<tr>
+<td><strong>Transformer</strong></td>
+<td>Attention only</td>
+<td>Excellent</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id="key-takeaways">Key Takeaways</h3>
+<ol>
+<li><strong>RNNs</strong> process sequences with memory but struggle with long dependencies</li>
+<li><strong>LSTMs</strong> use gates to control information flow, solving vanishing gradients</li>
+<li><strong>Attention</strong> provides direct connections between any positions</li>
+<li><strong>Transformers</strong> replace recurrence with pure attention, enabling parallelism</li>
+<li>Modern NLP is dominated by <strong>Transformer-based models</strong> (BERT, GPT, etc.)</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
         <a href="jfsky-03-vectors.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Vectors</span>
+          <span class="nav-link-title">Vector Semantics and Word Embeddings</span>
         </a>
         <a href="jfsky-05-encoder.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>

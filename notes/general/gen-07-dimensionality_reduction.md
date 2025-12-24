@@ -1,203 +1,269 @@
 # Dimensionality Reduction
 
+High-dimensional data is everywhere: images (thousands of pixels), text (thousands of words), genomics (thousands of genes). Dimensionality reduction compresses this data into a smaller number of meaningful features while preserving important structure.
+
 ## Background
 
--   Curse of Dimensionality
-    -   Data has too many features (n \<\< p)
-    -   Data volume required for good generalization grows exponentially
-    -   Same edge (say 10) square and cube
-        -   1x1 patch covers 1% area in square
-        -   1x1x1 patch covers 0.1% volume in cube
--   Two approaches
-    -   Feature Selection
-        -   Use only a subset of original features\
-    -   Latent Features
-        -   Recombine the original features for more efficient representation
-        -   Can be linear or non-linear
+**The Curse of Dimensionality**:
 
-## Principal Component Analysis
+As dimensions increase, data becomes increasingly sparse. Consider:
+- A 1×1 square patch covers 1% of a 10×10 square
+- A 1×1×1 cubic patch covers 0.1% of a 10×10×10 cube
+- In general: Volume grows exponentially with dimension
 
--   Find a linear and orthogonal projection of data from high dimension to low dimension
-    -   Encode original data $x \in R^D$ using $W \in R^{D \times L}$
-        -   Encode: $z = W^T x \in R^L$
-    -   Decode $z$ by projecting it from lower dimension to higher dimension
-        -   Decode: $\hat x = W z$
--   Objective is to minimize reconstruction error
-    -   $L(w) = {1 \over N} \sum ||x - \hat x||^2$
--   Proof: Project all the data to one dimension
-    -   $w_1 \in R^D$
-    -   $\hat x = z_{1} w_1$
-    -   Optimal value of z and w that minimizes reconstruction error
-    -   $L = {1 \over N} \sum ||x_i - z_{i1} w_1||^2$
-    -   $L = {1 \over N} \sum (x_i - z_{i1} w_1)^T(x_i - z_{i1} w_1)$
-    -   $L = {1 \over N} \sum x_i^T x_i -2 z_{i1} w_1^T x_i - z_{i1} w_1^Tw_1 z_{i1}$
-    -   Orthonormal Assumption $\implies w_1^Tw_1 = 1$
-    -   $L = {1 \over N} \sum x_i^T x_i -2 z_{i1} w_1^T x_i - z_{i1}^2$
-    -   Take Derivaties wrt z and w
-    -   ${\delta L \over \delta z_{i1}} = {1 \over N} (-2 w_1^T x_i + 2 z_{i1}) = 0$
-    -   Optimal Embedding: $z_{i1} = w_1^T x$
-    -   Plugging the value of z in L
-    -   $L = {1 \over N} \sum x_i^T x_i - z_{i1}^2$
-    -   $L = C - {1 \over N} \sum z_{i1}^2$
-    -   $L = C - {1 \over N} \sum w_1^T x_i^T x_i w_1$
-    -   $L = - {1 \over N} w_1^T \Sigma w_1$
-    -   $\Sigma$ is the Var-Cov matrix of X
-    -   The loss can be minimized trivially by scaling $w$
-    -   To avoid this, impose a unit-norm constraint on $w$
-    -   $L = {1 \over N} w_1^T \Sigma w_1 + \lambda (w_1^T w_1 - 1)$
-    -   ${\delta L \over \delta w_1} = -2 \Sigma w_1 + 2 \lambda w_1 = 0$
-    -   Optimal w is given by eigen vector of $\Sigma$
-    -   To minimize the loss, pick the vector corresponding to highest eigenvalue
--   PCA finds vectors that maximize the variance of projected data
-    -   $L = C - {1 \over N} \sum z_{i1}^2$
-    -   The original data is scaled
-    -   $E(z_1) = E(w_1^T x) = 0$
-    -   $L = C + \text{Var}(z_1)$
--   Geometric Explanation
-    -   Find a new axis to capture the data
-    -   Distance of the point from origin is fixed $R^2$
-    -   $D^2$ if the distance of the point from origin along the new axis (Variance)
-    -   $\epsilon$ if the vertical distance of the point from the new axis (Distortion)
-    -   By Pythagoras theorem $R^2 = D^2 + \epsilon$
-    -   PCA maximizes the variance $D^2$
-    -   Is equivalent to minimizing distortion $\epsilon$ as $R^2$ is constant
--   Eigenvalues euqal the sum-sq(distances) on points on the principal component axis
--   Use eigenvalues to understand how much variation is captured by each principal component
--   Use scree plot (varation captured vs \# components) to understand how many components should be included
--   The maximum number of components are equal to the number of features in the original data
-    -   Full basis
-    -   If data is 2D, the eigen value for the 3rd PC will be 0
--   Principal components are linear combinations of original features
-    -   The weights used for linear combinations are called factor loadings
-    -   Factor loadings denote the importance of features in capturing variance
--   PCA + linear regression is still interpretable
-    -   Use estimated coefficients and factor loadings to understand how the original variables are being used
--   PCA is calculated using SVD (singular value decomposition)
-    -   $X = U S V^T \in R^{N \times D}$
-        -   $U \in R^{N \times N}$ is orthonormal
-        -   $S \in R^{N \times D}$ is diagonal (contains singular values)
-        -   $V \in R^{D \times D}$ is orthonormal
-    -   $X^T X = (U S V^{T})^T(U S V^{T}) = V S^T U^T U S V^T = V S^T S V^T$
-    -   Since S is a diagonal matrix, $S^TS$ is diagonal as well
-    -   $X^T X = V D V^T$ where $D = S^T S$
-    -   On multiplying both sides by V: $(X^T X)V = V D$
-    -   D matrix gives the eigenvalues and V matrix gives the corresponding eigenvectors
--   Notes
-    -   PCA doesn't work well if the interrelationships are non-linear
-        -   Kernel PCA, Factor Analysis
-    -   PCA doesn't work well in case of outliers
-    -   PCA can't handle missing data
-    -   PCA is unsupervised
-        -   LDA is a supervised dimensionality reduction technique
+**Why This Matters**:
+- Machine learning needs enough data to "fill" the space
+- Data requirements grow exponentially with dimensions
+- Distances become less meaningful (everything is "far" from everything)
+- Many algorithms break down
 
-## Stochastic Neighbour Embedding (SNE)
+**Two Approaches to Reduce Dimensions**:
 
--   Unsupervised Non-parametric Method for dimensionality reduction
--   Manifold is a topological space which is locally Euclidean
-    -   Earth is a 2D surface embedded in a 3D space
-    -   High-dimensional data can lie in a low dimenison manifold
--   Idea is to preserve nearest neighbours instead of preserving distances
--   Convert the distances in high-dimension to probabilities
-    -   Probability that point i will select j as its neighbour
-    -   Gaussian Kernel
-    -   $p_{j|i} \propto \exp({-|| x_i - x_j||^2 \over 2\sigma_i^2})$
-    -   $\sigma_i^2$ is the variance for data point i
-        -   Magnify the scale of points in dense region
-        -   Diminish the scale of points in sparse regions
-        -   Perplexity parameter (say 30)
-        -   Variance will be adjusted to cover approx 30 neighbours
-        -   Balance between local and global aspects of the data
--   Initialize the low-dimension representations and calculate the same probability
-    -   $q_{j|i} \propto \exp({-|| z_i - z_j||^2})$
-    -   Variance is assumed to be constant here
--   A good representation will preserve the neighbours
--   $p$ and $q$ are probability distributions. KL Divergence will capture the distance between them
--   $L = KL(p||q) = \sum_i\sum_j p_{i|j}\log({p_{i|j} \over q_{i|j}})$
-    -   If p is high and q is low, the penalty is high
-    -   Points were neighbours in high dimension but not in low dimension
-    -   If p is low and q is high, the penalty is low
-    -   Unrelated points are pushed closer now
--   Calculate $z$ by minimizing KL-Div using SGD
-    -   $\Delta_{z_i} L = 0$
-    -   $2 \sum (z_i - z_j) (p_{i|j} - q_{i|j} + p_{j|i} - q_{j|i})$
--   Symmetric SNE
-    -   In the above formulation the distances are not symmetric
-    -   $p_{i|j} \ne p_{j|i}$
-    -   To enforce this: $p_{ij} = (p_{i|j} + p_{j|i}) / 2$
-    -   Equivalent to using constant variance in high-dimensional space
-    -   $\Delta_{z_i} L = 4 \sum (z_i - z_j) (p_{ij} - q_{ij})$
-        -   Similar to Potential energy in a spring (F = kx)
-        -   $(p_{ij} - q_{ij})$ is k
-        -   $(z_i - z_j)$ is x
--   t-SNE
-    -   SNE has a crowding problem
-    -   Gaussian Kernel pushes moderately far away points in high dimension close together in low dimension (squared errors)
-    -   Replace it with t-distribution that has fatter tails (probability goes to 0 slowly)
-        -   The fatter tails allow dissimilar points to be far apart in lower dimension as well
-        -   Removes unwanted attractive forces between points that are moderately far in high dimension
-    -   $q_{j|i} \propto (1+{|| z_i - z_j||^2})^{-1}$
-    -   $\Delta_{z_i} L = \sum (z_i - z_j) (p_{ij} - q_{ij}) (1 + || z_i - z_j||^2)^{-1}$
-    -   $(1 + || z_i - z_j||^2)^{-1}$ ensures well separated clusters with tightly packed points inside
-    -   Introduces strong repulsions between the dissimilar datapoints that are modeled by small pairwise distance in the low-dimensional map
-    -   Coordinates after embedding have no inherent meaning
--   UMAP
-    -   Uniform Manifold Approximation and Projection\
-    -   Similar to t-SNE but much faster
-        -   t-SNE calculates all pairwise distances
-        -   UMAP calculates distances between close neighbours only
-    -   t-SNE start with random initialization, UMAP start with spectral embeddings
-    -   t-SNE moves every points slightly in each iteration, UMAP can move single points or subset of points in each iteration
-    -   Mathematics
-        -   t-SNE uses Gaussian desnity function to calculate the distance between points in high dimension
-        -   UMAP uses similarity scores
-            -   Hyperparameter: number of neighbours (similar to perplexity in t-SNE)
-            -   Calculate log(number of neighbours)
-            -   Calculate similarity scores
-            -   $\exp(-(\text{raw distance} - \text{distance to nearest neighbour}) / \sigma$
-            -   Rescale the curve such that sum of distances = log(number of neighbours)
-        -   UMAP makes the scores symmetrical by $(S_1 + S_2) - S_1S_2$
-        -   Initialize a low dimension graph using Spectral Embedding
-            -   Decompoistion of Graph Laplacian
-            -   Graph Laplacian = Degree Matrix - Adjacency Matrix
-        -   Calculate the similarity in low dimension using t-distrbution
-            -   $(1 + \alpha d^{2\beta})^{-1}$
-            -   The parameters help user control the shape of the curve
-        -   Cost Function
-            -   Cross-Entropy between graphs
-            -   $\log(1 - S_{\text{not neighbour}}) - log(S_{\text{neighbour}})$\
-    -   UMAP can accomodate new data (predict function) without recomputation 
+1. **Feature Selection**: Keep a subset of original features
+   - Pros: Interpretable, simple
+   - Cons: May lose important combinations
+
+2. **Feature Extraction/Latent Features**: Create new features from combinations of originals
+   - Linear methods: PCA, LDA
+   - Non-linear methods: t-SNE, UMAP, autoencoders
+   - Pros: Can capture more complex structure
+   - Cons: New features may be hard to interpret
+
+## Principal Component Analysis (PCA)
+
+PCA finds the directions of maximum variance in the data and projects onto them. It's the most widely used dimensionality reduction technique.
+
+**The Idea**:
+- Find a linear projection from high dimension ($D$) to low dimension ($L$)
+- Preserve as much variance as possible
+- The directions of maximum variance are called **principal components**
+
+**Mathematical Setup**:
+- Original data: $\mathbf{x} \in \mathbb{R}^D$
+- Projection matrix: $\mathbf{W} \in \mathbb{R}^{D \times L}$ (columns are orthonormal)
+- **Encode**: $\mathbf{z} = \mathbf{W}^T \mathbf{x} \in \mathbb{R}^L$
+- **Decode**: $\hat{\mathbf{x}} = \mathbf{W}\mathbf{z}$
+
+**Objective**: Minimize reconstruction error
+$$L(\mathbf{W}) = \frac{1}{N}\sum_i ||\mathbf{x}_i - \hat{\mathbf{x}}_i||^2$$
+
+**Derivation** (projecting to 1D):
+
+We want to find $\mathbf{w}_1$ that minimizes reconstruction error:
+$$L = \frac{1}{N}\sum_i ||\mathbf{x}_i - z_{i1}\mathbf{w}_1||^2$$
+
+Expanding and using $\mathbf{w}_1^T\mathbf{w}_1 = 1$ (orthonormality):
+$$L = \frac{1}{N}\sum_i [\mathbf{x}_i^T\mathbf{x}_i - 2z_{i1}\mathbf{w}_1^T\mathbf{x}_i + z_{i1}^2]$$
+
+Taking derivative w.r.t. $z_{i1}$:
+$$\frac{\partial L}{\partial z_{i1}} = -2\mathbf{w}_1^T\mathbf{x}_i + 2z_{i1} = 0$$
+
+**Optimal encoding**: $z_{i1} = \mathbf{w}_1^T\mathbf{x}_i$ (project onto $\mathbf{w}_1$)
+
+Substituting back:
+$$L = C - \frac{1}{N}\sum_i z_{i1}^2 = C - \frac{1}{N}\mathbf{w}_1^T\boldsymbol{\Sigma}\mathbf{w}_1$$
+
+Where $\boldsymbol{\Sigma}$ is the covariance matrix of $\mathbf{X}$.
+
+**Key Insight**: Minimizing reconstruction error = Maximizing variance of projections!
+
+Using Lagrange multipliers with constraint $\mathbf{w}_1^T\mathbf{w}_1 = 1$:
+$$\frac{\partial}{\partial \mathbf{w}_1}\left[\mathbf{w}_1^T\boldsymbol{\Sigma}\mathbf{w}_1 + \lambda(1 - \mathbf{w}_1^T\mathbf{w}_1)\right] = 0$$
+$$\boldsymbol{\Sigma}\mathbf{w}_1 = \lambda\mathbf{w}_1$$
+
+**The optimal $\mathbf{w}_1$ is an eigenvector of the covariance matrix!**
+
+To maximize variance, choose the eigenvector with the **largest eigenvalue**.
+
+**Geometric Interpretation**:
+- Imagine the data as a cloud of points
+- The first principal component is the direction of maximum spread
+- The second PC is perpendicular and captures the next most variance
+- And so on...
+
+Think of it as finding the best "viewing angle" for your data.
+
+**Eigenvalues = Variance Explained**:
+- Each eigenvalue equals the variance along that principal component
+- Sum of all eigenvalues = total variance
+- Fraction explained by first $k$ components: $\frac{\sum_{i=1}^k \lambda_i}{\sum_{j=1}^D \lambda_j}$
+
+**Scree Plot**: Graph eigenvalues (or % variance) vs. component number
+- Look for an "elbow" where variance drops off
+- Components before the elbow are usually important
+
+**Factor Loadings**:
+- Each PC is a linear combination of original features
+- Loadings = weights in this combination
+- High loading = feature contributes strongly to that PC
+
+**PCA + Regression**: Still interpretable!
+- Run regression on principal components
+- Use loadings to translate back to original features
+
+**Computing PCA via SVD**:
+- Singular Value Decomposition: $\mathbf{X} = \mathbf{U}\mathbf{S}\mathbf{V}^T$
+- $\mathbf{V}$ contains the principal components (eigenvectors)
+- $\mathbf{S}$ contains singular values (square roots of eigenvalues)
+- More numerically stable than eigendecomposition
+
+**Limitations of PCA**:
+- Only captures **linear** relationships
+- Sensitive to **outliers** (they inflate variance)
+- Can't handle **missing data** (need imputation first)
+- **Unsupervised**: Doesn't use label information
+
+**Alternatives**:
+- **Kernel PCA**: Non-linear version using the kernel trick
+- **Factor Analysis**: Assumes latent factors + noise
+- **LDA**: Supervised, maximizes between-class variance
+
+## Stochastic Neighbor Embedding (SNE)
+
+**The Idea**: Preserve local neighborhood structure rather than global distances. Points that are neighbors in high-D should be neighbors in low-D.
+
+**Manifold Hypothesis**:
+- High-dimensional data often lies on a lower-dimensional "manifold"
+- Think: Earth's surface is a 2D manifold in 3D space
+- We want to "unfold" this manifold
+
+**Algorithm**:
+
+1. **Convert distances to probabilities** (high-D):
+$$p_{j|i} \propto \exp\left(-\frac{||\mathbf{x}_i - \mathbf{x}_j||^2}{2\sigma_i^2}\right)$$
+
+This is the probability that point $i$ would pick point $j$ as its neighbor.
+
+**Adaptive variance** ($\sigma_i$):
+- Dense regions get smaller $\sigma_i$ (be more selective)
+- Sparse regions get larger $\sigma_i$ (include more distant neighbors)
+- Controlled by **perplexity** parameter (roughly, the number of effective neighbors)
+
+2. **Initialize low-D coordinates** $\mathbf{z}_i$ randomly
+
+3. **Compute low-D probabilities**:
+$$q_{j|i} \propto \exp\left(-||\mathbf{z}_i - \mathbf{z}_j||^2\right)$$
+
+4. **Minimize KL divergence** between $p$ and $q$:
+$$L = \sum_i \sum_j p_{j|i} \log\frac{p_{j|i}}{q_{j|i}}$$
+
+**Why KL Divergence?**:
+- If $p$ is high but $q$ is low: **Large penalty** (neighbors in high-D are far in low-D — bad!)
+- If $p$ is low but $q$ is high: **Small penalty** (distant points end up close — not as bad)
+- Prioritizes preserving local structure
+
+**Symmetric SNE**: Make distances symmetric: $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2}$
+
+## t-SNE
+
+**The Problem with SNE**: Crowding. Gaussian probability decays quickly, pushing moderately distant points too close together in low-D.
+
+**The Solution**: Use the **t-distribution** (fat tails) for low-D probabilities:
+$$q_{ij} \propto (1 + ||\mathbf{z}_i - \mathbf{z}_j||^2)^{-1}$$
+
+**Why t-Distribution?**:
+- Heavier tails than Gaussian
+- Points that are moderately far in high-D can be *very* far in low-D
+- Creates well-separated clusters with tight internal structure
+
+**t-SNE Properties**:
+- Excellent for visualization (2D or 3D)
+- Creates visually appealing, well-separated clusters
+- Preserves local structure well
+
+**Limitations**:
+- **Computationally expensive**: $O(N^2)$ for pairwise distances
+- **Random initialization**: Results vary between runs
+- **Not invertible**: Can't go from low-D back to high-D
+- **Coordinates are meaningless**: Only relative positions matter
+- **Global structure distorted**: Distances between clusters are not meaningful
+
+**Hyperparameters**:
+- **Perplexity**: Balance between local and global (typical: 5-50)
+- **Learning rate**: Step size for gradient descent
+- **Iterations**: Usually 1000+
+
+## UMAP
+
+**Uniform Manifold Approximation and Projection**: Like t-SNE but faster and (arguably) better at preserving global structure.
+
+**Key Differences from t-SNE**:
+
+| Aspect | t-SNE | UMAP |
+|--------|-------|------|
+| Pairwise distances | All pairs | Only neighbors |
+| Initialization | Random | Spectral embedding |
+| Updates | All points every iteration | Stochastic (subsets) |
+| Speed | Slow ($O(N^2)$) | Much faster |
+| Global structure | Often distorted | Better preserved |
+
+**UMAP Algorithm**:
+
+1. **Build neighborhood graph** in high-D
+   - Compute distance to $k$ nearest neighbors
+   - Convert to similarity scores (exponential decay from nearest neighbor)
+
+2. **Make similarities symmetric**: $s_{ij} = s_{i|j} + s_{j|i} - s_{i|j} \cdot s_{j|i}$
+
+3. **Initialize low-D with spectral embedding** (decomposition of graph Laplacian)
+
+4. **Compute low-D similarities** using t-distribution variant:
+$$q_{ij} \propto (1 + \alpha \cdot d^{2\beta})^{-1}$$
+
+5. **Minimize cross-entropy** between high-D and low-D graphs
+
+**UMAP Advantages**:
+- **Much faster** than t-SNE (especially for large datasets)
+- **Better global structure**: Preserves relative cluster distances better
+- **`transform` method**: Can embed new points without recomputing everything
+- **Flexible**: Can use any distance metric
+
+**When to Use Which**:
+- **Small data, visualization only**: Either works, t-SNE often prettier
+- **Large data**: UMAP (t-SNE too slow)
+- **Need to embed new points**: UMAP
+- **Need reproducibility**: UMAP (more stable with same parameters)
 
 ## Applications of Dimensionality Reduction
 
--   Data Visualization:
-    -   Reduce high-dimensional data to 2D or 3D for visualization
-    -   Helps identify patterns, clusters, and outliers visually
--   Noise Reduction:
-    -   Lower-dimensional representations can filter out noise
-    -   PCA can help separate signal from noise when the variance of the noise is smaller than the variance of the signal
--   Preprocessing for Machine Learning:
-    -   Mitigates curse of dimensionality
-    -   Can improve performance of models sensitive to high dimensionality
-    -   Reduces computational complexity and storage requirements
--   Feature Extraction:
-    -   Creates new features that better capture the underlying structure of data
-    -   Often more informative than original features
--   Multicollinearity Reduction:
-    -   Addresses correlation among predictor variables in regression
-    -   PCA specifically creates uncorrelated components
+**Data Visualization**:
+- Reduce to 2D or 3D for plotting
+- Discover clusters, outliers, patterns visually
+- t-SNE and UMAP are standard tools
 
-## Comparing Dimensionality Reduction Techniques
+**Noise Reduction**:
+- Signal variance > noise variance
+- First few PCs capture signal, later PCs capture noise
+- Reconstructing from top PCs filters out noise
 
--   Linear vs. Non-linear:
-    -   Linear methods (PCA, LDA): Preserve global structure, computationally efficient
-    -   Non-linear methods (t-SNE, UMAP): Better at preserving local structure, capturing complex relationships
--   Supervised vs. Unsupervised:
-    -   Unsupervised (PCA, t-SNE): No target variable required
-    -   Supervised (LDA): Incorporates class information
--   Local vs. Global:
-    -   Global (PCA): Preserves large pairwise distances
-    -   Local (t-SNE, UMAP): Preserves small pairwise distances
--   Selection considerations:
-    -   Data size: Some methods (t-SNE) don't scale well to large datasets
-    -   Interpretability: Some methods (PCA) produce more interpretable features
-    -   Goal: Visualization vs. preprocessing vs. feature extraction 
+**Preprocessing for ML**:
+- Reduces curse of dimensionality
+- Speeds up training
+- Can improve performance (by removing noise)
+- Essential for algorithms sensitive to dimensionality (e.g., k-NN)
+
+**Feature Extraction**:
+- Create more informative features
+- Example: Face recognition—first few PCs are "eigenfaces"
+
+**Multicollinearity**:
+- Highly correlated predictors cause problems in regression
+- PCA creates uncorrelated components
+- Principal Component Regression (PCR) solves this
+
+## Comparing Techniques
+
+| Method | Linear? | Preserves | Best For | Interpretable? |
+|--------|---------|-----------|----------|----------------|
+| PCA | Yes | Global variance | Preprocessing, compression | Yes (loadings) |
+| t-SNE | No | Local neighborhoods | 2D/3D visualization | No |
+| UMAP | No | Local + some global | Large-scale visualization | No |
+| LDA | Yes | Class separation | Supervised reduction | Yes |
+
+**Selection Guide**:
+1. **Know you need visualization?** → t-SNE or UMAP
+2. **Need to preprocess for ML?** → PCA
+3. **Have class labels?** → Consider LDA
+4. **Need interpretability?** → PCA
+5. **Very large data?** → UMAP or randomized PCA
+6. **Complex non-linear structure?** → UMAP, t-SNE, or kernel PCA

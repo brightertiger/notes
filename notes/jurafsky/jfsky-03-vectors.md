@@ -1,142 +1,318 @@
-# Vectors
+# Vector Semantics and Word Embeddings
 
-## Lexical Semantics
+How do we represent word meaning computationally? This chapter covers the evolution from sparse count-based vectors to dense neural embeddings — one of the most important advances in NLP.
 
--   Issues that make it harder for syntactic models to scale well
--   Lemmas and word forms (sing vs sang vs sung are forms of the same lemma "sing")
--   Word Sense Disambiguation (mouse animal vs mouse hardware)
--   Synonyms with same propositional meaning (couch vs sofa)
--   Word Relatedness (coffee vs cup)
--   Semantic Frames (A buy from B vs B sell to A)
--   Connotation (affective meaning)
+## The Big Picture
 
-## Vector Semantics
+**The Problem**: Computers need numerical representations of words.
 
--   Represent words using vectors called "embeddings"
--   Derived from co-occurrence matrix
--   Document Vectors
-    -   Term-Document Matrix
-    -   |V| × |D| Dimension
-    -   Count of times a word shows up in a document
-    -   Vector of the document in |V| dimension space
-    -   Used for information retrieval
-    -   Vector Space Model
--   Word Vectors
-    -   Term-Term Matrix
-    -   |V| × |V| dimension
-    -   Number of times a word and context word show up in the same document
-    -   Word-Word co-occurrence matrix
-    -   Sparsity is a challenge
--   Cosine Similarity
-    -   Normalized Dot Product
-    -   Normalized by the L2-norm, to control for vector size
-    -   $\cos \theta = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}||\vec{b}|}$
-    -   1 if vectors are in the same direction
-    -   -1 if vectors are in opposite direction
-    -   0 if vectors are perpendicular
-    -   For normalized vectors, it's directly related to euclidean distance
-    -   $|\vec{a} - \vec{b}|^2 = |\vec{a}|^2 + |\vec{b}|^2 - 2|\vec{a}||\vec{b}|\cos\theta = 2(1 - \cos \theta)$
+**Key Insight** (Distributional Hypothesis):
+> "You shall know a word by the company it keeps" — J.R. Firth
 
-## TF-IDF
+Words that appear in similar contexts have similar meanings.
 
--   Term Frequency
-    -   Frequency of word t in document d
-    -   $tf_{t,d} = \text{count}(t,d)$
-    -   Smooth TF
-    -   $tf_{t,d} = \log(1 + \text{count}(t,d))$
--   Document Frequency
-    -   Number of documents in which term t appears
-    -   $df_t$
--   Inverse Document Frequency
-    -   $idf_t = \log(N / df_t)$
--   TF-IDF
-    -   $w_{t,d} = tf_{t,d} \times idf_t$
+**The Evolution**:
+```
+One-hot vectors → Count-based vectors → Neural embeddings
+(sparse, no similarity)   (sparse, some similarity)   (dense, learned similarity)
+```
 
-## PMI
+---
 
--   Point-wise Mutual Information measures the association between words
--   Ratio of:
-    -   How often do x and y actually co-occur? (observed joint probability)
-    -   How often would x and y co-occur if they were independent? (expected joint probability)
--   $PMI(x,y) = \log_2 \left(\frac{P(x,y)}{P(x)P(y)}\right)$
--   Ranges from negative infinity to positive infinity
-    -   Positive: Words co-occur more than expected by chance
-    -   Zero: Words co-occur exactly as expected by chance
-    -   Negative: Words co-occur less than expected by chance
--   Positive PMI (PPMI): max(0, PMI) - often used to avoid negative values
--   In practice, we estimate probabilities from corpus counts:
-    -   $PMI(x,y) = \log_2 \left(\frac{count(x,y) \cdot N}{count(x) \cdot count(y)}\right)$
-    -   Where N is the total number of word pairs
+## Challenges of Lexical Semantics
 
-## Vector Representation
+Why is meaning hard?
 
--   For a given word T
-    -   Term-Document Matrix
-    -   Each word vector has |D| dimensions
-    -   Each cell is weighted using TF-IDF logic
--   Document Vector
-    -   Average of all word vectors appearing in the document
-    -   Similarity is calculated by cosine distance
+| Challenge | Example |
+|-----------|---------|
+| **Word forms** | sing, sang, sung (same lemma "sing") |
+| **Polysemy** | "bank" = river bank or financial bank |
+| **Synonymy** | couch ≈ sofa (same meaning) |
+| **Relatedness** | coffee ~ cup (not synonyms, but related) |
+| **Semantic frames** | "A bought from B" ≈ "B sold to A" |
+| **Connotation** | "slender" vs. "skinny" (same denotation, different feeling) |
 
-## Word2Vec
+---
 
--   TF-IDF and PMI generate sparse vectors (mostly zeros)
--   Need for dense and more efficient representation of words
--   Static Embeddings
-    -   Fixed vector for each word regardless of context
-    -   Skipgram with Negative Sampling (SGNS)
-    -   Continuous Bag of Words (CBOW) - predicts target word from context
--   Contextual Embeddings
-    -   Dynamic embedding for each word
-    -   Changes with context (word sense disambiguation)
-    -   Examples: ELMo, BERT, GPT (covered in transfer learning)
--   Self-Supervised Learning
-    -   No need for human-labeled data
-    -   Creates supervised task from unlabeled text
+## Vector Space Models
 
-## Skipgram
+### The Core Idea
 
--   Algorithm
-    -   For each word position t in text:
-        -   Use current word w_t as target 
-        -   Words within window of ±k as context words
-    -   Treat target word and neighboring context word pairs as positive samples
-    -   Randomly sample other words from vocab as negative samples
-    -   Train neural network to distinguish positive from negative pairs
-    -   Use the learned weights as embeddings
--   Positive Examples
-    -   Context Window of Size 2
-    -   All words ±2 positions from the given word
--   Negative Examples
-    -   Sampled according to adjusted unigram frequency
-    -   Downweighted to avoid sampling stop words too frequently
-    -   $P(w_j) \propto f(w_j)^{0.75}$ (raising to 0.75 power reduces frequency skew)
--   Objective Function
-    -   Maximize the similarity of positive pairs
-    -   Minimize the similarity of negative pairs
-    -   $L_{w,c} = \log \sigma(v_w \cdot v_c) + \sum_{i=1}^{k} \mathbb{E}_{c_i \sim P_n(w)}[\log \sigma(-v_w \cdot v_{c_i})]$
-    -   Where σ is the sigmoid function
-    -   Use SGD to update word vectors
--   Each word has two separate embeddings
-    -   Target vectors (when word appears as w)
-    -   Context vectors (when word appears as c)
-    -   Final embedding is often the sum or average of the two
+Represent words as vectors in a high-dimensional space where:
+- **Similar words** are **close together**
+- **Dissimilar words** are **far apart**
 
-## Enhancements
+### Document Vectors (Term-Document Matrix)
 
--   Unknown / OOV words
-    -   Use subwords models like FastText
-    -   n-grams on characters
--   GloVe
-    -   Global vectors
-    -   Ratios of probabilities from word-word co-occurrence matrix
--   Similarity
-    -   $a:b :: a':b'$
-    -   $b' = \arg \min \text{distance}(x, b - a + a')$
--   Bias
-    -   Allocation Harm
-        -   Unfair to different groups
-        -   father-doctor, mother - housewife
-    -   Representational Harm
-        -   Wrong association for marginal groups
-        -   African-american names to negative sentiment words 
+| | Doc1 | Doc2 | Doc3 |
+|---|---|---|---|
+| cat | 3 | 0 | 1 |
+| dog | 2 | 4 | 0 |
+| pet | 1 | 2 | 1 |
+
+- **Rows**: Words (vocabulary of size V)
+- **Columns**: Documents (D documents)
+- **Cell**: Count of word in document
+
+**Use case**: Information retrieval (find similar documents).
+
+### Word Vectors (Term-Term Matrix)
+
+| | cat | dog | pet | food |
+|---|---|---|---|---|
+| cat | - | 15 | 20 | 8 |
+| dog | 15 | - | 25 | 12 |
+| pet | 20 | 25 | - | 10 |
+
+- **Rows and Columns**: Words
+- **Cell**: Co-occurrence count (how often words appear together)
+
+**Result**: Each word is a V-dimensional vector.
+
+---
+
+## Measuring Similarity
+
+### Cosine Similarity
+
+Normalized dot product — measures angle between vectors:
+
+$$\cos(\theta) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|} = \frac{\sum_i a_i b_i}{\sqrt{\sum_i a_i^2} \cdot \sqrt{\sum_i b_i^2}}$$
+
+**Interpretation**:
+- cos = 1: Identical direction (most similar)
+- cos = 0: Perpendicular (unrelated)
+- cos = -1: Opposite direction (antonyms, in some cases)
+
+**Why cosine over Euclidean?**
+- Handles different vector magnitudes
+- A long document and short document can still be similar
+
+### For Unit Vectors
+
+When vectors are normalized (length 1):
+$$||\vec{a} - \vec{b}||^2 = 2(1 - \cos\theta)$$
+
+Euclidean distance and cosine become equivalent!
+
+---
+
+## TF-IDF Weighting
+
+Raw counts have problems:
+- Common words ("the", "is") dominate
+- Rare but meaningful words get drowned out
+
+### Term Frequency (TF)
+
+How often does word appear in document?
+
+**Raw TF**: $\text{tf}_{t,d} = \text{count}(t, d)$
+
+**Log TF** (dampens large counts):
+$$\text{tf}_{t,d} = \log(1 + \text{count}(t, d))$$
+
+### Inverse Document Frequency (IDF)
+
+How rare is the word across documents?
+
+$$\text{idf}_t = \log\left(\frac{N}{\text{df}_t}\right)$$
+
+Where:
+- N = total number of documents
+- df_t = number of documents containing term t
+
+**Effect**: Common words (low IDF) get downweighted.
+
+### TF-IDF
+
+Combine both:
+$$w_{t,d} = \text{tf}_{t,d} \times \text{idf}_t$$
+
+**High TF-IDF**: Word appears often in this document but rarely overall → distinctive!
+
+---
+
+## Pointwise Mutual Information (PMI)
+
+### The Intuition
+
+Are two words appearing together more than we'd expect by chance?
+
+$$\text{PMI}(x, y) = \log_2 \frac{P(x, y)}{P(x) \cdot P(y)}$$
+
+**Interpretation**:
+- PMI > 0: Words co-occur more than expected (associated)
+- PMI = 0: Words co-occur as expected (independent)
+- PMI < 0: Words co-occur less than expected (avoid each other)
+
+### From Counts
+
+$$\text{PMI}(x, y) = \log_2 \frac{\text{count}(x, y) \cdot N}{\text{count}(x) \cdot \text{count}(y)}$$
+
+### Positive PMI (PPMI)
+
+Negative PMI values are unreliable (rare events).
+
+$$\text{PPMI}(x, y) = \max(0, \text{PMI}(x, y))$$
+
+---
+
+## From Sparse to Dense: Word2Vec
+
+### The Problem with Count Vectors
+
+- **Very high dimensional** (vocabulary size)
+- **Very sparse** (mostly zeros)
+- **No generalization** between similar words
+
+### The Neural Solution
+
+Learn **dense, low-dimensional** vectors (typically 100-300 dimensions).
+
+**Key properties**:
+- Similar words have similar vectors
+- Relationships are captured geometrically
+
+### Static vs. Contextual Embeddings
+
+| Type | Same word = same vector? | Examples |
+|------|--------------------------|----------|
+| **Static** | Yes | Word2Vec, GloVe, FastText |
+| **Contextual** | No (depends on context) | ELMo, BERT, GPT |
+
+---
+
+## Skip-Gram with Negative Sampling (SGNS)
+
+The most popular Word2Vec algorithm.
+
+### The Task
+
+Given a target word, predict surrounding context words.
+
+**Example**: "The quick **brown** fox jumps"
+- Target: "brown"
+- Context (window=2): "The", "quick", "fox", "jumps"
+
+### Training Setup
+
+1. **Positive examples**: (target, context) pairs from real text
+2. **Negative examples**: (target, random_word) pairs — fake associations
+
+### The Objective
+
+Maximize probability of real pairs, minimize probability of fake pairs:
+
+$$L = \log \sigma(v_w \cdot v_c) + \sum_{i=1}^{k} \mathbb{E}_{c_i \sim P_n}[\log \sigma(-v_w \cdot v_{c_i})]$$
+
+Where:
+- $\sigma$ is sigmoid function
+- $v_w$ is target word vector
+- $v_c$ is context word vector
+- k is number of negative samples (typically 5-20)
+
+### Negative Sampling Distribution
+
+Don't sample uniformly — would get too many rare words.
+
+$$P(w) \propto \text{freq}(w)^{0.75}$$
+
+The 0.75 power smooths the distribution (gives rare words a better chance than pure frequency).
+
+### Two Embeddings Per Word
+
+Each word has:
+- **Target embedding**: When it's the center word
+- **Context embedding**: When it appears in context
+
+Final embedding is often their sum or average.
+
+---
+
+## Enhancements and Variations
+
+### FastText (Subword Embeddings)
+
+**Problem**: What about unknown words like "ungooglable"?
+
+**Solution**: Represent words as bag of character n-grams.
+
+"where" → {<wh, whe, her, ere, re>}
+
+Word vector = sum of n-gram vectors.
+
+**Benefit**: Can handle any word, even unseen ones!
+
+### GloVe (Global Vectors)
+
+Combines advantages of count-based and neural methods.
+
+Uses global co-occurrence statistics + optimization:
+$$J = \sum_{i,j} f(X_{ij})(w_i^T \tilde{w}_j + b_i + \tilde{b}_j - \log X_{ij})^2$$
+
+Often comparable to Word2Vec in practice.
+
+---
+
+## Word Analogies
+
+Famous Word2Vec property:
+
+**"king" - "man" + "woman" ≈ "queen"**
+
+Find word that completes analogy a:b :: a':?
+
+$$b' = \arg\min_{x} \text{distance}(x, b - a + a')$$
+
+**Works for**:
+- Gender: king:queen :: man:woman
+- Capitals: Paris:France :: Tokyo:Japan
+- Tense: walking:walked :: swimming:swam
+
+---
+
+## Bias in Word Embeddings
+
+### The Problem
+
+Word embeddings learn biases present in training data.
+
+**Examples**:
+- "doctor" closer to "man" than "woman"
+- "homemaker" closer to "woman" than "man"
+- Names associated with certain ethnic groups linked to negative words
+
+### Types of Harm
+
+**Allocation harm**: System makes unfair decisions
+- Resume screening favoring male-associated names
+
+**Representation harm**: Reinforces stereotypes
+- Search results, autocomplete suggestions
+
+### Mitigation Strategies
+
+- Debias during training or post-hoc
+- Careful data curation
+- Evaluation for fairness
+
+---
+
+## Summary
+
+| Representation | Pros | Cons |
+|----------------|------|------|
+| **Count-based (TF-IDF)** | Interpretable, simple | Sparse, high-dimensional |
+| **PMI** | Captures associations | Sparse, noisy for rare words |
+| **Word2Vec** | Dense, captures analogy | Static, no context |
+| **FastText** | Handles OOV words | Still static |
+| **Contextual** | Word sense disambiguation | Computationally expensive |
+
+### Key Takeaways
+
+1. **Words can be represented as vectors** in semantic space
+2. **Distributional similarity** = semantic similarity
+3. **Dense embeddings** outperform sparse for most tasks
+4. **Context matters** — motivates contextual embeddings (BERT, etc.)
+5. **Beware of biases** inherited from training data

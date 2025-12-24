@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tokenization | ML Notes</title>
+  <title>N-Grams and Language Models | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items collapsed">
             <li class="nav-item"><a href="../eslr/eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="../eslr/eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="../eslr/eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="../eslr/eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="../eslr/eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items">
-            <li class="nav-item"><a href="jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="jfsky-02-tokenization.html" class="active">Tokenization</a></li>
-            <li class="nav-item"><a href="jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="jfsky-02-tokenization.html" class="active">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
-            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,152 +121,269 @@
             <span>/</span>
             <a href="index.html">Jurafsky</a>
           </div>
-          <h1 class="page-title">Tokenization</h1>
+          <h1 class="page-title">N-Grams and Language Models</h1>
           <div class="page-meta"><span class="tag">Jurafsky</span></div>
         </header>
         <article class="content">
-          <h1 id="tokenization">Tokenization</h1>
-<h2 id="n-grams">N-Grams</h2>
+          <h1 id="n-grams-and-language-models">N-Grams and Language Models</h1>
+<p>Language models assign probabilities to sequences of words. They answer: &quot;How likely is this sentence?&quot; This fundamental capability underlies spell checking, machine translation, speech recognition, and text generation.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p><strong>Key Question</strong>: What&#39;s the probability of a word sequence?</p>
+<p>$$P(\text{&quot;the cat sat on the mat&quot;})$$</p>
+<p><strong>Why This Matters</strong>:</p>
 <ul>
-<li>Language Models assign probabilities to sequence of words<ul>
-<li>$P(w_1, w_2, ..., w_n)$</li>
+<li>Spell checking: P(&quot;the cat&quot;) &gt; P(&quot;the kat&quot;)</li>
+<li>Machine translation: Choose more fluent translation</li>
+<li>Speech recognition: Distinguish &quot;recognize speech&quot; from &quot;wreck a nice beach&quot;</li>
+<li>Text generation: Sample likely continuations</li>
 </ul>
-</li>
-<li>Simplify the calculation using chain rule<ul>
-<li>$P(w_1, w_2, ..., w_n) = P(w_1) \times P(w_2 | w_1) \times ... \times P(w_n | w_1 w_2 ... w_{n-1})$</li>
-<li>$P(w_1, w_2, ..., w_n) = \prod_{i=1}^{n} P(w_i | w_{1:i-1})$</li>
+<hr>
+<h2 id="language-model-fundamentals">Language Model Fundamentals</h2>
+<h3 id="joint-probability-of-words">Joint Probability of Words</h3>
+<p>We want to compute:
+$$P(w_1, w_2, ..., w_n)$$</p>
+<p>Using the <strong>chain rule</strong> of probability:
+$$P(w_1, w_2, ..., w_n) = P(w_1) \times P(w_2|w_1) \times P(w_3|w_1,w_2) \times ... \times P(w_n|w_1,...,w_{n-1})$$</p>
+<p>More compactly:
+$$P(w_1, w_2, ..., w_n) = \prod_{i=1}^{n} P(w_i | w_{1:i-1})$$</p>
+<p><strong>Problem</strong>: As sequences get longer, we need infinitely many parameters!</p>
+<h3 id="the-markov-assumption">The Markov Assumption</h3>
+<p><strong>Key insight</strong>: Approximate by using only recent history.</p>
+<p>For a <strong>bigram model</strong> (2-gram):
+$$P(w_n | w_1, w_2, ..., w_{n-1}) \approx P(w_n | w_{n-1})$$</p>
+<p><strong>Assumption</strong>: The next word depends only on the previous word.</p>
+<h3 id="n-gram-models">N-Gram Models</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Conditioning Context</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unigram</td>
+<td>None</td>
+<td>P(the)</td>
+</tr>
+<tr>
+<td>Bigram</td>
+<td>Previous 1 word</td>
+<td>P(cat | the)</td>
+</tr>
+<tr>
+<td>Trigram</td>
+<td>Previous 2 words</td>
+<td>P(sat | the cat)</td>
+</tr>
+<tr>
+<td>4-gram</td>
+<td>Previous 3 words</td>
+<td>P(on | the cat sat)</td>
+</tr>
+</tbody></table>
+<p><strong>Trade-off</strong>: Larger n = better context but more parameters and sparser data.</p>
+<hr>
+<h2 id="estimating-n-gram-probabilities">Estimating N-Gram Probabilities</h2>
+<h3 id="maximum-likelihood-estimation">Maximum Likelihood Estimation</h3>
+<p>Use <strong>relative frequency</strong> (counting):</p>
+<p><strong>Bigram probability</strong>:
+$$P(w_n | w_{n-1}) = \frac{\text{count}(w_{n-1}, w_n)}{\text{count}(w_{n-1})}$$</p>
+<p><strong>Example</strong>: Computing P(sat | the) from a corpus:</p>
+<ul>
+<li>Count &quot;the sat&quot; occurrences: 100</li>
+<li>Count &quot;the ___&quot; occurrences: 10,000</li>
+<li>P(sat | the) = 100/10,000 = 0.01</li>
 </ul>
-</li>
-<li>Joint probability can be expressed as a product of conditional probabilities<ul>
-<li>Probability of a word given historical context</li>
-<li>$P(w_n | h)$</li>
+<h3 id="handling-sentence-boundaries">Handling Sentence Boundaries</h3>
+<p>Add special tokens:</p>
+<ul>
+<li><strong>&lt;s&gt;</strong>: Beginning of sentence (BOS)</li>
+<li><strong>&lt;/s&gt;</strong>: End of sentence (EOS)</li>
 </ul>
-</li>
-<li>N-gram refers to a sequence of n words</li>
-<li>N-gram model makes the Markov assumption<ul>
-<li>$P(w | h)$ can be approximated using just the last n-1 words</li>
+<p><strong>Example</strong>: &quot;&lt;s&gt; the cat sat &lt;/s&gt;&quot;</p>
+<p>This allows us to model:</p>
+<ul>
+<li>P(the | &lt;s&gt;) — how likely is &quot;the&quot; to start a sentence?</li>
+<li>P(&lt;/s&gt; | sat) — how likely is &quot;sat&quot; to end a sentence?</li>
 </ul>
-</li>
-<li>For example in case of a bigram model<ul>
-<li>$P(w_n | h) \approx P(w_n | w_{n-1})$</li>
-</ul>
-</li>
-<li>Estimate the probabilities using Maximum Likelihood<ul>
-<li>Relative frequency</li>
-<li>$P(w_n | w_{n-1}) = \frac{P(w_{n-1}, w_n)}{\sum_k P(w_{n-1}, w_k)}$</li>
-<li>$P(w_n | w_{n-1}) = \frac{count(w_{n-1}, w_n)}{count(w_{n-1})}$</li>
-</ul>
-</li>
-<li>BOS and EOS tokens to handle the edge cases</li>
-<li>N-gram models apt at capturing syntactic features (noun-verb-adj etc)</li>
-<li>To avoid numerical underflow, overflow problems use log probabilities<ul>
-<li>$p_1 \times p_2 = \exp(\log p_1 + \log p_2)$</li>
-</ul>
-</li>
-</ul>
+<h3 id="practical-note-log-probabilities">Practical Note: Log Probabilities</h3>
+<p>Multiplying many small probabilities → numerical underflow!</p>
+<p><strong>Solution</strong>: Work in log space:
+$$\log(p_1 \times p_2) = \log(p_1) + \log(p_2)$$</p>
+<p>Add log probabilities instead of multiplying probabilities.</p>
+<hr>
 <h2 id="perplexity">Perplexity</h2>
+<h3 id="what-is-perplexity">What Is Perplexity?</h3>
+<p>The standard metric for evaluating language models.</p>
+<p><strong>Definition</strong>:
+$$\text{PP}(W) = P(w_1, w_2, ..., w_n)^{-1/n}$$</p>
+<p>Equivalently:
+$$\text{PP}(W) = \sqrt[n]{\prod_{i=1}^{n} \frac{1}{P(w_i | w_{1:i-1})}}$$</p>
+<h3 id="intuition-weighted-branching-factor">Intuition: Weighted Branching Factor</h3>
+<p>Perplexity ≈ average number of equally likely choices at each step.</p>
+<p><strong>Example</strong>:</p>
 <ul>
-<li>Inverse probability normalized by the length of sequence</li>
-<li>$PP(W) = P(w_1 w_2 ... w_n)^{-\frac{1}{n}}$</li>
-<li>$PP(W) = \sqrt[n]{\prod_{i=1}^{n} \frac{1}{P(w_i | w_{1:i-1})}}$</li>
-<li>Higher the conditional probability, lower is the perplexity</li>
-<li>Weighted average branching factor<ul>
-<li>Branching factor refers to the number of possible words that can follow a particular word</li>
-<li>Lower perplexity means model is more confident in its predictions</li>
+<li>Perplexity of 100 ≈ model is choosing between 100 equally likely words</li>
+<li>Perplexity of 10 ≈ model is choosing between 10 equally likely words</li>
 </ul>
-</li>
-<li>Perplexity of LMs comparable only if they use same vocabulary<ul>
-<li>Adding rare words increases perplexity</li>
-</ul>
-</li>
-</ul>
-<h2 id="perplexity-and-entropy">Perplexity and Entropy</h2>
+<p><strong>Lower perplexity = better model</strong> (more confident predictions).</p>
+<h3 id="connection-to-information-theory">Connection to Information Theory</h3>
+<p>Perplexity relates to <strong>entropy</strong>:
+$$\text{PP}(W) = 2^{H(W)}$$</p>
+<p>Where entropy H measures uncertainty:
+$$H(W) = -\frac{1}{n} \log_2 P(w_1, ..., w_n)$$</p>
+<h3 id="important-caveats">Important Caveats</h3>
+<p><strong>Perplexities are only comparable when</strong>:</p>
 <ul>
-<li>Entropy is a measure of information<ul>
-<li>Number of bits it takes to encode information (log base 2)</li>
-<li>$H(X) = -\sum_{x} p(x) \log_2(p(x))$</li>
+<li>Using the same vocabulary</li>
+<li>Using the same test set</li>
 </ul>
-</li>
-<li>Entropy Rate: Entropy per symbol in a sequence<ul>
-<li>$H(W) = \lim_{n \to \infty} \frac{1}{n}H(w_1, w_2, ..., w_n)$</li>
-</ul>
-</li>
-<li>LMs can potentially consider infinite sequence length<ul>
-<li>$H(W) = -\lim_{n \to \infty} \frac{1}{n} \sum_{w_{1:n}} p(w_{1:n}) \log_2(p(w_{1:n}))$</li>
-<li>$H(W) \approx -\frac{1}{n} \log_2 p(w_{1:n})$</li>
-</ul>
-</li>
-<li>Perplexity relates to entropy: $PP(W) = 2^{H(W)}$<ul>
-<li>Perplexity can be interpreted as the average number of choices the model has when predicting the next word</li>
-</ul>
-</li>
-</ul>
-<h2 id="unknown-words">Unknown Words</h2>
+<p>Adding rare words to vocabulary increases perplexity (more choices).</p>
+<hr>
+<h2 id="the-unknown-word-problem">The Unknown Word Problem</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>What if we see a word we&#39;ve never seen before?
+$$P(\text{unigoogleable} | w_{n-1}) = 0$$</p>
+<p>Zero probability breaks everything:</p>
 <ul>
-<li>If probability of a word is zero, the perplexity is not defined.</li>
-<li>Unknown words or OOV words (out of vocab)</li>
-<li>Handle via pre-processing <UNK> token<ul>
-<li>Replace rare words with this token in training corpus</li>
+<li>Product becomes zero</li>
+<li>Perplexity becomes infinite</li>
 </ul>
-</li>
-<li>LMs can achieve lower perplexity by selecting smaller vocab size</li>
-</ul>
+<h3 id="solution-unk-token">Solution: &lt;UNK&gt; Token</h3>
+<ol>
+<li>Define a vocabulary (e.g., most frequent 50,000 words)</li>
+<li>Replace all other words with &lt;UNK&gt;</li>
+<li>Treat &lt;UNK&gt; as just another word</li>
+</ol>
+<p><strong>Training</strong>: &quot;I saw a brachiosaurus&quot; → &quot;I saw a &lt;UNK&gt;&quot;
+<strong>Testing</strong>: Same replacement</p>
+<p><strong>Caveat</strong>: Smaller vocabulary = lower perplexity (fewer choices). Not always fair to compare!</p>
+<hr>
 <h2 id="smoothing">Smoothing</h2>
+<h3 id="the-zero-probability-problem">The Zero Probability Problem</h3>
+<p>Even with &lt;UNK&gt;, we&#39;ll see <strong>new n-grams</strong>:
+$$P(\text{cat} | \text{the green}) = 0 \text{ (if never seen together)}$$</p>
+<p><strong>Smoothing</strong> redistributes probability mass to unseen events.</p>
+<h3 id="laplace-add-one-smoothing">Laplace (Add-One) Smoothing</h3>
+<p><strong>Idea</strong>: Pretend we saw everything at least once.</p>
+<p><strong>Unigram</strong>:
+$$P(w_i) = \frac{\text{count}(w_i) + 1}{N + V}$$</p>
+<p><strong>Bigram</strong>:
+$$P(w_i | w_j) = \frac{\text{count}(w_j, w_i) + 1}{\text{count}(w_j) + V}$$</p>
+<p>Where V is vocabulary size.</p>
+<p><strong>Problem</strong>: Add-1 is too aggressive — steals too much from seen events.</p>
+<p><strong>Solution</strong>: Add-k smoothing (k &lt; 1, e.g., k = 0.01).</p>
+<h3 id="backoff">Backoff</h3>
+<p><strong>Idea</strong>: If no evidence for trigram, use bigram. If no bigram, use unigram.</p>
+<p>$$P_{BO}(w_i|w_{i-2},w_{i-1}) = \begin{cases} 
+P(w_i|w_{i-2},w_{i-1}) &amp; \text{if count &gt; 0} \
+\alpha \cdot P_{BO}(w_i|w_{i-1}) &amp; \text{otherwise}
+\end{cases}$$</p>
+<p>Where α is a normalization factor.</p>
+<h3 id="interpolation">Interpolation</h3>
+<p><strong>Idea</strong>: Always mix all n-gram levels.</p>
+<p>$$P(w_i | w_{i-2}, w_{i-1}) = \lambda_1 P(w_i) + \lambda_2 P(w_i | w_{i-1}) + \lambda_3 P(w_i | w_{i-2}, w_{i-1})$$</p>
+<p>Where $\lambda_1 + \lambda_2 + \lambda_3 = 1$.</p>
+<p>Learn λ values from held-out data.</p>
+<h3 id="kneser-ney-smoothing">Kneser-Ney Smoothing</h3>
+<p><strong>State-of-the-art for n-gram models</strong>.</p>
+<p><strong>Key insight</strong>: Use <em>continuation probability</em> — how likely is a word to appear in new contexts?</p>
+<p>$$P_{KN}(w_i | w_{i-1}) = \frac{\max(\text{count}(w_{i-1}, w_i) - d, 0)}{\sum_v \text{count}(w_{i-1}, v)} + \lambda(w_{i-1}) P_{continuation}(w_i)$$</p>
+<p><strong>Intuition</strong>: </p>
 <ul>
-<li>Avoid assigning zero probabilities to unseen sequences</li>
-<li>Laplace Smoothing<ul>
-<li>Add smoothing constants while calculating relative frequencies</li>
-<li>Add 1 to numerator (count)</li>
-<li>Add V to denominator (V is the vocab size) to ensure that probabilities sum up to 1</li>
-<li>$P(w_i) = \frac{\text{count}(w_i) + 1}{N + V}$</li>
-<li>$P(w_i | w_{j}) = \frac{\text{count}(w_i, w_{j}) + 1}{\text{count}(w_{j}) + V}$</li>
-<li>Discount some probability mass from seen phrases and save it for unseen phrases</li>
-<li>Generalization to &quot;Add-k&quot; smoothing (k can be less than 1)</li>
+<li>Words like &quot;Francisco&quot; have high count but appear after &quot;San&quot; — low continuation probability</li>
+<li>Words like &quot;the&quot; appear in many contexts — high continuation probability</li>
 </ul>
-</li>
-<li>Back-off<ul>
-<li>Use shorter sequences if not enough support for full context</li>
-<li>Use trigram if evidence is sufficient, otherwise use bigram</li>
-<li>$P_{BO}(w_i|w_{i-2}w_{i-1}) = \begin{cases} 
-  P(w_i|w_{i-2}w_{i-1}) &amp; \text{if count}(w_{i-2}w_{i-1}w_i) &gt; 0 \
-  \alpha(w_{i-2}w_{i-1}) \cdot P_{BO}(w_i|w_{i-1}) &amp; \text{otherwise}
-\end{cases}$</li>
-<li>Where α is a normalization factor</li>
-</ul>
-</li>
-<li>Interpolation<ul>
-<li>Mix the probability estimates from all n-grams</li>
-<li>$P(w_i | w_{i-2}w_{i-1}) = \lambda_1 P(w_i) + \lambda_2 P(w_i | w_{i-1}) + \lambda_3 P(w_i | w_{i-2}w_{i-1})$</li>
-<li>λ values sum to 1, typically learned from held-out data</li>
-</ul>
-</li>
-<li>Kneser-Ney Smoothing<ul>
-<li>State-of-the-art n-gram smoothing technique</li>
-<li>Uses absolute discounting with a sophisticated back-off distribution</li>
-<li>$P_{KN}(w_i | w_{i-1}) = \frac{\max(c(w_{i-1}w_i) - d, 0)}{\sum_v c(w_{i-1}v)} + \lambda(w_{i-1})P_{continuation}(w_i)$</li>
-<li>Where d is discount (typically 0.75) and P_continuation captures how likely word appears in new contexts</li>
-</ul>
-</li>
-</ul>
-<h2 id="efficiency">Efficiency</h2>
+<hr>
+<h2 id="efficiency-considerations">Efficiency Considerations</h2>
+<p>N-gram models can be huge! Practical tricks:</p>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Quantization</strong></td>
+<td>Store probabilities with fewer bits</td>
+</tr>
+<tr>
+<td><strong>Tries</strong></td>
+<td>Efficient storage and lookup</td>
+</tr>
+<tr>
+<td><strong>String hashing</strong></td>
+<td>Reduce memory for n-grams</td>
+</tr>
+<tr>
+<td><strong>Bloom filters</strong></td>
+<td>Fast membership testing</td>
+</tr>
+<tr>
+<td><strong>Stupid Backoff</strong></td>
+<td>Simple, fast approximation</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Key Idea</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Language Model</strong></td>
+<td>Assign probabilities to word sequences</td>
+</tr>
+<tr>
+<td><strong>N-gram</strong></td>
+<td>Approximate using last n-1 words</td>
+</tr>
+<tr>
+<td><strong>MLE</strong></td>
+<td>Estimate from counts (relative frequency)</td>
+</tr>
+<tr>
+<td><strong>Perplexity</strong></td>
+<td>Model evaluation metric (lower = better)</td>
+</tr>
+<tr>
+<td><strong>Smoothing</strong></td>
+<td>Handle unseen n-grams</td>
+</tr>
+<tr>
+<td><strong>Kneser-Ney</strong></td>
+<td>Best n-gram smoothing technique</td>
+</tr>
+</tbody></table>
+<h3 id="the-bigger-picture">The Bigger Picture</h3>
+<p>N-gram models are:</p>
 <ul>
-<li>Reduce memory footprint</li>
-<li>Quantization for probabilities</li>
-<li>Reverse Tries for N-grams</li>
-<li>String Hashing</li>
-<li>Bloom filters</li>
-<li>Stupid Backoff</li>
+<li><strong>Simple and interpretable</strong></li>
+<li><strong>Capture local syntax</strong> (word order)</li>
+<li><strong>Fast</strong> to train and use</li>
 </ul>
+<p>But they have <strong>limitations</strong>:</p>
+<ul>
+<li><strong>Fixed context</strong> (can&#39;t capture long-range dependencies)</li>
+<li><strong>Sparse data</strong> (even trigrams need lots of data)</li>
+<li><strong>No semantic understanding</strong> (just counting patterns)</li>
+</ul>
+<p>This motivates <strong>neural language models</strong> (covered in later chapters).</p>
 
         </article>
         <nav class="page-navigation">
         <a href="jfsky-01-regex.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Regex</span>
+          <span class="nav-link-title">Regular Expressions and Text Processing</span>
         </a>
         <a href="jfsky-03-vectors.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>
-          <span class="nav-link-title">Vectors</span>
+          <span class="nav-link-title">Vector Semantics and Word Embeddings</span>
         </a></nav>
       </div>
     </main>

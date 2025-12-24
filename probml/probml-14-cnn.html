@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Convolution NN | ML Notes</title>
+  <title>Convolutional Neural Networks | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
@@ -33,13 +33,13 @@
           </div>
           <ul class="nav-items collapsed">
             <li class="nav-item"><a href="../eslr/eslr-00.html">ESLR Notes</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Linear Regression</a></li>
             <li class="nav-item"><a href="../eslr/eslr-02-classification.html">Classification</a></li>
             <li class="nav-item"><a href="../eslr/eslr-03-kernel-methods.html">Kernel Methods</a></li>
             <li class="nav-item"><a href="../eslr/eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Selection</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models</a></li>
-            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Inference and Averaging</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models, Trees, and Related Methods</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting and Additive Trees</a></li>
             <li class="nav-item"><a href="../eslr/eslr-15-random-forest.html">Random Forests</a></li>
           </ul>
         </div>
@@ -66,13 +66,13 @@
             Jurafsky
           </div>
           <ul class="nav-items collapsed">
-            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">Speech and Language Processing Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regular Expressions and Text Processing</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">N-Grams and Language Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vector Semantics and Word Embeddings</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures: RNNs, LSTMs, and Attention</a></li>
             <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
-            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning and Pre-trained Models</a></li>
           </ul>
         </div>
         <div class="nav-section probml">
@@ -81,10 +81,10 @@
             ProbML
           </div>
           <ul class="nav-items">
-            <li class="nav-item"><a href="probml-00.html">ProbML Notes</a></li>
-            <li class="nav-item"><a href="probml-01-introduction.html">Introduction</a></li>
-            <li class="nav-item"><a href="probml-02-probability.html">Probability</a></li>
-            <li class="nav-item"><a href="probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="probml-00.html">Probabilistic Machine Learning Notes</a></li>
+            <li class="nav-item"><a href="probml-01-introduction.html">Introduction to Machine Learning</a></li>
+            <li class="nav-item"><a href="probml-02-probability.html">Probability Foundations</a></li>
+            <li class="nav-item"><a href="probml-03-probability.html">Probability: Advanced Topics</a></li>
             <li class="nav-item"><a href="probml-04-statistics.html">Statistics</a></li>
             <li class="nav-item"><a href="probml-05-decision_theory.html">Decision Theory</a></li>
             <li class="nav-item"><a href="probml-06-information_theory.html">Information Theory</a></li>
@@ -92,12 +92,12 @@
             <li class="nav-item"><a href="probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
             <li class="nav-item"><a href="probml-10-logistic_regression.html">Logistic Regression</a></li>
             <li class="nav-item"><a href="probml-11-linear_regression.html">Linear Regression</a></li>
-            <li class="nav-item"><a href="probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
-            <li class="nav-item"><a href="probml-14-cnn.html" class="active">Convolution NN</a></li>
-            <li class="nav-item"><a href="probml-15-rnn.html">Recurrent Neural Networks</a></li>
-            <li class="nav-item"><a href="probml-16-exemplar.html">Exemplar Methods</a></li>
-            <li class="nav-item"><a href="probml-18-trees.html">Trees</a></li>
-            <li class="nav-item"><a href="probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="probml-13-ffnn.html">Feed-Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="probml-14-cnn.html" class="active">Convolutional Neural Networks</a></li>
+            <li class="nav-item"><a href="probml-15-rnn.html">Recurrent Neural Networks and Transformers</a></li>
+            <li class="nav-item"><a href="probml-16-exemplar.html">Exemplar-Based Methods</a></li>
+            <li class="nav-item"><a href="probml-18-trees.html">Decision Trees and Ensembles</a></li>
+            <li class="nav-item"><a href="probml-19-ssl.html">Self-Supervised and Semi-Supervised Learning</a></li>
             <li class="nav-item"><a href="probml-21-recsys.html">Recommendation Systems</a></li>
           </ul>
         </div>
@@ -121,210 +121,260 @@
             <span>/</span>
             <a href="index.html">ProbML</a>
           </div>
-          <h1 class="page-title">Convolution NN</h1>
+          <h1 class="page-title">Convolutional Neural Networks</h1>
           <div class="page-meta"><span class="tag">ProbML</span></div>
         </header>
         <article class="content">
-          <h1 id="convolution-nn">Convolution NN</h1>
+          <h1 id="convolutional-neural-networks">Convolutional Neural Networks</h1>
+<p>CNNs are specialized neural networks designed for processing grid-structured data, especially images. They&#39;re the foundation of modern computer vision.</p>
+<h2 id="the-big-picture">The Big Picture</h2>
+<p><strong>Problem with MLPs for images</strong>:</p>
 <ul>
-<li><p>MLPs not effective for images</p>
+<li>Different image sizes → different input dimensions</li>
+<li>Translation invariance is hard to learn</li>
+<li>Too many parameters (e.g., 1000×1000 image = 3 million inputs!)</li>
+</ul>
+<p><strong>CNN solution</strong>:</p>
 <ul>
-<li>Different sized inputs</li>
-<li>Translational invariance difficult to achieve</li>
-<li>Weight matrix prohibitive in size</li>
+<li>Local connectivity (each neuron sees small region)</li>
+<li>Weight sharing (same filter applied everywhere)</li>
+<li>Translation equivariance built in</li>
 </ul>
-</li>
-<li><p>Convolutional Neural Networks</p>
+<hr>
+<h2 id="the-convolution-operation">The Convolution Operation</h2>
+<h3 id="1d-convolution">1D Convolution</h3>
+<p>$$[w \star x]<em>i = \sum</em>{u=0}^{L-1} w_u \cdot x_{i+u}$$</p>
+<p>Slide a <strong>filter</strong> (kernel) across the input and compute dot products.</p>
+<h3 id="2d-convolution">2D Convolution</h3>
+<p>$$[W \star X]<em>{i,j} = \sum</em>{u=0}^{H-1} \sum_{v=0}^{W-1} w_{u,v} \cdot x_{i+u, j+v}$$</p>
+<p><strong>Interpretation</strong>: Template matching. High response where input matches the filter pattern.</p>
+<h3 id="key-insight-weight-sharing">Key Insight: Weight Sharing</h3>
+<p>Same filter weights used at every location → huge parameter reduction!</p>
+<p><strong>Example</strong>: 3×3 filter has 9 parameters, regardless of image size.</p>
+<hr>
+<h2 id="convolution-as-matrix-multiplication">Convolution as Matrix Multiplication</h2>
+<p>Convolution can be expressed as multiplication by a <strong>Toeplitz matrix</strong>:
+$$y = Cx$$</p>
+<p>Where C has a special sparse structure with repeated weights.</p>
+<p>This equivalence is useful for:</p>
 <ul>
-<li>Replace matrix multiplication with convolution operator</li>
-<li>Divide image into overlapping 2d patches</li>
-<li>Perform template matching based on filters with learned parameters</li>
-<li>Number of parameters significantly reduced</li>
-<li>Translation invariance easy to achieve</li>
+<li>Understanding computational cost</li>
+<li>Implementing on hardware</li>
 </ul>
-</li>
-<li><p>Convolution Operators</p>
+<hr>
+<h2 id="convolution-variants">Convolution Variants</h2>
+<h3 id="valid-convolution">Valid Convolution</h3>
+<p>No padding; output shrinks:</p>
 <ul>
-<li>Convolution between two functions<ul>
-<li>$<a href="z">f \star g</a> = \int f(u) g(z-u) du$</li>
+<li>Input: $(H, W)$</li>
+<li>Filter: $(f_H, f_W)$</li>
+<li>Output: $(H - f_H + 1, W - f_W + 1)$</li>
 </ul>
-</li>
-<li>Similar to cross-correlation operator<ul>
-<li>$<a href="i">w \star x</a> = \sum_u^{L-1} w_ux_{i+u}$</li>
-</ul>
-</li>
-<li>Convolution in 2D<ul>
-<li>$<a href="i,j">W \star X</a> = \sum_{u=0}^{H-1}\sum_{v=0}^{W-1} w_{u,v}x_{i+u,j+v}$</li>
-<li>2D convolution is template matching, feature detection</li>
-<li>The output is called feature map</li>
-</ul>
-</li>
-<li>Convolution is matrix multiplication<ul>
-<li>The corresponding weight matrix is Toeplitz like</li>
-<li>$y = Cx$</li>
-<li>$C = [[w_1, w_2,0|w_3, w_4, 0|0,0,0],[0, w_1, w_2 | 0, w_3, w_4 | 0,0,0],....]$</li>
-<li>Weight matrix is sparse in a typical MLP setting</li>
-</ul>
-</li>
-<li>Valid Convolution<ul>
-<li>Filter Size: $(f_h, f_w)$</li>
-<li>Image Size: $(x_h, x_w)$</li>
-<li>Output Size : $(x_h - f_w + 1, x_w - f_w + 1)$</li>
-</ul>
-</li>
-<li>Padding<ul>
-<li>Filter Size: $(f_h, f_w)$</li>
-<li>Image Size: $(x_h, x_w)$</li>
-<li>Padding Size: $(p_h, p_w)$</li>
-<li>Output Size : $(x_h + 2p_h - f_w + 1, x_w + 2p_w - f_w + 1)$</li>
-<li>If 2p = f - 1, then output size is equal to input size</li>
-</ul>
-</li>
-<li>Strided Convolution<ul>
-<li>Skip every sth input to reduce redundancy</li>
-<li>Filter Size: $(f_h, f_w)$</li>
-<li>Image Size: $(x_h, x_w)$</li>
-<li>Padding Size: $(p_h, p_w)$</li>
-<li>Stride Size: $(s_h, s_w)$</li>
-<li>Output Size: $\lbrack {x_h + 2p_h -f_h +s_h \over s_h}, {x_w + 2p_w -f_w + s_w \over s_w} \rbrack$</li>
-</ul>
-</li>
-<li>Mutiple channels<ul>
-<li>Input images have 3 channels</li>
-<li>Define a kernel for each input channel</li>
-<li>Weight is a 3D matrix</li>
-<li>$z_{i,j} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c}$</li>
-</ul>
-</li>
-<li>In order to detect multiple features, extend the dimension of weight matrix<ul>
-<li>Weight is a 4D matrix</li>
-<li>$z_{i,j,d} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c,d}$</li>
-<li>Output is a hyper column formed by concatenation of feature maps</li>
-</ul>
-</li>
-<li>Special Case: (1x1) point wise convolution<ul>
-<li>Filter is of size 1x1.</li>
-<li>Only the number of channels change from input to output</li>
-<li>$z_{i,j,d} = \sum x_{i,j,c}w_{0,0,c,d}$</li>
-</ul>
-</li>
-<li>Pooling Layers<ul>
-<li>Convolution preserves information about location of input features i.e. equivariance</li>
-<li>To achieve translational invariance, use pooling operation</li>
-<li>Max Pooling<ul>
-<li>Maximum over incoming values</li>
-</ul>
-</li>
-<li>Average Pooling<ul>
-<li>Average over incoming values</li>
-</ul>
-</li>
-<li>Global Average Pooling<ul>
-<li>Convert the (H,W,D) feature maps into (1,1,D) output layer</li>
-<li>Usually to compute features before passing to fully connected layer</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Dilated Convolution<ul>
-<li>Convolution with holes</li>
-<li>Takes every rth input (r is the dilation rate)</li>
-<li>The filters have 0s</li>
-<li>Increases the receptive field</li>
-</ul>
-</li>
-<li>Transposed Convolution<ul>
-<li>Produce larger output form smaller input</li>
-<li>Pad the input with zeros and then run the filter</li>
-</ul>
-</li>
-<li>Depthwise</li>
-</ul>
-</li>
-<li><p>Normalization</p>
+<h3 id="same-zero-padding">Same (Zero) Padding</h3>
+<p>Pad input with zeros to maintain size:</p>
 <ul>
-<li>Vanishing / Exploding gradient issues in deeper models</li>
-<li>Add extra layers to standardize the statistics of hidden units</li>
-<li>Batch Normalization<ul>
-<li>Zero mean and unit variance across the samples in a minibatch</li>
-<li>$\hat z_n = {z_n - \mu_b \over \sqrt{\sigma^2_b +\epsilon}}$</li>
-<li>$\tilde z_n = \gamma \hat z_n + \beta$</li>
-<li>$\gamma, \beta$ are learnable parameters</li>
-<li>When applied to input layer, BN is close to unsual standardization process</li>
-<li>For other layers, as model trains, the mean and variance change<ul>
-<li>Internal Covariate Shift</li>
+<li>Padding: $p = (f - 1) / 2$</li>
+<li>Output same size as input</li>
 </ul>
-</li>
-<li>At test time, the inference may run on streaming i.e. one example at a time<ul>
-<li>Solution: After training, re-compute the mean and variance across entire training batch and then freeze the parameters</li>
-<li>Sometimes, after recomputing, the BN parameters are fused to the hidden layer. This results in fused BN layer</li>
-</ul>
-</li>
-<li>BN struggles when batch size is small</li>
-</ul>
-</li>
-<li>Layer Normalization<ul>
-<li>Pool over channel, height and width</li>
-<li>Match on batch index</li>
-</ul>
-</li>
-<li>Instance Normalization<ul>
-<li>Pool over height and width</li>
-<li>Match over batch index</li>
-</ul>
-</li>
-<li>Normalization Free Networks<ul>
-<li>Adaptive gradient clipping</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Common Architectures</p>
+<h3 id="strided-convolution">Strided Convolution</h3>
+<p>Skip positions to downsample:</p>
 <ul>
-<li>ResNet<ul>
-<li>Uses residual blocks to learn small perturbation in inputs</li>
-<li>Residual Block: conv:BN:ReLU:conv:BN</li>
-<li>Use padding, 1x1 convolution to ensure that additive operation is valid</li>
+<li>Stride $s$: move filter by s pixels</li>
+<li>Output size: $\lfloor(H + 2p - f)/s + 1\rfloor$</li>
 </ul>
-</li>
-<li>DenseNet<ul>
-<li>Concatenate (rather than add) the output with the input</li>
-<li>$x \rightarrow [x, f_1(x), f_2(x, f_1(x)), f_3(x, f_1(x), f_2(x))]$</li>
-<li>Computationally expensive</li>
-</ul>
-</li>
-<li>Neural Architecture Search<ul>
-<li>EfficeintNetV2</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Adversarial Examples</p>
+<hr>
+<h2 id="multi-channel-convolutions">Multi-Channel Convolutions</h2>
+<h3 id="input-with-multiple-channels">Input with Multiple Channels</h3>
+<p>For RGB images (3 channels), the filter is 3D:
+$$z_{i,j} = \sum_c \sum_u \sum_v x_{i+u, j+v, c} \cdot w_{u,v,c}$$</p>
+<p>Each filter produces one output channel.</p>
+<h3 id="multiple-filters">Multiple Filters</h3>
+<p>To detect multiple features, use multiple filters:</p>
 <ul>
-<li>White-Box Attacks<ul>
-<li>Gradient Free</li>
-<li>Add small perturbation to input that changes the prediction from classifier</li>
-<li>Targeted attack</li>
+<li>Weight tensor: $(f_H, f_W, C_{in}, C_{out})$</li>
+<li>Each filter produces one channel of output</li>
 </ul>
-</li>
-<li>Black-Box Attack<ul>
-<li>Gradient Free</li>
-<li>Design fooling images as apposed to adversarial images</li>
+<p><strong>Output</strong>: Stack of feature maps (one per filter).</p>
+<h3 id="1×1-convolution">1×1 Convolution</h3>
+<p>Special case: filter size = 1×1</p>
+<ul>
+<li>Acts only across channels, not spatial</li>
+<li>Like a per-pixel fully-connected layer</li>
+<li>Used to change number of channels cheaply</li>
 </ul>
-</li>
+<hr>
+<h2 id="pooling-layers">Pooling Layers</h2>
+<h3 id="purpose">Purpose</h3>
+<ul>
+<li>Reduce spatial dimensions</li>
+<li>Achieve translation <strong>invariance</strong> (small shifts don&#39;t matter)</li>
+<li>Reduce parameters and computation</li>
 </ul>
-</li>
+<h3 id="max-pooling">Max Pooling</h3>
+<p>Take maximum value in each window:
+$$y_{i,j} = \max_{(u,v) \in \text{window}} x_{i+u, j+v}$$</p>
+<p>Most common: 2×2 window with stride 2 (halves dimensions).</p>
+<h3 id="average-pooling">Average Pooling</h3>
+<p>Take mean instead of max.</p>
+<h3 id="global-average-pooling">Global Average Pooling</h3>
+<p>Average over entire spatial dimensions:</p>
+<ul>
+<li>Input: $(H, W, C)$ → Output: $(1, 1, C)$</li>
+<li>Often used before final classifier</li>
 </ul>
+<hr>
+<h2 id="dilated-atrous-convolution">Dilated (Atrous) Convolution</h2>
+<p>Insert &quot;holes&quot; in the filter:</p>
+<ul>
+<li>Dilation rate r: sample every r-th pixel</li>
+<li>Increases <strong>receptive field</strong> without increasing parameters</li>
+<li>Useful for dense prediction (segmentation)</li>
+</ul>
+<hr>
+<h2 id="transposed-convolution">Transposed Convolution</h2>
+<p>&quot;Upsampling&quot; convolution for:</p>
+<ul>
+<li>Autoencoders</li>
+<li>Generative models</li>
+<li>Semantic segmentation</li>
+</ul>
+<p>Increases spatial dimensions (opposite of regular conv).</p>
+<hr>
+<h2 id="normalization">Normalization</h2>
+<h3 id="batch-normalization">Batch Normalization</h3>
+<p>Normalize across the batch dimension:
+$$\hat{z}_n = \frac{z_n - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+$$\tilde{z}_n = \gamma \hat{z}_n + \beta$$</p>
+<p><strong>Per channel</strong>: Compute μ, σ over (N, H, W) for each channel.</p>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Stabilizes training</li>
+<li>Allows higher learning rates</li>
+<li>Some regularization effect</li>
+</ul>
+<p><strong>Issues</strong>:</p>
+<ul>
+<li>Depends on batch statistics → problems with small batches</li>
+<li>Different behavior at train vs. test time</li>
+</ul>
+<h3 id="layer-normalization">Layer Normalization</h3>
+<p>Normalize across channels (and spatial dims):</p>
+<ul>
+<li>Independent of batch size</li>
+<li>Better for RNNs and Transformers</li>
+</ul>
+<h3 id="instance-normalization">Instance Normalization</h3>
+<p>Normalize per sample, per channel:</p>
+<ul>
+<li>Used in style transfer</li>
+</ul>
+<hr>
+<h2 id="common-architectures">Common Architectures</h2>
+<h3 id="resnet-residual-networks">ResNet (Residual Networks)</h3>
+<p><strong>Key innovation</strong>: Skip connections
+$$y = F(x) + x$$</p>
+<p><strong>Residual block</strong>:</p>
+<pre><code>x → Conv → BN → ReLU → Conv → BN → (+x) → ReLU
+</code></pre>
+<p>Enables training 100+ layer networks.</p>
+<h3 id="densenet">DenseNet</h3>
+<p><strong>Key idea</strong>: Connect each layer to all subsequent layers
+$$x_l = [x_0, f_1(x_0), f_2(x_0, x_1), ...]$$</p>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Feature reuse</li>
+<li>Strong gradient flow</li>
+</ul>
+<p><strong>Drawback</strong>: Memory intensive</p>
+<h3 id="efficientnet">EfficientNet</h3>
+<p><strong>Key insight</strong>: Scale depth, width, and resolution together</p>
+<ul>
+<li>Neural Architecture Search (NAS) to find optimal scaling</li>
+</ul>
+<hr>
+<h2 id="adversarial-examples">Adversarial Examples</h2>
+<h3 id="white-box-attacks">White-Box Attacks</h3>
+<p>Attacker has full access to model.</p>
+<p><strong>FGSM</strong> (Fast Gradient Sign Method):
+$$x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_x L)$$</p>
+<p>Add small perturbation in gradient direction.</p>
+<p><strong>PGD</strong> (Projected Gradient Descent):
+Iterative version of FGSM; stronger attack.</p>
+<h3 id="black-box-attacks">Black-Box Attacks</h3>
+<p>No access to model internals:</p>
+<ul>
+<li>Query-based attacks</li>
+<li>Transfer attacks (adversarial examples transfer across models)</li>
+</ul>
+<h3 id="defenses">Defenses</h3>
+<ul>
+<li>Adversarial training</li>
+<li>Input preprocessing</li>
+<li>Certified defenses (provable robustness)</li>
+</ul>
+<hr>
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Convolution</strong></td>
+<td>Local feature detection with weight sharing</td>
+</tr>
+<tr>
+<td><strong>Pooling</strong></td>
+<td>Downsample, add invariance</td>
+</tr>
+<tr>
+<td><strong>Stride</strong></td>
+<td>Alternative to pooling for downsampling</td>
+</tr>
+<tr>
+<td><strong>Padding</strong></td>
+<td>Control output size</td>
+</tr>
+<tr>
+<td><strong>1×1 Conv</strong></td>
+<td>Channel mixing</td>
+</tr>
+<tr>
+<td><strong>Skip connections</strong></td>
+<td>Enable deep networks</td>
+</tr>
+<tr>
+<td><strong>Normalization</strong></td>
+<td>Stabilize training</td>
+</tr>
+</tbody></table>
+<h3 id="why-cnns-work-for-images">Why CNNs Work for Images</h3>
+<ol>
+<li><strong>Local structure</strong>: Nearby pixels are related</li>
+<li><strong>Translation equivariance</strong>: Features can appear anywhere</li>
+<li><strong>Hierarchical composition</strong>: Simple features → complex objects</li>
+<li><strong>Parameter efficiency</strong>: Weight sharing dramatically reduces parameters</li>
+</ol>
+<h3 id="practical-tips">Practical Tips</h3>
+<ol>
+<li>Use pre-trained models when possible (transfer learning)</li>
+<li>Start with proven architectures (ResNet, EfficientNet)</li>
+<li>Data augmentation is crucial</li>
+<li>Batch normalization helps training</li>
+<li>Global average pooling instead of flattening before classifier</li>
+</ol>
 
         </article>
         <nav class="page-navigation">
         <a href="probml-13-ffnn.html" class="nav-link prev">
           <span class="nav-link-label">← Previous</span>
-          <span class="nav-link-title">Feed Forward Neural Networks</span>
+          <span class="nav-link-title">Feed-Forward Neural Networks</span>
         </a>
         <a href="probml-15-rnn.html" class="nav-link next">
           <span class="nav-link-label">Next →</span>
-          <span class="nav-link-title">Recurrent Neural Networks</span>
+          <span class="nav-link-title">Recurrent Neural Networks and Transformers</span>
         </a></nav>
       </div>
     </main>
