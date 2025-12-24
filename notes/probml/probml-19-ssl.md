@@ -1,199 +1,313 @@
-# SSL
+# Self-Supervised and Semi-Supervised Learning
 
--   Data Augmentation
-    -   Artificially modified versions of input vectors that may appear in real world data
-    -   Improves accuracy, makes model robust
-    -   Empirical risk minimization to vicinal risk minimization
-    -   Minimizing risk in the vicinity of input data point
+These techniques leverage unlabeled data to improve learning. In a world where labels are expensive but data is abundant, these methods are increasingly important.
 
--   Transfer Learning 
-    - Some data poor tasks may have structural similarity to other data rich tasks 
-    - Transferring information from one dataset to another via shared parameters of a model 
-    - Pretrain the model on a large source dataset 
-    - Fine tune the model on a small target dataset 
-    - Chop-off the head of the pretrained model and add a new one 
-    - The parameters may be frozen during fine-tuning 
-    - In case the parameters aren't frozen, use small learning rates. 
-  
--   Adapters 
-    - Modify the model structure to customize feature extraction 
-    - For example: Add MLPs after transformer blocks and initialize them for identity mappings 
-    - Much less parameters to be learned during fine-tuning
-  
--   Pre-training
-    -   Can be supervised or unsupervised.
-    -   Supervised
-        -   Imagenet is supervised pretraining.
-        -   For unrelated domains, less helpful.
-        -   More like speedup trick with a good initialization.
-    -   Unsupervised
-        -   Use unlabeled dataset
-        -   Minimize reconstruction error
-    -   Self-supervised
-        -   Labels are created from unlabeled dataset algorithmically
-        -   Cloze Task
-            -   Fill in the blanks
-        -   Proxy Tasks
-            -   Create representations
-            -   Siamese Neural Networks
-            -   Capture relationship between inputs
-        -   Contrastive Tasks
-            -   Use data augmentation
-            -   Ensure that similar inputs have closer representations
-    -   SimCLR
-        -   Simple Contrastive Learning for Visual Representations
-        -   Pretraining
-            -   Take an unlabeled image X
-            -   Apply data augmentation A and A' and get two views X and X'
-            -   Apply encoder to both views
-            -   Apply projection head to both encodings
-            -   Contrastive Loss function with mini-batch to identify the positive pairs
-        -   Fine-tuning
-            -   Finetune the encoder and a task specific head
-            -   The original projection head is discarded
-        -   NLP Encoders
-            -   Contrastively trained language models
-            -   SimCSE: Simple Contrastive Learning for Sentence Embeddings
-                -   Dropout acts as data augmentation
-                -   Cosine Similarity between representations
-    -   Non-Contrastive Learning
-        -   BYOL
-            -   Bootstrap your own latent (BYOL)
-            -   Two copies of encoder
-            -   Online network (student): trained with gradient descent
-            -   Target network (teacher): EMA of online network weights
-            -   MSE Loss between online prediction and target representation
+## The Big Picture
 
--   Semi-Supervised Learning
-    -   Learn from labeled + unlabeled data in tandem
-    -   Self-Training
-        -   Train the model on labeled data
-        -   Run inference on unlabeled data to get predictions (pseudo-labels, machine generated)
-        -   Combine machine generated and human generated labels
-        -   Self-training is similar to EM algorithm where pseudo-labels are the E-step
-    -   Noise Student Training
-        -   Adds noise to student model to improve generalization
-        -   Add noise via dropout, stochastic depth, data augmentation
-    -   Consistency Regularization
-        -   Model's prediction shouldn't change much for small changes to the input
-        -   Can be implemented by passing augmented versions of same image as loss
-    -   Label Propagation
-        -   Graph: Nodes are i/p datapoints and edges denote similarity
-        -   Use graph clustering to group related nodes
-        -   Class labels are assigned to unlabeled data, based on the cluster distribution
-        -   Model Labels: Labels of the data points
-        -   Propagate the labels in such a way that there is minimal label disagreement between node and it's neighbours
-        -   Label guesses for unlabeled data that can be used for supervised learning
-        -   Details:
-            -   M labeled points, N unlabeled points
-            -   T: (M+N) x (M+N) transition matrix of normalized edge weights
-            -   Y: Label matrix for class distribution of (M+N) x C dimension
-            -   Use transition matrix to propagate labels Y = TY until convergence
-        -   Success depends on calculating similarity between data points
-    -   Consistency Regularization
-        -   Small perturbation to input data point should not change the model predicitons
--   Generative Models
-    -   Natural way of using unlabeled data by learning a model of data generative process.
-    -   Variational Autoencoders
-        -   Models joint distribution of data (x) and latent variables (z)
-        -   First sample: $z \sim p(z)$ and then sample $x\sim p(x|z)$
-        -   Encoder: Approximate the posterior
-        -   Decoder: Approximate the likelihood
-        -   Maximize evidence lower bound of the data (ELBO) (derived from Jensen's inequality)
-        -   Use VAEs to learn representations for downstream tasks
-    -   Generative Adversarial Networks
-        -   Generator: Maps latent distribution to data space
-        -   Discriminator: Distinguish between outputs of generator and true distribution
-        -   Modify discriminator to predict class labels and fake rather than just fake
--   Active Learning
-    -   Identify true predictive mapping by querying as few data points as possible
-    -   Query Synthesis: Model asks output for any input
-    -   Pool Based: Model selects the data point from a pool of unlabeled data points
-    -   Maximum Entropy Sampling
-        -   Uncertainty in predicted label
-        -   Fails when examples are ambiguous of mislabeled
-    -   Bayesian Active Learning by Disagreement (BALD)
-        -   Select examples where model makes predictions that are highly diverse
--   Few-Shot Learning
-    -   Learn to predict from very few labeled example
-    -   One-Shot Learning: Learn to predict from single example
-    -   Zero-Shot Learning: Learn to predict without labeled examples
-    -   Model has to generalize for unseen labels during traning time
-    -   Works by learning a distance metric
--   Weak Supervision
-    -   Exact label not available for data points
-    -   Distribution of labels for each case
-    -   Soft labels / label smoothing 
+**The label bottleneck**: Labeling data is expensive and time-consuming.
 
-# Semi-Supervised and Self-Supervised Learning
+**The opportunity**: Vast amounts of unlabeled data are available.
 
-- Semi-Supervised Learning (SSL): Leveraging both labeled and unlabeled data
-  - Motivation: Labels are expensive, unlabeled data is abundant
-  - Assumption: Underlying data distribution contains useful structure
-  
-- Data Augmentation
-  - Creates artificial training examples through transformations
-  - Preserves semantic content while changing surface features
-  - Common augmentations:
-    - Image domain: rotations, flips, color jitter, cropping
-    - Text domain: synonym replacement, back-translation
-    - Audio domain: pitch shifting, time stretching
-  - Theoretical framework: Vicinical risk minimization
-    - Minimize risk in local neighborhoods around training examples
-    - Improves robustness and generalization
-  
-- Transfer Learning
-  - Leverages knowledge from data-rich domains to improve performance in data-poor domains
-  - Process:
-    1. Pretrain model on large source dataset (e.g., ImageNet, Common Crawl)
-    2. Adapt model to target task with smaller dataset
-    3. Options for adaptation:
-       - Feature extraction: Freeze pretrained layers, train only new head
-       - Fine-tuning: Update all or subset of pretrained parameters
-  - Parameter-efficient fine-tuning:
-    - Adapters: Small bottleneck layers added between frozen transformer blocks
-    - LoRA: Low-rank adaptation of weight matrices
-    - Prompt tuning: Learn soft prompts while keeping model parameters frozen
+**The goal**: Learn useful representations from unlabeled data that transfer to downstream tasks.
 
-- Self-Supervised Learning
-  - Creates supervisory signals from unlabeled data
-  - Pretext tasks:
-    - Reconstruction tasks: Autoencoders, masked language modeling
-    - Context prediction: Predict arrangement of shuffled patches
-    - Contrastive tasks: Learn similar representations for related inputs
-  
-  - Contrastive Learning
-    - Learn representations by comparing similar and dissimilar examples
-    - SimCLR framework:
-      1. Generate two views of each image via augmentation
-      2. Encode both views with shared encoder
-      3. Apply projection head to map encodings to space for contrastive loss
-      4. Contrastive loss: Maximize similarity between positive pairs (same image)
-         and minimize similarity between negative pairs (different images)
-      5. For downstream tasks, discard projection head and fine-tune encoder
-    
-    - Key challenges:
-      - Hard negative mining: Finding informative negative examples
-      - Batch size dependence: Performance scales with number of negatives
-      - Feature collapse: Trivial solutions that ignore semantic content
+---
 
-  - Non-Contrastive Methods
-    - BYOL (Bootstrap Your Own Latent):
-      - Teacher-student architecture with no negative examples
-      - Student network predicts teacher network outputs
-      - Teacher parameters updated via exponential moving average of student
-      - Avoids collapse through asymmetric architecture and predictor networks
-    
-    - Masked Autoencoders:
-      - Inspired by BERT's success in NLP
-      - Mask significant portions of input (e.g., 75% of image patches)
-      - Train encoder-decoder to reconstruct original input
-      - For downstream tasks, use only encoder
+## Data Augmentation
 
-- Practical Considerations
-  - Pretraining often provides:
-    - Better initialization for optimization
-    - More generalizable features
-    - Sample efficiency: Fewer labeled examples needed
-  - Domain gap between pretraining and target task affects transfer effectiveness
-  - Large pretrained models may contain useful knowledge but require careful adaptation 
+### The Idea
+
+Create modified versions of training examples that preserve the label.
+
+**Effect**: Expands training set, improves robustness.
+
+### Common Augmentations
+
+**Images**:
+- Rotation, flipping, cropping
+- Color jitter, brightness changes
+- Random erasing, cutout
+
+**Text**:
+- Synonym replacement
+- Back-translation
+- Random insertion/deletion
+
+**Audio**:
+- Pitch shifting
+- Time stretching
+- Adding noise
+
+### Theoretical View: Vicinal Risk Minimization
+
+Instead of minimizing risk at exact training points, minimize in a **vicinity** around them:
+
+$$R = \int L(y, f(x')) p(x' | x) dx'$$
+
+Where p(x'|x) is the augmentation distribution.
+
+---
+
+## Transfer Learning
+
+### The Problem
+
+Task A has lots of data; Task B has little data.
+
+### The Solution
+
+1. **Pretrain** on large source dataset (Task A)
+2. **Fine-tune** on small target dataset (Task B)
+
+### Fine-tuning Strategies
+
+**Feature extraction**: Freeze pretrained layers, train only new head.
+- Best when: Very small target data, similar domains
+
+**Full fine-tuning**: Update all parameters.
+- Best when: More target data, different domains
+
+**Gradual unfreezing**: Start from top layers, progressively unfreeze.
+- Often best practice
+
+### Parameter-Efficient Fine-tuning
+
+For large models, updating all parameters is expensive.
+
+**Adapters**: Small bottleneck layers inserted between frozen transformer blocks.
+
+**LoRA**: Low-rank updates to weight matrices.
+
+**Prompt tuning**: Learn soft prompts while keeping model frozen.
+
+---
+
+## Self-Supervised Learning
+
+### The Core Idea
+
+Create supervisory signals from the data itself — no human labels needed.
+
+### Pretext Tasks
+
+**Reconstruction**: Predict masked or corrupted parts
+- Autoencoders
+- Masked language modeling (BERT)
+- Masked image modeling (MAE)
+
+**Contrastive**: Learn to distinguish similar from dissimilar
+- Positive pairs: Same image, different augmentations
+- Negative pairs: Different images
+
+**Predictive**: Predict properties of the data
+- Rotation prediction (images)
+- Next word prediction (language)
+
+---
+
+## Contrastive Learning
+
+### The Framework
+
+1. Create two views of same example (via augmentation)
+2. Push their representations together
+3. Push representations of different examples apart
+
+### SimCLR (Simple Contrastive Learning)
+
+**Pretraining**:
+1. Take image x
+2. Apply two augmentations: $x_1, x_2$
+3. Encode both: $z_1 = g(f(x_1)), z_2 = g(f(x_2))$
+4. Contrastive loss (NT-Xent):
+   $$L = -\log \frac{\exp(\text{sim}(z_1, z_2)/\tau)}{\sum_{k \neq i} \exp(\text{sim}(z_1, z_k)/\tau)}$$
+
+**Fine-tuning**: Discard projection head g, fine-tune encoder f.
+
+### Key Insights
+
+- **Projection head** is crucial during pretraining but discarded after
+- **Large batch sizes** help (more negatives)
+- **Strong augmentation** is important
+
+### Challenges
+
+- Need many negative examples
+- Batch size dependence
+- Risk of feature collapse
+
+---
+
+## Non-Contrastive Methods
+
+### BYOL (Bootstrap Your Own Latent)
+
+No negative examples needed!
+
+**Architecture**:
+- **Online network** (student): Updated by gradient descent
+- **Target network** (teacher): Exponential moving average of online
+
+**Loss**: Predict target representation from online prediction.
+
+**Why no collapse?** Asymmetric architecture + momentum updates prevent trivial solutions.
+
+### Masked Autoencoders (MAE)
+
+Inspired by BERT's success:
+1. Mask large portion of image (75%!)
+2. Encode visible patches
+3. Decode to reconstruct masked patches
+4. For downstream: Use only encoder
+
+**Why mask so much?** Forces learning high-level features, not just copying.
+
+---
+
+## Semi-Supervised Learning
+
+Use both labeled and unlabeled data together.
+
+### Self-Training
+
+1. Train on labeled data
+2. Predict on unlabeled data (pseudo-labels)
+3. Add confident predictions to training set
+4. Repeat
+
+**Connection to EM**: Pseudo-labels are the E-step!
+
+### Noise Student Training
+
+Self-training + noise:
+1. Train teacher on labeled data
+2. Generate pseudo-labels for unlabeled data
+3. Train student on all data with noise (dropout, augmentation)
+4. Student becomes new teacher; repeat
+
+**Key insight**: Noise makes student more robust than teacher.
+
+### Consistency Regularization
+
+Model predictions should be consistent under small input changes:
+$$L = L_{supervised} + \lambda \cdot d(f(x), f(\text{aug}(x)))$$
+
+**FixMatch**: Combine pseudo-labeling with consistency.
+
+---
+
+## Label Propagation
+
+### Graph-Based Approach
+
+1. Build graph: Nodes = data points, edges = similarity
+2. Propagate labels from labeled to unlabeled nodes
+3. Use resulting labels for training
+
+### Algorithm
+
+- T: Transition matrix (normalized edge weights)
+- Y: Label matrix (N × C)
+- Iterate: $Y = TY$ until convergence
+- Use propagated labels for supervised learning
+
+### Assumptions
+
+- Similar points should have similar labels
+- Cluster structure in data reflects label structure
+
+---
+
+## Generative Self-Supervised Learning
+
+### Variational Autoencoders (VAE)
+
+**Generative model**:
+1. Sample latent: $z \sim p(z)$
+2. Generate: $x \sim p(x|z)$
+
+**Training**: Maximize ELBO (Evidence Lower Bound)
+$$\log p(x) \geq \mathbb{E}_{q(z|x)}[\log p(x|z)] - D_{KL}(q(z|x) \| p(z))$$
+
+**Use for SSL**: Learn representations z for downstream tasks.
+
+### GANs
+
+**Generator**: Maps noise to data.
+**Discriminator**: Distinguishes real from fake.
+
+**Semi-supervised extension**: Discriminator predicts K classes + "fake".
+
+---
+
+## Active Learning
+
+### The Idea
+
+If we must label data, label the most informative examples.
+
+### Strategies
+
+**Uncertainty sampling**: Label examples where model is least confident.
+$$x^* = \arg\max_x H[p(y|x)]$$
+
+**BALD** (Bayesian Active Learning by Disagreement): Label where model's predictions are most diverse (across ensemble/dropout samples).
+
+**Query by committee**: Multiple models vote; label where they disagree.
+
+---
+
+## Few-Shot Learning
+
+### The Challenge
+
+Learn to classify new classes from very few examples (1-5 per class).
+
+### Meta-Learning Approach
+
+Train model to learn quickly:
+- **Training**: Many "episodes" with different class subsets
+- **Testing**: New classes, few examples each
+
+### Metric Learning Approach
+
+Learn embedding space where similarity = class membership.
+- Prototypical networks: Classify by nearest class prototype
+- Matching networks: Weighted nearest neighbor
+
+---
+
+## Weak Supervision
+
+### When Labels Are Imperfect
+
+- Noisy labels (some wrong)
+- Soft labels (probability distributions)
+- Aggregate from multiple labelers
+
+### Label Smoothing
+
+Instead of hard labels [0, 1, 0]:
+$$y_{smooth} = (1 - \epsilon) \cdot y + \epsilon / K$$
+
+Prevents overconfidence, improves calibration.
+
+---
+
+## Summary
+
+| Method | Uses Unlabeled Data | Key Idea |
+|--------|---------------------|----------|
+| **Data Augmentation** | No (extends labeled) | Transform while preserving label |
+| **Transfer Learning** | Pre-training stage | Leverage large datasets |
+| **Contrastive Learning** | Yes | Pull similar, push dissimilar |
+| **Non-Contrastive** | Yes | Predict across views (no negatives) |
+| **Semi-Supervised** | Yes (with some labels) | Pseudo-labels + consistency |
+| **Active Learning** | Selects what to label | Query most informative |
+
+### Practical Recommendations
+
+1. **Always use data augmentation** — almost free improvement
+2. **Start with pretrained models** — rarely worth training from scratch
+3. **Try self-training** for semi-supervised (simple and effective)
+4. **Large-scale pretraining** for best representations (if compute allows)
+5. **Match pretraining and downstream domains** for best transfer

@@ -1,151 +1,312 @@
-# Feed Forward Neural Networks
+# Feed-Forward Neural Networks
 
-- Neural networks are powerful function approximators that learn hierarchical representations of data
+Neural networks are powerful function approximators that learn hierarchical representations. This chapter covers the fundamentals of deep learning.
 
-- From Linear Models to Neural Networks
-  - Linear Models perform an affine transformation of inputs: $f(x, \theta) = Wx + b$
-  - To increase expressivity, we can transform inputs: $f(x, \theta) = W \phi(x) + b$
-  - Neural networks learn these transformations automatically by composing multiple functions:
-    - $f(x, \theta) = f_L(f_{L-1}(f_{L-2}.....(f_1(x)....))$
-    - Each layer extracts progressively more abstract features
+## The Big Picture
 
-- Architecture Components
-  - Layers: Groups of neurons that transform inputs to outputs
-  - Connections: Weighted links between neurons in adjacent layers
-  - Activation Functions: Non-linear functions applied to neuron outputs
-    - Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$, outputs in range (0,1)
-      - Suffers from vanishing gradient for large magnitude inputs
-    - TanH: $\tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}$, outputs in range (-1,+1)
-      - Centered at zero but still suffers from vanishing gradients
-    - ReLU: $\max(0, x)$, non-saturating activation function
-      - Solves vanishing gradient problem for positive inputs
-      - May cause "dying ReLU" problem (neurons that always output 0)
-    - Leaky ReLU: $\max(\alpha x, x)$ where $\alpha$ is small (e.g., 0.01)
-      - Addresses the dying ReLU problem
-    - GELU: Smooth approximation of ReLU that performs well in modern networks
-  
-- The XOR Problem
-  - Classic example showing limitation of linear models
-  - XOR function cannot be represented by a single linear boundary
-  - Requires at least one hidden layer to solve
-  - Demonstrates how composition of functions increases expressivity
+**Key insight**: Compose simple functions to create complex ones.
+$$f(x) = f_L(f_{L-1}(...f_2(f_1(x))...))$$
 
-- Universal Approximation Theorem
-  - An MLP with a single hidden layer of sufficient width can approximate any continuous function
-  - In practice, deeper networks (more layers) are more parameter-efficient than wider ones
-  - Deep networks learn hierarchical representations with increasing abstraction
+Each layer transforms its input, extracting progressively more abstract features.
 
-- Backpropagation: Learning Algorithm for Neural Networks
-  - Efficiently computes gradients of loss with respect to all parameters
-  - Based on chain rule of calculus applied to computational graphs
-  - Forward pass: Compute network output and loss
-  - Backward pass: Propagate gradients from output to input
-  - Implementation via automatic differentiation frameworks (PyTorch, TensorFlow)
+---
 
-- Backpropagation Algorithm
-    - Compute gradient of a loss function wrt parameters in each layer
-    - Equivalent to repeated application of chain rule
-    - Autodiff: Automatic Differentiation on Computation Graph
-    - Suppose  $f = f_1 \circ f_2 \circ f_3 \circ f_4$
-        - Jacobian $\mathbf J_f$ needs to be calculated for backprop
-        - Row Form: $\nabla f_i(\mathbf x)$ is the ith row of jacobian
-            - Calculated efficiently using forward mode
-        - Column Form: $\frac{\partial \mathbf f}{\partial x_i}$ is the ith column of jacobian
-            - Calculated efficiently using the backward mode
+## From Linear Models to Neural Networks
 
-- Derivatives
-    - Cross-Entropy Layer
-        - $z = \text{CrossEntropyWithLogitsLoss(y,x)}$
-        - $z = -\sum_i y_i \log(p_i)$
-        - $p_c = {\exp x_c \over \sum_j \exp x_j}$ (softmax)
-        - ${\partial z \over \partial x_c} = \sum_i {\partial z \over \partial p_i} \times {\partial p_i \over \partial x_c}$
-        - Softmax derivatives: ${\partial p_i \over \partial x_c} = p_c(1-p_c)$ if $i=c$, else $-p_i p_c$
-        - When i = c:
-            - ${-y_c \over p_c} \times p_c (1 - p_c) = - y_c ( 1 - p_c)$
-        - When i ≠ c:
-            - ${-y_i \over p_i} \times (- p_i p_c) = y_i p_c$
-        - Adding up (using $\sum_i y_i = 1$ for one-hot labels):
-            - $-y_c(1-p_c) + \sum_{i \ne c} y_i p_c = -y_c + y_c p_c + p_c(1-y_c) = p_c - y_c$
-    - ReLU
-        - $\phi(x) = \max(x,0)$
-        - $\phi'(x,a) =   I\{x > 0\}$
-    - Adjoint
-        - ${\delta o \over \delta x_j} = \sum_{children} {\delta o \over \delta x_i} \times {\delta x_i \over \delta x_j}$
+### Limitations of Linear Models
 
-- Training Neural Networks
-    - Maximize the likelihood: $\min  L(\theta) = -\log p(D|\theta)$
-    - Calculate gradients using backprop and use an optimizer to tune the parameters
-    - Objective function is not convex and there is no guarantee to find a global minimum
-    - Vanishing Gradients
-        - Gradients become very small
-        - Stacked layers diminish the error signals
-        - Difficult to solve
-        - Modify activation functions that don't saturate
-        - Switch to architectures with additive operations 
-        - Layer Normalization
-    - Exploding Gradients
-        - Gradients become very large
-        - Stacked layers amplify the error signals
-        - Controlled via gradient clipping
-    - Exploding / Vanishing gradients are related to the eigenvalues of the Jacobian matrix
-        - Chain Rule
-        - ${\delta  L \over \delta z_l} = {\delta  L \over \delta z_{l+1}} \times {\delta z_{l+1}  \over \delta z_{l}}$
-        - ${\delta  L \over \delta z_l} = J_l \times g_{l+1}$
+Linear models: $f(x) = Wx + b$
 
-- Non-Saturating Activations
-    - Sigmoid
-        - $f(x) = 1 / (1 + \exp^{-x}) = z$
-        - $f'(x) = z (1 - z)$
-        - If z is close to 0 or 1, the derivative vanishes
-    - ReLU
-        - $f(x) = \max(0, x)$
-        - $f'(x) =  I \{x > 0\}$
-        - Derivative will exist as long as the input is positive
-        - Can still encounter dead ReLU problem when weights are large negative/positive
-    - Leaky ReLU
-        - $f(x,\alpha) = max(\alpha x, x); \,\,\, 0< \alpha < 1$
-        - Slope is 1 for for positive inputs
-        - Slope is alpha for negative inputs
-        - If alpha is learnable, then we get parametric ReLU
-    - ELU, SELU are smooth versions of ReLU
-    - Swish Activation
-        - $f(x) = x \sigma(x)$
-        - $f'(x) = f(x) + \sigma(x) (1 - f(x))$
-        - The slope has additive operations
+**Problem**: Can only represent linear decision boundaries.
 
-- Residual Connections
-    - It's easier to learn small perturbations to inputs than to learn new output
-    - $F_l(x) = x + \text{activation}_l(x)$ 
-    - Doesn't add more parameters
-    - $z_L = z_l + \sum_{i=l}^L F_i(z_i)$
-    - ${\delta L \over \delta \theta_l} = {\delta L \over \delta z_l} \times {\delta z_l \over \delta \theta_l}$
-    - ${\delta L \over \delta \theta_l} = {\delta z_l \over \delta \theta_l} \times {\delta L \over \delta z_L} (1 + \sum f'(z_i))$
-    - The derivative of the layer l has a term that is independent of the network
-    
-- Initialization
-    - Sampling parameters from standard normal distribution with fixed variance can result in exploding gradients
-    - Suppose we have linear activations sampled from standard Normal Distribution
-        - $o = \sum w_j x_ij$
-        - $E(o) =  \sum E(w_j)E(x_{ij}) = 0$
-        - $V(o) \propto n_{in} \sigma^2$
-    - Similarly for gradients:
-        - $V(o') \propto n_{out} \sigma^2$
-    - To prevent the expected variance from blowing up
-        - $\sigma^2 = {1 \over (n_{in} + n_{out})}$
-        - Xavier Initialization, Glorot Initialization
-        - He/LeCun Initialization equivalent if n_in = n_out
+### Feature Engineering
 
-- Regularization
-    - Early Stopping
-        - Stop training when error on validation set stops reducing
-        - Restricts optimization algorithm to transfer information from the training examples
-    - Weight Decay
-        - Impose prior on parameters and then use MAP estimation
-        - Encourages smaller weights
-    - Sparse DNNs
-        - Model compression via quantization
-    - Dropout
-        - Turnoff outgoing connections with probability p
-        - Prevents complex co-adaptation 
-        - Each unit should learn to perform well on its own
-        - At test time, turning on dropout is equivalent to ensemble of networks (Monte Calo Dropout) 
+One solution: Transform features first:
+$$f(x) = W\phi(x) + b$$
+
+Where $\phi(x)$ are hand-crafted features (polynomials, interactions, etc.).
+
+**Problem**: Requires domain expertise; doesn't scale.
+
+### The Neural Network Solution
+
+**Learn the features automatically!**
+$$f(x) = W_L \cdot \sigma(W_{L-1} \cdot \sigma(...\sigma(W_1 x + b_1)...) + b_{L-1}) + b_L$$
+
+Each layer learns a useful transformation.
+
+---
+
+## Activation Functions
+
+Non-linear functions applied after each layer. Without them, the network would collapse to a single linear transformation.
+
+### Sigmoid
+
+$$\sigma(x) = \frac{1}{1 + e^{-x}}$$
+
+- Output: (0, 1)
+- **Problem**: Vanishing gradients (saturates for large |x|)
+- **Problem**: Not zero-centered
+
+### Tanh
+
+$$\tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}$$
+
+- Output: (-1, 1)
+- Zero-centered (better than sigmoid)
+- Still has vanishing gradient problem
+
+### ReLU (Rectified Linear Unit)
+
+$$\text{ReLU}(x) = \max(0, x)$$
+
+- Output: [0, ∞)
+- **Pros**: Non-saturating, computationally efficient, sparse activations
+- **Cons**: "Dead ReLU" — neurons can get stuck at 0
+
+### Leaky ReLU
+
+$$\text{LeakyReLU}(x) = \max(\alpha x, x)$$
+
+- Small slope α (e.g., 0.01) for negative inputs
+- Prevents dead neurons
+- **Parametric ReLU (PReLU)**: Learn α
+
+### GELU (Gaussian Error Linear Unit)
+
+$$\text{GELU}(x) = x \cdot \Phi(x)$$
+
+Where Φ is the Gaussian CDF.
+- Smooth approximation of ReLU
+- Used in transformers (BERT, GPT)
+
+### Swish
+
+$$\text{Swish}(x) = x \cdot \sigma(x)$$
+
+- Self-gated
+- Works well in deep networks
+
+---
+
+## The XOR Problem
+
+A classic example showing why we need hidden layers.
+
+**XOR truth table**:
+| x₁ | x₂ | y |
+|----|----|---|
+| 0  | 0  | 0 |
+| 0  | 1  | 1 |
+| 1  | 0  | 1 |
+| 1  | 1  | 0 |
+
+**No single line can separate the classes!**
+
+With one hidden layer (2 neurons), a neural network can solve XOR by:
+1. First layer creates two linear separators
+2. Second layer combines them
+
+---
+
+## Universal Approximation Theorem
+
+**Statement**: A neural network with a single hidden layer of sufficient width can approximate any continuous function on a compact domain to arbitrary precision.
+
+**Implication**: Neural networks are extremely powerful function approximators.
+
+**In practice**: Deep (many layers) is often better than wide (many neurons per layer):
+- More parameter efficient
+- Learns hierarchical representations
+- Better generalization
+
+---
+
+## Backpropagation
+
+The algorithm that makes training deep networks possible.
+
+### The Chain Rule
+
+For composed functions $f = f_1 \circ f_2 \circ ... \circ f_L$:
+$$\frac{\partial L}{\partial \theta_l} = \frac{\partial L}{\partial z_L} \cdot \frac{\partial z_L}{\partial z_{L-1}} \cdot ... \cdot \frac{\partial z_{l+1}}{\partial z_l} \cdot \frac{\partial z_l}{\partial \theta_l}$$
+
+### Forward Pass
+
+Compute activations layer by layer, storing intermediate values.
+
+### Backward Pass
+
+Compute gradients layer by layer, from output to input:
+$$\frac{\partial L}{\partial z_l} = \frac{\partial L}{\partial z_{l+1}} \cdot \frac{\partial z_{l+1}}{\partial z_l}$$
+
+### Automatic Differentiation
+
+Modern frameworks (PyTorch, TensorFlow) build a computational graph and compute gradients automatically.
+
+**Forward mode**: Efficient when few inputs, many outputs
+**Reverse mode (backprop)**: Efficient when many inputs, few outputs (typical in ML)
+
+### Example: Cross-Entropy Gradient
+
+For softmax + cross-entropy:
+$$\frac{\partial L}{\partial a_c} = p_c - y_c$$
+
+Beautifully simple: just the prediction error!
+
+### Example: ReLU Gradient
+
+$$\frac{\partial}{\partial x}\text{ReLU}(x) = \begin{cases} 1 & x > 0 \\ 0 & x \leq 0 \end{cases}$$
+
+Gradient flows unchanged through positive regions, is blocked through negative.
+
+---
+
+## Training Challenges
+
+### Vanishing Gradients
+
+**Problem**: Gradients shrink exponentially in deep networks.
+
+**Cause**: Chained derivatives of saturating activations (sigmoid, tanh).
+
+**Solutions**:
+- Use non-saturating activations (ReLU and variants)
+- Residual connections
+- Careful initialization
+- Batch/layer normalization
+
+### Exploding Gradients
+
+**Problem**: Gradients grow exponentially.
+
+**Solutions**:
+- Gradient clipping: $g \leftarrow \min(1, \frac{\tau}{\|g\|}) g$
+- Careful initialization
+
+### Mathematical Perspective
+
+Gradient through L layers:
+$$\frac{\partial L}{\partial z_1} = \prod_{l=1}^{L-1} J_l \cdot g_L$$
+
+If eigenvalues of Jacobians are:
+- < 1: Gradients vanish
+- > 1: Gradients explode
+
+---
+
+## Residual Connections
+
+**Key innovation** (ResNet): Add skip connections.
+
+$$z_{l+1} = z_l + f_l(z_l)$$
+
+**Benefits**:
+- Gradients flow directly through skip connection
+- Learn small perturbations instead of full transformations
+- Enables training very deep networks (100+ layers)
+
+**Gradient flow**:
+$$\frac{\partial L}{\partial z_l} = \frac{\partial L}{\partial z_L}\left(1 + \frac{\partial}{\partial z_l}\sum_{i=l}^{L-1} f_i(z_i)\right)$$
+
+The "1" term ensures gradients always flow, even if the other term vanishes.
+
+---
+
+## Initialization
+
+Poor initialization can prevent learning entirely.
+
+### The Problem
+
+If weights are too large or too small:
+- Activations explode or vanish
+- Gradients explode or vanish
+
+### Xavier/Glorot Initialization
+
+For linear activations:
+$$w \sim \mathcal{N}\left(0, \frac{2}{n_{in} + n_{out}}\right)$$
+
+**Maintains variance** of activations and gradients across layers.
+
+### He Initialization
+
+For ReLU activations:
+$$w \sim \mathcal{N}\left(0, \frac{2}{n_{in}}\right)$$
+
+Accounts for ReLU killing half the activations.
+
+---
+
+## Regularization
+
+### Early Stopping
+
+Stop training when validation error starts increasing.
+- Implicit regularization
+- Prevents overfitting
+
+### Weight Decay (L2)
+
+Add penalty on weight magnitudes:
+$$L = L_{data} + \lambda \sum_l \|W_l\|^2$$
+
+Equivalent to Gaussian prior on weights (MAP estimation).
+
+### Dropout
+
+Randomly "drop" neurons during training with probability p.
+
+$$h_i = \begin{cases} 0 & \text{with probability } p \\ h_i / (1-p) & \text{otherwise} \end{cases}$$
+
+**Interpretation**:
+- Prevents co-adaptation of neurons
+- Approximate ensemble of subnetworks
+- At test time: use full network (or Monte Carlo dropout for uncertainty)
+
+### Data Augmentation
+
+Create modified versions of training data:
+- Images: rotations, flips, crops, color jitter
+- Text: synonym replacement, back-translation
+
+---
+
+## Layer Normalization
+
+Normalize activations to stabilize training:
+
+$$\hat{z} = \frac{z - \mu}{\sqrt{\sigma^2 + \epsilon}}$$
+$$\tilde{z} = \gamma \hat{z} + \beta$$
+
+Where γ and β are learnable parameters.
+
+**Batch Norm**: Normalize across batch dimension
+**Layer Norm**: Normalize across feature dimension (better for RNNs, Transformers)
+
+---
+
+## Summary
+
+| Component | Purpose |
+|-----------|---------|
+| **Layers** | Transform representations |
+| **Activations** | Add non-linearity |
+| **Backprop** | Compute gradients efficiently |
+| **Residual connections** | Enable deep networks |
+| **Normalization** | Stabilize training |
+| **Dropout** | Prevent overfitting |
+| **Initialization** | Start training successfully |
+
+### Practical Recipe
+
+1. Start with standard architecture (ResNet, etc.)
+2. Use ReLU or GELU activations
+3. Xavier/He initialization
+4. Adam optimizer
+5. Batch/Layer normalization
+6. Dropout if overfitting
+7. Data augmentation for images
+8. Early stopping based on validation loss

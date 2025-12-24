@@ -1,117 +1,292 @@
 # Statistics
 
-- Inference is the process of quantifying uncertainty about an unknown quantity estimated from finite sample of data
+Statistics is the science of learning from data. This chapter covers the key concepts for estimating model parameters and quantifying uncertainty in those estimates.
 
-- Maximum Likelihood Estimation
-  - Pick parameters that assign highest probability to training data
-      - $\theta_{MLE} = \arg \max p(D | \theta) = \arg \max \prod p(y | x, \theta)$
-  - MLE can be factorized because of IID assumption
-  - Maximizing MLE is equivalent to minimizing NLL
-      - $\text{NLL}(\theta) = -\log p(D | \theta)$
-  - For unsupervised learning MLE is unconditional.
-      - $\theta_{MLE} = \arg\max p(x | \theta)$
-  - Justification for MLE
-      - Bayesian MAP estimate with uninformative uniform prior
-          - $\theta_{MAP} = \arg\max p(\theta | D) = \arg \max [p(D | \theta)p(\theta)]$
-      - KL Divergence: MLE brings predicted distribution close to empirical distribution
-          - $KL(p||q) = H(p) - H(p,q)$
-          - Cross-entropy term in KL-Divergence corresponds to minimizing negative log-likelihood
-  - Sufficient Statistics of the data summarize all the information needed.
-      - N0 (negative # samples) and N1 (positive # samples) in case of Bernoulli Distribution
-    
-- MLE Examples
-    - Bernoulli Distribution
-        - $NLL(\theta) = -[N_1 \log(\theta) + N_0 \log(1-\theta)]$
-        - $\Delta NLL \Rightarrow \theta = N_1 / (N_0 + N_1)$
-    - Categorical Distribution
-        - Add unity contraint as Lagrangian
-        - $NLL(\theta) = \sum N_k \log(\theta) + \lambda (\sum \theta_k -1))$
-    - Gaussian Distribution
-        - $NLL(\theta) = {1 \over 2\sigma^2 }\sum \log(y - \mu)^2 + {N \over 2} log (2\pi \sigma^2)$
-        - Sample mean and sample variance become sufficient statistics
-    - Linear Regression
-        - $p(y | x; \theta) = \mathcal N (y | wx +b, \sigma^2)$
-        - $NLL \propto \sum (y - wx - b) ^ 2$
-        - Quadratic Loss is a good choice for linear regression
+## The Big Picture
 
-- Empirical Risk Minimization
-  - Empirical Risk Minimization is the expected loss where the expectation is taken wrt to empirical distribution
-  - ERM generalizes MLE  by replacing log-loss with any loss function
-      - $L(\theta) = {1 \over N} \sum l(y, x, \theta)$
-      - Loss could be miss-classification rate as an example
-  - Surrogate losses devised to make optimization easier.
-      - Log-Loss, Hinge-Loss etc.
+**Inference**: Quantifying uncertainty about unknown quantities using finite data samples.
 
-- Method of Moments (MoM) compares theoretical moments of a distribution with to the empirical ones. 
-    - Moments are quantitative measures related to the shape of the function's graph
+Two major paradigms:
+- **Frequentist**: Parameters are fixed; uncertainty comes from random sampling
+- **Bayesian**: Parameters are random variables with prior distributions
 
-- In batch learning, entire dataset is available before training.
-- In online learning, dataset arrives sequentially.
-    - $\theta_t = f(x_t, \theta_{t-1})$
-    - Recursive updates are required. For example MA, or EWMA
-        - $\mu_t = \mu_{t-1} + {1 \over t}(x_t - \mu_{t-1})$
-        - $\mu_t = \beta \mu_{t-1} + (1 - \beta) y_t$
+---
 
-- Regularization
-  - MLE/ERM picks parameters that minimize loss on training set.
-  - Empirical distribution may not be same as true distribution.
-  - Model may not generalize well. Loss on unseen data points could be high. Overfitting.
-  - Regularization helps reduce overfitting by adding a penalty on complexity. 
-      - In-built in MAP estimation
-      - $L(\theta) = NLL + \lambda \log p(\theta)$
-      - Add-one smoothing in Bernoulli to solve zero count problem is regularization.
-      - The extra one term comes from Beta priors.
-  - In linear regression, assume parameters from standard gaussian.
-      - $L(\theta) = NLL + \lambda \log w^2$
-      - L2 Penalty in MAP estimation
-  - Regularization strength is picked by looking at validation dataset
-      - Validation risk is estimate for population risk.
-      - Cross-Validation in case of small size of training dataset
-  - One Standard Error Rule
-      - Select the model with loss within one SE of the baseline / simple model
-  - Early Stopping prevents too many steps away from priors. Model doesn't memorize too much.
-  - Using more suitable informative data samples also prevents overfitting.
-      - Bayes' Error is inherent error due to stochasticity.
-      - With more data, learning curve approaches Bayes' Error.
-      - If we start with very few observations, adding more data may increase the error as model uncovers new data patterns.
+## Maximum Likelihood Estimation (MLE)
 
-- Bayesian Statistics
-  - Start with prior distribution
-  - Likelihood reflects the data for each setting of the prior
-  - Marginal Likelihood shows the average probability of the data by marginalizing over model parameters
-  - Posterior Predictive Distribution: is Bayes Model Averaging
-      - $p(y | x, D) = \int p(y | x, \theta) p(\theta | D) d\theta$ 
-      - Multiple parameter values considered, prevents overfitting
-      - Plug-in Approximation: Uses dirac delta to pul all the weight on MLE
-      - This simplifies the calculations
-  - Conjugate Priors
-      - posterior = prior x likelihood
-      - Select prior in a form that posterior is closed form and has same family as prior
-      - Bernoulli-Beta
-      - Gaussian-Gaussian
-    
-- Frequentist Statistics
-  - Data is a random sample drawn from some underlying distribution
-  - Induces a distribution over the test statistic calculated from the sample.
-  - Estimate variation across repeated trials.
-  - Uncertainty is calculated by quantifying how the estimate would change if the data was sampled again.
-  - Sampling Distribution
-      - Distribution of results if the estimator is applied multiple times to different datasets sampled from same distribution
-  - Bootstrap
-      - If the underlying distribution is complex, approximate it by a Monte-Carlo technique
-      - Sample N data points from original dataset of size N with replacement
-      - Bootstrap Sample is 0.633 x N on average
-          - Probability the point is selected atleast once
-          - $1 - (1 - {1 \over N})^N \approx 1 - {1 \over e}$
-  - 100 (1 - a) % CI is the probability that the true value of the parameter lies in the range.
+The most common approach to parameter estimation: choose parameters that make the observed data most probable.
 
-- Bias-Variance Tradeoff
-  - Bias of an estimator
-      - $bias(\hat \theta) = E[\hat \theta] - \theta^*$
-          - Measures how much the estimate will differ from true value
-          - Sample variance is not an unbiased estimator for variance
-      - $\mathbf V[\hat \theta] = E[\hat \theta ^ 2] - E[\hat \theta]^2$
-          - Measures how much will the estimate vary is data is resampled
-      - Mean Squared Error
-          - $E[(\hat \theta - \theta^*)^2] = \text{bias}^2 + \text{variance}$
-          - It's okay to use a biased estimator if the bias is offset by decrease in variance. 
+### The Setup
+
+Given:
+- Data: $D = \{x_1, x_2, ..., x_N\}$ (assumed i.i.d.)
+- Parametric model: $p(x | \theta)$
+
+### The Likelihood Function
+
+$$L(\theta; D) = p(D | \theta) = \prod_{i=1}^N p(x_i | \theta)$$
+
+**Key insight**: We treat the data as fixed and vary θ. For which θ was this data most likely?
+
+### Log-Likelihood
+
+Products are numerically unstable. Convert to sums using logs:
+
+$$\ell(\theta; D) = \log L(\theta; D) = \sum_{i=1}^N \log p(x_i | \theta)$$
+
+### The MLE Estimate
+
+$$\hat{\theta}_{MLE} = \arg\max_\theta \ell(\theta; D) = \arg\min_\theta -\ell(\theta; D)$$
+
+Equivalently: minimize the **Negative Log-Likelihood (NLL)**.
+
+### Why MLE Works
+
+**Theoretical justifications**:
+1. **Bayesian view**: MLE is MAP estimate with uniform (uninformative) prior
+2. **Information-theoretic view**: MLE minimizes KL divergence between model and empirical distribution
+
+### Sufficient Statistics
+
+A **sufficient statistic** summarizes all information in the data relevant to estimating θ.
+
+**Example (Bernoulli)**: For $N$ coin flips, the sufficient statistics are:
+- $N_1$ = number of heads
+- $N_0$ = number of tails
+
+You don't need to know the order of the flips!
+
+---
+
+## MLE Examples
+
+### Bernoulli Distribution
+
+Model: $p(y | \theta) = \theta^y (1-\theta)^{1-y}$
+
+NLL:
+$$\text{NLL}(\theta) = -[N_1 \log\theta + N_0 \log(1-\theta)]$$
+
+Setting derivative to zero:
+$$\hat{\theta}_{MLE} = \frac{N_1}{N_0 + N_1} = \frac{\text{# heads}}{\text{# flips}}$$
+
+**Intuitive result**: Estimate probability as observed frequency.
+
+### Gaussian Distribution
+
+Model: $p(y | \mu, \sigma^2) = \mathcal{N}(y | \mu, \sigma^2)$
+
+MLE estimates:
+$$\hat{\mu} = \frac{1}{N}\sum_{i=1}^N y_i \quad \text{(sample mean)}$$
+$$\hat{\sigma}^2 = \frac{1}{N}\sum_{i=1}^N (y_i - \hat{\mu})^2 \quad \text{(sample variance)}$$
+
+### Linear Regression
+
+Model: $p(y | x, w, \sigma^2) = \mathcal{N}(y | w^T x + b, \sigma^2)$
+
+NLL is proportional to:
+$$\text{NLL} \propto \sum_{i=1}^N (y_i - w^T x_i - b)^2$$
+
+**Key insight**: MLE for Gaussian regression = minimize squared error!
+
+---
+
+## Empirical Risk Minimization
+
+ERM generalizes MLE beyond log-loss to any loss function.
+
+### Definition
+
+$$\hat{\theta}_{ERM} = \arg\min_\theta \frac{1}{N}\sum_{i=1}^N \ell(y_i, f(x_i; \theta))$$
+
+**Common loss functions**:
+- Log-loss: gives MLE
+- Squared loss: regression
+- 0-1 loss: classification accuracy
+- Hinge loss: SVMs
+
+### Surrogate Losses
+
+The 0-1 loss is non-differentiable. We use smooth **surrogate losses** that are easier to optimize:
+- Log-loss (cross-entropy)
+- Hinge loss
+- Exponential loss
+
+---
+
+## Online Learning
+
+When data arrives sequentially, we can't afford to retrain from scratch each time.
+
+### Recursive Updates
+
+Many statistics can be updated incrementally:
+
+**Running mean**:
+$$\mu_t = \mu_{t-1} + \frac{1}{t}(x_t - \mu_{t-1})$$
+
+**Exponentially Weighted Moving Average (EWMA)**:
+$$\mu_t = \beta \mu_{t-1} + (1-\beta) x_t$$
+
+---
+
+## Regularization
+
+MLE can overfit — the estimated model fits training data perfectly but fails on new data.
+
+### The Problem
+
+- Empirical distribution ≠ true distribution
+- MLE finds parameters optimal for the empirical distribution
+- May not generalize well
+
+### The Solution: Add a Penalty
+
+$$\hat{\theta} = \arg\min_\theta \left[\text{NLL}(\theta) + \lambda R(\theta)\right]$$
+
+Where $R(\theta)$ penalizes complex models.
+
+### MAP Estimation
+
+From the Bayesian view, regularization corresponds to adding a prior:
+
+$$\hat{\theta}_{MAP} = \arg\max_\theta [p(D | \theta) \cdot p(\theta)]$$
+
+Taking logs:
+$$\hat{\theta}_{MAP} = \arg\min_\theta [-\log p(D|\theta) - \log p(\theta)]$$
+
+**Examples**:
+- Gaussian prior → L2 regularization (Ridge)
+- Laplace prior → L1 regularization (Lasso)
+
+### Choosing Regularization Strength
+
+The regularization parameter λ controls the bias-variance trade-off.
+
+**Methods to choose λ**:
+- **Validation set**: Test on held-out data
+- **Cross-validation**: For small datasets
+- **One Standard Error Rule**: Choose simplest model within one SE of best
+
+### Early Stopping
+
+Another form of regularization: stop training before the model overfits.
+- Monitor validation error
+- Stop when it starts increasing
+
+---
+
+## Bayesian Statistics
+
+The Bayesian approach treats parameters as random variables.
+
+### The Bayesian Recipe
+
+1. **Prior**: $p(\theta)$ — initial beliefs before seeing data
+2. **Likelihood**: $p(D | \theta)$ — probability of data given parameters
+3. **Posterior**: $p(\theta | D) \propto p(D | \theta) \cdot p(\theta)$ — updated beliefs
+
+### Posterior Predictive Distribution
+
+To predict new data, **integrate over parameter uncertainty**:
+
+$$p(y_{new} | x_{new}, D) = \int p(y_{new} | x_{new}, \theta) \cdot p(\theta | D) d\theta$$
+
+**Compare to plug-in prediction**: $p(y_{new} | x_{new}, \hat{\theta})$
+
+The Bayesian approach properly accounts for uncertainty in θ!
+
+### Conjugate Priors
+
+When the prior and posterior have the same functional form:
+- **Bernoulli-Beta**: Prior on coin bias
+- **Gaussian-Gaussian**: Prior on Gaussian mean
+- **Poisson-Gamma**: Prior on Poisson rate
+
+Makes computation tractable.
+
+### MAP vs. Full Bayesian
+
+| Aspect | MAP | Full Bayesian |
+|--------|-----|---------------|
+| Output | Point estimate | Full distribution |
+| Computation | Optimization | Integration |
+| Uncertainty | Not captured | Fully captured |
+| Regularization | Equivalent to adding prior | Built-in |
+
+---
+
+## Frequentist Statistics
+
+In the frequentist view:
+- Parameters θ are fixed (unknown) constants
+- Data D is random (sampled from true distribution)
+- Uncertainty comes from randomness in sampling
+
+### Sampling Distribution
+
+If we repeated the experiment many times, our estimate $\hat{\theta}$ would vary. The **sampling distribution** describes this variation.
+
+### Bootstrap
+
+When the true sampling distribution is unknown, approximate it by resampling:
+
+1. Draw N samples **with replacement** from your data
+2. Compute the statistic of interest
+3. Repeat many times
+4. The distribution of statistics approximates the sampling distribution
+
+**Key fact**: Each bootstrap sample contains ~63.2% of unique original observations:
+$$P(\text{included}) = 1 - \left(1 - \frac{1}{N}\right)^N \approx 1 - \frac{1}{e} \approx 0.632$$
+
+### Confidence Intervals
+
+A 95% confidence interval means: if we repeated the experiment many times, 95% of the computed intervals would contain the true parameter.
+
+**Note**: This is NOT the same as "95% probability that θ is in this interval"!
+
+---
+
+## Bias-Variance Trade-off
+
+### Bias
+
+How far off is our estimator on average?
+
+$$\text{bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta^*$$
+
+**Unbiased**: $\mathbb{E}[\hat{\theta}] = \theta^*$
+
+**Example**: Sample variance $\frac{1}{N}\sum(x_i - \bar{x})^2$ is biased! The unbiased version divides by N-1.
+
+### Variance
+
+How much does our estimate fluctuate across different datasets?
+
+$$\text{Var}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \mathbb{E}[\hat{\theta}])^2]$$
+
+### Mean Squared Error
+
+Combines both:
+$$\text{MSE}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \theta^*)^2] = \text{bias}^2 + \text{variance}$$
+
+**Key insight**: Sometimes it's worth accepting bias if it substantially reduces variance!
+
+This is exactly what regularization does.
+
+---
+
+## Summary
+
+| Concept | Key Idea |
+|---------|----------|
+| **MLE** | Choose θ that maximizes probability of observed data |
+| **NLL** | Negative log-likelihood; what we minimize |
+| **Sufficient Statistics** | Compress data without losing information about θ |
+| **ERM** | Generalization of MLE to any loss function |
+| **Regularization** | Penalty on complexity to prevent overfitting |
+| **MAP** | MLE + prior = regularized MLE |
+| **Bayesian** | Full distribution over θ, not just point estimate |
+| **Posterior Predictive** | Integrate predictions over parameter uncertainty |
+| **Bootstrap** | Approximate sampling distribution by resampling |
+| **Bias-Variance** | MSE = bias² + variance; trade-off is fundamental |

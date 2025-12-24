@@ -1,158 +1,353 @@
 # Optimization
 
-- Optimization Problem: Try to find values for a set of variables that minimize/maximize a scalar valued objective function
-    - $\arg \min_{\theta}L(\theta)$
--  The point that satisfies the optimization problem is called global optimum
-- Local optimum is a point that has optimal objective value compared to nearby points.
-- Optimality Conditions
-    - gradient $g(\theta) = \nabla L(\theta)$ is zero
-    - Hessian $H(\theta) = \nabla^2 L(\theta)$ is positive definite
-- Unconstrained Optimization: Finding any value in parameter space that minimizes the loss
-- Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}$
-    - I is the set of inequality constraints
-    - E is the set of equality constraints
-    - If there are too many constraints the feasible set may become empty.
-- Smooth Optimization: Objective and constraints are continuously differentiable 
-- Lipschitz Constant: $|f(x_1) - f(x_2)| \le L|x_1 - x_2|$
-    - Function cannot change by more than L units if input changes by 1 unit
-- Non-smooth Optimization: Some points where gradient of the objective or the constraints is not well defined
-- Composite Objective: Contains both smooth and non-smooth terms. 
-- Subgradient: Generalized notion of derivative to work with functions having local discontinuities.
+Optimization is at the heart of machine learning — finding the parameters that minimize loss functions. This chapter covers the algorithms and techniques used to train models effectively.
 
-- First-Order Optimization Methods
-    - Leverage first-order derivatives of the objective function
-    - Ignore the curvature information
-    - $\theta_t = \theta_{t-1} + \eta_t d_t$
-    - d is the descent direction, $\eta$ is the step size
-    - Steepest Descent: direction opposite to the gradient g
-    - Step Size: controls the amount to move in the descent direction
-        - Constant Step Size
-            - incorrect values can lead to oscillations, slow convergence
-        - Line Search
-            - set as a 1d minimization problem to select the optimal value
-        - Learning rate schedule must respect Robbins-Monro condition
-            - ${\sum \eta^2 \over \sum \eta} \rightarrow 0 \, \text{as} \, \eta \rightarrow 0$
-    - Momentum
-        - Gradient Descent slow across lat regions of the loss landscape
-        - Heavy Ball or Momentum helps move faster along the directions that were previously good.
-        - $m_t = \beta m_{t-1} + g_{t-1}$
-        - $\theta_t = \theta_{t-1} + \eta_t m_t$
-        - Momentum is essentially EWMA of gradients
-    - Nesterov Momentum
-        - Momentum may not slow down enough at the bottom causing oscillation
-        - Nesterov solves for that by adding a lookahead term
-        - $m_{t+1} = \beta m_t - \eta_t \Delta L(\theta_t + \beta m_t)$
-        - It updates the momentum using gradient at the predicted new location
+## The Big Picture
 
-- Second-Order Optimization Methods
-    - Gradients are cheap to compute and store but lack curvature information
-    - Second-order methods use Hessian to achieve faster convergence
-    - Newton's Method:
-        - Second-order Taylor series expansion of objective
-        - $L(\theta) = L(\theta_t) + g(\theta - \theta_t) + {1 \over 2} H (\theta - \theta_t)^2$
-        - Descent Direction:  $\theta = \theta_t - H^{-1} g$
-    - BFGS:
-        - Quasi-Newton method
-        - Hessian expensive to compute
-        - Approximate Hessian by using the gradient vectors
-        - Memory issues
-        - L-BFGS is limited memory BFGS
-        - Uses only recent gradients for calculating Hessian
+**The optimization problem**:
+$$\theta^* = \arg\min_\theta L(\theta)$$
 
-- Stochastic Gradient Descent
-    - Goal is to minimize average value of a function with random inputs
-    - $L(\theta) = \mathbf E_z[L(\theta, z)]$
-    - Random variable Z is independent of parameters theta
-    - The gradient descent estimate is therefore unbiased
-    - Empirical Risk Minimization (ERM) involves minimizing a finite sum problem
-        - $L(\theta) = {1 \over N}\sum l(y, f(x(\theta))$
-    - Gradient calculation requires summing over N
-    - It can be approximated by summing over minibatch B << N in case of random sampling
-    - This will give unbiased approximation and results in faster convergence
+We want to find parameters θ that minimize some loss function L.
 
-- Variance Reduction
-    - Reduce the variance in gradient estimates by SGD
-    - Stochastic Variance Reduced Gradient (SVRG)
-        - Adjust the stochastic estimates by those calculated on full batch
-    - Stochastic Averaged Gradient Accelerated (SAGA)
-        - Aggregate the gradients to calculate average values
-        - $g_t = \Delta L(\theta) - g_{local} + g_{avg}$
+**Challenges**:
+- Non-convex landscapes (many local minima)
+- High-dimensional parameter spaces (millions of parameters)
+- Noisy gradients (from mini-batch sampling)
+- Computational constraints
 
-- Optimizers
-  - AdaGrad (Adaptive Gradient)
-      - Sparse gradients corresponding to features that are rarely present
-      - $\theta_{t+1} = \theta_t -\eta_t {1 \over \sqrt{s_t +\epsilon}} g_t$
-      - $s_t = \sum g^2$
-      - It results in adaptive learning rate
-      - As the denominator grows, the effective learning rate drops
-  - RMSProp 
-      - Uses EWMA instead of sum in AdaGrad
-      - $s_t = \beta s_{t-1} + (1-\beta)g^2_t$
-      - Prevents from s to grow infinitely large
-  - AdaDelta
-      - Like RMSProp, uses EWMA on previous gradients
-      - But also uses EWMA on updates
-      - $\delta_t = \beta \delta_{t-1} + (1 - \beta) (\Delta \theta^2)$
-      - $\theta_{t+1} = \theta_t -\eta_t {\sqrt{\delta_t +\epsilon} \over \sqrt{s_t +\epsilon}} g_t$
+---
 
-  - Adam
-      - Adaptive Moment Estimation
-      - Combines RMSProp with momentum
-      - $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$ (first moment estimate)
-      - $s_t = \beta_2 s_{t-1} + (1 - \beta_2) g_t^2$ (second moment estimate)
-      - Bias correction: $\hat{m}_t = m_t/(1-\beta_1^t)$, $\hat{s}_t = s_t/(1-\beta_2^t)$
-      - $\Delta \theta = \eta {\hat{m}_t \over \sqrt{\hat{s}_t} + \epsilon}$
-      - Default values: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$
+## Basic Concepts
 
-- Constrained Optimization
-  - Lagrange Multipliers
-      - Convert constrained optimization problem (with equality constraints) to an unconstrained optimization problem
-      - Assume the constraint is $h(\theta) = 0$
-      - $\nabla h(\theta)$ is orthogonal to the plane $h(\theta) = 0$
-          - First order Taylor expansion
-      - Also, $\nabla L(\theta)$ is orthogonal to the plane $h(\theta) = 0$ at the optimum
-          - Otherwise, moving along the constraint can improve the objective value
-      - Hence, at the optimal solution: $\nabla L(\theta) = \lambda \nabla h(\theta)$
-          - $\lambda$ is the Lagrangian multiplier
-      - Convert the above identity to an objective
-          - $L(\theta, \lambda) = L(\theta) - \lambda h(\theta)$
+### Optima
 
-  - KKT Conditions
-      - Generalize the concept of Lagrange multiplier to inequality constraints
-      - Assume the inequality constraint: $g(\theta) < 0$
-      - $L(\theta, \mu) = L(\theta) + \mu g(\theta)$
-      - $\min L(\theta) \rightarrow \min_{\theta} \max_{\mu \ge 0} L(\theta, \mu)$
-          - Competing objectives
-          - $\mu$ is the penalty for violating the constraint.
-          - If $g(\theta) > 0$, then the objective becomes $\infty$
-      -  Complementary Slackness
-          - If the constraint is active, $g(\theta) = 0, \mu > 0$
-          - If the constraint is inactive, $g(\theta) < 0, \mu = 0$
-          - $\mu * g = 0$
+- **Global optimum**: Best solution in the entire parameter space
+- **Local optimum**: Best solution in a neighborhood (not necessarily globally best)
 
-  - Linear Programming
-      - Feasible set is a convex polytope
-      - Simplex algorithm moves from vertex to vertex of the polytope seeking the edge that improves the objective the most.
+### Optimality Conditions
 
-  - Proximal Gradient Descent
-      - Composite objective with smooth and rough parts
-      - Proximal Gradient Descent calculates the gradients of the smooth part and projects the update into a space the respects the rough part
-      - L1 Regularization is sparsity inducing. Can be optimized using proximal gradient descent. (0,1) is preferred vs $1 \over \sqrt 2$, $1 \over \sqrt 2$. L2 is agnostic between the two.
+For smooth functions, at a minimum:
+1. **First-order condition**: Gradient is zero
+   $$\nabla L(\theta^*) = 0$$
 
-- Expectation Maximization Algorithm
-  - Compute MLE / MAP in cases where there is missing data or hidden variables.
-  - E Step: Estimates hidden variables / missing values
-  - M Step: Uses observed data to calculate MLE / MAP
-  - $LL(\theta) = \sum \log p( y | \theta) = \sum \log \sum p(y, z | \theta)$
-  - z is the hidden / latent variable
-  - Using Jensen's inequality for convex functions
-      - $LL(\theta) \ge \sum \sum q(z) \log p (y | \theta, z)$
-      - q(z) is the prior estimate over hidden variable
-      - log(p) is the conditional likelihood
-      - Evidence lower bound or ELBO method
-  - EMM for GMM
-      - E Step: Compute the responsibility of cluster k for generating the data point
-      - M Step: Maximize the computed log-likelihood
+2. **Second-order condition**: Hessian is positive semi-definite
+   $$\nabla^2 L(\theta^*) \succeq 0$$
 
-- Simulated Annealing
-    - Stochastic Local Search algorithm that optimizes black-box functions whose gradients are intractable. 
+### Convexity
+
+A function is **convex** if any local minimum is also a global minimum.
+
+For convex functions, optimization is "easy" — gradient descent will find the global optimum.
+
+**Unfortunately**: Most deep learning losses are non-convex!
+
+### Lipschitz Continuity
+
+A function is L-Lipschitz if:
+$$|f(x_1) - f(x_2)| \leq L |x_1 - x_2|$$
+
+**Interpretation**: The function can't change too rapidly. This property is useful for proving convergence.
+
+---
+
+## First-Order Methods
+
+Use only gradient information (first derivatives).
+
+### Gradient Descent
+
+The simplest optimization algorithm:
+
+$$\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t)$$
+
+Where η is the **learning rate** or step size.
+
+**Intuition**: Move in the direction of steepest descent.
+
+### Step Size Selection
+
+Choosing η is crucial:
+- **Too small**: Slow convergence
+- **Too large**: Oscillations, divergence
+
+**Options**:
+
+1. **Constant step size**: Simple but suboptimal
+
+2. **Line search**: Find optimal η at each step
+   $$\eta_t = \arg\min_\eta L(\theta_t - \eta \nabla L(\theta_t))$$
+
+3. **Learning rate schedule**: Decrease η over time
+   - Must satisfy Robbins-Monro conditions for convergence
+
+### Momentum
+
+Gradient descent is slow in flat regions and oscillates in narrow valleys.
+
+**Heavy ball momentum**:
+$$m_t = \beta m_{t-1} + \nabla L(\theta_{t-1})$$
+$$\theta_t = \theta_{t-1} - \eta m_t$$
+
+**Intuition**: Accumulate velocity like a ball rolling downhill. EWMA of gradients smooths out oscillations and accelerates in consistent directions.
+
+**Typical value**: β = 0.9
+
+### Nesterov Momentum
+
+Momentum can overshoot. Nesterov adds "lookahead":
+
+$$m_{t+1} = \beta m_t - \eta \nabla L(\theta_t + \beta m_t)$$
+
+**Idea**: Compute gradient at the anticipated next position, not current position.
+
+---
+
+## Second-Order Methods
+
+Use curvature information (Hessian).
+
+### Newton's Method
+
+Use quadratic approximation:
+$$L(\theta) \approx L(\theta_t) + \nabla L^T(\theta - \theta_t) + \frac{1}{2}(\theta - \theta_t)^T H (\theta - \theta_t)$$
+
+Optimal step:
+$$\theta_{t+1} = \theta_t - H^{-1} \nabla L$$
+
+**Advantages**: Faster convergence (quadratic vs. linear)
+
+**Disadvantages**:
+- Hessian H is expensive to compute (O(d²) storage, O(d³) inversion)
+- Not scalable to deep learning
+
+### Quasi-Newton Methods (BFGS)
+
+Approximate the Hessian using gradient information:
+- Build up Hessian approximation over iterations
+- **L-BFGS**: Limited memory version; uses only recent gradients
+
+Useful for smaller models where full-batch gradients are available.
+
+---
+
+## Stochastic Gradient Descent (SGD)
+
+### The Key Insight
+
+For finite-sum problems:
+$$L(\theta) = \frac{1}{N}\sum_{i=1}^N \ell(y_i, f(x_i; \theta))$$
+
+Computing the full gradient requires summing over all N examples — expensive!
+
+**SGD approximation**: Use a random mini-batch B ⊂ {1, ..., N}:
+$$\nabla L(\theta) \approx \frac{1}{|B|}\sum_{i \in B} \nabla \ell(y_i, f(x_i; \theta))$$
+
+### Properties
+
+- **Unbiased**: Expected gradient equals true gradient
+- **High variance**: Individual mini-batch gradients are noisy
+- **Much faster**: Each step is O(|B|) instead of O(N)
+
+### Mini-batch Size Trade-offs
+
+| Batch Size | Gradient Quality | Computation | Generalization |
+|------------|------------------|-------------|----------------|
+| Small | Noisy | Fast per step | Often better (regularization effect) |
+| Large | Accurate | Slow per step, but parallelizable | May overfit |
+
+---
+
+## Variance Reduction
+
+Reduce noise in SGD gradient estimates.
+
+### SVRG (Stochastic Variance Reduced Gradient)
+
+Periodically compute full gradient; use it to correct mini-batch estimates:
+$$g_t = \nabla \ell_i(\theta_t) - \nabla \ell_i(\tilde{\theta}) + \nabla L(\tilde{\theta})$$
+
+### SAGA
+
+Maintain running estimates of gradients for each example; update incrementally.
+
+**Trade-off**: Extra memory for reduced variance.
+
+---
+
+## Adaptive Learning Rates
+
+Different parameters may need different learning rates.
+
+### AdaGrad
+
+Adapt learning rate based on historical gradient magnitudes:
+
+$$s_t = s_{t-1} + g_t^2$$
+$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{s_t + \epsilon}} g_t$$
+
+**Effect**: Parameters with large gradients get smaller learning rates.
+
+**Problem**: Learning rate decreases monotonically and may become too small.
+
+### RMSProp
+
+Use exponential moving average instead of sum:
+
+$$s_t = \beta s_{t-1} + (1 - \beta) g_t^2$$
+$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{s_t + \epsilon}} g_t$$
+
+**Prevents** learning rate from vanishing.
+
+### AdaDelta
+
+Like RMSProp, but also scales by historical update magnitudes:
+
+$$\delta_t = \beta \delta_{t-1} + (1 - \beta) (\Delta\theta)^2$$
+$$\theta_{t+1} = \theta_t - \frac{\sqrt{\delta_t + \epsilon}}{\sqrt{s_t + \epsilon}} g_t$$
+
+### Adam (Adaptive Moment Estimation)
+
+The most popular optimizer. Combines momentum with adaptive learning rates:
+
+**First moment** (mean of gradients):
+$$m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$$
+
+**Second moment** (mean of squared gradients):
+$$s_t = \beta_2 s_{t-1} + (1 - \beta_2) g_t^2$$
+
+**Bias correction** (important for early iterations):
+$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{s}_t = \frac{s_t}{1 - \beta_2^t}$$
+
+**Update**:
+$$\theta_{t+1} = \theta_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{s}_t} + \epsilon}$$
+
+**Default values**: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$
+
+---
+
+## Constrained Optimization
+
+### Lagrange Multipliers
+
+Convert constrained to unconstrained optimization.
+
+For equality constraint $h(\theta) = 0$:
+$$\mathcal{L}(\theta, \lambda) = L(\theta) - \lambda h(\theta)$$
+
+At optimum:
+$$\nabla L = \lambda \nabla h$$
+
+**Geometric interpretation**: Gradient of objective is parallel to gradient of constraint.
+
+### KKT Conditions
+
+For inequality constraints $g(\theta) \leq 0$:
+$$\mathcal{L}(\theta, \mu) = L(\theta) + \mu g(\theta)$$
+
+**Complementary slackness**:
+- If constraint is active ($g(\theta) = 0$): $\mu > 0$
+- If constraint is inactive ($g(\theta) < 0$): $\mu = 0$
+- Always: $\mu \cdot g(\theta) = 0$
+
+### Proximal Gradient Descent
+
+For composite objectives with non-smooth terms (e.g., L1 regularization):
+$$L(\theta) = f(\theta) + g(\theta)$$
+
+Where f is smooth and g is non-smooth.
+
+1. Gradient step on smooth part
+2. **Proximal operator** to handle non-smooth part:
+   $$\text{prox}_g(x) = \arg\min_z \left[g(z) + \frac{1}{2}\|z - x\|^2\right]$$
+
+**Example**: For L1 penalty, proximal operator is soft-thresholding.
+
+---
+
+## EM Algorithm
+
+For models with latent variables, direct MLE is difficult.
+
+### The Problem
+
+$$\log p(Y | \theta) = \log \sum_z p(Y, z | \theta)$$
+
+The sum inside the log is intractable.
+
+### The Solution
+
+Iterate between:
+
+**E-step**: Compute posterior over latent variables given current parameters
+$$q(z) = p(z | Y, \theta^{old})$$
+
+**M-step**: Maximize expected complete-data log-likelihood
+$$\theta^{new} = \arg\max_\theta \mathbb{E}_{q(z)}[\log p(Y, z | \theta)]$$
+
+### Properties
+
+- **Monotonic**: Likelihood never decreases
+- **Converges**: To a local maximum
+- **May get stuck**: Multiple restarts recommended
+
+### Example: GMM
+
+- **E-step**: Compute responsibilities (soft cluster assignments)
+- **M-step**: Update means, covariances, and mixing proportions
+
+---
+
+## Simulated Annealing
+
+For non-differentiable or discrete optimization:
+
+1. Start with high "temperature" T
+2. Propose random moves
+3. Accept improvements always; accept worse moves with probability $\exp(-\Delta L / T)$
+4. Gradually decrease T
+
+**Idea**: High T allows escaping local minima; low T focuses on refinement.
+
+---
+
+## Practical Tips
+
+### Learning Rate
+
+- Start with a reasonable default (e.g., 0.001 for Adam)
+- Use learning rate warmup for large models
+- Decay learning rate during training
+
+### Initialization
+
+- Poor initialization can prevent learning
+- Xavier/Glorot: Scale by fan-in/fan-out
+- He: For ReLU networks
+
+### Gradient Clipping
+
+Prevent exploding gradients by clipping:
+$$g \leftarrow \min\left(1, \frac{\tau}{\|g\|}\right) g$$
+
+### Early Stopping
+
+Monitor validation loss; stop when it starts increasing.
+
+---
+
+## Summary
+
+| Method | Key Idea | When to Use |
+|--------|----------|-------------|
+| **SGD** | Mini-batch gradients | Large datasets |
+| **Momentum** | Accumulate velocity | Faster than vanilla SGD |
+| **Adam** | Adaptive + momentum | Default for deep learning |
+| **L-BFGS** | Quasi-Newton | Small-medium models, full batch |
+| **Proximal** | Handle non-smooth terms | L1 regularization |
+| **EM** | Latent variables | Mixture models |
+
+**General advice**:
+1. Start with Adam
+2. Try SGD + momentum if Adam overfits
+3. Use learning rate schedules
+4. Watch for vanishing/exploding gradients

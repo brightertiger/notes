@@ -1,124 +1,267 @@
-# Convolution NN
+# Convolutional Neural Networks
 
-- MLPs not effective for images
-    - Different sized inputs
-    - Translational invariance difficult to achieve
-    - Weight matrix prohibitive in size
-    
-- Convolutional Neural Networks
-    - Replace matrix multiplication with convolution operator
-    - Divide image into overlapping 2d patches
-    - Perform template matching based on filters with learned parameters
-    - Number of parameters significantly reduced
-    - Translation invariance easy to achieve
+CNNs are specialized neural networks designed for processing grid-structured data, especially images. They're the foundation of modern computer vision.
 
-- Convolution Operators
-    - Convolution between two functions
-        - $[f \star g](z) = \int f(u) g(z-u) du$
-    - Similar to cross-correlation operator
-        - $[w \star x](i) = \sum_u^{L-1} w_ux_{i+u}$
-    - Convolution in 2D
-        - $[W \star X](i,j) = \sum_{u=0}^{H-1}\sum_{v=0}^{W-1} w_{u,v}x_{i+u,j+v}$
-        - 2D convolution is template matching, feature detection
-        - The output is called feature map
-    - Convolution is matrix multiplication
-        - The corresponding weight matrix is Toeplitz like
-        - $y = Cx$
-        - $C = [[w_1, w_2,0|w_3, w_4, 0|0,0,0],[0, w_1, w_2 | 0, w_3, w_4 | 0,0,0],....]$
-        - Weight matrix is sparse in a typical MLP setting
-    - Valid Convolution
-        - Filter Size: $(f_h, f_w)$
-        - Image Size: $(x_h, x_w)$
-        - Output Size : $(x_h - f_h + 1, x_w - f_w + 1)$
-    - Padding
-        - Filter Size: $(f_h, f_w)$
-        - Image Size: $(x_h, x_w)$
-        - Padding Size: $(p_h, p_w)$
-        - Output Size : $(x_h + 2p_h - f_h + 1, x_w + 2p_w - f_w + 1)$
-        - If 2p = f - 1, then output size is equal to input size
-    -  Strided Convolution
-        - Skip every sth input to reduce redundancy
-        - Filter Size: $(f_h, f_w)$
-        - Image Size: $(x_h, x_w)$
-        - Padding Size: $(p_h, p_w)$
-        - Stride Size: $(s_h, s_w)$
-        - Output Size: $\lbrack {x_h + 2p_h -f_h +s_h \over s_h}, {x_w + 2p_w -f_w + s_w \over s_w} \rbrack$
-    - Mutiple channels
-        - Input images have 3 channels
-        - Define a kernel for each input channel
-        - Weight is a 3D matrix
-        - $z_{i,j} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c}$
-    - In order to detect multiple features, extend the dimension of weight matrix
-        - Weight is a 4D matrix
-        - $z_{i,j,d} = \sum_H \sum_W \sum_C x_{si + u, sj+v, c} w_{u,v,c,d}$
-        - Output is a hyper column formed by concatenation of feature maps
-    - Special Case: (1x1) point wise convolution
-        - Filter is of size 1x1.
-        - Only the number of channels change from input to output
-        - $z_{i,j,d} = \sum x_{i,j,c}w_{0,0,c,d}$
-    - Pooling Layers
-        - Convolution preserves information about location of input features i.e. equivariance
-        - To achieve translational invariance, use pooling operation
-        - Max Pooling
-            - Maximum over incoming values
-        - Average Pooling
-            - Average over incoming values
-        - Global Average Pooling
-            - Convert the (H,W,D) feature maps into (1,1,D) output layer
-            - Usually to compute features before passing to fully connected layer
-    - Dilated Convolution
-        - Convolution with holes
-        - Takes every rth input (r is the dilation rate)
-        - The filters have 0s
-        - Increases the receptive field
-    - Transposed Convolution
-        - Produce larger output form smaller input
-        - Pad the input with zeros and then run the filter
-    - Depthwise
+## The Big Picture
 
-- Normalization
-    - Vanishing / Exploding gradient issues in deeper models
-    - Add extra layers to standardize the statistics of hidden units
-    - Batch Normalization
-        - Zero mean and unit variance across the samples in a minibatch
-        - $\hat z_n = {z_n - \mu_b \over \sqrt{\sigma^2_b +\epsilon}}$
-        - $\tilde z_n = \gamma \hat z_n + \beta$
-        - $\gamma, \beta$ are learnable parameters
-        - When applied to input layer, BN is close to unsual standardization process
-        - For other layers, as model trains, the mean and variance change
-            - Internal Covariate Shift
-        - At test time, the inference may run on streaming i.e. one example at a time
-            - Solution: After training, re-compute the mean and variance across entire training batch and then freeze the parameters
-            - Sometimes, after recomputing, the BN parameters are fused to the hidden layer. This results in fused BN layer
-        - BN struggles when batch size is small
-    - Layer Normalization
-        - Pool over channel, height and width
-        - Match on batch index
-    - Instance Normalization
-        - Pool over height and width
-        - Match over batch index
-    - Normalization Free Networks
-        - Adaptive gradient clipping
+**Problem with MLPs for images**:
+- Different image sizes → different input dimensions
+- Translation invariance is hard to learn
+- Too many parameters (e.g., 1000×1000 image = 3 million inputs!)
 
-- Common Architectures
-    - ResNet
-        - Uses residual blocks to learn small perturbation in inputs
-        - Residual Block: conv:BN:ReLU:conv:BN
-        - Use padding, 1x1 convolution to ensure that additive operation is valid
-    - DenseNet
-        - Concatenate (rather than add) the output with the input
-        - $x \rightarrow [x, f_1(x), f_2(x, f_1(x)), f_3(x, f_1(x), f_2(x))]$
-        - Computationally expensive
-    - Neural Architecture Search
-        - EfficeintNetV2
+**CNN solution**:
+- Local connectivity (each neuron sees small region)
+- Weight sharing (same filter applied everywhere)
+- Translation equivariance built in
 
-- Adversarial Examples
-    - White-Box Attacks
-        - Attacker has full access to model (architecture, weights, gradients)
-        - Uses gradient information to craft adversarial perturbations (e.g., FGSM, PGD)
-        - Add small perturbation to input that changes the prediction from classifier
-        - Can be targeted (change to specific class) or untargeted
-    - Black-Box Attacks
-        - Attacker has no access to model internals (gradient-free)
-        - Uses query access only or transfer attacks from surrogate models
-        - Design fooling images using heuristics or evolutionary methods 
+---
+
+## The Convolution Operation
+
+### 1D Convolution
+
+$$[w \star x]_i = \sum_{u=0}^{L-1} w_u \cdot x_{i+u}$$
+
+Slide a **filter** (kernel) across the input and compute dot products.
+
+### 2D Convolution
+
+$$[W \star X]_{i,j} = \sum_{u=0}^{H-1} \sum_{v=0}^{W-1} w_{u,v} \cdot x_{i+u, j+v}$$
+
+**Interpretation**: Template matching. High response where input matches the filter pattern.
+
+### Key Insight: Weight Sharing
+
+Same filter weights used at every location → huge parameter reduction!
+
+**Example**: 3×3 filter has 9 parameters, regardless of image size.
+
+---
+
+## Convolution as Matrix Multiplication
+
+Convolution can be expressed as multiplication by a **Toeplitz matrix**:
+$$y = Cx$$
+
+Where C has a special sparse structure with repeated weights.
+
+This equivalence is useful for:
+- Understanding computational cost
+- Implementing on hardware
+
+---
+
+## Convolution Variants
+
+### Valid Convolution
+
+No padding; output shrinks:
+- Input: $(H, W)$
+- Filter: $(f_H, f_W)$
+- Output: $(H - f_H + 1, W - f_W + 1)$
+
+### Same (Zero) Padding
+
+Pad input with zeros to maintain size:
+- Padding: $p = (f - 1) / 2$
+- Output same size as input
+
+### Strided Convolution
+
+Skip positions to downsample:
+- Stride $s$: move filter by s pixels
+- Output size: $\lfloor(H + 2p - f)/s + 1\rfloor$
+
+---
+
+## Multi-Channel Convolutions
+
+### Input with Multiple Channels
+
+For RGB images (3 channels), the filter is 3D:
+$$z_{i,j} = \sum_c \sum_u \sum_v x_{i+u, j+v, c} \cdot w_{u,v,c}$$
+
+Each filter produces one output channel.
+
+### Multiple Filters
+
+To detect multiple features, use multiple filters:
+- Weight tensor: $(f_H, f_W, C_{in}, C_{out})$
+- Each filter produces one channel of output
+
+**Output**: Stack of feature maps (one per filter).
+
+### 1×1 Convolution
+
+Special case: filter size = 1×1
+- Acts only across channels, not spatial
+- Like a per-pixel fully-connected layer
+- Used to change number of channels cheaply
+
+---
+
+## Pooling Layers
+
+### Purpose
+
+- Reduce spatial dimensions
+- Achieve translation **invariance** (small shifts don't matter)
+- Reduce parameters and computation
+
+### Max Pooling
+
+Take maximum value in each window:
+$$y_{i,j} = \max_{(u,v) \in \text{window}} x_{i+u, j+v}$$
+
+Most common: 2×2 window with stride 2 (halves dimensions).
+
+### Average Pooling
+
+Take mean instead of max.
+
+### Global Average Pooling
+
+Average over entire spatial dimensions:
+- Input: $(H, W, C)$ → Output: $(1, 1, C)$
+- Often used before final classifier
+
+---
+
+## Dilated (Atrous) Convolution
+
+Insert "holes" in the filter:
+- Dilation rate r: sample every r-th pixel
+- Increases **receptive field** without increasing parameters
+- Useful for dense prediction (segmentation)
+
+---
+
+## Transposed Convolution
+
+"Upsampling" convolution for:
+- Autoencoders
+- Generative models
+- Semantic segmentation
+
+Increases spatial dimensions (opposite of regular conv).
+
+---
+
+## Normalization
+
+### Batch Normalization
+
+Normalize across the batch dimension:
+$$\hat{z}_n = \frac{z_n - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+$$\tilde{z}_n = \gamma \hat{z}_n + \beta$$
+
+**Per channel**: Compute μ, σ over (N, H, W) for each channel.
+
+**Benefits**:
+- Stabilizes training
+- Allows higher learning rates
+- Some regularization effect
+
+**Issues**:
+- Depends on batch statistics → problems with small batches
+- Different behavior at train vs. test time
+
+### Layer Normalization
+
+Normalize across channels (and spatial dims):
+- Independent of batch size
+- Better for RNNs and Transformers
+
+### Instance Normalization
+
+Normalize per sample, per channel:
+- Used in style transfer
+
+---
+
+## Common Architectures
+
+### ResNet (Residual Networks)
+
+**Key innovation**: Skip connections
+$$y = F(x) + x$$
+
+**Residual block**:
+```
+x → Conv → BN → ReLU → Conv → BN → (+x) → ReLU
+```
+
+Enables training 100+ layer networks.
+
+### DenseNet
+
+**Key idea**: Connect each layer to all subsequent layers
+$$x_l = [x_0, f_1(x_0), f_2(x_0, x_1), ...]$$
+
+**Benefits**:
+- Feature reuse
+- Strong gradient flow
+
+**Drawback**: Memory intensive
+
+### EfficientNet
+
+**Key insight**: Scale depth, width, and resolution together
+- Neural Architecture Search (NAS) to find optimal scaling
+
+---
+
+## Adversarial Examples
+
+### White-Box Attacks
+
+Attacker has full access to model.
+
+**FGSM** (Fast Gradient Sign Method):
+$$x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_x L)$$
+
+Add small perturbation in gradient direction.
+
+**PGD** (Projected Gradient Descent):
+Iterative version of FGSM; stronger attack.
+
+### Black-Box Attacks
+
+No access to model internals:
+- Query-based attacks
+- Transfer attacks (adversarial examples transfer across models)
+
+### Defenses
+
+- Adversarial training
+- Input preprocessing
+- Certified defenses (provable robustness)
+
+---
+
+## Summary
+
+| Component | Purpose |
+|-----------|---------|
+| **Convolution** | Local feature detection with weight sharing |
+| **Pooling** | Downsample, add invariance |
+| **Stride** | Alternative to pooling for downsampling |
+| **Padding** | Control output size |
+| **1×1 Conv** | Channel mixing |
+| **Skip connections** | Enable deep networks |
+| **Normalization** | Stabilize training |
+
+### Why CNNs Work for Images
+
+1. **Local structure**: Nearby pixels are related
+2. **Translation equivariance**: Features can appear anywhere
+3. **Hierarchical composition**: Simple features → complex objects
+4. **Parameter efficiency**: Weight sharing dramatically reduces parameters
+
+### Practical Tips
+
+1. Use pre-trained models when possible (transfer learning)
+2. Start with proven architectures (ResNet, EfficientNet)
+3. Data augmentation is crucial
+4. Batch normalization helps training
+5. Global average pooling instead of flattening before classifier

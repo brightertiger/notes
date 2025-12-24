@@ -1,99 +1,232 @@
 # Linear Regression
 
-- Predict real valued output
-- $p(y | x, \theta) = N(y | w^Tx +b, \sigma^2)$
-- Simple Linear regression has one feature vector
-- Multiple Linear Regression has many feature vectors
-- Multivariate Linear Regression has multiple outputs
-- Feature extractor helps in improving the fit of the model
+Linear regression is the foundation of supervised learning for continuous outputs. Understanding it deeply gives insight into more complex models.
 
-- Least Square Estimate
-    - Minimize the negative log likelihood (NLL)
-    - $\text{NLL}(w, \sigma^2) = \frac{1}{2\sigma^2} \sum (y - \hat y)^2 + \frac{N}{2} \log(2\pi\sigma^2)$
-    - First term is referred as Residual Sum Squares (RSS) 
-    - Ordinary Least Squares
-        - $\nabla_w RSS = 0$
-        - $X^TXw = X^Ty$
-        - Normal Equation because $Xw - y$ is orthogonal to $X$
-        - $w = (X^TX)^{-1}X^Ty$
-        - Hessian is $X^TX$ i.e. positive definite if X is full rank
-    - Inverting $X^TX$ is not easy for numerical reasons as it may be ill-conditioned or singular
-    - A better approach is to compute pseudo-inverse using SVD
-    - If the variance is heteroskedastic, the model becomes weighted least squares.
-        - $p(y|x, \theta) = N(y| wx +b, \sigma^2(x))$ 
-    - In case of if simple linear regression:
-        - $w = C_{xy} / C_{xx}$, i.e. ratio of covariances
-        - $b = \bar y - w \bar x$
-    - In case of two inputs with no correlation:
-        - $W_{X1} = R_{YX2.X1}$
-        - $W_{X2} = R_{YX1.X2}$
-        - Partial Regression Coefficients Y on X1 keeping X2 constant
-    - The estimate of variance from NLL is MSE of residuals
-        - $\hat \sigma^2 = {1 \over N}\sum (y - \hat y)^2$
+## The Big Picture
 
-- Goodness of Fit
-    - Residual Plots: Check if the residuals are normally distributed with zero mean
-    - Prediction Accuracy: RMSE $\sqrt{ {1\over N} RSS}$ measures prediction error
-    - Coefficient of Determination: $R^2 = 1 - {RSS \over TSS}$
-        - TSS: Prediction from baseline model: average of Y
-        - TSS - RSS: Reduction in variance / betterment in fit 
+**The model**:
+$$p(y | x, \theta) = \mathcal{N}(y | w^T x + b, \sigma^2)$$
 
-- Ridge Regression
-    - MLE / OLS estimates can result in overfitting
-    - MAP estimation with zero mean Gaussian Prior
-        - $p(w) = N(0, \lambda^{-1}\sigma^2)$
-        - $L(w) = RSS + \lambda ||w||^2$
-    - $\lambda$ is the L2 regularization or weight decay
-    - Ridge Regression is connected to PCA
-        - The eigenvectors, eigenvalues of $X^TX$ matrix
-        - Ridge regression shrinks the eigenvectors corresponding to smaller eigenvalues.
-        - $\lambda$ is sometimes referred as shrinkage parameter
-        - Alternate way is to run PCA on X and then run regression
-        - Ridge is a superior approach
+**Translation**: Given features x, the output y is normally distributed around a linear prediction, with some noise σ².
 
-- Robust Linear Regression
-    - MLE/MAP is sensitive to outliers
-    - Solutions
-        - Replace Gaussian with Student-t distribution which has heavy tails
-            - The model does not get obsessed with outliers
-            - Tails have more mass which gets factored in while maximizing MLE
-        - Compute MLE using EM
-            - Represent Student-t distribution as Gaussian scale mixture
-        - Using Laplace Distribution which is robust to outliers
-        - Using Huber Loss
-            - L2 loss for small errors
-            - L1 loss for large errors
-            - Loss function is differentiable
-        - RANSAC
-            - Random Sample Concensus
-            - Identify outliers from fitted models
+---
 
-- Lasso Regression
-    - Least absolute shrinkage and selection operator
-    - Case where we want the parameters to be zero i.e. sparse models
-    - Used for feature selection
-    - MAP formulation with Laplace priors
-    - L1 regularization
-    - Rationale for sparsity
-        - Consider Lagrange Formulation with constraint
-        - L1 formulation: $||w|| \le B$
-        - L2 formulation: $||w||^2 \le B$
-        - L1 constraint is a rhombus
-        - L2 constraint is a sphere
-        - The objective is more likely to intersect L1 constraint at an point corner
-        - At the corners the parameters for some dimensions are 0
-    - Regularization Path
-        - Start with very high value of regularization
-        - Gradually decrease the regularization strength
-        - The set of parameters that get swept out is known as regularization path
-        - Performs variable selection
+## Types of Linear Regression
 
-- Elastic Net
-    - Combination of Ridge and Lasso
-    - Helpful in dealing with correlated variables
-    - Estimates of highly correlated variables tend be equal
+| Type | Description |
+|------|-------------|
+| **Simple** | One input feature |
+| **Multiple** | Many input features |
+| **Multivariate** | Multiple output variables |
+| **Polynomial** | Non-linear by adding $x^2, x^3$, etc. as features |
 
-- Coordinate Descent
-    - Basis for glmnet library
-    - Solve for jth coefficient while all others are fixed
-    - Cycle through the coordinates 
+**Key insight**: "Linear" refers to linearity in **parameters**, not features. Polynomial regression is still "linear regression"!
+
+---
+
+## Least Squares Estimation
+
+### The Objective
+
+Minimize the Negative Log-Likelihood:
+$$\text{NLL}(w, \sigma^2) = \frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - \hat{y}_i)^2 + \frac{N}{2}\log(2\pi\sigma^2)$$
+
+The first term is the **Residual Sum of Squares (RSS)**.
+
+### The Normal Equations
+
+Setting $\nabla_w \text{RSS} = 0$:
+$$X^T X w = X^T y$$
+
+**Solution**:
+$$\hat{w} = (X^T X)^{-1} X^T y$$
+
+**Why "normal"?** The residual vector $(y - Xw)$ is orthogonal (normal) to the column space of X.
+
+### Geometric Interpretation
+
+$\hat{y} = X\hat{w}$ is the **projection** of y onto the column space of X. We find the closest point in the subspace spanned by the features.
+
+### Practical Computation
+
+Direct matrix inversion can be numerically unstable. Better approaches:
+1. **SVD**: $X = U \Sigma V^T$, then $\hat{w} = V \Sigma^{-1} U^T y$
+2. **QR decomposition**: More stable for ill-conditioned problems
+
+### Simple Linear Regression
+
+For one feature:
+$$\hat{w} = \frac{\text{Cov}(X, Y)}{\text{Var}(X)} = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}$$
+$$\hat{b} = \bar{y} - \hat{w}\bar{x}$$
+
+**Intuition**: Slope is ratio of covariance to variance. Intercept ensures line passes through $(\bar{x}, \bar{y})$.
+
+### Estimating the Noise Variance
+
+$$\hat{\sigma}^2 = \frac{1}{N}\sum_{i=1}^N (y_i - \hat{y}_i)^2 = \frac{\text{RSS}}{N}$$
+
+**Note**: This is biased! Unbiased version divides by (N - p - 1).
+
+---
+
+## Goodness of Fit
+
+### Residual Analysis
+
+Check assumptions by plotting residuals:
+- Should be normally distributed
+- Should have zero mean
+- Should be homoscedastic (constant variance)
+- Should be independent
+
+### Coefficient of Determination (R²)
+
+$$R^2 = 1 - \frac{\text{RSS}}{\text{TSS}} = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$$
+
+Where:
+- **TSS** (Total Sum of Squares): Variance of y
+- **RSS** (Residual Sum of Squares): Unexplained variance
+
+**Interpretation**:
+- R² = 1: Perfect fit
+- R² = 0: Model no better than predicting the mean
+- R² < 0: Model is worse than predicting the mean (possible with regularization)
+
+### RMSE (Root Mean Squared Error)
+
+$$\text{RMSE} = \sqrt{\frac{1}{N}\sum(y_i - \hat{y}_i)^2}$$
+
+In same units as y — more interpretable than MSE.
+
+---
+
+## Ridge Regression (L2 Regularization)
+
+### The Problem with OLS
+
+MLE can overfit when:
+- Features are correlated (multicollinearity)
+- Number of features exceeds samples (p > N)
+- $(X^T X)$ is ill-conditioned
+
+### The Ridge Solution
+
+Add L2 penalty on weights:
+$$L(w) = \text{RSS} + \lambda \|w\|^2$$
+
+**Closed-form solution**:
+$$\hat{w}^{\text{ridge}} = (X^T X + \lambda I)^{-1} X^T y$$
+
+**Effect**: Adding λI to the diagonal makes the matrix invertible!
+
+### Bayesian Interpretation
+
+Ridge = MAP estimation with Gaussian prior:
+$$p(w) = \mathcal{N}(0, \lambda^{-1} \sigma^2 I)$$
+
+### Connection to PCA
+
+Ridge regression shrinks coefficients more in directions of low variance (small eigenvalues of $X^TX$).
+
+**Intuition**: Directions with little data support get regularized more heavily.
+
+---
+
+## Robust Regression
+
+### The Outlier Problem
+
+OLS is sensitive to outliers (squared error heavily penalizes large residuals).
+
+### Solutions
+
+1. **Student-t distribution**: Heavy tails don't penalize outliers as much
+   - Fit via EM algorithm
+   
+2. **Laplace distribution**: Corresponds to L1 loss (MAE)
+   - More robust than Gaussian
+
+3. **Huber Loss**: Best of both worlds
+   - L2 for small errors (smooth optimization)
+   - L1 for large errors (robustness)
+
+4. **RANSAC**: Iteratively identify and exclude outliers
+
+---
+
+## Lasso Regression (L1 Regularization)
+
+### The L1 Penalty
+
+$$L(w) = \text{RSS} + \lambda \|w\|_1 = \text{RSS} + \lambda \sum_j |w_j|$$
+
+### Sparsity!
+
+Unlike Ridge, Lasso can set coefficients exactly to zero.
+
+**Why?** Consider the Lagrangian view:
+- L2 constraint: $\|w\|^2 \leq B$ (sphere)
+- L1 constraint: $\|w\|_1 \leq B$ (diamond)
+
+The diamond has corners on the axes. The optimal solution often hits a corner, making some weights zero.
+
+### Regularization Path
+
+As λ decreases from ∞ to 0:
+- Weights "enter" the model one by one
+- Order of entry indicates relative importance
+- Use cross-validation to select optimal λ
+
+### Bayesian Interpretation
+
+Lasso = MAP with Laplace prior:
+$$p(w) \propto \exp(-\lambda |w|)$$
+
+---
+
+## Elastic Net
+
+### Combining L1 and L2
+
+$$L(w) = \text{RSS} + \lambda_1 \|w\|_1 + \lambda_2 \|w\|^2$$
+
+### Advantages
+
+- **Sparsity** from L1
+- **Grouping effect** from L2: Correlated features tend to get similar coefficients
+- More stable than pure Lasso
+
+---
+
+## Optimization: Coordinate Descent
+
+### The Algorithm
+
+For Lasso and Elastic Net:
+1. Initialize all weights
+2. For each coordinate j:
+   - Fix all other weights
+   - Optimize w_j (has closed-form solution!)
+3. Repeat until convergence
+
+**Why it works**: Each subproblem is easy, and cycling through converges to the global optimum for convex problems.
+
+---
+
+## Summary
+
+| Method | Penalty | Sparsity | Computation | Best For |
+|--------|---------|----------|-------------|----------|
+| **OLS** | None | No | Closed-form | Well-conditioned problems |
+| **Ridge** | L2 | No | Closed-form | Multicollinearity |
+| **Lasso** | L1 | Yes | Iterative | Feature selection |
+| **Elastic Net** | L1 + L2 | Yes | Iterative | Correlated features |
+
+### Practical Tips
+
+1. **Always visualize residuals** to check assumptions
+2. **Standardize features** before regularization
+3. **Use cross-validation** to choose λ
+4. **Start simple** (OLS), add complexity as needed
+5. **Lasso for interpretability** (sparse models)
+6. **Ridge for prediction** (usually slightly better than Lasso)

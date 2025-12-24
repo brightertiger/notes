@@ -1,99 +1,244 @@
-# Exemplar Methods
+# Exemplar-Based Methods
 
-- Non-parametric Models
-    - Keep the training data around
-    - Effective number of model parameters grow with |D|
+Exemplar methods (also called instance-based or memory-based) keep training data around and use it directly for prediction. The classic example is K-Nearest Neighbors (KNN).
 
-- Instance-based Learning
-    - Models keep training examples around test time
-    - Define similarity between training points and test input
-    - Assign the label based on the similarity
+## The Big Picture
 
-- KNN
-    - Classify the new input based on K closest examples in the training set
-    - $p(y = c | x, D) = \frac{1}{K} \sum_{i \in N_K(x)} I\{y_i=c\}$
-    - The closest point can be computed using Mahalanobis Distance
-    - $d_M(x,\mu) = \sqrt{(x-\mu)^TM(x-\mu)}$
-    - M is positive definite matrix
-    - If M = I, then distance reduces to Euclidean distance
+**Parametric models**: Learn parameters θ, discard training data at test time.
+- Parameters: Fixed, doesn't grow with data
 
-- Curse of Dimensionality
-    - Space volume grows exponentially with increase in dimension
-        - Suppose inputs are uniformly distributed
-        - As we move from square to cube, 10% edge covers less region
+**Non-parametric models**: Keep training data, use it directly.
+- Model complexity grows with data size
+- Can adapt to arbitrary complexity
 
-- Speed and Memory Requirements
-    - Finding K nearest neighbors slow
-    - KD Tree / LSH to speed up approximate neighbor calculation
-        - KD Tree:
-            - K dimensional binary search tree
-        - LSH: Similar objects go to same hash bucket
-            - Shingling, Minhash, LSH
+---
 
-- Open Set recognition
-    - New classes appear at test time
-        - Person Re-identification
-        - Novelty Detection
+## Instance-Based Learning
 
-- Learning Distance Matrix
-    - Treat M is the distance matrix as a parameter
-    - Large Margin Nearest Neighbors
-    - Find M such that
-        - $M = W^T W$ (Positive Definite)
-        - Similar points have minimum distance
-        - Dissimilar points are at least m units away (margin) 
+### The Approach
 
-- Deep Metric Learning
-    - Reduce the curse of dimensionality
-    - Project the input from high dimension space to lower dimension via embedding
-    - Normalize the embedding
-    - Compute the distance
-        - Euclidean or Cosine, both are related
-        - $||e_1 - e_2||^2 = ||e_1||^2 + ||e_2||^2 - 2(e_1 \cdot e_2)$
-        - For unit vectors: $||e_1 - e_2||^2 = 2(1 - \cos\theta)$
-        - $\cos \theta = {a \cdot b \over ||a|| \cdot ||b||}$
-        - Derivation via law of cosines: $\cos \theta = (a^2 + b^2 - c^2) / (2ab)$
-    - Learn an embedding function such that similar examples are close and dissimilar examples are far
-    - Loss functions:
-        - Classification Losses
-            - Only learn to push examples on correct side of the decision boundary
-        - Pairwise Loss
-            - Siamese Neural Network
-            - Common Backbone to embed the inputs
-            - $L(\theta, x_i, x_j) =  I \{y_i =y_j\} d(x_i, x_j) +  I \{y_i \ne y_j\} [m - d(x_i, x_j)]_+$
-            - If same class, minimize the distance
-            - If different class, maximize the distance with m margin (Hinge Loss)
-        - Triplet Loss
-            - In Pairwise Loss: positive and negative examples siloed
-            - $L(\theta, x_i, x^+, x^-) = [m + d(x_i, x_+) - d(x_i, x_-)]_+$
-            - Minimize the distance between anchor and positive
-            - Maximize the distance between anchor and negative
-            - m is the safety margin
-            - Need to mine hard negative examples that are close to the positive pairs
-            - Computationally slow
-            - Use proxies to represent each class and speed up the training
+1. Store training examples
+2. At test time, find similar training examples
+3. Predict based on their labels
 
-- Kernel Density Estimation
-    - Density Kernel
-        - Domain: R
-        - Range: R+
-        - $\int K(x)dx = 1$
-        - $K(-x) = K(x)$
-        - $\int x K(x-x_n) dx = x_n$
-    - Gaussian Kernel
-        - $K(x) = {1 \over \sqrt{2\pi}} \exp(-{1\over2}x^2)$
-        - RBF: Generalization to vector valued inputs
-    - Bandwidth
-        - Parameter to control the width of the kernel
-    - Density Estimation
-        - Extend the concept of Gaussian Mixture models to the extreme
-        - Each point acts as an individual cluster
-            - Mean $x_n$ 
-            - Constant variance
-            - No covariance
-            - Var-Cov matrix is $\sigma^2 I$
-            - $p(x|D) = {1 \over N}\sum K_h(x - x_n)$
-            - No model fitting is required
-    - KDE vs KNN
-        - KDE and KNN are closely related
-        - Essentially, in KNN we grow the volume around a point till we encounter K neighbors. 
+**Key ingredient**: A good **distance/similarity measure**.
+
+---
+
+## K-Nearest Neighbors (KNN)
+
+### Classification
+
+Find K closest training points; vote on the label:
+$$p(y = c | x, D) = \frac{1}{K} \sum_{i \in N_K(x)} I\{y_i = c\}$$
+
+**Hyperparameter K**:
+- K = 1: Highly flexible, noisy
+- K = N: Predicts majority class always
+- Typical: K = 5-10, or tune via cross-validation
+
+### Regression
+
+Average the labels of K nearest neighbors:
+$$\hat{y} = \frac{1}{K} \sum_{i \in N_K(x)} y_i$$
+
+### Distance Metrics
+
+**Euclidean distance**:
+$$d(x, x') = \|x - x'\|_2 = \sqrt{\sum_j (x_j - x'_j)^2}$$
+
+**Mahalanobis distance** (accounts for correlations):
+$$d_M(x, x') = \sqrt{(x - x')^T M (x - x')}$$
+
+Where M is a positive definite matrix (often $M = \Sigma^{-1}$).
+
+**If M = I**: Reduces to Euclidean distance.
+
+---
+
+## The Curse of Dimensionality
+
+### The Problem
+
+In high dimensions, distances become meaningless:
+- All points become approximately equidistant
+- Local neighborhoods become empty
+- Need exponentially more data to fill space
+
+### Example
+
+Consider the fraction of volume within 10% of the edges:
+- 1D: 20%
+- 10D: 89%
+- 100D: 99.99999...%
+
+Almost all points are near the boundary!
+
+### Solutions
+
+1. **Dimensionality reduction** (PCA, autoencoders)
+2. **Feature selection**
+3. **Metric learning** (learn a better distance)
+
+---
+
+## Computational Efficiency
+
+### Naive Approach
+
+For each query, compute distance to all N training points.
+- Time: O(Nd) per query
+- Infeasible for large datasets
+
+### Approximate Nearest Neighbors
+
+**KD-Trees**:
+- Binary tree that partitions space
+- O(log N) for low dimensions
+- Degrades in high dimensions
+
+**Locality-Sensitive Hashing (LSH)**:
+- Hash similar items to same bucket
+- Sublinear query time
+- Approximate, not exact
+
+---
+
+## Open Set Recognition
+
+**Standard classification**: All test classes seen during training.
+
+**Open set**: New, unseen classes may appear at test time.
+
+**KNN advantage**: Can handle novel classes naturally by looking at nearest neighbors.
+
+**Applications**:
+- Person re-identification
+- Anomaly detection
+- Few-shot learning
+
+---
+
+## Learning Distance Metrics
+
+### Motivation
+
+Euclidean distance may not reflect true similarity.
+
+**Goal**: Learn a distance metric M that captures task-relevant similarity.
+
+### Large Margin Nearest Neighbors (LMNN)
+
+Learn M such that:
+1. Points with same label are close
+2. Points with different labels are far (by margin m)
+
+**Constraint**: $M = W^T W$ ensures positive definiteness.
+
+---
+
+## Deep Metric Learning
+
+### The Idea
+
+Learn an embedding function $f(x; \theta)$ such that:
+- Similar examples are close in embedding space
+- Dissimilar examples are far
+
+### Siamese Networks
+
+Two copies of same network process two inputs.
+
+**Contrastive Loss**:
+$$L = I\{y_i = y_j\} \cdot d(x_i, x_j)^2 + I\{y_i \neq y_j\} \cdot [m - d(x_i, x_j)]_+^2$$
+
+- Same class: Minimize distance
+- Different class: Push apart (up to margin m)
+
+### Triplet Loss
+
+Use triplets: (anchor, positive, negative)
+
+$$L = [m + d(a, p) - d(a, n)]_+$$
+
+**Goal**: Anchor should be closer to positive than negative by margin m.
+
+### Hard Negative Mining
+
+Random negatives are too easy (already far from anchor).
+
+**Solution**: Sample hard negatives that are close to anchor but from different class.
+
+### Connection to Cosine Similarity
+
+For normalized embeddings:
+$$\|e_1 - e_2\|^2 = 2(1 - \cos\theta)$$
+
+Euclidean distance and cosine similarity are equivalent for unit vectors.
+
+---
+
+## Kernel Density Estimation
+
+### The Idea
+
+Estimate the probability density by placing kernels at each data point:
+$$\hat{p}(x) = \frac{1}{N} \sum_{n=1}^N K_h(x - x_n)$$
+
+**Gaussian kernel**:
+$$K_h(x) = \frac{1}{h\sqrt{2\pi}} \exp\left(-\frac{x^2}{2h^2}\right)$$
+
+### Bandwidth h
+
+Controls smoothness:
+- Small h: Spiky, overfitting
+- Large h: Over-smooth, underfitting
+
+Choose via cross-validation.
+
+### Connection to GMM
+
+KDE is like a GMM where:
+- Each point is its own cluster center
+- All clusters have same (spherical) covariance
+- No mixing proportions to learn
+
+### KDE for Classification
+
+Use Bayes rule with class-conditional densities:
+$$p(y = c | x) \propto \pi_c \cdot \hat{p}(x | y = c)$$
+
+---
+
+## KDE vs KNN
+
+**Connection**: Both use local neighborhoods.
+
+- **KDE**: Fixed bandwidth, variable number of neighbors
+- **KNN**: Variable bandwidth (grows until K neighbors), fixed number of neighbors
+
+**Dual view**: KNN adapts to local density automatically.
+
+---
+
+## Summary
+
+| Method | Key Idea | Pros | Cons |
+|--------|----------|------|------|
+| **KNN** | Vote of K nearest neighbors | Simple, no training | Slow at test time |
+| **Metric Learning** | Learn task-specific distance | Better than Euclidean | Requires labeled pairs |
+| **Deep Metric** | Embed + distance | Handles high dimensions | Needs lots of data |
+| **KDE** | Kernels at each point | Density estimation | Curse of dimensionality |
+
+### When to Use Exemplar Methods
+
+**Good for**:
+- Few training examples per class (few-shot learning)
+- Classes change over time (no retraining needed)
+- Interpretable predictions ("similar to example X")
+- Baseline before trying complex methods
+
+**Challenges**:
+- High-dimensional data (curse of dimensionality)
+- Large training sets (computational cost)
+- Need good distance metric
