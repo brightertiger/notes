@@ -132,7 +132,7 @@
 <li>Data has too many features (n &lt;&lt; p)</li>
 <li>Data volume required for good generalization grows exponentially</li>
 <li>Same edge (say 10) square and cube<ul>
-<li>1x1 patch covers 1% area in quare</li>
+<li>1x1 patch covers 1% area in square</li>
 <li>1x1x1 patch covers 0.1% volume in cube</li>
 </ul>
 </li>
@@ -258,9 +258,9 @@
 </ul>
 <h2 id="stochastic-neighbour-embedding-sne">Stochastic Neighbour Embedding (SNE)</h2>
 <ul>
-<li>Unsupervised Non-parametric Mehtod for dimensionality reduction</li>
+<li>Unsupervised Non-parametric Method for dimensionality reduction</li>
 <li>Manifold is a topological space which is locally Euclidean<ul>
-<li>Eath is a 2D surface embedded in a 3D space</li>
+<li>Earth is a 2D surface embedded in a 3D space</li>
 <li>High-dimensional data can lie in a low dimenison manifold</li>
 </ul>
 </li>
@@ -288,7 +288,7 @@
 <li>$p$ and $q$ are probability distributions. KL Divergence will capture the distance between them</li>
 <li>$L = KL(p||q) = \sum_i\sum_j p_{i|j}\log({p_{i|j} \over q_{i|j}})$<ul>
 <li>If p is high and q is low, the penalty is high</li>
-<li>Points were neighbours in high dimension but not in lo dimension</li>
+<li>Points were neighbours in high dimension but not in low dimension</li>
 <li>If p is low and q is high, the penalty is low</li>
 <li>Unrelated points are pushed closer now</li>
 </ul>
@@ -316,7 +316,7 @@
 <li>Gaussian Kernel pushes moderately far away points in high dimension close together in low dimension (squared errors)</li>
 <li>Replace it with t-distribution that has fatter tails (probability goes to 0 slowly)<ul>
 <li>The fatter tails allow dissimilar points to be far apart in lower dimension as well</li>
-<li>Removes unwanted attractive forces between points that are modelrately far in high dimension</li>
+<li>Removes unwanted attractive forces between points that are moderately far in high dimension</li>
 </ul>
 </li>
 <li>$q_{j|i} \propto (1+{|| z_i - z_j||^2})^{-1}$</li>

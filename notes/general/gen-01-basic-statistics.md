@@ -138,7 +138,7 @@
 ## Significance Test
 
 -   Hypothesis is a statement about the population
--   Significance test uses data to summerize evidence about the hypothesis
+-   Significance test uses data to summarize evidence about the hypothesis
 -   Five Parts:
     1.  Assumptions
         -   Type of data
@@ -253,7 +253,7 @@
 
 ## Association between Categorical Variables
 
--   Variables are statisitcally independent if population conditional distributions match the category conditional distribution
+-   Variables are statistically independent if population conditional distributions match the category conditional distribution
 -   Chi-Square Test
     -   Calculate Expected Frequencies
     -   (row total \* column total) / total observations

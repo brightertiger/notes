@@ -118,7 +118,7 @@
     - The inverse of the CDF is called the probit function.
     - The derivative of the CFD gives the pdf of normal distribution
     - Mean, Median and Mode of gaussian is $\mu$
-    - Variance of Gaussian is $\sigma$
+    - Variance of Gaussian is $\sigma^2$
     - Linear Regression uses conditional gaussian distribution
         - $p(y | x, \theta) = \mathcal N(y | f_\mu(x, \theta); f_\sigma(x, \theta))$
         - if variance does not depend on x, the model is homoscedastic. 

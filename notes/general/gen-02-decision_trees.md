@@ -4,7 +4,7 @@
 
 -   Recursively split the input / feature space using stubs i.e. decision rules
     -   Splits are parallel to the axis
--   Mathematical Represenation
+-   Mathematical Representation
     -   $R_j = \{ x : d_1 <= t_1, d_2 >= t_2 ... \}$\
     -   $\hat Y_i = \sum_j w_j I\{x_i \in R_j\}$
     -   $w_j = \frac{\sum_i y_i I \{x_i \in R_j\}}{\sum_i I \{x_i \in R_j\}}$
@@ -32,14 +32,14 @@
         -   $1 - \sum_C p_{i}^2$
         -   Ranges from (0, 0.5)
     -   Entropy Criterion
-        -   Measure of uncertainly of a random variable
+        -   Measure of uncertainty of a random variable
         -   Given an event E
             -   p(E) = 1 $\implies$ No Surprise
             -   p(E) = 0 $\implies$ Huge Surprise
             -   Informaion Content: $I(E) = \log(1 / p(E))$
         -   Entropy is the expectation of this information content
             -   $H(E) = - \sum p(E) \log(p(E))$
-            -   Maximum when all outcomes have same probability of occurance
+            -   Maximum when all outcomes have same probability of occurrence
         -   Ranges from (0, 1)
 -   Split Criteria for Regression Trees
     -   Sum-Squared Error
@@ -66,12 +66,12 @@
     -   Measures ability of an ML algorithm to model true relationship between features and target
     -   Simplifying assumptions made by the model to learn the relationship
         - Example: Linear vs Parabolic relationship
-    -   Low Bias: Less restrictive assupmtions
+    -   Low Bias: Less restrictive assumptions
     -   High Bias: More restrictive assumptions
 - Variance
     - The difference in model performance across different datasets drawn from the same distribution
-    -   Low Variance: Small changes to model perforamance with changes in datasets
-    -   High Variance: Large changes to model perforamance with changes in datasets
+    -   Low Variance: Small changes to model performance with changes in datasets
+    -   High Variance: Large changes to model performance with changes in datasets
 -   Irreducible Error
     -   Bayes error
     -   Cannot be reduced irrespective of the model form
@@ -81,18 +81,18 @@
     -   Noisy Samples
     -   Small data samples in nodes down the tree
     -   Tree Pruning solves for overfitting
-        -   Adding a cost term to objetive which captures tree complexity
+        -   Adding a cost term to objective which captures tree complexity
         -   $\text{Tree Score} = SSR + \alpha T$
         -   As the tree grows in size, the reduction in SSR has to more than offset the complexity cost
 
 ## Nature of Decision Trees
 
--   Decision Trees can model non-linear relationships (complex deicison boundaries)
+-   Decision Trees can model non-linear relationships (complex decision boundaries)
 -   Spline regressions cannot achieve the same results
     -   Spline adds indicator variables to capture interactions and create kinks
     -   But the decision boundary has to be continuous
     -   The same restriction doesn't apply to decision trees
--   Decision Trees don't require feature sscaling
+-   Decision Trees don't require feature scaling
 -   Decision Trees are less sensitive to outliers
     -   Outliers are of various kinds:
         -   Outliers: Points with extreme values
@@ -125,7 +125,7 @@
 -   Comparison to single decision tree
     -   Bias remains the same
     -   Variance decreases
-    -   Randomness in data and slpits reduces the correlation in prediction across trees
+    -   Randomness in data and splits reduces the correlation in prediction across trees
     -   Let $\hat y_i$ be the prediction from ith tree in the forest
     -   Let $\sigma^2$ be the variance of $\hat y_i$
     -   Let $\rho$ be the correlation between two trees in the forest
@@ -138,7 +138,7 @@
     -   Averaging for Regression
 -   Out-of-bag (OOB) Error
     -   Use the non-selected rows in bagging to estimate model performance
-    -   Comparable to cross-validaiton results
+    -   Comparable to cross-validation results
 -   Proximity Matrix
     -   Use OOB observations
     -   Count the number of times each pair goes to the same terminal node
@@ -166,9 +166,9 @@
     -   Use OOB samples to calculate variable importance
     -   Take bth tree:
         -   Pass the OOB samples and calculate accuracy
-        -   Permuate jth variable and calculate the decrease in accuracy
+        -   Permute jth variable and calculate the decrease in accuracy
     -   Average this decrease in accuracy across all trees to calculate variable importance for j
-    -   Effect is simialr to setting the coefficient to 0 in regression
+    -   Effect is similar to setting the coefficient to 0 in regression
     -   Takes into account if good surrogates are present in the dataset
 -   Partial Dependence Plots
     -   Marginal effect of of a feature on target
@@ -179,8 +179,8 @@
     -   Can be used to identify important interactions
         -   Friedman's H Statistic
         -   If features don't interact Joint PDP can be decomposed into marginals
--   Shapely Values
-    -   Model agnositc feature importance
+-   Shapley Values
+    -   Model agnostic feature importance
 -   LIME 
 
 ## Handling Categorical Variables
@@ -199,7 +199,7 @@
     -   Noisy Samples
     -   Small data samples in nodes down the tree
     -   Tree Pruning solves for overfitting
-        -   Adding a cost term to objetive which captures tree complexity
+        -   Adding a cost term to objective which captures tree complexity
         -   $\text{Tree Score} = SSR + \alpha T$
         -   As the tree grows in size, the reduction in SSR has to more than offset the complexity cost
 -   Pre-pruning vs. Post-pruning:

@@ -3,7 +3,7 @@
 ## Overview
 
 -   Combine multiple rules of thumb to make an accurate and informed decision
-    -   Bagging: Models are buit in parallel on different data subsets
+    -   Bagging: Models are built in parallel on different data subsets
     -   Boosting: Models are built in sequence with modified different samples weights
         -   $F(x_i) = \sum_m \alpha_m f_m(x_i)$
         -   $f_m$ and $\alpha_m$ are fit jointly
@@ -28,11 +28,11 @@
     -   Contruct many hypothesis (more than three)
     -   The importance/weight of each new hypotheses added "adapts" or changes
         -   $\alpha_m = \frac{1}{2}\log\lbrack \frac{1-\epsilon_m}{\epsilon_m} \rbrack$
-        -   $\epsilon_m$ si the weighted classification error
+        -   $\epsilon_m$ is the weighted classification error
     -   Every sample has a weight associated while constructing a weak hypothesis
         -   Exponential Weighting scheme
-        -   Correctly Classifier: $w_i = w_i \times \exp^{\alpha}$
-        -   Incorrectly Classifier: $w_i = w_i \times \exp^{-\alpha}$
+        -   Correctly Classified: $w_i = w_i \times \exp^{\alpha}$
+        -   Incorrectly Classified: $w_i = w_i \times \exp^{-\alpha}$
     -   Underfitting: Not enough hypothesis added to ensemble
     -   Overfitting: Not using weak learners as hypothesis
 -   Gradient Boosting

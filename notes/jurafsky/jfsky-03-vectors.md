@@ -75,7 +75,7 @@
     -   Each word vector has |D| dimensions
     -   Each cell is weighted using TF-IDF logic
 -   Document Vector
-    -   Average of all word vecotrs appearing in the document
+    -   Average of all word vectors appearing in the document
     -   Similarity is calculated by cosine distance
 
 ## Word2Vec

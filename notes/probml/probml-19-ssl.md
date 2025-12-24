@@ -30,7 +30,7 @@
         -   Use unlabeled dataset
         -   Minimize reconstruction error
     -   Self-supervised
-        -   Labels are created from ulabeled dataset algorithmically
+        -   Labels are created from unlabeled dataset algorithmically
         -   Cloze Task
             -   Fill in the blanks
         -   Proxy Tasks
@@ -83,7 +83,7 @@
         -   Class labels are assigned to unlabeled data, based on the cluster distribution
         -   Model Labels: Labels of the data points
         -   Propagate the labels in such a way that there is minimal label disagreement between node and it's neighbours
-        -   Label guesses for unlabeled data that can be used for superised learning
+        -   Label guesses for unlabeled data that can be used for supervised learning
         -   Details:
             -   M labeled points, N unlabeled points
             -   T: (M+N) x (M+N) transition matrix of normalized edge weights
@@ -99,29 +99,29 @@
         -   First sample: $z \sim p(z)$ and then sample $x\sim p(x|z)$
         -   Encoder: Approximate the posterior
         -   Decoder: Approximate the likelihood
-        -   Maximize evidence lower bound of the data (ELBO) (derived from Jensen's ineuqlity)
+        -   Maximize evidence lower bound of the data (ELBO) (derived from Jensen's inequality)
         -   Use VAEs to learn representations for downstream tasks
-    -   Generative Adversarial Netwworks
+    -   Generative Adversarial Networks
         -   Generator: Maps latent distribution to data space
         -   Discriminator: Distinguish between outputs of generator and true distribution
         -   Modify discriminator to predict class labels and fake rather than just fake
 -   Active Learning
-    -   Identify true predictive mapping by quering as few data points as possible
+    -   Identify true predictive mapping by querying as few data points as possible
     -   Query Synthesis: Model asks output for any input
-    -   Pool Based: Model selects the data point from a pool of ulabeled data points
+    -   Pool Based: Model selects the data point from a pool of unlabeled data points
     -   Maximum Entropy Sampling
         -   Uncertainty in predicted label
         -   Fails when examples are ambiguous of mislabeled
     -   Bayesian Active Learning by Disagreement (BALD)
-        -   Select examples where model makes predictions tht are highly diverese
+        -   Select examples where model makes predictions that are highly diverse
 -   Few-Shot Learning
     -   Learn to predict from very few labeled example
     -   One-Shot Learning: Learn to predict from single example
-    -   Zero-Shot Lerning: Learn to predict without labeled examples
+    -   Zero-Shot Learning: Learn to predict without labeled examples
     -   Model has to generalize for unseen labels during traning time
     -   Works by learning a distance metric
 -   Weak Supervision
-    -   Exact label not aviabale for data points
+    -   Exact label not available for data points
     -   Distribution of labels for each case
     -   Soft labels / label smoothing 
 

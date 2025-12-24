@@ -168,7 +168,7 @@
 </ul>
 </li>
 <li>Self-supervised<ul>
-<li>Labels are created from ulabeled dataset algorithmically</li>
+<li>Labels are created from unlabeled dataset algorithmically</li>
 <li>Cloze Task<ul>
 <li>Fill in the blanks</li>
 </ul>
@@ -251,7 +251,7 @@
 <li>Class labels are assigned to unlabeled data, based on the cluster distribution</li>
 <li>Model Labels: Labels of the data points</li>
 <li>Propagate the labels in such a way that there is minimal label disagreement between node and it&#39;s neighbours</li>
-<li>Label guesses for unlabeled data that can be used for superised learning</li>
+<li>Label guesses for unlabeled data that can be used for supervised learning</li>
 <li>Details:<ul>
 <li>M labeled points, N unlabeled points</li>
 <li>T: (M+N) x (M+N) transition matrix of normalized edge weights</li>
@@ -276,11 +276,11 @@
 <li>First sample: $z \sim p(z)$ and then sample $x\sim p(x|z)$</li>
 <li>Encoder: Approximate the posterior</li>
 <li>Decoder: Approximate the likelihood</li>
-<li>Maximize evidence lower bound of the data (ELBO) (derived from Jensen&#39;s ineuqlity)</li>
+<li>Maximize evidence lower bound of the data (ELBO) (derived from Jensen&#39;s inequality)</li>
 <li>Use VAEs to learn representations for downstream tasks</li>
 </ul>
 </li>
-<li>Generative Adversarial Netwworks<ul>
+<li>Generative Adversarial Networks<ul>
 <li>Generator: Maps latent distribution to data space</li>
 <li>Discriminator: Distinguish between outputs of generator and true distribution</li>
 <li>Modify discriminator to predict class labels and fake rather than just fake</li>
@@ -290,16 +290,16 @@
 </li>
 <li><p>Active Learning</p>
 <ul>
-<li>Identify true predictive mapping by quering as few data points as possible</li>
+<li>Identify true predictive mapping by querying as few data points as possible</li>
 <li>Query Synthesis: Model asks output for any input</li>
-<li>Pool Based: Model selects the data point from a pool of ulabeled data points</li>
+<li>Pool Based: Model selects the data point from a pool of unlabeled data points</li>
 <li>Maximum Entropy Sampling<ul>
 <li>Uncertainty in predicted label</li>
 <li>Fails when examples are ambiguous of mislabeled</li>
 </ul>
 </li>
 <li>Bayesian Active Learning by Disagreement (BALD)<ul>
-<li>Select examples where model makes predictions tht are highly diverese</li>
+<li>Select examples where model makes predictions that are highly diverse</li>
 </ul>
 </li>
 </ul>
@@ -308,14 +308,14 @@
 <ul>
 <li>Learn to predict from very few labeled example</li>
 <li>One-Shot Learning: Learn to predict from single example</li>
-<li>Zero-Shot Lerning: Learn to predict without labeled examples</li>
+<li>Zero-Shot Learning: Learn to predict without labeled examples</li>
 <li>Model has to generalize for unseen labels during traning time</li>
 <li>Works by learning a distance metric</li>
 </ul>
 </li>
 <li><p>Weak Supervision</p>
 <ul>
-<li>Exact label not aviabale for data points</li>
+<li>Exact label not available for data points</li>
 <li>Distribution of labels for each case</li>
 <li>Soft labels / label smoothing</li>
 </ul>

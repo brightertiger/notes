@@ -101,8 +101,8 @@
 - Calibration
   - Property that predicted certainty of events match the frequency of their occurrence
   - Reliability Diagrams
-      - x-asis: Predicted Probability
-      - y-asis: Actual Probability
+      - x-axis: Predicted Probability
+      - y-axis: Actual Probability
 
 - Bayes Model Selection and Averaging
   - Bayesian approach to model selection

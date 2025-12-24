@@ -147,7 +147,7 @@
 </ul>
 <h2 id="tree-based-methods">Tree-based Methods</h2>
 <ul>
-<li>Partition the feature space into rectangels and fit a simple model in each partition</li>
+<li>Partition the feature space into rectangles and fit a simple model in each partition</li>
 <li>Regression Setting</li>
 <li>$f(X) = \sum c_i I{X \in R_i}$</li>
 <li>$c_m = ave(y_i | X_i \in R_m)$</li>
@@ -164,7 +164,7 @@
 </ul>
 </li>
 <li>Option 2<ul>
-<li>Grow the tree to full saize (say depth 5)</li>
+<li>Grow the tree to full size (say depth 5)</li>
 <li>$N_m$ # of observations in m&#39;th node</li>
 <li>$C_m = \sum y_i / N_m$</li>
 <li>$Q_m = {1 \over N_m }\sum (y_i - C_m)^2$</li>
@@ -180,7 +180,7 @@
 <li>Splitting Criteria<ul>
 <li>Miss-classification Error: $1 - \hat p_{mk}$</li>
 <li>Gini Index: $\sum_K p_{mk}(1 - \hat p_{mk})$<ul>
-<li>Probability of miscalssification</li>
+<li>Probability of misclassification</li>
 <li>Variance of Binomial Distribution</li>
 </ul>
 </li>
@@ -204,11 +204,11 @@
 </ul>
 </li>
 <li>Evaluation<ul>
-<li>$L_{xy} =$ Loss for predicting class x obkect as k</li>
+<li>$L_{xy} =$ Loss for predicting class x object as k</li>
 <li>$L_{00}, L_{11} = 0$</li>
 <li>$L_{10} =$ False Negative</li>
 <li>$L_{01} =$ False Positive</li>
-<li>Sentitivity:<ul>
+<li>Sensitivity:<ul>
 <li>Prediciting disease as disease (Recall)</li>
 <li>TP / TP + FN</li>
 <li>$L_{11} / (L_{11} + L_{10})$</li>
@@ -223,7 +223,7 @@
 </ul>
 </li>
 <li>AUC-ROC<ul>
-<li>How Sentitivity (y) and Specificty (x) vary with thresholds</li>
+<li>How Sensitivity (y) and Specificity (x) vary with thresholds</li>
 <li>Area under ROC Curve is the C-statistic</li>
 <li>Equivalent to Mann-Whitney U Test, Wilcoxin rank-sum test</li>
 <li>Median Difference in prediction scores for two groups</li>
@@ -234,7 +234,7 @@
 <li>MARS<ul>
 <li>High dimension regression</li>
 <li>Piece-wise Linear basis Functions</li>
-<li>Analogous to deision tree splits</li>
+<li>Analogous to decision tree splits</li>
 <li>Can handle interactions</li>
 </ul>
 </li>

@@ -6,11 +6,11 @@
 ## Hierarchical Agglomerative Clustering
 
 -   At each step, merge the two most similar groups
--   Keep giong unit there is a single group left
+-   Keep going until there is a single group left
 -   Similarity between groups
     -   Single Link: Distance between the two closest members of each group
     -   Complete Link: Distance between the two farthest members of each group
-    -   Average Link: Average Diatnace between all pairs
+    -   Average Link: Average Distance between all pairs
 
 ## K-Means Clustering
 
@@ -30,7 +30,7 @@
     -   Pick centers sequentially to cover the data
     -   Pick initial points randomly
     -   For subsequent rounds, initialize with points picked with probability proportional to the distance from it's cluster center
-    -   Points far away from the cluster center are morelikely to picked in subsequent iterations
+    -   Points far away from the cluster center are more likely to be picked in subsequent iterations
 -   K-Medoids Algorithm
     -   More robust to outliers
     -   Dont update the cluster center with mean
@@ -44,10 +44,10 @@
     -   Minimize Distortion
         -   Use a validation dataset
         -   Select the parameter that minimizes distortion on validation
-        -   But usually it descreases monotonically with number of clusters
+        -   But usually it decreases monotonically with number of clusters
     -   Elbow method
         -   Rate at which distortion goes down with number of clusters
-    -   Silhoutte Coefficient
+    -   Silhouette Coefficient
         -   How similar object is to it's own cluster compared to other clusters
         -   Measures Compactness
         -   Given data point i

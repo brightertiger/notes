@@ -133,11 +133,11 @@
 <h2 id="hierarchical-agglomerative-clustering">Hierarchical Agglomerative Clustering</h2>
 <ul>
 <li>At each step, merge the two most similar groups</li>
-<li>Keep giong unit there is a single group left</li>
+<li>Keep going until there is a single group left</li>
 <li>Similarity between groups<ul>
 <li>Single Link: Distance between the two closest members of each group</li>
 <li>Complete Link: Distance between the two farthest members of each group</li>
-<li>Average Link: Average Diatnace between all pairs</li>
+<li>Average Link: Average Distance between all pairs</li>
 </ul>
 </li>
 </ul>
@@ -173,7 +173,7 @@
 <li>Pick centers sequentially to cover the data</li>
 <li>Pick initial points randomly</li>
 <li>For subsequent rounds, initialize with points picked with probability proportional to the distance from it&#39;s cluster center</li>
-<li>Points far away from the cluster center are morelikely to picked in subsequent iterations</li>
+<li>Points far away from the cluster center are more likely to be picked in subsequent iterations</li>
 </ul>
 </li>
 <li><p>K-Medoids Algorithm</p>
@@ -195,14 +195,14 @@
 <li>Minimize Distortion<ul>
 <li>Use a validation dataset</li>
 <li>Select the parameter that minimizes distortion on validation</li>
-<li>But usually it descreases monotonically with number of clusters</li>
+<li>But usually it decreases monotonically with number of clusters</li>
 </ul>
 </li>
 <li>Elbow method<ul>
 <li>Rate at which distortion goes down with number of clusters</li>
 </ul>
 </li>
-<li>Silhoutte Coefficient<ul>
+<li>Silhouette Coefficient<ul>
 <li>How similar object is to it&#39;s own cluster compared to other clusters</li>
 <li>Measures Compactness</li>
 <li>Given data point i<ul>

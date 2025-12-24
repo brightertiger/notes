@@ -93,7 +93,7 @@
 -   Output Value of Tree
     -   $\sum r_i / (\sum{p_i (1-p_i)} + \lambda)$
 -   Output Value of Ensemble
-    -   Intial prediction
+    -   Initial prediction
         -   Simple average of target\
         -   Convert the value to log(odds)
     -   Initial Prediction + $\eta$ Output Value of 1st Tree ....
@@ -106,13 +106,13 @@
     -   Finding splits faster
     -   Histogram based splits by bucketing the variables
 -   Quantile Sketch Algorithm
-    -   Approximately calculate the quantiles parallely
+    -   Approximately calculate the quantiles in parallel
     -   Quantiles are weighted by cover / hessian\
 -   Sparsity Aware Split Finding
     -   Calculate the split based on known data values of the variable
     -   For missing data:
-        -   Send the observations to left node and calcluate the Gain
-        -   Send the observations to right node and calcluate the Gain
+        -   Send the observations to left node and calculate the Gain
+        -   Send the observations to right node and calculate the Gain
     -   Evaluate which path gives maximum Gain
 -   Cache Aware Access
     -   Stores gradients and hessians in Cache
@@ -133,7 +133,7 @@
     -   Leaf-wise tree growth
 -   CatBoost
     -   Minimum Variance Sampling
-    -   Superior encoding technniques for categorical variables
+    -   Superior encoding techniques for categorical variables
         -   Target encoding
     -   Symmetric tree growth 
 

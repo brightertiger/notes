@@ -102,7 +102,7 @@
 
 - Common Architectures
     - ResNet
-        - Uses residula blocks to learn small perturbation in inputs
+        - Uses residual blocks to learn small perturbation in inputs
         - Residual Block: conv:BN:ReLU:conv:BN
         - Use padding, 1x1 convolution to ensure that additive operation is valid
     - DenseNet
@@ -112,7 +112,7 @@
     - Neural Architecture Search
         - EfficeintNetV2
 
-- Adversarial Exmaples
+- Adversarial Examples
     - White-Box Attacks
         - Gradient Free
         - Add small perturbation to input that changes the prediction from classifier

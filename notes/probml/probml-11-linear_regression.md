@@ -62,7 +62,7 @@
         - Using Laplace Distribution which is robust to outliers
         - Using Huber Loss
             - L2 loss for small errors
-            - L1 loss for large erros
+            - L1 loss for large errors
             - Loss function is differentiable
         - RANSAC
             - Random Sample Concensus

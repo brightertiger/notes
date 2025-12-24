@@ -132,7 +132,7 @@
 <li>Splits are parallel to the axis</li>
 </ul>
 </li>
-<li>Mathematical Represenation<ul>
+<li>Mathematical Representation<ul>
 <li>$R_j = { x : d_1 &lt;= t_1, d_2 &gt;= t_2 ... }$\</li>
 <li>$\hat Y_i = \sum_j w_j I{x_i \in R_j}$</li>
 <li>$w_j = \frac{\sum_i y_i I {x_i \in R_j}}{\sum_i I {x_i \in R_j}}$</li>
@@ -172,7 +172,7 @@
 </ul>
 </li>
 <li>Entropy Criterion<ul>
-<li>Measure of uncertainly of a random variable</li>
+<li>Measure of uncertainty of a random variable</li>
 <li>Given an event E<ul>
 <li>p(E) = 1 $\implies$ No Surprise</li>
 <li>p(E) = 0 $\implies$ Huge Surprise</li>
@@ -181,7 +181,7 @@
 </li>
 <li>Entropy is the expectation of this information content<ul>
 <li>$H(E) = - \sum p(E) \log(p(E))$</li>
-<li>Maximum when all outcomes have same probability of occurance</li>
+<li>Maximum when all outcomes have same probability of occurrence</li>
 </ul>
 </li>
 <li>Ranges from (0, 1)</li>
@@ -231,14 +231,14 @@
 <li>Example: Linear vs Parabolic relationship</li>
 </ul>
 </li>
-<li>Low Bias: Less restrictive assupmtions</li>
+<li>Low Bias: Less restrictive assumptions</li>
 <li>High Bias: More restrictive assumptions</li>
 </ul>
 </li>
 <li>Variance<ul>
 <li>The difference in model performance across different datasets drawn from the same distribution</li>
-<li>Low Variance: Small changes to model perforamance with changes in datasets</li>
-<li>High Variance: Large changes to model perforamance with changes in datasets</li>
+<li>Low Variance: Small changes to model performance with changes in datasets</li>
+<li>High Variance: Large changes to model performance with changes in datasets</li>
 </ul>
 </li>
 <li>Irreducible Error<ul>
@@ -252,7 +252,7 @@
 <li>Noisy Samples</li>
 <li>Small data samples in nodes down the tree</li>
 <li>Tree Pruning solves for overfitting<ul>
-<li>Adding a cost term to objetive which captures tree complexity</li>
+<li>Adding a cost term to objective which captures tree complexity</li>
 <li>$\text{Tree Score} = SSR + \alpha T$</li>
 <li>As the tree grows in size, the reduction in SSR has to more than offset the complexity cost</li>
 </ul>
@@ -262,14 +262,14 @@
 </ul>
 <h2 id="nature-of-decision-trees">Nature of Decision Trees</h2>
 <ul>
-<li>Decision Trees can model non-linear relationships (complex deicison boundaries)</li>
+<li>Decision Trees can model non-linear relationships (complex decision boundaries)</li>
 <li>Spline regressions cannot achieve the same results<ul>
 <li>Spline adds indicator variables to capture interactions and create kinks</li>
 <li>But the decision boundary has to be continuous</li>
 <li>The same restriction doesn&#39;t apply to decision trees</li>
 </ul>
 </li>
-<li>Decision Trees don&#39;t require feature sscaling</li>
+<li>Decision Trees don&#39;t require feature scaling</li>
 <li>Decision Trees are less sensitive to outliers<ul>
 <li>Outliers are of various kinds:<ul>
 <li>Outliers: Points with extreme values<ul>
@@ -320,7 +320,7 @@
 <li>Comparison to single decision tree<ul>
 <li>Bias remains the same</li>
 <li>Variance decreases</li>
-<li>Randomness in data and slpits reduces the correlation in prediction across trees</li>
+<li>Randomness in data and splits reduces the correlation in prediction across trees</li>
 <li>Let $\hat y_i$ be the prediction from ith tree in the forest</li>
 <li>Let $\sigma^2$ be the variance of $\hat y_i$</li>
 <li>Let $\rho$ be the correlation between two trees in the forest</li>
@@ -337,7 +337,7 @@
 </li>
 <li>Out-of-bag (OOB) Error<ul>
 <li>Use the non-selected rows in bagging to estimate model performance</li>
-<li>Comparable to cross-validaiton results</li>
+<li>Comparable to cross-validation results</li>
 </ul>
 </li>
 <li>Proximity Matrix<ul>
@@ -377,11 +377,11 @@
 <li>Use OOB samples to calculate variable importance</li>
 <li>Take bth tree:<ul>
 <li>Pass the OOB samples and calculate accuracy</li>
-<li>Permuate jth variable and calculate the decrease in accuracy</li>
+<li>Permute jth variable and calculate the decrease in accuracy</li>
 </ul>
 </li>
 <li>Average this decrease in accuracy across all trees to calculate variable importance for j</li>
-<li>Effect is simialr to setting the coefficient to 0 in regression</li>
+<li>Effect is similar to setting the coefficient to 0 in regression</li>
 <li>Takes into account if good surrogates are present in the dataset</li>
 </ul>
 </li>
@@ -398,8 +398,8 @@
 </li>
 </ul>
 </li>
-<li>Shapely Values<ul>
-<li>Model agnositc feature importance</li>
+<li>Shapley Values<ul>
+<li>Model agnostic feature importance</li>
 </ul>
 </li>
 <li>LIME</li>
@@ -424,7 +424,7 @@
 <li>Noisy Samples</li>
 <li>Small data samples in nodes down the tree</li>
 <li>Tree Pruning solves for overfitting<ul>
-<li>Adding a cost term to objetive which captures tree complexity</li>
+<li>Adding a cost term to objective which captures tree complexity</li>
 <li>$\text{Tree Score} = SSR + \alpha T$</li>
 <li>As the tree grows in size, the reduction in SSR has to more than offset the complexity cost</li>
 </ul>

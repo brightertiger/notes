@@ -129,7 +129,7 @@
 <h2 id="overview">Overview</h2>
 <ul>
 <li>Combine multiple rules of thumb to make an accurate and informed decision<ul>
-<li>Bagging: Models are buit in parallel on different data subsets</li>
+<li>Bagging: Models are built in parallel on different data subsets</li>
 <li>Boosting: Models are built in sequence with modified different samples weights<ul>
 <li>$F(x_i) = \sum_m \alpha_m f_m(x_i)$</li>
 <li>$f_m$ and $\alpha_m$ are fit jointly</li>
@@ -164,13 +164,13 @@
 <li>Contruct many hypothesis (more than three)</li>
 <li>The importance/weight of each new hypotheses added &quot;adapts&quot; or changes<ul>
 <li>$\alpha_m = \frac{1}{2}\log\lbrack \frac{1-\epsilon_m}{\epsilon_m} \rbrack$</li>
-<li>$\epsilon_m$ si the weighted classification error</li>
+<li>$\epsilon_m$ is the weighted classification error</li>
 </ul>
 </li>
 <li>Every sample has a weight associated while constructing a weak hypothesis<ul>
 <li>Exponential Weighting scheme</li>
-<li>Correctly Classifier: $w_i = w_i \times \exp^{\alpha}$</li>
-<li>Incorrectly Classifier: $w_i = w_i \times \exp^{-\alpha}$</li>
+<li>Correctly Classified: $w_i = w_i \times \exp^{\alpha}$</li>
+<li>Incorrectly Classified: $w_i = w_i \times \exp^{-\alpha}$</li>
 </ul>
 </li>
 <li>Underfitting: Not enough hypothesis added to ensemble</li>

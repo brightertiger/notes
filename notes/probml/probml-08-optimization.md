@@ -9,8 +9,8 @@
     - Hessian $H(\theta) = \nabla^2 L(\theta)$ is positive definite
 - Unconstrained Optimization: Finding any value in parameter space that minimizes the loss
 - Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in \{\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E \}$
-    - I is the set of ineuqliaty constraints
-    - K is the set of equality constraints
+    - I is the set of inequality constraints
+    - E is the set of equality constraints
     - If there are too many constraints the feasible set may become empty.
 - Smooth Optimization: Objective and constraints are continuously differentiable 
 - Lipschitz Constant: $|f(x_1) - f(x_2)| \le L|x_1 - x_2|$
@@ -38,9 +38,9 @@
         - $m_t = \beta m_{t-1} + g_{t-1}$
         - $\theta_t = \theta_{t-1} + \eta_t m_t$
         - Momentum is essentially EWMA of gradients
-    - Nestrov Momentum
+    - Nesterov Momentum
         - Momentum may not slow down enough at the bottom causing oscillation
-        - Nestrov solves for that by adding a lookahead term
+        - Nesterov solves for that by adding a lookahead term
         - $m_{t+1} = \beta m_t - \eta_t \Delta L(\theta_t + \beta m_t)$
         - It updates the momentum using gradient at the predicted new location
 

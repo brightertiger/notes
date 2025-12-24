@@ -128,13 +128,13 @@
           <h1 id="classification">Classification</h1>
 <h2 id="decision-boundary">Decision Boundary</h2>
 <ul>
-<li>Classificaiton approach is to learn a discriminant function $\delta_k(x)$ for each class<ul>
+<li>Classification approach is to learn a discriminant function $\delta_k(x)$ for each class<ul>
 <li>Classify x to the class with largest discriminant value</li>
 </ul>
 </li>
 <li>The decision boundary is linear if<ul>
 <li>$\delta_k(x)$ is linear</li>
-<li>Posterior prbability is linear $P(G=k|X=x)$</li>
+<li>Posterior probability is linear $P(G=k|X=x)$</li>
 <li>Their monotonic transformation is linear</li>
 </ul>
 </li>
@@ -149,14 +149,14 @@
 <li>$P({G=0\over X=x}) = \frac{1}{1 + \exp(\beta x)}$</li>
 <li>$\log({P(G=1 | X=x) \over p(G=0 | X=x)}) = x \beta$</li>
 <li>Log-odds transformation gives linear decision boundary</li>
-<li>Decsion boundary is the set of points ${x| \beta x = 0}$</li>
+<li>Decision boundary is the set of points ${x| \beta x = 0}$</li>
 </ul>
 </li>
 </ul>
 <h2 id="linear-probability-model">Linear Probability Model</h2>
 <ul>
 <li>Encode each of the k classes with an indicator function $Y_{N \times K}$</li>
-<li>Fit a regression model to each of the classes simulatneously<ul>
+<li>Fit a regression model to each of the classes simultaneously<ul>
 <li>$\hat \beta = (X&#39;X)^{-1}(X&#39;Y)$</li>
 <li>$\hat Y = X \hat \beta$</li>
 </ul>
@@ -186,7 +186,7 @@
 </ul>
 </li>
 <li>LDA (and QDA) assumes the discriminant function to have MVN probability density function</li>
-<li>LDA makes the assumption that the covariance martix (for MVN) is common for all the classes</li>
+<li>LDA makes the assumption that the covariance matrix (for MVN) is common for all the classes</li>
 <li>Discrimination Function<ul>
 <li>$f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp{(X - \mu)^T \Sigma^{-1} (X - \mu)}$</li>
 </ul>
@@ -203,7 +203,7 @@
 <li>$\Sigma = \sum_k \sum_{i \in K} (x_i - \mu_k)^T(x_i - \mu_k) / N_k$</li>
 </ul>
 </li>
-<li>QDA relaxes the assumtion of contant covariance matrix<ul>
+<li>QDA relaxes the assumption of constant covariance matrix<ul>
 <li>It assumes a class specific covariance matrix</li>
 <li>Discrimination function becomes quadratic in x</li>
 <li>The number of parameters to be estimated grows considerably</li>
@@ -269,7 +269,7 @@
 <li>Difference lies in the way coefficients are estimated</li>
 <li>Logistic Regression makes less stringent assumptions<ul>
 <li>LR maximizes conditional log-likelihood</li>
-<li>LDA maximizes full log-likelihood (i.e. joint desnity)</li>
+<li>LDA maximizes full log-likelihood (i.e. joint density)</li>
 </ul>
 </li>
 <li>LDA makes more restrictive assumptions about the distributions<ul>
@@ -278,9 +278,9 @@
 </ul>
 </li>
 </ul>
-<h2 id="percepton-learning-algorithm">Percepton Learning Algorithm</h2>
+<h2 id="perceptron-learning-algorithm">Perceptron Learning Algorithm</h2>
 <ul>
-<li>Minimize the distance of missclassified points to the separating hyperplane</li>
+<li>Minimize the distance of misclassified points to the separating hyperplane</li>
 <li>$D(\beta) = - \sum y (x^T \beta)$</li>
 <li>Use SGD to estimate the parameters</li>
 <li>When the data is separable, there are many solutions that exist. The final convergence depends on the initialization.</li>
@@ -288,7 +288,7 @@
 </ul>
 <h2 id="maximum-margin-classifiers">Maximum Margin Classifiers</h2>
 <ul>
-<li>Maximize the distance of of points from either class to the hyperplane.</li>
+<li>Maximize the distance of points from either class to the hyperplane.</li>
 <li>$L = \max_{\beta, ||\beta|| = 1} M , , \text{subject to} , y_i \times x_i \beta &gt;= M , \forall , i \in N$</li>
 <li>The final parameters can be arbitrarily scaled.</li>
 <li>$L = \max {1 \over 2}||\beta||^2 , , \text{subject to} , y_i \times x_i \beta &gt;= 1 , \forall , i \in N$</li>

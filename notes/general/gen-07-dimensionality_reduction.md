@@ -6,7 +6,7 @@
     -   Data has too many features (n \<\< p)
     -   Data volume required for good generalization grows exponentially
     -   Same edge (say 10) square and cube
-        -   1x1 patch covers 1% area in quare
+        -   1x1 patch covers 1% area in square
         -   1x1x1 patch covers 0.1% volume in cube
 -   Two approaches
     -   Feature Selection
@@ -92,9 +92,9 @@
 
 ## Stochastic Neighbour Embedding (SNE)
 
--   Unsupervised Non-parametric Mehtod for dimensionality reduction
+-   Unsupervised Non-parametric Method for dimensionality reduction
 -   Manifold is a topological space which is locally Euclidean
-    -   Eath is a 2D surface embedded in a 3D space
+    -   Earth is a 2D surface embedded in a 3D space
     -   High-dimensional data can lie in a low dimenison manifold
 -   Idea is to preserve nearest neighbours instead of preserving distances
 -   Convert the distances in high-dimension to probabilities
@@ -114,7 +114,7 @@
 -   $p$ and $q$ are probability distributions. KL Divergence will capture the distance between them
 -   $L = KL(p||q) = \sum_i\sum_j p_{i|j}\log({p_{i|j} \over q_{i|j}})$
     -   If p is high and q is low, the penalty is high
-    -   Points were neighbours in high dimension but not in lo dimension
+    -   Points were neighbours in high dimension but not in low dimension
     -   If p is low and q is high, the penalty is low
     -   Unrelated points are pushed closer now
 -   Calculate $z$ by minimizing KL-Div using SGD
@@ -134,7 +134,7 @@
     -   Gaussian Kernel pushes moderately far away points in high dimension close together in low dimension (squared errors)
     -   Replace it with t-distribution that has fatter tails (probability goes to 0 slowly)
         -   The fatter tails allow dissimilar points to be far apart in lower dimension as well
-        -   Removes unwanted attractive forces between points that are modelrately far in high dimension
+        -   Removes unwanted attractive forces between points that are moderately far in high dimension
     -   $q_{j|i} \propto (1+{|| z_i - z_j||^2})^{-1}$
     -   $\Delta_{z_i} L = \sum (z_i - z_j) (p_{ij} - q_{ij}) (1 + || z_i - z_j||^2)^{-1}$
     -   $(1 + || z_i - z_j||^2)^{-1}$ ensures well separated clusters with tightly packed points inside

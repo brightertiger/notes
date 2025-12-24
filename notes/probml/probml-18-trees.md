@@ -93,7 +93,7 @@
         - $F_m(x) = F_{m-1}(x) + \beta_m f_m(x; \theta_m)$
         - $\beta_m, \theta_m$ are chosen to minimize the loss.
         - Add new models that address the residual error $r_i = (y_i - F_{m-1}(x_i))$
-        - AdaBoodst
+        - AdaBoost
             - Classification with exponential loss: $L(y, F(x)) = exp(-yF(x))$
             - $y \in \{-1, +1\}$
             - Output of tree has to be {-1, +1} in each region

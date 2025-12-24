@@ -129,11 +129,11 @@
 <h2 id="overview">Overview</h2>
 <ul>
 <li>Decision trees have low bias and high variance</li>
-<li>Bagging or bootstrap aggreagation aims to reduce the variance of these classifiers<ul>
+<li>Bagging or bootstrap aggregation aims to reduce the variance of these classifiers<ul>
 <li>Average many noisy unbiased models</li>
 </ul>
 </li>
-<li>Variance of mean of B random variables (say prediciton form trees)<ul>
+<li>Variance of mean of B random variables (say prediction from trees)<ul>
 <li>Individual Variance: $\sigma^2$</li>
 <li>Pairwise Correlation: $\rho$</li>
 <li>$\rho \sigma^2 + {(1 - \rho) \over B} \sigma^2$</li>
@@ -142,7 +142,7 @@
 </li>
 <li>For gains, reduce the correlation between trees<ul>
 <li>Random feature subset selection</li>
-<li>Boostrap Sampling</li>
+<li>Bootstrap Sampling</li>
 </ul>
 </li>
 <li>OOB Error<ul>
@@ -156,7 +156,7 @@
 <li>At each split:<ul>
 <li>Calculate the improvement in the criterion</li>
 <li>Attribute it to the splitting variable</li>
-<li>Accumatlate over all the trees and splits</li>
+<li>Accumulate over all the trees and splits</li>
 </ul>
 </li>
 <li>Using OOB Sample, Permutation accuracy<ul>

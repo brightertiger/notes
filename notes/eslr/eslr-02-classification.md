@@ -2,11 +2,11 @@
 
 ## Decision Boundary
 
--   Classificaiton approach is to learn a discriminant function $\delta_k(x)$ for each class
+-   Classification approach is to learn a discriminant function $\delta_k(x)$ for each class
     -   Classify x to the class with largest discriminant value
 -   The decision boundary is linear if
     -   $\delta_k(x)$ is linear
-    -   Posterior prbability is linear $P(G=k|X=x)$
+    -   Posterior probability is linear $P(G=k|X=x)$
     -   Their monotonic transformation is linear
 -   Linear Decision Boundary: $f_k(x) = \beta_{0k} + \beta_k x$
 -   Decision Boundary between two classes (k, l) is the set of points where $f_k(x) = f_l(x)$
@@ -17,12 +17,12 @@
     -   $P({G=0\over X=x}) = \frac{1}{1 + \exp(\beta x)}$
     -   $\log({P(G=1 | X=x) \over p(G=0 | X=x)}) = x \beta$
     -   Log-odds transformation gives linear decision boundary
-    -   Decsion boundary is the set of points $\{x| \beta x = 0\}$
+    -   Decision boundary is the set of points $\{x| \beta x = 0\}$
 
 ## Linear Probability Model
 
 -   Encode each of the k classes with an indicator function $Y_{N \times K}$
--   Fit a regression model to each of the classes simulatneously
+-   Fit a regression model to each of the classes simultaneously
     -   $\hat \beta = (X'X)^{-1}(X'Y)$
     -   $\hat Y = X \hat \beta$
 -   Drawbacks
@@ -42,7 +42,7 @@
 -   Naive Bayes assumes each of the class densities are product of marginal densities.
     -   Inputs are conditionally independent of each class
 -   LDA (and QDA) assumes the discriminant function to have MVN probability density function
--   LDA makes the assumption that the covariance martix (for MVN) is common for all the classes
+-   LDA makes the assumption that the covariance matrix (for MVN) is common for all the classes
 -   Discrimination Function
     -   $f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp\{(X - \mu)^T \Sigma^{-1} (X - \mu)\}$
 -   Decision Boundary
@@ -53,7 +53,7 @@
     -   $\pi_k = N_k / N$
     -   $\mu_k = \sum_{i \in K} x_i / N_k$
     -   $\Sigma = \sum_k \sum_{i \in K} (x_i - \mu_k)^T(x_i - \mu_k) / N_k$
--   QDA relaxes the assumtion of contant covariance matrix
+-   QDA relaxes the assumption of constant covariance matrix
     -   It assumes a class specific covariance matrix
     -   Discrimination function becomes quadratic in x
     -   The number of parameters to be estimated grows considerably
@@ -98,14 +98,14 @@
 -   Difference lies in the way coefficients are estimated
 -   Logistic Regression makes less stringent assumptions
     -   LR maximizes conditional log-likelihood
-    -   LDA maximizes full log-likelihood (i.e. joint desnity)
+    -   LDA maximizes full log-likelihood (i.e. joint density)
 -   LDA makes more restrictive assumptions about the distributions
     -   Efficiency is estimation
     -   Less robust to outliers
 
-## Percepton Learning Algorithm
+## Perceptron Learning Algorithm
 
--   Minimize the distance of missclassified points to the separating hyperplane
+-   Minimize the distance of misclassified points to the separating hyperplane
 -   $D(\beta) = - \sum y (x^T \beta)$
 -   Use SGD to estimate the parameters
 -   When the data is separable, there are many solutions that exist. The final convergence depends on the initialization.
@@ -113,7 +113,7 @@
 
 ## Maximum Margin Classifiers
 
--   Maximize the distance of of points from either class to the hyperplane.
+-   Maximize the distance of points from either class to the hyperplane.
 -   $L = \max_{\beta, ||\beta|| = 1} M \, \, \text{subject to} \, y_i \times x_i \beta >= M \, \forall \, i \in N$
 -   The final parameters can be arbitrarily scaled.
 -   $L = \max {1 \over 2}||\beta||^2 \, \, \text{subject to} \, y_i \times x_i \beta >= 1 \, \forall \, i \in N$

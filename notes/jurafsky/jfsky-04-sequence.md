@@ -132,5 +132,5 @@
     -   Add position information to input embeddings
     -   Using sinusoidal functions: $PE_{(pos,2i)} = \sin(pos/10000^{2i/d})$, $PE_{(pos,2i+1)} = \cos(pos/10000^{2i/d})$
 -   BERT Architecture
-    -   Base Model - 12 heads, 12 layers, 64 diemnsions, 768 size (12 \* 64)
+    -   Base Model - 12 heads, 12 layers, 64 dimensions, 768 size (12 \* 64)
     -   Large Model - 16 heads, 24 layers, 64 dimensions, 1024 size (16 \* 64) 

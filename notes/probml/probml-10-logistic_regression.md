@@ -4,7 +4,7 @@
     - Estimate $p(y | x, \theta)$
     - $y \in \{1,2,...,C\}$
 
-- Binary Logisitc Regression
+- Binary Logistic Regression
     - y is binary {0,1}
     - $p(y | x, \theta) = \text{Ber}(y | \sigma(w^Tx + b))$
     - $\sigma$ is the sigmoid function
@@ -60,7 +60,7 @@
         
     - Class Imbalance
         - Long-tail has little effect on loss and model may ignore these classes
-        - Use sampling startegies
+        - Use sampling strategies
         - $p_c = N_c^q / \sum N_c^q$
         - Instance based sampling: q = 1
         - Class balanced sampling: q = 0

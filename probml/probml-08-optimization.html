@@ -146,8 +146,8 @@
 </li>
 <li><p>Constrained Optimization: Finding optimal value in a feasible set that is subset of the parameter space. $\mathit C \in {\theta : g_j(\theta) \le 0 : j \in I, h_k(\theta)= 0 : k \in E }$</p>
 <ul>
-<li>I is the set of ineuqliaty constraints</li>
-<li>K is the set of equality constraints</li>
+<li>I is the set of inequality constraints</li>
+<li>E is the set of equality constraints</li>
 <li>If there are too many constraints the feasible set may become empty.</li>
 </ul>
 </li>
@@ -194,9 +194,9 @@
 <li>Momentum is essentially EWMA of gradients</li>
 </ul>
 </li>
-<li>Nestrov Momentum<ul>
+<li>Nesterov Momentum<ul>
 <li>Momentum may not slow down enough at the bottom causing oscillation</li>
-<li>Nestrov solves for that by adding a lookahead term</li>
+<li>Nesterov solves for that by adding a lookahead term</li>
 <li>$m_{t+1} = \beta m_t - \eta_t \Delta L(\theta_t + \beta m_t)$</li>
 <li>It updates the momentum using gradient at the predicted new location</li>
 </ul>

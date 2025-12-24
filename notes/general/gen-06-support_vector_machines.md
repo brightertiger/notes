@@ -72,7 +72,7 @@
         -   Solve non-linear problems via Linear SVM
     -   Polynomial Kernel
         -   $K(x_i, x_j) = (x_i^T x_j + c)^d$
-        -   The d regers to the degree of the polynomial
+        -   The d refers to the degree of the polynomial
         -   Example: 2 points in 1-D (a and b) transformerd via second order polynomial kernel
             -   $K(a,b) = (ab + 1)^2 = 2ab+ a^2b^2 + 1 = (\sqrt{2a}, a, 1)(\sqrt{2b}, b, 1)$
         -   Calculates similarity between points in higher dimension
@@ -81,7 +81,7 @@
         -   The larger the distance between two observations, the less is the similarity
         -   Radial Kernel determines how much influence each observation has on classifying new data points\
         -   Transforms points to an infinite dimension space
-            -   Tayloy Expansion of exponential term shows how RBF is a polynomial function with inifnite dimensions
+            -   Taylor Expansion of exponential term shows how RBF is a polynomial function with infinite dimensions
         -   2 points in 1-D (a and b) transformerd via RBF
             -   $K(a,b) = (1, \sqrt{\frac{1}{1!}}a, \sqrt{\frac{1}{2!}}a^2...)(1, \sqrt{\frac{1}{1!}}b, \sqrt{\frac{1}{2!}}b^2...)$
     -   Kernel Trick

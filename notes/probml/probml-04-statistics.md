@@ -23,7 +23,7 @@
     - Bernoulli Distribution
         - $NLL(\theta) = N_1 \log(\theta) - N_0 \log(1-\theta)$
         - $\Delta NLL \Rightarrow \theta = N_1 / (N_0 + N_1)$
-    - Categorical DIstribution
+    - Categorical Distribution
         - Add unity contraint as Lagrangian
         - $NLL(\theta) = \sum N_k \log(\theta) + \lambda (\sum \theta_k -1))$
     - Gaussian Distribution

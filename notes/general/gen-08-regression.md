@@ -20,7 +20,7 @@
         -   In case of standardized variables, r = b
         -   Regression towards mean
             -   $|r| <= 1$
-            -   Line passes thourgh $(\bar x, \bar y)$
+            -   Line passes through $(\bar x, \bar y)$
             -   A unit increase in x leads to r increase in y
 -   R-Square
     -   Coefficient of determination

@@ -132,13 +132,13 @@
 <li>Parzen Estimate of $\hat f_X(x)$<ul>
 <li>$\hat f_X(x_0) = {1 \over N \lambda} ,, # x_i \in N(x_0)$</li>
 <li>$\lambda$ is width of the neighbourhood</li>
-<li>The esitmate is bumpy</li>
+<li>The estimate is bumpy</li>
 </ul>
 </li>
 <li>Gaussian Kernel of width $\lambda$ can be a choice of Kernel<ul>
 <li>$\hat f_X(x_0) = {1 \over N \lambda} K_{\lambda}(x_i, x_0)$</li>
 <li>$K_{\lambda}(x_i, x_0) = \phi(|x_i - x_0|) / \lambda$</li>
-<li>Weight of point $x_i$ descreases as distance from $x_0$ increases</li>
+<li>Weight of point $x_i$ decreases as distance from $x_0$ increases</li>
 </ul>
 </li>
 <li>New estimate for density is<ul>
@@ -147,7 +147,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="kernel-desnity-classification">Kernel Desnity Classification</h2>
+<h2 id="kernel-density-classification">Kernel Density Classification</h2>
 <ul>
 <li>Bayes&#39; Theorem</li>
 <li>$P(G=j | X=x_0) \propto \hat \pi_j \hat f_j(x_0)$</li>
@@ -205,10 +205,10 @@
 <ul>
 <li>Extension of RBF</li>
 <li>$f(x) = \sum_j \alpha_j \phi(x, \mu_j, \Sigma_j)$</li>
-<li>$\sum \alpha_j = 1$, are the mixing proporitons</li>
+<li>$\sum \alpha_j = 1$, are the mixing proportions</li>
 <li>Gaussian mixture models use Gaussian kernel in place of $\phi$</li>
 <li>Parameters are fit using Maximum Likelihood</li>
-<li>If the covariance martix is restricted to a diagonal matrix $\Sigma = \sigma^2 I$, then it reduces to radial basis expansion</li>
+<li>If the covariance matrix is restricted to a diagonal matrix $\Sigma = \sigma^2 I$, then it reduces to radial basis expansion</li>
 <li>Classification can be done via Bayes Theorem<ul>
 <li>Separate density estimation for each class</li>
 <li>Probability is $\propto \hat \pi_i f_j(x)$</li>

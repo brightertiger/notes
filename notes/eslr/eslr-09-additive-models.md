@@ -15,7 +15,7 @@
 
 ## Tree-based Methods
 
--   Partition the feature space into rectangels and fit a simple model in each partition
+-   Partition the feature space into rectangles and fit a simple model in each partition
 -   Regression Setting
 -   $f(X) = \sum c_i I\{X \in R_i\}$
 -   $c_m = ave(y_i | X_i \in R_m)$
@@ -28,7 +28,7 @@
         -   Split only if delta is greater than some threshold
         -   Short Sighted, the node may lead to a better split down the line\
     -   Option 2
-        -   Grow the tree to full saize (say depth 5)
+        -   Grow the tree to full size (say depth 5)
         -   $N_m$ \# of observations in m'th node
         -   $C_m = \sum y_i / N_m$
         -   $Q_m = {1 \over N_m }\sum (y_i - C_m)^2$
@@ -40,7 +40,7 @@
 -   Splitting Criteria
     -   Miss-classification Error: $1 - \hat p_{mk}$
     -   Gini Index: $\sum_K p_{mk}(1 - \hat p_{mk})$
-        -   Probability of miscalssification
+        -   Probability of misclassification
         -   Variance of Binomial Distribution
     -   Cross-Entropy: $- \sum_K p_{mk} \log (p_{mk})$
     -   Gini Index and Cross Entropy more sensitive to node probabilities
@@ -54,11 +54,11 @@
         -   Split by non-missing values
         -   Leverage the correlation between predictors and surrogates to minimize loss of information
 -   Evaluation
-    -   $L_{xy} =$ Loss for predicting class x obkect as k
+    -   $L_{xy} =$ Loss for predicting class x object as k
     -   $L_{00}, L_{11} = 0$
     -   $L_{10} =$ False Negative
     -   $L_{01} =$ False Positive
-    -   Sentitivity:
+    -   Sensitivity:
         -   Prediciting disease as disease (Recall)
         -   TP / TP + FN
         -   $L_{11} / (L_{11} + L_{10})$
@@ -67,14 +67,14 @@
             -   TN / TN + FP
             -   $L_{00} / (L_{00} + L_{01})$\
     -   AUC-ROC
-        -   How Sentitivity (y) and Specificty (x) vary with thresholds
+        -   How Sensitivity (y) and Specificity (x) vary with thresholds
         -   Area under ROC Curve is the C-statistic
         -   Equivalent to Mann-Whitney U Test, Wilcoxin rank-sum test
         -   Median Difference in prediction scores for two groups
 -   MARS
     -   High dimension regression
     -   Piece-wise Linear basis Functions
-    -   Analogous to deision tree splits
+    -   Analogous to decision tree splits
     -   Can handle interactions
 
 ## PRIM

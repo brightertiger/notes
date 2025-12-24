@@ -6,16 +6,16 @@
 -   Parzen Estimate of $\hat f_X(x)$
     -   $\hat f_X(x_0) = {1 \over N \lambda} \,\, \# x_i \in N(x_0)$
     -   $\lambda$ is width of the neighbourhood
-    -   The esitmate is bumpy
+    -   The estimate is bumpy
 -   Gaussian Kernel of width $\lambda$ can be a choice of Kernel
     -   $\hat f_X(x_0) = {1 \over N \lambda} K_{\lambda}(x_i, x_0)$
     -   $K_{\lambda}(x_i, x_0) = \phi(\|x_i - x_0\|) / \lambda$
-    -   Weight of point $x_i$ descreases as distance from $x_0$ increases
+    -   Weight of point $x_i$ decreases as distance from $x_0$ increases
 -   New estimate for density is
     -   $\hat f_X(x_0) = {1 \over N } \phi_{\lambda}(x_ - x_0)$
     -   Convolution of Sample empirical distribution with Gaussian Kernel
 
-## Kernel Desnity Classification
+## Kernel Density Classification
 
 -   Bayes' Theorem
 -   $P(G=j | X=x_0) \propto \hat \pi_j \hat f_j(x_0)$
@@ -57,10 +57,10 @@
 
 -   Extension of RBF
 -   $f(x) = \sum_j \alpha_j \phi(x, \mu_j, \Sigma_j)$
--   $\sum \alpha_j = 1$, are the mixing proporitons
+-   $\sum \alpha_j = 1$, are the mixing proportions
 -   Gaussian mixture models use Gaussian kernel in place of $\phi$
 -   Parameters are fit using Maximum Likelihood
--   If the covariance martix is restricted to a diagonal matrix $\Sigma = \sigma^2 I$, then it reduces to radial basis expansion
+-   If the covariance matrix is restricted to a diagonal matrix $\Sigma = \sigma^2 I$, then it reduces to radial basis expansion
 -   Classification can be done via Bayes Theorem
     -   Separate density estimation for each class
     -   Probability is $\propto \hat \pi_i f_j(x)$ 
