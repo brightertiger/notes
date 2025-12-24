@@ -10,7 +10,7 @@
 -   Distance of a point (x) to a hyperplane (h):
     -   $d = \frac{|Wx + b|}{||W||}$
 -   Margin is defined by the point closest to the hyperplane
-    -   $\gamma(W,b) = \min_{x \in D} \frac{|Wx + b|}{||W||^2}$
+    -   $\gamma(W,b) = \min_{x \in D} \frac{|Wx + b|}{||W||}$
     -   Margin is scale invariant
 -   SVM wants to maximize this margin
     -   For margin to be maximized, hyperplane must lie right in the middle of the two classes
@@ -26,14 +26,15 @@
         -   Margin acts as buffer which can lead to better generalization
     -   Objective
         -   $\max_{W,b} \gamma(W,b) \; \text{subject to} \; y_i(Wx_i + b) > 0$
-        -   $\max_{W,b} \min_{x \in D} \frac{|Wx + b|}{||W||^2} \; \text{subject to} \; y_i(Wx_i + b) > 0$
+        -   $\max_{W,b} \min_{x \in D} \frac{|Wx + b|}{||W||} \; \text{subject to} \; y_i(Wx_i + b) > 0$
         -   A max-min optimization problem
     -   Simplification
         -   The best possible hyperplace is scale invariant
         -   Add a constraint such that $|Wx +b| = 1$
     -   Updated objective
-        -   $\max \frac{1}{||W||^2} \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
-        -   $\min ||W||^2 \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
+        -   $\max \frac{1}{||W||} \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
+        -   $\min ||W|| \; \text{subject to} \; y_i(Wx_i + b) \ge 0 \; ; |Wx +b| = 1$
+        -   Equivalently: $\min \frac{1}{2}||W||^2$ (for mathematical convenience)
     -   Combining the contraints
         -   $y_i(Wx_i + b) \ge 0\; ; |Wx +b| = 1 \implies y_i(Wx_i + b) \ge 1$
         -   Holds true because the objective is trying to minimize W
@@ -77,7 +78,7 @@
             -   $K(a,b) = (ab + 1)^2 = 2ab+ a^2b^2 + 1 = (\sqrt{2a}, a, 1)(\sqrt{2b}, b, 1)$
         -   Calculates similarity between points in higher dimension
     -   RBF Kernel
-        -   $K(x_i, x_j) = \exp \{\gamma |x_i - x_j|^2\}$
+        -   $K(x_i, x_j) = \exp \{-\gamma ||x_i - x_j||^2\}$
         -   The larger the distance between two observations, the less is the similarity
         -   Radial Kernel determines how much influence each observation has on classifying new data points\
         -   Transforms points to an infinite dimension space

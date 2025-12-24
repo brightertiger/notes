@@ -21,10 +21,10 @@
     - Maximum Likelihood Estimation
         - Minimize the NLL
         - $\text{NLL} = - \log \prod \text{Ber}(y| \sigma(w^Tx +b))$
-        - $\text{NLL} = -\sum y \log(\hat y) = H(y, \hat y)$ i.e. binary cross-entropy
-        - If compact notation is used 
-            - $\text{NLL} = \sum \log \sigma (\tilde y (w^Tx+b))$
-            - $\text{NLL} = \sum \log ( 1 + \exp (\tilde y (w^Tx +b))))$
+        - $\text{NLL} = -\sum [y \log(\hat y) + (1-y) \log(1-\hat y)]$ i.e. binary cross-entropy
+        - If compact notation is used (where $\tilde y \in \{-1, +1\}$):
+            - $\text{NLL} = -\sum \log \sigma (\tilde y (w^Tx+b))$
+            - $\text{NLL} = \sum \log ( 1 + \exp (-\tilde y (w^Tx +b)))$
         - Optimization:
             - $\Delta \text{NLL} =0$ is the first order condition
             - $\Delta \sigma(x) = \sigma(x) \times (1 - \sigma(x))$

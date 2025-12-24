@@ -44,7 +44,7 @@
 -   LDA (and QDA) assumes the discriminant function to have MVN probability density function
 -   LDA makes the assumption that the covariance matrix (for MVN) is common for all the classes
 -   Discrimination Function
-    -   $f_k(x) = \frac{1}{(2\pi)^{p/2} \Sigma^{1/2}} \exp\{(X - \mu)^T \Sigma^{-1} (X - \mu)\}$
+    -   $f_k(x) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{1/2}} \exp\{-\frac{1}{2}(X - \mu_k)^T \Sigma^{-1} (X - \mu_k)\}$
 -   Decision Boundary
     -   $\log(\frac{P(G=k | X=x)}{P(G=l | X=x)}) = C + X^T \Sigma^{-1}(\mu_k - \mu_l)$
     -   Linear in X
@@ -114,11 +114,11 @@
 ## Maximum Margin Classifiers
 
 -   Maximize the distance of points from either class to the hyperplane.
--   $L = \max_{\beta, ||\beta|| = 1} M \, \, \text{subject to} \, y_i \times x_i \beta >= M \, \forall \, i \in N$
--   The final parameters can be arbitrarily scaled.
--   $L = \max {1 \over 2}||\beta||^2 \, \, \text{subject to} \, y_i \times x_i \beta >= 1 \, \forall \, i \in N$
--   Lagrangian Multiplier
--   $L = \max {1 \over 2}||\beta||^2 - \sum \alpha_i (y_i \times x_i \beta) - 1)$
+-   $\max_{\beta, ||\beta|| = 1} M \, \, \text{subject to} \, y_i (x_i^T \beta) \geq M \, \forall \, i \in N$
+-   The final parameters can be arbitrarily scaled. Reformulate with unit margin:
+-   $\min {1 \over 2}||\beta||^2 \, \, \text{subject to} \, y_i (x_i^T \beta) \geq 1 \, \forall \, i \in N$
+-   Lagrangian Formulation:
+-   $L = {1 \over 2}||\beta||^2 - \sum \alpha_i (y_i (x_i^T \beta) - 1)$
 -   Taking derivative wrt to $\beta$
     -   $\beta = \sum \alpha_i y_i x_i$
     -   Parameter is a linear combination of points where the constraints are active $\alpha_i > 0$ 

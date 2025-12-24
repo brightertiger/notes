@@ -30,7 +30,7 @@
         -   $\sum_C p_i \times (1 - p_i)$
         -   $\sum_C p_i - \sum_C p_{i}^2$
         -   $1 - \sum_C p_{i}^2$
-        -   Ranges from (0, 0.5)
+        -   Ranges from 0 (pure node) to 0.5 (binary), or more generally (K-1)/K for K classes
     -   Entropy Criterion
         -   Measure of uncertainty of a random variable
         -   Given an event E
@@ -40,7 +40,7 @@
         -   Entropy is the expectation of this information content
             -   $H(E) = - \sum p(E) \log(p(E))$
             -   Maximum when all outcomes have same probability of occurrence
-        -   Ranges from (0, 1)
+        -   Ranges from 0 (pure node) to log₂(K) for K classes (max 1 for binary)
 -   Split Criteria for Regression Trees
     -   Sum-Squared Error
     -   $\sum_i (Y_i - \bar Y)^2$
@@ -147,12 +147,13 @@
 ## ExtraTrees
 
 -   Extremely Randomized Trees
--   Bagging:
-    -   ExtraTrees: No
-    -   Extremely Randomized Trees: Yes
--   Mutiple trees are built using:
-    -   Random variable subset for splitting
-    -   Random threshold subsets for a variable for splitting
+-   Key differences from Random Forest:
+    -   Bagging: No (uses entire training set for each tree, unlike RF which uses bootstrap samples)
+    -   Split thresholds: Randomly selected instead of searching for optimal splits
+-   Multiple trees are built using:
+    -   Random variable subset for splitting (same as Random Forest)
+    -   Random threshold selection for each variable (different from Random Forest)
+-   More randomness leads to reduced variance but slightly higher bias compared to Random Forest
 
 ## Variable Importance
 

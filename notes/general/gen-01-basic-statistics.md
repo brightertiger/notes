@@ -70,7 +70,7 @@
     -   Central Limit Theorem
     -   $\sim N(\mu, \sigma / \sqrt N)$
     -   Standard Error $\sigma / \sqrt N$
-    -   Standard Deviation of Sampling Distriution
+    -   Standard Deviation of Sampling Distribution
 -   Case: Exit poll survey
     -   $\sim B(0.5)$ with sample size 1800
     -   Variance $\sqrt{p (1-p)}$ = 0.25
@@ -234,7 +234,7 @@
 | No     | N21 | N22 |
 
 -   Comparing Dependent Proportions (McNemar Test)
-    -   A 4x4 contingency table (above)
+    -   A 2x2 contingency table (above)
     -   One subject gets multiple treatments
         -   Say disease and side effect (Cancer and Smoking)
     -   $z = \frac{n_{12} - n_{21}}{\sqrt{n_{12} + n_{21}}}$

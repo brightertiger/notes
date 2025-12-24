@@ -56,15 +56,16 @@
 - Derivatives
     - Cross-Entropy Layer
         - $z = \text{CrossEntropyWithLogitsLoss(y,x)}$
-        - $z = -\sum_c y_c \log(p_c)$
-        - $p_c = {\exp x_c \over \sum_c \exp x_c}$
-        - ${\delta z \over \delta x_c} = \sum_c {\delta z \over \delta p_i} \times {\delta p_i \over \delta x_c}$
-        - When i = c
-            - ${\delta z \over \delta x_c} = {-y_c \over p_c} \times p_c (1 - p_c) = - y_c ( 1 - p_c)$
-        - When i <> c
-            - ${\delta z \over \delta x_c} = {-y_c \over p_c} \times - p_i p_c = -y_c p_c$
-        - Adding up
-            - $-y_c(1-p_c) + \sum_{i \ne c} y_c p_i = p_c \sum_c y_c - y_c = p_c - y_c$
+        - $z = -\sum_i y_i \log(p_i)$
+        - $p_c = {\exp x_c \over \sum_j \exp x_j}$ (softmax)
+        - ${\partial z \over \partial x_c} = \sum_i {\partial z \over \partial p_i} \times {\partial p_i \over \partial x_c}$
+        - Softmax derivatives: ${\partial p_i \over \partial x_c} = p_c(1-p_c)$ if $i=c$, else $-p_i p_c$
+        - When i = c:
+            - ${-y_c \over p_c} \times p_c (1 - p_c) = - y_c ( 1 - p_c)$
+        - When i ≠ c:
+            - ${-y_i \over p_i} \times (- p_i p_c) = y_i p_c$
+        - Adding up (using $\sum_i y_i = 1$ for one-hot labels):
+            - $-y_c(1-p_c) + \sum_{i \ne c} y_i p_c = -y_c + y_c p_c + p_c(1-y_c) = p_c - y_c$
     - ReLU
         - $\phi(x) = \max(x,0)$
         - $\phi'(x,a) =   I\{x > 0\}$

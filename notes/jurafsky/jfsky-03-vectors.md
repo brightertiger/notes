@@ -129,7 +129,7 @@
     -   n-grams on characters
 -   GloVe
     -   Global vectors
-    -   Ratios of probabilities form word-word co-occurance matrix
+    -   Ratios of probabilities from word-word co-occurrence matrix
 -   Similarity
     -   $a:b :: a':b'$
     -   $b' = \arg \min \text{distance}(x, b - a + a')$

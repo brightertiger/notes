@@ -26,8 +26,8 @@
     -   Data Uncertainty due to stochasticity in labels
     -   Good model assigns high probability to true output for each input
     -   Intuition for minimizing NLL (negative log-likelihood)
-    -   $NLL(\theta) = {1 \over N} \sum p(y | f(x, \theta))$
-    -   Optimal parameters give the MLE estimate
+    -   $NLL(\theta) = -{1 \over N} \sum \log p(y | f(x, \theta))$
+    -   Optimal parameters give the MLE estimate (minimize NLL = maximize likelihood)
 
 
 -   Regression

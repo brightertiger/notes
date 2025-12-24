@@ -74,14 +74,14 @@
 - Bernoulli and Binomial Distribution
     - Describes a binary outcome
     - $Y \sim Ber(\theta)$
-    - $Y = \theta^y (1 - \theta)^{1-y}$
-    - Binomial distribution is N repeatitions of Bernoulli trials
-    - $Bin(p | N,\theta) = {N \choose p} \theta^p (1 - \theta)^{1-p}$
+    - $p(Y=y) = \theta^y (1 - \theta)^{1-y}$ for $y \in \{0, 1\}$
+    - Binomial distribution is N repetitions of Bernoulli trials
+    - $Bin(k | N,\theta) = {N \choose k} \theta^k (1 - \theta)^{N-k}$ where k is the number of successes
 
 - Logistic Distribution
     - If we model a binary outcome using ML model, the range of f(X) is [0,1]
     - To avoid this constraint, use logistic function: $\sigma(a) = {1 \over 1 + e^{-a}}$
-    - The quantity a is log-odds: log(p | 1-p)
+    - The quantity a is log-odds: $\log(p / (1-p))$
     - Logistic function maps log-odds to probability
     - $p(y=1|x, \theta) = \sigma(f(x, \theta))$
     - $p(y=0|x, \theta) = \sigma( - f(x, \theta))$
@@ -116,7 +116,7 @@
         - $\Phi(y; \mu, \sigma^2) = {1 \over 2} [ 1 + \text{erf}({z \over \sqrt(2)})]$
         - erf is the error function
     - The inverse of the CDF is called the probit function.
-    - The derivative of the CFD gives the pdf of normal distribution
+    - The derivative of the CDF gives the pdf of normal distribution
     - Mean, Median and Mode of gaussian is $\mu$
     - Variance of Gaussian is $\sigma^2$
     - Linear Regression uses conditional gaussian distribution
@@ -143,8 +143,8 @@
   - In continuous case:
       - $P_y(y) = P(Y \le y) = P(f(X) \le y) = P(X \le f^{-1}(y)) = P_x(f^{-1}(y))$
       - Taking derivatives of the equation above gives the result.
-      - $p_y(y) = p_x(x)|{dy \over dx}|$
-      - In multivariate case, the derivative is replaced by Jacobian.
+      - $p_y(y) = p_x(f^{-1}(y)) \cdot |{d f^{-1}(y) \over dy}|$ (change of variables formula)
+      - In multivariate case, the derivative is replaced by absolute value of Jacobian determinant.
 
 - Convolution Theorem
     - y = x1 + x2
@@ -154,10 +154,10 @@
     - In case x1 and x2 are gaussian, the resulting pdf from convolution operator is also gaussian. → sum of gaussians results in gaussian (reproducibility) 
 
 - Central Limit Theorem
-    - Suppose there are N random variables that are independently identically distributed.
-    - As N increases, the distribution of this sum approaches Gaussian with:
-        - Mean as Sample Mean
-        - Variance as Sample Variance
+    - Suppose there are N random variables that are independently identically distributed with mean μ and variance σ².
+    - As N increases, the distribution of the sample mean $\bar{X} = \frac{1}{N}\sum X_i$ approaches Gaussian:
+        - $\bar{X} \sim \mathcal{N}(\mu, \sigma^2/N)$
+    - Equivalently, the standardized sum $\frac{\bar{X} - \mu}{\sigma/\sqrt{N}} \xrightarrow{d} \mathcal{N}(0, 1)$
 
 - Monte-Carlo Approximation
     - It's often difficult ti compute the pdf of transformation y = f(x).

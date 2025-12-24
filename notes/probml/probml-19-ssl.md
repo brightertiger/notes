@@ -3,7 +3,7 @@
 -   Data Augmentation
     -   Artificially modified versions of input vectors that may appear in real world data
     -   Improves accuracy, makes model robust
-    -   Empirical risk minimization to vicinical risk minimization
+    -   Empirical risk minimization to vicinal risk minimization
     -   Minimizing risk in the vicinity of input data point
 
 -   Transfer Learning 
@@ -48,7 +48,7 @@
             -   Apply encoder to both views
             -   Apply projection head to both encodings
             -   Contrastive Loss function with mini-batch to identify the positive pairs
-        -   Pretraining
+        -   Fine-tuning
             -   Finetune the encoder and a task specific head
             -   The original projection head is discarded
         -   NLP Encoders
@@ -60,9 +60,9 @@
         -   BYOL
             -   Bootstrap your own latent (BYOL)
             -   Two copies of encoder
-            -   Teacher: Online, Student: Target
-            -   Teacher is EMA of updates made to student
-            -   MSE Loss
+            -   Online network (student): trained with gradient descent
+            -   Target network (teacher): EMA of online network weights
+            -   MSE Loss between online prediction and target representation
 
 -   Semi-Supervised Learning
     -   Learn from labeled + unlabeled data in tandem

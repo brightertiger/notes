@@ -29,12 +29,12 @@
     - Valid Convolution
         - Filter Size: $(f_h, f_w)$
         - Image Size: $(x_h, x_w)$
-        - Output Size : $(x_h - f_w + 1, x_w - f_w + 1)$
+        - Output Size : $(x_h - f_h + 1, x_w - f_w + 1)$
     - Padding
         - Filter Size: $(f_h, f_w)$
         - Image Size: $(x_h, x_w)$
         - Padding Size: $(p_h, p_w)$
-        - Output Size : $(x_h + 2p_h - f_w + 1, x_w + 2p_w - f_w + 1)$
+        - Output Size : $(x_h + 2p_h - f_h + 1, x_w + 2p_w - f_w + 1)$
         - If 2p = f - 1, then output size is equal to input size
     -  Strided Convolution
         - Skip every sth input to reduce redundancy
@@ -114,9 +114,11 @@
 
 - Adversarial Examples
     - White-Box Attacks
-        - Gradient Free
+        - Attacker has full access to model (architecture, weights, gradients)
+        - Uses gradient information to craft adversarial perturbations (e.g., FGSM, PGD)
         - Add small perturbation to input that changes the prediction from classifier
-        - Targeted attack
-    - Black-Box Attack
-        - Gradient Free
-        - Design fooling images as apposed to adversarial images 
+        - Can be targeted (change to specific class) or untargeted
+    - Black-Box Attacks
+        - Attacker has no access to model internals (gradient-free)
+        - Uses query access only or transfer attacks from surrogate models
+        - Design fooling images using heuristics or evolutionary methods 

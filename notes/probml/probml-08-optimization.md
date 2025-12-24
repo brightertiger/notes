@@ -98,9 +98,11 @@
   - Adam
       - Adaptive Moment Estimation
       - Combines RMSProp with momentum
-      - $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$
-      - $s_t = \beta_1 s_{t-1} + (1 - \beta_1) g_t^2$
-      - $\Delta \theta = \eta {1 \over \sqrt s_t + e} m_t$
+      - $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$ (first moment estimate)
+      - $s_t = \beta_2 s_{t-1} + (1 - \beta_2) g_t^2$ (second moment estimate)
+      - Bias correction: $\hat{m}_t = m_t/(1-\beta_1^t)$, $\hat{s}_t = s_t/(1-\beta_2^t)$
+      - $\Delta \theta = \eta {\hat{m}_t \over \sqrt{\hat{s}_t} + \epsilon}$
+      - Default values: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$
 
 - Constrained Optimization
   - Lagrange Multipliers

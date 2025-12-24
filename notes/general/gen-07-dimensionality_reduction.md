@@ -98,17 +98,17 @@
     -   High-dimensional data can lie in a low dimenison manifold
 -   Idea is to preserve nearest neighbours instead of preserving distances
 -   Convert the distances in high-dimension to probabilities
-    -   Probability the point i will select j as it's neighbour
+    -   Probability that point i will select j as its neighbour
     -   Gaussian Kernel
-    -   $p_{j|i} \propto \exp({|| x_i - x_j||^2 \over 2\sigma_i^2})$
+    -   $p_{j|i} \propto \exp({-|| x_i - x_j||^2 \over 2\sigma_i^2})$
     -   $\sigma_i^2$ is the variance for data point i
         -   Magnify the scale of points in dense region
         -   Diminish the scale of points in sparse regions
         -   Perplexity parameter (say 30)
         -   Variance will be adjusted to cover approx 30 neighbours
         -   Balance between local and global aspects of the data
--   Initialize the low-dimnesion representations and calculate the same probability
-    -   $q_{j|i} \propto \exp({|| z_i - z_j||^2})$
+-   Initialize the low-dimension representations and calculate the same probability
+    -   $q_{j|i} \propto \exp({-|| z_i - z_j||^2})$
     -   Variance is assumed to be constant here
 -   A good representation will preserve the neighbours
 -   $p$ and $q$ are probability distributions. KL Divergence will capture the distance between them

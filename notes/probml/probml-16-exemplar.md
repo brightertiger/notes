@@ -45,21 +45,20 @@
 
 - Deep Metric Learning
     - Reduce the curse of dimensionality
-    - Project he input from high dimension space to lower dimension via embedding
+    - Project the input from high dimension space to lower dimension via embedding
     - Normalize the embedding
     - Compute the distance
         - Euclidean or Cosine, both are related
-        - $|e_1 - e_2|^2 = |e1|^2 + |e_2|^2 - 2e_1 e_2$
-        - Euclidean = 2 ( 1 - Cosine)
-        - $\cos \theta = {a \dot b \over ||a|| ||b||}$
-        - Derivation via trigonometry 
-            - $\ cos \theta = a^2 + b ^ 2 - c^2 / 2 a b$
-    - Learn an embedding function such that similar examples are close and dissimar examples are far
+        - $||e_1 - e_2||^2 = ||e_1||^2 + ||e_2||^2 - 2(e_1 \cdot e_2)$
+        - For unit vectors: $||e_1 - e_2||^2 = 2(1 - \cos\theta)$
+        - $\cos \theta = {a \cdot b \over ||a|| \cdot ||b||}$
+        - Derivation via law of cosines: $\cos \theta = (a^2 + b^2 - c^2) / (2ab)$
+    - Learn an embedding function such that similar examples are close and dissimilar examples are far
     - Loss functions:
         - Classification Losses
             - Only learn to push examples on correct side of the decision boundary
         - Pairwise Loss
-            - Simaese Neural Network
+            - Siamese Neural Network
             - Common Backbone to embed the inputs
             - $L(\theta, x_i, x_j) =  I \{y_i =y_j\} d(x_i, x_j) +  I \{y_i \ne y_j\} [m - d(x_i, x_j)]_+$
             - If same class, minimize the distance
@@ -84,7 +83,7 @@
     - Gaussian Kernel
         - $K(x) = {1 \over \sqrt{2\pi}} \exp(-{1\over2}x^2)$
         - RBF: Generalization to vector valued inputs
-    - Bandwitdth
+    - Bandwidth
         - Parameter to control the width of the kernel
     - Density Estimation
         - Extend the concept of Gaussian Mixture models to the extreme

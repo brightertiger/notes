@@ -21,7 +21,7 @@
     
 - MLE Examples
     - Bernoulli Distribution
-        - $NLL(\theta) = N_1 \log(\theta) - N_0 \log(1-\theta)$
+        - $NLL(\theta) = -[N_1 \log(\theta) + N_0 \log(1-\theta)]$
         - $\Delta NLL \Rightarrow \theta = N_1 / (N_0 + N_1)$
     - Categorical Distribution
         - Add unity contraint as Lagrangian

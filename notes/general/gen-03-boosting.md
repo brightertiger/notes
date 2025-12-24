@@ -31,8 +31,8 @@
         -   $\epsilon_m$ is the weighted classification error
     -   Every sample has a weight associated while constructing a weak hypothesis
         -   Exponential Weighting scheme
-        -   Correctly Classified: $w_i = w_i \times \exp^{\alpha}$
-        -   Incorrectly Classified: $w_i = w_i \times \exp^{-\alpha}$
+        -   Correctly Classified: $w_i = w_i \times \exp^{-\alpha}$ (weight decreases)
+        -   Incorrectly Classified: $w_i = w_i \times \exp^{\alpha}$ (weight increases)
     -   Underfitting: Not enough hypothesis added to ensemble
     -   Overfitting: Not using weak learners as hypothesis
 -   Gradient Boosting

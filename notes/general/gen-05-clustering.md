@@ -53,7 +53,7 @@
         -   Given data point i
             -   $a_i$ = (Mean distance to observations in own cluster)
             -   $b_i$ = (Mean Distance ot observations in the next closest cluster)
-        -   $S_i = (a_i - b_i) / \max(a_i, b_i)$
+        -   $S_i = (b_i - a_i) / \max(a_i, b_i)$
         -   Average the score for all the K clusters
         -   Ideal value is 1, worst value is -1
 -   K-Means is a variant of EM
