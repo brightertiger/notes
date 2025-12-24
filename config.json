@@ -1,0 +1,35 @@
+{
+  "siteTitle": "ML Notes",
+  "siteDescription": "A personal collection of machine learning notes and references",
+  "sources": {
+    "eslr": {
+      "name": "Elements of Statistical Learning",
+      "shortName": "ESLR",
+      "description": "Notes from the classic textbook on statistical learning theory and methods",
+      "icon": "📊",
+      "color": "peach"
+    },
+    "general": {
+      "name": "General ML Topics",
+      "shortName": "General",
+      "description": "Foundational machine learning concepts, algorithms, and techniques",
+      "icon": "🧠",
+      "color": "mint"
+    },
+    "jurafsky": {
+      "name": "Speech & Language Processing",
+      "shortName": "Jurafsky",
+      "description": "Notes from Jurafsky's NLP textbook covering language models and transformers",
+      "icon": "💬",
+      "color": "lavender"
+    },
+    "probml": {
+      "name": "Probabilistic Machine Learning",
+      "shortName": "ProbML",
+      "description": "Probability-based approaches to machine learning by Kevin Murphy",
+      "icon": "📈",
+      "color": "butter"
+    }
+  }
+}
+

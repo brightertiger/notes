@@ -1,4 +1,3 @@
-// index.js
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
@@ -6,49 +5,33 @@ const matter = require('gray-matter');
 const glob = require('glob');
 const mkdirp = require('mkdirp');
 
-// Configuration
-const config = {
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+const buildConfig = {
     sourceDir: 'notes',
     outputDir: '.',
-    siteTitle: 'Machine Learning Notes',
     dateFormat: { year: 'numeric', month: 'long', day: 'numeric' }
 };
 
-// Create title from filename
 function createTitleFromFilename(filename) {
     const basename = path.basename(filename, path.extname(filename));
-    return basename
-        .replace(/-/g, ' ')
+    const parts = basename.split('-');
+    if (parts.length > 1 && /^\d+$/.test(parts[0])) {
+        parts.shift();
+    }
+    return parts
+        .join(' ')
         .replace(/_/g, ' ')
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 }
 
-// Get folder name
-function getFolderName(folderPath) {
-    return path.basename(folderPath);
-}
-
-// Get folder display name
-function getFolderDisplayName(folderPath) {
-    const name = getFolderName(folderPath);
-    return name
-        .replace(/-/g, ' ')
-        .replace(/_/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-        .toUpperCase();
-}
-
-// Load and process markdown file
 function processMarkdownFile(filePath) {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const { content, data } = matter(fileContent);
     const html = marked.parse(content);
 
-    // Extract title from the first heading in the markdown if available
     let titleFromContent = '';
     const headingMatch = content.match(/^#\s+(.+)$/m);
     if (headingMatch) {
@@ -56,41 +39,123 @@ function processMarkdownFile(filePath) {
     }
 
     const title = data.title || titleFromContent || createTitleFromFilename(filePath);
-    const date = data.date ? new Date(data.date).toLocaleDateString('en-US', config.dateFormat) : null;
+    const date = data.date ? new Date(data.date).toLocaleDateString('en-US', buildConfig.dateFormat) : null;
+
+    const basename = path.basename(filePath, '.md');
+    const orderMatch = basename.match(/^(\d+)/);
+    const order = orderMatch ? parseInt(orderMatch[1]) : 999;
 
     return {
         title,
         date,
         html,
+        order,
         path: filePath,
-        relativePath: path.relative(config.sourceDir, filePath),
+        relativePath: path.relative(buildConfig.sourceDir, filePath),
         outputPath: path.join(
-            config.outputDir,
-            path.relative(config.sourceDir, filePath).replace(/\.md$/, '.html')
+            buildConfig.outputDir,
+            path.relative(buildConfig.sourceDir, filePath).replace(/\.md$/, '.html')
         )
     };
 }
 
-// Generate HTML page for a note
-function generateNotePage(note, cssPath) {
-    // Calculate relative path to root for the back link
-    const relativePath = path.relative(config.sourceDir, note.path);
-    const outputDir = path.dirname(path.join(config.outputDir, relativePath));
-    let rootPath = path.relative(outputDir, config.outputDir);
+function generateSidebar(folders, currentSourceKey = null, currentNotePath = null, isSourceIndex = false) {
+    let navSections = '';
 
-    // Make sure we point to index.html explicitly
-    rootPath = rootPath ? `${rootPath}/index.html` : 'index.html';
+    folders.forEach(folder => {
+        const sourceKey = folder.path.toLowerCase();
+        const sourceConfig = config.sources[sourceKey] || {};
+        const displayName = sourceConfig.shortName || sourceKey.toUpperCase();
+        const isCurrentSource = sourceKey === currentSourceKey;
 
+        const noteItems = folder.notes
+            .sort((a, b) => a.order - b.order)
+            .map(note => {
+                const noteFilename = path.basename(note.path, '.md') + '.html';
+                const isActive = currentNotePath === note.path;
+                let href;
+                if (currentNotePath) {
+                    href = currentSourceKey === sourceKey ? noteFilename : `../${sourceKey}/${noteFilename}`;
+                } else if (isSourceIndex) {
+                    href = currentSourceKey === sourceKey ? noteFilename : `../${sourceKey}/${noteFilename}`;
+                } else {
+                    href = `${sourceKey}/${noteFilename}`;
+                }
+                return `<li class="nav-item"><a href="${href}"${isActive ? ' class="active"' : ''}>${note.title}</a></li>`;
+            })
+            .join('\n            ');
+
+        navSections += `
+        <div class="nav-section ${sourceKey}">
+          <div class="nav-section-title" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">${sourceConfig.icon || '📄'}</span>
+            ${displayName}
+          </div>
+          <ul class="nav-items${!isCurrentSource && currentSourceKey ? ' collapsed' : ''}">
+            ${noteItems}
+          </ul>
+        </div>`;
+    });
+
+    const homeLink = (currentNotePath || isSourceIndex) ? '../index.html' : 'index.html';
     return `
-<!DOCTYPE html>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="${homeLink}" class="sidebar-logo">${config.siteTitle}</a>
+      </div>
+      <nav class="sidebar-nav">
+        ${navSections}
+      </nav>
+    </aside>`;
+}
+
+function generateMobileHeader() {
+    return `
+    <header class="mobile-header">
+      <a href="../index.html" class="sidebar-logo">${config.siteTitle}</a>
+      <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('visible')">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+    <div class="sidebar-overlay" id="overlay" onclick="document.getElementById('sidebar').classList.remove('open'); this.classList.remove('visible')"></div>`;
+}
+
+function generateNotePage(note, folders, sourceKey, prevNote, nextNote) {
+    const sourceConfig = config.sources[sourceKey] || {};
+    const sidebar = generateSidebar(folders, sourceKey, note.path);
+    const mobileHeader = generateMobileHeader();
+
+    let navigation = '';
+    if (prevNote || nextNote) {
+        navigation = '<nav class="page-navigation">';
+        if (prevNote) {
+            navigation += `
+        <a href="${path.basename(prevNote.path, '.md')}.html" class="nav-link prev">
+          <span class="nav-link-label">← Previous</span>
+          <span class="nav-link-title">${prevNote.title}</span>
+        </a>`;
+        } else {
+            navigation += '<div></div>';
+        }
+        if (nextNote) {
+            navigation += `
+        <a href="${path.basename(nextNote.path, '.md')}.html" class="nav-link next">
+          <span class="nav-link-label">Next →</span>
+          <span class="nav-link-title">${nextNote.title}</span>
+        </a>`;
+        }
+        navigation += '</nav>';
+    }
+
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${note.title} | ${config.siteTitle}</title>
-  <link rel="stylesheet" href="${cssPath}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <!-- MathJax for LaTeX support -->
+  <link rel="stylesheet" href="../css/style.css">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
     MathJax = {
@@ -99,411 +164,184 @@ function generateNotePage(note, cssPath) {
         displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
         processEscapes: true
       },
-      options: {
-        enableMenu: false
-      }
+      options: { enableMenu: false }
     };
   </script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>${note.title}</h1>
-      ${note.date ? `<p class="date">Last updated: ${note.date}</p>` : ''}
-      <a href="${rootPath}" class="home-link">← Back to Home</a>
-    </header>
-    <main class="content">
-      ${note.html}
+  <div class="layout">
+    ${sidebar}
+    ${mobileHeader}
+    <main class="main-content">
+      <div class="content-wrapper">
+        <header class="page-header">
+          <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="index.html">${sourceConfig.shortName || sourceKey.toUpperCase()}</a>
+          </div>
+          <h1 class="page-title">${note.title}</h1>
+          ${note.date ? `<div class="page-meta"><span class="tag">${sourceConfig.shortName || sourceKey}</span><span>Updated ${note.date}</span></div>` : `<div class="page-meta"><span class="tag">${sourceConfig.shortName || sourceKey}</span></div>`}
+        </header>
+        <article class="content">
+          ${note.html}
+        </article>
+        ${navigation}
+      </div>
     </main>
-    <footer>
-    </footer>
   </div>
+  <script>
+    document.addEventListener('scroll', function() {
+      const btn = document.querySelector('.back-to-top');
+      if (btn) btn.classList.toggle('visible', window.scrollY > 300);
+    });
+  </script>
 </body>
-</html>
-  `;
+</html>`;
 }
 
-// Generate folder index page
-function generateFolderIndexPage(folderPath, notes, cssPath) {
-    const folderName = getFolderName(folderPath);
-    const folderDisplayName = getFolderDisplayName(folderPath);
+function generateSourceIndexPage(sourceKey, notes, folders) {
+    const sourceConfig = config.sources[sourceKey] || {};
+    const displayName = sourceConfig.name || sourceKey.toUpperCase();
+    const sidebar = generateSidebar(folders, sourceKey, null, true);
 
-    // Calculate relative path to root for the back link
-    let rootPath = path.relative(path.join(config.outputDir, folderPath), config.outputDir);
+    const sortedNotes = notes.sort((a, b) => a.order - b.order);
 
-    // Make sure we point to index.html explicitly
-    rootPath = rootPath ? `${rootPath}/index.html` : 'index.html';
+    const noteItems = sortedNotes.map((note, index) => {
+        const noteFilename = path.basename(note.path, '.md') + '.html';
+        return `
+        <li class="notes-list-item">
+          <a href="${noteFilename}">
+            <span class="number">${String(index + 1).padStart(2, '0')}</span>
+            <span class="title">${note.title}</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>`;
+    }).join('');
 
-    const notesLinks = notes.map(note => {
-        // Calculate relative path from folder to note
-        const noteRelativePath = path.basename(note.path, '.md') + '.html';
-        return `<li><a href="${noteRelativePath}">${note.title}</a></li>`;
-    }).join('\n      ');
-
-    return `
-<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${folderDisplayName} | ${config.siteTitle}</title>
-  <link rel="stylesheet" href="${cssPath}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <title>${displayName} | ${config.siteTitle}</title>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>${folderDisplayName}</h1>
-      <a href="${rootPath}" class="home-link">← Back to Home</a>
-    </header>
-    <main>
-      <ul class="notes-list">
-      ${notesLinks}
-      </ul>
+  <div class="layout">
+    ${sidebar}
+    ${generateMobileHeader()}
+    <main class="main-content">
+      <div class="content-wrapper">
+        <header class="page-header">
+          <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <span>${sourceConfig.shortName || sourceKey.toUpperCase()}</span>
+          </div>
+          <h1 class="page-title">${displayName}</h1>
+          <p style="color: var(--text-secondary); margin-top: 0.5rem;">${sourceConfig.description || ''}</p>
+        </header>
+        <ul class="notes-list">
+          ${noteItems}
+        </ul>
+      </div>
     </main>
-    <footer>
-    </footer>
   </div>
 </body>
-</html>
-  `;
+</html>`;
 }
 
-// Generate home page with folder cards
-function generateHomePage(folders, cssPath) {
-    const folderCards = folders.map(folder => {
-        const folderName = getFolderName(folder.path);
-        const folderDisplayName = getFolderDisplayName(folder.path);
+function generateHomePage(folders) {
+    const sourceCards = folders.map(folder => {
+        const sourceKey = folder.path.toLowerCase();
+        const sourceConfig = config.sources[sourceKey] || {};
         const noteCount = folder.notes.length;
 
         return `
-    <div class="card">
-      <h2>${folderDisplayName}</h2>
-      <p>${noteCount} note${noteCount !== 1 ? 's' : ''}</p>
-      <a href="${folderName}/index.html" class="card-link">View Notes</a>
-    </div>`;
-    }).join('\n    ');
+      <a href="${sourceKey}/index.html" class="source-card ${sourceKey}">
+        <div class="source-card-icon">${sourceConfig.icon || '📄'}</div>
+        <h2 class="source-card-title">${sourceConfig.name || sourceKey.toUpperCase()}</h2>
+        <p class="source-card-description">${sourceConfig.description || ''}</p>
+        <span class="source-card-count">${noteCount} note${noteCount !== 1 ? 's' : ''}</span>
+      </a>`;
+    }).join('');
 
-    return `
-<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${config.siteTitle}</title>
-  <link rel="stylesheet" href="${cssPath}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>${config.siteTitle}</h1>
+  <div class="home-container">
+    <header class="home-header">
+      <h1 class="home-title">${config.siteTitle}</h1>
+      <p class="home-subtitle">${config.siteDescription}</p>
     </header>
-    <main>
-      <div class="cards-grid">
-    ${folderCards}
-      </div>
-    </main>
-    <footer>
-    </footer>
+    <div class="sources-grid">
+      ${sourceCards}
+    </div>
   </div>
 </body>
-</html>
-  `;
+</html>`;
 }
 
-// CSS styles
-const cssContent = `
-:root {
-  --primary-color: #000;
-  --bg-color: #fff;
-  --text-color: #333;
-  --light-gray: #f5f5f5;
-  --border-color: #ddd;
-  --hover-color: #f0f0f0;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--bg-color);
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-header {
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-h3, h4, h5, h6 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-p {
-  margin-bottom: 1.5rem;
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-  border-bottom: 1px solid var(--border-color);
-  transition: border-color 0.2s;
-}
-
-a:hover {
-  border-color: var(--primary-color);
-}
-
-.home-link {
-  display: inline-block;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  border-bottom: none;
-  padding: 0.5rem 0;
-}
-
-.home-link:hover {
-  text-decoration: underline;
-}
-
-.date {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.content {
-  line-height: 1.8;
-}
-
-.content h2 {
-  margin-top: 2rem;
-}
-
-.content ul, .content ol {
-  margin-bottom: 1.5rem;
-  padding-left: 1.5rem;
-}
-
-.content img {
-  max-width: 100%;
-  height: auto;
-  margin: 1.5rem 0;
-}
-
-.content code {
-  background-color: var(--light-gray);
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-family: monospace;
-}
-
-.content pre {
-  background-color: var(--light-gray);
-  padding: 1rem;
-  border-radius: 3px;
-  overflow-x: auto;
-  margin-bottom: 1.5rem;
-}
-
-.content pre code {
-  background-color: transparent;
-  padding: 0;
-}
-
-.content blockquote {
-  border-left: 3px solid var(--primary-color);
-  padding-left: 1rem;
-  font-style: italic;
-  margin-bottom: 1.5rem;
-}
-
-footer {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* Cards for folders */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.card {
-  background-color: var(--light-gray);
-  border-radius: 5px;
-  padding: 1.5rem;
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-}
-
-.card h2 {
-  margin-top: 0;
-}
-
-.card p {
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.card-link {
-  display: inline-block;
-  font-weight: 500;
-  border-bottom: none;
-}
-
-.card-link:hover {
-  text-decoration: underline;
-}
-
-/* Notes list */
-.notes-list {
-  list-style: none;
-}
-
-.notes-list li {
-  margin-bottom: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 3px;
-}
-
-.notes-list li:hover {
-  background-color: var(--hover-color);
-}
-
-.notes-list a {
-  display: block;
-  border-bottom: none;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 2rem;
-  }
-  
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-}
-`;
-
-// Main function to generate the site
 async function generateSite() {
-    console.log('Generating static site...');
+    console.log('🚀 Generating static site...\n');
 
-    // Ensure output directory exists
-    mkdirp.sync(config.outputDir);
-    mkdirp.sync(path.join(config.outputDir, 'css'));
+    mkdirp.sync(buildConfig.outputDir);
+    mkdirp.sync(path.join(buildConfig.outputDir, 'css'));
 
-    // Create CSS file
-    fs.writeFileSync(path.join(config.outputDir, 'css', 'style.css'), cssContent);
-    console.log('Created CSS styles');
+    const markdownFiles = glob.sync(path.join(buildConfig.sourceDir, '**/*.md'));
+    console.log(`📝 Found ${markdownFiles.length} markdown files`);
 
-    // Find all markdown files in the source directory
-    const markdownFiles = glob.sync(path.join(config.sourceDir, '**/*.md'));
-    console.log(`Found ${markdownFiles.length} markdown files`);
-
-    // Process all markdown files
     const notes = markdownFiles.map(processMarkdownFile);
 
-    // Group notes by folder
     const folderMap = new Map();
-
     notes.forEach(note => {
-        const relativePath = path.relative(config.sourceDir, note.path);
+        const relativePath = path.relative(buildConfig.sourceDir, note.path);
         const folderPath = path.dirname(relativePath);
 
         if (!folderMap.has(folderPath)) {
-            folderMap.set(folderPath, {
-                path: folderPath,
-                notes: []
-            });
+            folderMap.set(folderPath, { path: folderPath, notes: [] });
         }
-
         folderMap.get(folderPath).notes.push(note);
     });
 
-    const folders = Array.from(folderMap.values());
-    console.log(`Found ${folders.length} folders`);
+    const folders = Array.from(folderMap.values()).filter(f => f.path !== '.');
+    console.log(`📁 Found ${folders.length} source folders\n`);
 
-    // Generate note pages
-    for (const note of notes) {
-        const outputPath = note.outputPath;
-        const outputDir = path.dirname(outputPath);
-
-        // Calculate relative path to CSS from this note
-        const cssPath = path.relative(outputDir, path.join(config.outputDir, 'css', 'style.css'));
-
-        mkdirp.sync(outputDir);
-
-        // Pass the CSS path to the template
-        const html = generateNotePage(note, cssPath);
-        fs.writeFileSync(outputPath, html);
-        console.log(`Generated note page: ${outputPath}`);
-    }
-
-    // Generate folder index pages
     for (const folder of folders) {
-        if (folder.path === '.') continue; // Skip root folder
+        const sourceKey = folder.path.toLowerCase();
+        const sortedNotes = folder.notes.sort((a, b) => a.order - b.order);
 
-        const outputPath = path.join(config.outputDir, folder.path, 'index.html');
-        const outputDir = path.dirname(outputPath);
+        for (let i = 0; i < sortedNotes.length; i++) {
+            const note = sortedNotes[i];
+            const prevNote = i > 0 ? sortedNotes[i - 1] : null;
+            const nextNote = i < sortedNotes.length - 1 ? sortedNotes[i + 1] : null;
 
-        // Calculate relative path to CSS from this folder
-        const cssPath = path.relative(outputDir, path.join(config.outputDir, 'css', 'style.css'));
+            const outputPath = note.outputPath;
+            const outputDir = path.dirname(outputPath);
 
-        mkdirp.sync(outputDir);
+            mkdirp.sync(outputDir);
 
-        // Pass the CSS path to the template
-        const html = generateFolderIndexPage(folder.path, folder.notes, cssPath);
-        fs.writeFileSync(outputPath, html);
-        console.log(`Generated folder index page: ${outputPath}`);
+            const html = generateNotePage(note, folders, sourceKey, prevNote, nextNote);
+            fs.writeFileSync(outputPath, html);
+        }
+        console.log(`  ✓ ${sourceKey}: ${sortedNotes.length} notes`);
+
+        const indexPath = path.join(buildConfig.outputDir, folder.path, 'index.html');
+        const indexHtml = generateSourceIndexPage(sourceKey, folder.notes, folders);
+        fs.writeFileSync(indexPath, indexHtml);
     }
 
-    // Generate home page
-    const nonRootFolders = folders.filter(folder => folder.path !== '.');
-    const homePage = generateHomePage(nonRootFolders, 'css/style.css');
-    fs.writeFileSync(path.join(config.outputDir, 'index.html'), homePage);
-    console.log('Generated home page');
-
-    console.log('Static site generation complete!');
+    const homePage = generateHomePage(folders);
+    fs.writeFileSync(path.join(buildConfig.outputDir, 'index.html'), homePage);
+    console.log('\n✅ Site generation complete!');
+    console.log(`\n📖 Open index.html to view your notes`);
 }
 
-// Run the generator
 generateSite().catch(console.error);

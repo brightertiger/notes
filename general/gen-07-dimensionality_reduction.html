@@ -1,13 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dimensionality Reduction | Machine Learning Notes</title>
+  <title>Dimensionality Reduction | ML Notes</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <!-- MathJax for LaTeX support -->
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
     MathJax = {
@@ -16,21 +13,119 @@
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
         processEscapes: true
       },
-      options: {
-        enableMenu: false
-      }
+      options: { enableMenu: false }
     };
   </script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Dimensionality Reduction</h1>
-      
-      <a href="../index.html" class="home-link">← Back to Home</a>
+  <div class="layout">
+    
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="sidebar-logo">ML Notes</a>
+      </div>
+      <nav class="sidebar-nav">
+        
+        <div class="nav-section eslr">
+          <div class="nav-section-title" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">📊</span>
+            ESLR
+          </div>
+          <ul class="nav-items collapsed">
+            <li class="nav-item"><a href="../eslr/eslr-00.html">ESLR Notes</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-01-regression.html">Regression</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-02-classification.html">Classification</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-03-kernel-methods.html">Kernel Methods</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-04-model-assessment.html">Model Assessment and Selection</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-08-model-selection.html">Model Selection</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-09-additive-models.html">Additive Models</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-10-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="../eslr/eslr-15-random-forest.html">Random Forests</a></li>
+          </ul>
+        </div>
+        <div class="nav-section general">
+          <div class="nav-section-title" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">🧠</span>
+            General
+          </div>
+          <ul class="nav-items">
+            <li class="nav-item"><a href="gen-00.html">General ML Notes</a></li>
+            <li class="nav-item"><a href="gen-01-basic-statistics.html">Basic Statistics</a></li>
+            <li class="nav-item"><a href="gen-02-decision_trees.html">Decision Trees</a></li>
+            <li class="nav-item"><a href="gen-03-boosting.html">Boosting</a></li>
+            <li class="nav-item"><a href="gen-04-xgboost.html">XGBoost</a></li>
+            <li class="nav-item"><a href="gen-05-clustering.html">Clustering</a></li>
+            <li class="nav-item"><a href="gen-06-support_vector_machines.html">Support Vector Machines</a></li>
+            <li class="nav-item"><a href="gen-07-dimensionality_reduction.html" class="active">Dimensionality Reduction</a></li>
+            <li class="nav-item"><a href="gen-08-regression.html">Regression</a></li>
+          </ul>
+        </div>
+        <div class="nav-section jurafsky">
+          <div class="nav-section-title" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">💬</span>
+            Jurafsky
+          </div>
+          <ul class="nav-items collapsed">
+            <li class="nav-item"><a href="../jurafsky/jfsky-00.html">SLP Notes</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-01-regex.html">Regex</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-02-tokenization.html">Tokenization</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-03-vectors.html">Vectors</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-04-sequence.html">Sequence Architectures</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-05-encoder.html">Encoder-Decoder Models</a></li>
+            <li class="nav-item"><a href="../jurafsky/jfsky-06-transfer.html">Transfer Learning</a></li>
+          </ul>
+        </div>
+        <div class="nav-section probml">
+          <div class="nav-section-title" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">📈</span>
+            ProbML
+          </div>
+          <ul class="nav-items collapsed">
+            <li class="nav-item"><a href="../probml/probml-00.html">ProbML Notes</a></li>
+            <li class="nav-item"><a href="../probml/probml-01-introduction.html">Introduction</a></li>
+            <li class="nav-item"><a href="../probml/probml-02-probability.html">Probability</a></li>
+            <li class="nav-item"><a href="../probml/probml-03-probability.html">Probability (Advanced Topics)</a></li>
+            <li class="nav-item"><a href="../probml/probml-04-statistics.html">Statistics</a></li>
+            <li class="nav-item"><a href="../probml/probml-05-decision_theory.html">Decision Theory</a></li>
+            <li class="nav-item"><a href="../probml/probml-06-information_theory.html">Information Theory</a></li>
+            <li class="nav-item"><a href="../probml/probml-08-optimization.html">Optimization</a></li>
+            <li class="nav-item"><a href="../probml/probml-09-discriminant_analysis.html">Discriminant Analysis</a></li>
+            <li class="nav-item"><a href="../probml/probml-10-logistic_regression.html">Logistic Regression</a></li>
+            <li class="nav-item"><a href="../probml/probml-11-linear_regression.html">Linear Regression</a></li>
+            <li class="nav-item"><a href="../probml/probml-13-ffnn.html">Feed Forward Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-14-cnn.html">Convolution NN</a></li>
+            <li class="nav-item"><a href="../probml/probml-15-rnn.html">Recurrent Neural Networks</a></li>
+            <li class="nav-item"><a href="../probml/probml-16-exemplar.html">Exemplar Methods</a></li>
+            <li class="nav-item"><a href="../probml/probml-18-trees.html">Trees</a></li>
+            <li class="nav-item"><a href="../probml/probml-19-ssl.html">SSL</a></li>
+            <li class="nav-item"><a href="../probml/probml-21-recsys.html">Recommendation Systems</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    
+    <header class="mobile-header">
+      <a href="../index.html" class="sidebar-logo">ML Notes</a>
+      <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('visible')">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
-    <main class="content">
-      <h1 id="dimensionality-reduction">Dimensionality Reduction</h1>
+    <div class="sidebar-overlay" id="overlay" onclick="document.getElementById('sidebar').classList.remove('open'); this.classList.remove('visible')"></div>
+    <main class="main-content">
+      <div class="content-wrapper">
+        <header class="page-header">
+          <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="index.html">General</a>
+          </div>
+          <h1 class="page-title">Dimensionality Reduction</h1>
+          <div class="page-meta"><span class="tag">General</span></div>
+        </header>
+        <article class="content">
+          <h1 id="dimensionality-reduction">Dimensionality Reduction</h1>
 <h2 id="background">Background</h2>
 <ul>
 <li>Curse of Dimensionality<ul>
@@ -326,10 +421,24 @@
 </li>
 </ul>
 
+        </article>
+        <nav class="page-navigation">
+        <a href="gen-06-support_vector_machines.html" class="nav-link prev">
+          <span class="nav-link-label">← Previous</span>
+          <span class="nav-link-title">Support Vector Machines</span>
+        </a>
+        <a href="gen-08-regression.html" class="nav-link next">
+          <span class="nav-link-label">Next →</span>
+          <span class="nav-link-title">Regression</span>
+        </a></nav>
+      </div>
     </main>
-    <footer>
-    </footer>
   </div>
+  <script>
+    document.addEventListener('scroll', function() {
+      const btn = document.querySelector('.back-to-top');
+      if (btn) btn.classList.toggle('visible', window.scrollY > 300);
+    });
+  </script>
 </body>
 </html>
-  
